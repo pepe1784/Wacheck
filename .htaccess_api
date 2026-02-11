@@ -1,0 +1,16 @@
+# Desactivar protecciones para API
+<IfModule mod_rewrite.c>
+    RewriteEngine Off
+</IfModule>
+
+# Permitir CORS
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type"
+</IfModule>
+
+# Desactivar verificación de bot
+<IfModule mod_security.c>
+    SecRuleEngine Off
+</IfModule>

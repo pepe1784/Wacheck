@@ -1,0 +1,138 @@
+╔══════════════════════════════════════════════════════════════╗
+║          ✅ API HYBRID CONFIGURADA Y LISTA                  ║
+╚══════════════════════════════════════════════════════════════╝
+
+📋 RESUMEN DE CAMBIOS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ 1. API Híbrida Creada
+   📁 api/user_handler_HYBRID.php
+   - Configuración dual XAMPP/Producción
+   - Compatible con web y APK
+   - PDO para mayor seguridad
+
+✅ 2. API Anterior Respaldada
+   📁 api/api_old/user_handler.php
+   - Archivo original movido a carpeta de respaldo
+   - Solo para referencia, NO usar
+
+✅ 3. Archivos Actualizados
+   📁 usuarios.js (web) → Apunta a user_handler_HYBRID.php
+   📁 apk/WacheckAPK/www/usuarios.js (APK) → Apunta a user_handler_HYBRID.php
+
+✅ 4. Documentación Creada
+   📁 api/README_API.md - Guía completa de uso
+   📁 api/PROBAR_API.bat - Script de prueba rápida
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔧 CÓMO PROBAR EN XAMPP (LOCAL):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ Asegúrate que $useProduction = false (línea 18 de user_handler_HYBRID.php)
+   ✅ YA ESTÁ CONFIGURADO ASÍ POR DEFECTO
+
+2️⃣ Crea la base de datos en phpMyAdmin:
+   - Abre http://localhost/phpmyadmin
+   - Crea nueva base de datos: wacheck_db
+   - La tabla se crea automáticamente
+
+3️⃣ Prueba la API:
+   - Ejecuta: api/PROBAR_API.bat
+   - O visita: http://localhost/Wacheck/api/user_handler_HYBRID.php?action=ping
+   - Deberías ver: {"status":"ok","source":"web-apk-hybrid"}
+
+4️⃣ Prueba desde el juego:
+   - Abre index.html en el navegador
+   - Intenta registrar un usuario
+   - Inicia sesión
+   - Juega y verifica que se guarde el progreso
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 CÓMO SUBIR A PRODUCCIÓN:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣ Cambia la configuración:
+   - Abre: api/user_handler_HYBRID.php
+   - Línea 18: Cambia $useProduction = false; 
+                     a $useProduction = true;
+
+2️⃣ Sube estos archivos al servidor:
+   📤 api/user_handler_HYBRID.php
+   📤 usuarios.js
+   📤 Todos los demás archivos del proyecto
+
+3️⃣ Verifica que funcione:
+   - Visita: https://tudominio.com/api/user_handler_HYBRID.php?action=ping
+   - Deberías ver: {"status":"ok","source":"web-apk-hybrid"}
+
+4️⃣ La APK automáticamente usará el servidor:
+   - Ya está configurada para usar: https://wacheck.gamer.gd/api/user_handler_HYBRID.php
+   - Compila y distribuye la APK
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ IMPORTANTE - DIFERENCIAS CON LA API ANTERIOR:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+API ANTERIOR (api_old/user_handler.php):
+❌ Requiere comentar/descomentar código para cambiar entorno
+❌ Usa MySQLi (menos seguro)
+❌ Nombres de columna inconsistentes
+❌ No maneja bien CORS
+
+API HYBRID (user_handler_HYBRID.php):
+✅ Un simple switch para cambiar entorno ($useProduction)
+✅ Usa PDO (más seguro)
+✅ Nombres de columna consistentes
+✅ CORS automático para APK
+✅ Compatible con ambos sistemas (web + APK)
+✅ Mapeo automático de nombres (snake_case ↔ camelCase)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 COMPATIBILIDAD:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ La API Hybrid funciona con:
+   • Usuarios existentes de la API anterior
+   • Nuevos usuarios
+   • Página web (index.html)
+   • APK (Cordova)
+   • Electron (si lo usas)
+
+✅ Puedes tener AMBAS APIs activas sin problemas:
+   • La anterior seguirá funcionando para usuarios antiguos
+   • La nueva funcionará para todos (antiguos y nuevos)
+   • Recomendado: Usa solo la HYBRID y desactiva la anterior
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔒 SEGURIDAD:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Contraseñas hasheadas con PASSWORD_BCRYPT
+✅ PDO con prepared statements (previene SQL injection)
+✅ CORS solo cuando es necesario (para APK)
+✅ Validación de entrada
+✅ No expone passwords en respuestas
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 ENDPOINTS DISPONIBLES:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GET  ?action=ping          → Verificar disponibilidad
+POST ?action=create_user   → Registrar nuevo usuario
+POST ?action=login         → Iniciar sesión
+POST ?action=save_progress → Guardar progreso
+
+Ver api/README_API.md para más detalles
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ TODO LISTO PARA USAR
+   ¡Prueba ahora mismo ejecutando api/PROBAR_API.bat!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

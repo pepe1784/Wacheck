@@ -1,0 +1,279 @@
+/* ESTILOS PARA EL SISTEMA DE TUTORIAL */
+
+/* Overlay oscuro de fondo */
+.tutorial-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 9999;
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+  pointer-events: none;
+  /* Permitir clics a través del overlay */
+}
+
+/* Tooltip del tutorial */
+.tutorial-tooltip {
+  position: fixed;
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  border: 3px solid #3b82f6;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: min(400px, calc(100vw - 40px));
+  /* Asegurar que no exceda el ancho del viewport */
+  max-height: calc(100vh - 40px);
+  /* Asegurar que no exceda el alto del viewport */
+  overflow-y: auto;
+  /* Scroll si el contenido es muy largo */
+  z-index: 10001;
+  box-sizing: border-box;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(59, 130, 246, 0.4);
+  animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: auto;
+  /* Asegurar que el tooltip sea clickeable */
+}
+
+/* Header del tooltip */
+.tutorial-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+}
+
+.tutorial-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tutorial-progress {
+  background: rgba(59, 130, 246, 0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #93c5fd;
+  font-weight: 600;
+}
+
+/* Mensaje del tutorial */
+.tutorial-message {
+  color: #e0e7ff;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Botones del tutorial */
+.tutorial-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.tutorial-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.tutorial-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6);
+  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+}
+
+.tutorial-btn:active {
+  transform: translateY(0);
+}
+
+.tutorial-btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tutorial-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Clase para elementos destacados durante el tutorial - mantiene su color original */
+.tutorial-highlighted-element {
+  position: relative !important;
+  z-index: 10000 !important;
+  pointer-events: auto !important;
+  filter: brightness(1.2) drop-shadow(0 0 20px rgba(251, 191, 36, 0.8)) !important;
+}
+
+/* Highlight para elementos destacados */
+.tutorial-highlight {
+  position: fixed;
+  border: 3px solid #fbbf24;
+  border-radius: 8px;
+  z-index: 10001;
+  pointer-events: none;
+  animation: pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.3),
+    0 0 20px rgba(251, 191, 36, 0.6),
+    inset 0 0 20px rgba(251, 191, 36, 0.1);
+  background: rgba(251, 191, 36, 0.05);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.3),
+      0 0 20px rgba(251, 191, 36, 0.6),
+      inset 0 0 20px rgba(251, 191, 36, 0.1);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(251, 191, 36, 0.5),
+      0 0 30px rgba(251, 191, 36, 0.8),
+      inset 0 0 30px rgba(251, 191, 36, 0.2);
+  }
+}
+
+/* Botón para abrir tutorial desde el menú principal */
+.tutorial-button {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  border: 2px solid #a78bfa;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tutorial-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+  background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+}
+
+.tutorial-button:active {
+  transform: translateY(0);
+}
+
+/* Badge "NUEVO" para el botón de tutorial */
+.tutorial-badge {
+  background: #ef4444;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-weight: bold;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Responsividad */
+@media (max-width: 600px) {
+  .tutorial-tooltip {
+    max-width: 90%;
+    padding: 20px;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: auto !important;
+    bottom: 20px !important;
+  }
+
+  .tutorial-header h3 {
+    font-size: 18px;
+  }
+
+  .tutorial-message {
+    font-size: 14px;
+  }
+
+  .tutorial-buttons {
+    flex-direction: column;
+  }
+
+  .tutorial-btn {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Indicador de mano apuntando */
+.tutorial-pointer {
+  position: fixed;
+  font-size: 40px;
+  z-index: 10002;
+  animation: pointing 1s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pointing {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(10px, -10px);
+  }
+}

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wacheck - Defensores del Agua | Universidad de Colima</title>
+    <link rel="stylesheet" href="css/landing.css">
+    <link rel="stylesheet" href="css/auth-modal.css">
+    <script src="sounds.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="./img/vaporeon.jpg" type="image/x-icon">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar" id="navbar">
+        <!-- Top utility bar -->
+        <div class="nav-utility">
+            <div class="container nav-utility-content">
+                <div class="nav-utility-links">
+                    <a href="https://www.ucol.mx/" target="_blank" rel="noopener">Sitio UdeC</a>
+                    <a href="https://portal.ucol.mx/bach25/" target="_blank" rel="noopener">Portal Bach. 25</a>
+                </div>
+                <span class="nav-utility-badge">🌍 Proyecto de Educación Ambiental</span>
+            </div>
+        </div>
+
+        <!-- Main nav -->
+        <div class="container nav-main">
+            <a href="#inicio" class="nav-logo">
+                <span class="nav-logo-icon">💧</span>
+                <div class="nav-logo-text">
+                    <span class="nav-logo-title">Wacheck</span>
+                    <span class="nav-logo-subtitle">Universidad de Colima</span>
+                </div>
+            </a>
+
+            <!-- Desktop nav -->
+            <nav class="nav-links">
+                <a href="#inicio" class="nav-link">Inicio</a>
+                <a href="#sobre" class="nav-link">Sobre el Juego</a>
+                <a href="#caracteristicas" class="nav-link">Características</a>
+                <a href="#bachillerato" class="nav-link">Bachillerato 25</a>
+                <a href="#calculadora" class="nav-link">Calculadora</a>
+                <button class="volume-btn" id="volumeBtn" onclick="toggleVolume()" title="Volumen">
+                    <span id="volumeIcon">🔊</span>
+                </button>
+                <button class="nav-cta" onclick="openLoginModal()">🔐 Iniciar Sesión</button>
+            </nav>
+
+            <!-- Mobile hamburger -->
+            <button class="nav-hamburger" id="navHamburger" aria-label="Menú">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path id="hamburgerIcon" d="M3 12h18M3 6h18M3 18h18" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="nav-mobile" id="navMobile">
+            <a href="#inicio" class="nav-mobile-link">Inicio</a>
+            <a href="#sobre" class="nav-mobile-link">Sobre el Juego</a>
+            <a href="#caracteristicas" class="nav-mobile-link">Características</a>
+            <a href="#bachillerato" class="nav-mobile-link">Bachillerato 25</a>
+            <a href="#calculadora" class="nav-mobile-link">Calculadora</a>
+            <button class="nav-mobile-cta" onclick="openLoginModal()" style="width: 100%; text-align: center; border: none; cursor: pointer;">🎮 ¡Jugar!</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section">
+        <!-- Background image -->
+        <div class="hero-background">
+            <img src="Idea de diseño/pvz-colima-campus-main/pvz-colima-campus-main/src/assets/hero-banner.jpg" alt="Defensores del Agua - Universidad de Colima" class="hero-background-img">
+            <div class="hero-background-overlay"></div>
+        </div>
+
+        <!-- Floating water elements -->
+        <div class="hero-water-elements">
+            <span class="water-drop" style="animation-delay: 0s;">💧</span>
+            <span class="water-drop" style="animation-delay: 1.5s;">💧</span>
+            <span class="water-drop" style="animation-delay: 3s;">💧</span>
+            <span class="water-drop" style="animation-delay: 4.5s;">💧</span>
+            <span class="water-drop" style="animation-delay: 6s;">💧</span>
+            <span class="water-drop" style="animation-delay: 7.5s;">💧</span>
+        </div>
+
+        <!-- Content -->
+        <div class="container hero-content">
+            <!-- Official UCol Logo -->
+            <div class="hero-logo">
+                <span class="hero-logo-text">🎓</span>
+            </div>
+
+            <!-- Institutional badge -->
+            <div class="hero-badge">
+                <span>Universidad de Colima · Bachillerato 25</span>
+            </div>
+
+            <h1 class="hero-title">Wacheck</h1>
+            <p class="hero-subtitle">Defensores del Agua</p>
+            <p class="hero-description">
+                Únete a la misión de proteger nuestras fuentes de agua de los contaminantes.
+                ¡Defiende tu isla y salva el planeta en este juego educativo tipo Tower Defense!
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="hero-buttons">
+                <button class="hero-btn-primary" onclick="openLoginModal()" style="border: none; cursor: pointer;">
+                    <span>🎮</span>
+                    ¡Jugar Ahora!
+                </button>
+                <a href="#sobre" class="hero-btn-secondary">
+                    <span>📖</span>
+                    Conoce más
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="sobre" class="about-section">
+        <div class="container">
+            <div class="about-grid">
+                <!-- Left - Game info -->
+                <div class="about-content fade-in-left">
+                    <span class="section-badge">🌍 Sobre el Proyecto</span>
+                    <h2 class="section-title">Aprende jugando a cuidar el recurso más valioso</h2>
+                    <p class="section-text">
+                        <strong>Wacheck: Defensores del Agua</strong> es un videojuego educativo tipo Tower Defense inspirado en Plants vs Zombies, 
+                        donde los jugadores protegen fuentes de agua de agentes contaminantes utilizando defensores ecológicos.
+                    </p>
+                    <p class="section-text">
+                        Desarrollado como proyecto de educación ambiental del <strong>Bachillerato 25</strong> de la 
+                        Universidad de Colima, este juego busca concientizar a los jóvenes sobre la importancia de la conservación del agua 
+                        de forma interactiva y divertida.
+                    </p>
+
+                    <!-- Stats -->
+                    <div class="about-stats">
+                        <div class="stat-card">
+                            <div class="stat-value">5+</div>
+                            <div class="stat-label">Niveles</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">12+</div>
+                            <div class="stat-label">Defensores</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">∞</div>
+                            <div class="stat-label">Diversión</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right - Visual card -->
+                <div class="about-card fade-in-right">
+                    <div class="about-card-inner">
+                        <!-- Background pattern -->
+                        <div class="about-card-pattern">
+                            <span style="top: 10%; left: 15%; transform: rotate(45deg);">💧</span>
+                            <span style="top: 25%; left: 75%; transform: rotate(120deg);">💧</span>
+                            <span style="top: 45%; left: 30%; transform: rotate(200deg);">💧</span>
+                            <span style="top: 65%; left: 80%; transform: rotate(310deg);">💧</span>
+                            <span style="top: 80%; left: 50%; transform: rotate(90deg);">💧</span>
+                        </div>
+
+                        <div class="about-card-content">
+                            <div class="about-card-icon">🎮</div>
+                            <h3 class="about-card-title">¿Cómo se juega?</h3>
+                            <ul class="about-card-list">
+                                <li>
+                                    <span class="list-number">1</span>
+                                    Elige tu equipo de defensores acuáticos
+                                </li>
+                                <li>
+                                    <span class="list-number">2</span>
+                                    Colócalos estratégicamente en el campo
+                                </li>
+                                <li>
+                                    <span class="list-number">3</span>
+                                    Detén a los contaminantes antes de que lleguen al agua
+                                </li>
+                                <li>
+                                    <span class="list-number">4</span>
+                                    Gana monedas y mejora tus defensores
+                                </li>
+                                <li>
+                                    <span class="list-number">5</span>
+                                    Completa misiones y desbloquea logros
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="caracteristicas" class="features-section">
+        <div class="container">
+            <div class="features-header fade-in">
+                <span class="section-badge accent">🎮 Características del Juego</span>
+                <h2 class="section-title">Todo lo que necesitas para defender el agua</h2>
+                <p class="section-description">
+                    Un juego completo tipo Plants vs Zombies con temática ambiental desarrollado por estudiantes del Bachillerato 25.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">Tower Defense Acuático</h3>
+                    <p class="feature-description">
+                        Coloca defensores estratégicamente para proteger las fuentes de agua de contaminantes que avanzan sin cesar.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🌊</div>
+                    <h3 class="feature-title">Misiones Diarias</h3>
+                    <p class="feature-description">
+                        Completa misiones y desafíos diarios para ganar recompensas, subir de nivel y desbloquear nuevos defensores.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Calculadora de Agua</h3>
+                    <p class="feature-description">
+                        Aprende cuánta agua consumes diariamente con nuestra herramienta interactiva y descubre cómo reducir tu huella hídrica.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🏆</div>
+                    <h3 class="feature-title">Sistema de Logros</h3>
+                    <p class="feature-description">
+                        Desbloquea logros, sube en el ranking y demuestra tu compromiso con la conservación del agua.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📖</div>
+                    <h3 class="feature-title">Modo Historia</h3>
+                    <p class="feature-description">
+                        Explora una narrativa envolvente sobre la importancia de la conservación del agua en nuestro planeta.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">⬆️</div>
+                    <h3 class="feature-title">Mejoras Permanentes</h3>
+                    <p class="feature-description">
+                        Invierte tus puntos en mejoras que fortalecen a tus defensores y te dan ventaja en cada partida.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bachillerato Section -->
+    <section id="bachillerato" class="bachillerato-section">
+        <div class="container">
+            <div class="bachillerato-content fade-in">
+                <div class="bachillerato-icon">🎓</div>
+                <h2 class="section-title white">Proyecto del Bachillerato 25</h2>
+                <p class="section-text white">
+                    Este juego ha sido desarrollado por estudiantes del <strong>Bachillerato No. 25</strong> de la Universidad de Colima 
+                    como parte de un proyecto de educación ambiental y tecnología educativa.
+                </p>
+                <p class="section-text white">
+                    Nuestro objetivo es crear conciencia sobre la importancia de la conservación del agua de manera lúdica y educativa, 
+                    llegando a estudiantes y jóvenes mediante una plataforma interactiva que combina entretenimiento con aprendizaje.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Water Calculator Section -->
+    <section id="calculadora" class="calculator-section">
+        <div class="container">
+            <div class="calculator-header fade-in">
+                <span class="section-badge">💧 Herramienta Educativa</span>
+                <h2 class="section-title">Calculadora de Consumo de Agua</h2>
+                <p class="section-description">
+                    Descubre cuánta agua consumes al día, cuánto te cuesta y aprende a reducir tu huella hídrica.
+                </p>
+            </div>
+
+            <div class="calculator-card-full fade-in">
+                <div class="calculator-activities" id="calculatorActivities">
+                    <!-- Activities will be rendered by JavaScript -->
+                </div>
+
+                <!-- Results Section -->
+                <div class="calculator-results">
+                    <div class="result-card">
+                        <div class="result-icon-large">💧</div>
+                        <div class="result-row">
+                            <span class="result-label-main">Consumo Diario</span>
+                            <span class="result-value-main" id="totalDaily">0</span>
+                            <span class="result-unit">litros/día</span>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-icon-large">📅</div>
+                        <div class="result-row">
+                            <span class="result-label-main">Consumo Mensual</span>
+                            <span class="result-value-main" id="totalMonthly">0</span>
+                            <span class="result-unit">litros/mes</span>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-icon-large">💵</div>
+                        <div class="result-row">
+                            <span class="result-label-main">Costo Mensual</span>
+                            <span class="result-value-main" id="costMonthly">$0</span>
+                            <span class="result-unit">MXN</span>
+                        </div>
+                    </div>
+
+                    <div class="result-level" id="resultLevel">
+                        <div class="level-badge" id="levelBadge">🌟 Excelente</div>
+                        <p class="level-message" id="levelMessage"></p>
+                    </div>
+
+                    <div class="calculator-source">
+                        <small>📊 Tarifa CIAPACOV 2025 – Uso Doméstico Popular 1 (Colima–Villa de Álvarez)</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content fade-in">
+                <div class="cta-icon">🎮</div>
+                <h2 class="cta-title">¿Listo para salvar el agua?</h2>
+                <p class="cta-description">
+                    Únete a miles de jugadores que ya están haciendo la diferencia. 
+                    Aprende, juega y conviértete en un verdadero Defensor del Agua.
+                </p>
+                <button class="cta-button" onclick="openLoginModal()" style="border: none; cursor: pointer;">
+                    <span>🚀</span>
+                    Comenzar Ahora
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <span class="footer-logo-icon">💧</span>
+                        <span class="footer-logo-text">Wacheck</span>
+                    </div>
+                    <p class="footer-description">
+                        Proyecto educativo del Bachillerato 25 de la Universidad de Colima
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">Enlaces Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#sobre">Sobre el Juego</a></li>
+                        <li><a href="#caracteristicas">Características</a></li>
+                        <li><a href="#inicio" onclick="event.preventDefault(); openLoginModal();">Jugar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">Universidad de Colima</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://www.ucol.mx/" target="_blank">Sitio Oficial UdeC</a></li>
+                        <li><a href="https://portal.ucol.mx/bach25/" target="_blank">Bachillerato 25</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">Contacto</h4>
+                    <p class="footer-text">Bachillerato No. 25</p>
+                    <p class="footer-text">Universidad de Colima</p>
+                    <p class="footer-text">Colima, México</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Wacheck - Defensores del Agua. Proyecto educativo del Bachillerato 25 - Universidad de Colima</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Login/Registro -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-content">
+            <button class="auth-modal-close" onclick="closeLoginModal()">&times;</button>
+            
+            <!-- Tabs -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">Iniciar Sesión</button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">Registrarse</button>
+            </div>
+
+            <!-- Login Form -->
+            <div class="auth-form" id="loginForm">
+                <h2 class="auth-title">Bienvenido de Vuelta</h2>
+                <p class="auth-subtitle">Inicia sesión para continuar tu aventura</p>
+                
+                <input type="text" id="loginUsername" placeholder="Nombre de usuario" class="auth-input" autocomplete="username">
+                
+                <div class="password-field">
+                    <input type="password" id="loginPassword" placeholder="Contraseña" class="auth-input" autocomplete="current-password">
+                    <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')" aria-label="Mostrar contraseña">
+                        <svg id="loginPassword-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                
+                <button class="auth-button" onclick="handleLogin()">Entrar</button>
+                
+                <p class="auth-message" id="loginMessage"></p>
+            </div>
+
+            <!-- Register Form -->
+            <div class="auth-form" id="registerForm" style="display: none;">
+                <h2 class="auth-title">Crear Cuenta</h2>
+                <p class="auth-subtitle">Únete a los Defensores del Agua</p>
+                
+                <input type="text" id="registerUsername" placeholder="Nombre de usuario (3-50 caracteres)" class="auth-input" autocomplete="username">
+                <input type="email" id="registerEmail" placeholder="Email (@gmail.com, @ucol.mx, etc.)" class="auth-input" autocomplete="email">
+                
+                <div class="password-field">
+                    <input type="password" id="registerPassword" placeholder="Contraseña (mínimo 4 caracteres)" class="auth-input" autocomplete="new-password">
+                    <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')" aria-label="Mostrar contraseña">
+                        <svg id="registerPassword-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="password-field">
+                    <input type="password" id="registerPasswordConfirm" placeholder="Confirmar contraseña" class="auth-input" autocomplete="new-password">
+                    <button type="button" class="password-toggle" onclick="togglePassword('registerPasswordConfirm')" aria-label="Mostrar contraseña">
+                        <svg id="registerPasswordConfirm-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="auth-info">
+                    📧 Recibirás un correo de verificación
+                </div>
+                
+                <button class="auth-button" onclick="handleRegister()">Crear Cuenta</button>
+                
+                <p class="auth-message" id="registerMessage"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/landing.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

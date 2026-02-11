@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Recompensas - Guía Visual</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .section {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .section h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .icon-large {
+            font-size: 2em;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.15);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-color: rgba(255,255,255,0.4);
+        }
+        
+        .card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-icon {
+            font-size: 2em;
+        }
+        
+        .card p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4ade80;
+            font-weight: bold;
+        }
+        
+        .reward-timeline {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .day-box {
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 15px 10px;
+            text-align: center;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .day-box.special {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3));
+            border-color: #fbbf24;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+        }
+        
+        .day-number {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .day-icon {
+            font-size: 2em;
+            margin: 10px 0;
+        }
+        
+        .day-rewards {
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+        
+        .upgrade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .upgrade-card {
+            background: linear-gradient(135deg, rgba(142, 68, 173, 0.3), rgba(155, 89, 182, 0.3));
+            border: 2px solid rgba(142, 68, 173, 0.5);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .upgrade-icon {
+            font-size: 2.5em;
+        }
+        
+        .upgrade-info h4 {
+            margin-bottom: 5px;
+        }
+        
+        .upgrade-info p {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        .special-defender {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.2));
+            border: 3px solid #fbbf24;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 20px;
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+        }
+        
+        .special-defender-icon {
+            font-size: 5em;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .stat-box {
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4ade80;
+        }
+        
+        .stat-label {
+            font-size: 0.8em;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(74, 222, 128, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(74, 222, 128, 0.6);
+        }
+        
+        .menu-preview {
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .menu-items {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .menu-item {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .menu-item-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(52, 152, 219, 0.3);
+            border: 2px solid rgba(52, 152, 219, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            margin: 0 auto 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-item:hover .menu-item-icon {
+            background: rgba(52, 152, 219, 0.5);
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            .reward-timeline {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎁 Sistema de Recompensas v1.0</h1>
+        <p class="subtitle">Guía completa del nuevo sistema de progresión de WaCheck</p>
+        
+        <!-- Recompensas Diarias -->
+        <div class="section">
+            <h2><span class="icon-large">⭐</span>Recompensas Diarias (7 Días)</h2>
+            <p>Inicia sesión cada día para reclamar increíbles recompensas. ¡La constancia tiene su recompensa!</p>
+            
+            <div class="reward-timeline">
+                <div class="day-box">
+                    <div class="day-number">Día 1</div>
+                    <div class="day-icon">🎁</div>
+                    <div class="day-rewards">
+                        50 💰<br>
+                        5 🔮
+                    </div>
+                </div>
+                
+                <div class="day-box">
+                    <div class="day-number">Día 2</div>
+                    <div class="day-icon">🎁</div>
+                    <div class="day-rewards">
+                        75 💰<br>
+                        8 🔮
+                    </div>
+                </div>
+                
+                <div class="day-box">
+                    <div class="day-number">Día 3</div>
+                    <div class="day-icon">🎁</div>
+                    <div class="day-rewards">
+                        100 💰<br>
+                        12 🔮<br>
+                        1 ⭐
+                    </div>
+                </div>
+                
+                <div class="day-box">
+                    <div class="day-number">Día 4</div>
+                    <div class="day-icon">🎁</div>
+                    <div class="day-rewards">
+                        150 💰<br>
+                        15 🔮
+                    </div>
+                </div>
+                
+                <div class="day-box">
+                    <div class="day-number">Día 5</div>
+                    <div class="day-icon">🎁</div>
+                    <div class="day-rewards">
+                        200 💰<br>
+                        20 🔮<br>
+                        2 ⭐
+                    </div>
+                </div>
+                
+                <div class="day-box">
+                    <div class="day-number">Día 6</div>
+                    <div class="day-icon">🎁</div>
+                    <div class="day-rewards">
+                        300 💰<br>
+                        30 🔮<br>
+                        3 ⭐
+                    </div>
+                </div>
+                
+                <div class="day-box special">
+                    <div class="day-number">Día 7</div>
+                    <div class="day-icon">👑</div>
+                    <div class="day-rewards">
+                        500 💰<br>
+                        50 🔮<br>
+                        5 ⭐<br>
+                        <strong>+ ANTITANQUE</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Defensor Especial -->
+            <div class="special-defender">
+                <div class="special-defender-icon">🎯</div>
+                <h3>Antitanque de Área</h3>
+                <p><strong>¡Recompensa Exclusiva del Día 7!</strong></p>
+                <p>Defensor único que ataca hacia ADELANTE y ATRÁS simultáneamente con daño en área masivo.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value">150</div>
+                        <div class="stat-label">Daño</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Rango</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">180</div>
+                        <div class="stat-label">Salud</div>
+                    </div>
+                </div>
+                
+                <ul class="feature-list" style="max-width: 600px; margin: 20px auto;">
+                    <li>Ataque bidireccional único</li>
+                    <li>Daño en área de 2 celdas de radio</li>
+                    <li>Ideal para posiciones centrales</li>
+                    <li>Se desbloquea PERMANENTEMENTE</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Misiones Diarias -->
+        <div class="section">
+            <h2><span class="icon-large">✓</span>Misiones Diarias</h2>
+            <p>Completa 3 misiones diarias para ganar runas y monedas. Se resetean cada día con nuevos desafíos.</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3><span class="card-icon">🌊</span>Alcanzar Oleadas</h3>
+                    <p>Llega a la oleada 5, 10 o 15 para reclamar recompensas progresivas.</p>
+                    <p style="margin-top: 10px; color: #4ade80;"><strong>10-30 runas + monedas</strong></p>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="card-icon">👹</span>Derrotar Jefes</h3>
+                    <p>Elimina a un jefe para obtener recompensas especiales.</p>
+                    <p style="margin-top: 10px; color: #4ade80;"><strong>25 runas + 250 💰 + 1 ⭐</strong></p>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="card-icon">🏗️</span>Colocar Defensores</h3>
+                    <p>Coloca 10 defensores durante tus partidas.</p>
+                    <p style="margin-top: 10px; color: #4ade80;"><strong>15 runas + 150 💰</strong></p>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="card-icon">💀</span>Eliminar Enemigos</h3>
+                    <p>Destruye 50 contaminadores para completar esta misión.</p>
+                    <p style="margin-top: 10px; color: #4ade80;"><strong>20 runas + 200 💰</strong></p>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="card-icon">🛡️</span>Sin Daño</h3>
+                    <p>Completa una oleada sin recibir ningún daño. ¡Desafío máximo!</p>
+                    <p style="margin-top: 10px; color: #4ade80;"><strong>35 runas + 2 ⭐</strong></p>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="card-icon">💰</span>Recolectar Monedas</h3>
+                    <p>Acumula 500 monedas durante tus partidas.</p>
+                    <p style="margin-top: 10px; color: #4ade80;"><strong>15 runas + 100 💰</strong></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Upgrades -->
+        <div class="section">
+            <h2><span class="icon-large">📊</span>Mejoras Permanentes</h2>
+            <p>Usa runas 🔮 para comprar upgrades permanentes que te harán más fuerte en cada partida.</p>
+            
+            <div class="upgrade-grid">
+                <div class="upgrade-card">
+                    <div class="upgrade-icon">💰</div>
+                    <div class="upgrade-info">
+                        <h4>Multiplicador de Monedas</h4>
+                        <p>+10% de monedas por nivel</p>
+                        <p style="color: #8e44ad;"><strong>Máx: Nivel 10</strong></p>
+                    </div>
+                </div>
+                
+                <div class="upgrade-card">
+                    <div class="upgrade-icon">❤️</div>
+                    <div class="upgrade-info">
+                        <h4>Aumento de Salud</h4>
+                        <p>+5 salud máxima por nivel</p>
+                        <p style="color: #8e44ad;"><strong>Máx: Nivel 20</strong></p>
+                    </div>
+                </div>
+                
+                <div class="upgrade-card">
+                    <div class="upgrade-icon">⚔️</div>
+                    <div class="upgrade-info">
+                        <h4>Poder de Defensores</h4>
+                        <p>+5% daño para todos</p>
+                        <p style="color: #8e44ad;"><strong>Máx: Nivel 15</strong></p>
+                    </div>
+                </div>
+                
+                <div class="upgrade-card">
+                    <div class="upgrade-icon">🏦</div>
+                    <div class="upgrade-info">
+                        <h4>Economía Inicial</h4>
+                        <p>+25 monedas al empezar</p>
+                        <p style="color: #8e44ad;"><strong>Máx: Nivel 10</strong></p>
+                    </div>
+                </div>
+                
+                <div class="upgrade-card">
+                    <div class="upgrade-icon">💥</div>
+                    <div class="upgrade-info">
+                        <h4>Golpe Crítico</h4>
+                        <p>+3% probabilidad de x2 daño</p>
+                        <p style="color: #8e44ad;"><strong>Máx: Nivel 5</strong></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: rgba(251, 191, 36, 0.2); border: 2px solid #fbbf24; border-radius: 12px; padding: 20px; margin-top: 20px;">
+                <h3 style="color: #fbbf24;">⚡ Golpes Críticos</h3>
+                <p>Los ataques críticos causan el DOBLE de daño y se muestran con números dorados y animación especial!</p>
+            </div>
+        </div>
+        
+        <!-- Interfaz -->
+        <div class="section">
+            <h2><span class="icon-large">🎨</span>Nueva Interfaz</h2>
+            <p>Menú inferior con acceso rápido a todas las funciones del sistema de progresión.</p>
+            
+            <div class="menu-preview">
+                <h3 style="text-align: center; margin-bottom: 20px;">Menú Inferior</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="menu-item-icon">⭐</div>
+                        <strong>Recompensas</strong>
+                        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 5px;">Ver racha de días</p>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-icon">✓</div>
+                        <strong>Misiones</strong>
+                        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 5px;">Revisar progreso</p>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-icon">📊</div>
+                        <strong>Upgrades</strong>
+                        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 5px;">Comprar mejoras</p>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-icon">📖</div>
+                        <strong>Historia</strong>
+                        <p style="font-size: 0.9em; opacity: 0.8; margin-top: 5px;">Modo campaña</p>
+                    </div>
+                </div>
+            </div>
+            
+            <ul class="feature-list">
+                <li>Diseño glassmorphism moderno</li>
+                <li>Animaciones fluidas y suaves</li>
+                <li>Notificaciones visuales (puntos rojos)</li>
+                <li>Totalmente responsive para móviles</li>
+                <li>Menús deslizantes elegantes</li>
+            </ul>
+        </div>
+        
+        <!-- Características -->
+        <div class="section">
+            <h2><span class="icon-large">✨</span>Características Destacadas</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3><span class="card-icon">💾</span>Guardado Automático</h3>
+                    <p>Todo tu progreso se guarda automáticamente en localStorage y en el servidor (si estás registrado).</p>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="card-icon">📱</span>100% Responsive</h3>
+                    <p>Diseñado para funcionar perfectamente en móviles, tablets y desktop.</p>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="card-icon">🎯</span>Rastreo en Tiempo Real</h3>
+                    <p>El progreso de las misiones se actualiza automáticamente mientras juegas.</p>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="card-icon">🔔</span>Notificaciones</h3>
+                    <p>Popup automático al iniciar sesión cada día y notificaciones al completar misiones.</p>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="card-icon">🎮</span>Integración Total</h3>
+                    <p>Los upgrades se aplican automáticamente en cada partida sin configuración extra.</p>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="card-icon">🏆</span>Balanceo Justo</h3>
+                    <p>Economía equilibrada que recompensa tanto la constancia como la habilidad.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="index.html" class="cta-button">🎮 ¡Jugar Ahora!</a>
+            <p style="margin-top: 20px; opacity: 0.8;">Comienza tu racha de recompensas hoy y desbloquea el Antitanque de Área en 7 días</p>
+        </div>
+    </div>
+</body>
+</html>

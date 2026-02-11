@@ -1,0 +1,585 @@
+/* ============================================
+   SISTEMA DE CONFIGURACIÓN DEL MENÚ
+   ============================================ */
+
+/* Barra lateral izquierda */
+.left-sidebar {
+    position: fixed !important;
+    top: 20px;
+    left: 20px;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Panel de configuración */
+.settings-panel-toggle {
+    width: 50px;
+}
+
+.settings-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(20, 30, 48, 0.98), rgba(36, 59, 85, 0.98));
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(52, 152, 219, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    font-size: 24px;
+    color: #3498db;
+}
+
+.settings-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5);
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(155, 89, 182, 0.3));
+    border-color: #3498db;
+}
+
+.settings-btn img {
+    display: none;
+}
+
+/* Menú vertical desplegable */
+.vertical-menu-dropdown {
+    width: 280px;
+    max-height: calc(100vh - 160px);
+    background: linear-gradient(135deg, rgba(20, 30, 48, 0.98), rgba(36, 59, 85, 0.98));
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(52, 152, 219, 0.3);
+    display: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.vertical-menu-dropdown.active {
+    display: block;
+}
+
+/* Scrollbar personalizado para el menú vertical */
+.vertical-menu-dropdown::-webkit-scrollbar {
+    width: 8px;
+}
+
+.vertical-menu-dropdown::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.vertical-menu-dropdown::-webkit-scrollbar-thumb {
+    background: rgba(52, 152, 219, 0.5);
+    border-radius: 10px;
+}
+
+.vertical-menu-dropdown::-webkit-scrollbar-thumb:hover {
+    background: rgba(52, 152, 219, 0.7);
+}
+
+.settings-section {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.settings-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.settings-section h4 {
+    color: #3498db;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+/* Opciones de estilo de menú - versión vertical */
+.menu-style-options-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.menu-style-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    color: #95a5a6;
+    font-size: 13px;
+}
+
+.menu-style-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(52, 152, 219, 0.5);
+    transform: translateX(5px);
+}
+
+.menu-style-btn.active {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(155, 89, 182, 0.3));
+    border-color: #3498db;
+    color: #ecf0f1;
+}
+
+.style-preview {
+    width: 60px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-bar {
+    width: 90%;
+    height: 6px;
+    background: #3498db;
+    border-radius: 3px;
+}
+
+.preview-bar.bottom {
+    position: absolute;
+    bottom: 5px;
+}
+
+.preview-dot {
+    width: 8px;
+    height: 8px;
+    background: #3498db;
+    border-radius: 50%;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
+
+.preview-menu.vertical {
+    width: 4px;
+    height: 70%;
+    background: rgba(52, 152, 219, 0.5);
+    border-radius: 2px;
+    position: absolute;
+    right: 12px;
+    bottom: 15px;
+}
+
+/* Perfil de usuario mini */
+.user-profile-mini {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.user-profile-mini .login-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+}
+
+.user-profile-mini .login-button {
+    width: 100%;
+    padding: 8px;
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 12px;
+}
+
+.user-profile-mini .login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+}
+
+/* ============================================
+   MENÚ FLOTANTE
+   ============================================ */
+
+.floating-menu-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 950;
+    display: none;
+}
+
+.floating-menu-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(20, 30, 48, 0.98), rgba(36, 59, 85, 0.98));
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(52, 152, 219, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: relative;
+}
+
+.floating-menu-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.6);
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(155, 89, 182, 0.3));
+    border-color: #3498db;
+}
+
+.floating-menu-toggle.active {
+    transform: rotate(90deg) scale(1.1);
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(155, 89, 182, 0.3));
+    border-color: #3498db;
+}
+
+.floating-menu-toggle img {
+    display: none;
+}
+
+.floating-menu-toggle .menu-icon {
+    font-size: 28px;
+    color: #3498db;
+    font-weight: bold;
+}
+
+.floating-menu-buttons {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.floating-menu-buttons.open {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+}
+
+.floating-menu-btn {
+    background: linear-gradient(135deg, rgba(20, 30, 48, 0.95), rgba(36, 59, 85, 0.95));
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(52, 152, 219, 0.4);
+    border-radius: 50px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 180px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.floating-menu-btn:hover {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(155, 89, 182, 0.3));
+    border-color: #3498db;
+    transform: translateX(-5px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5);
+}
+
+.floating-menu-btn img {
+    display: none;
+}
+
+.floating-menu-btn .btn-emoji {
+    font-size: 24px;
+    width: 30px;
+    text-align: center;
+}
+
+.floating-menu-btn .btn-text {
+    color: #ecf0f1;
+    font-weight: bold;
+    font-size: 14px;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.floating-menu-btn .notification-dot {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+/* Animaciones escalonadas para los botones */
+.floating-menu-buttons.open .floating-menu-btn:nth-child(1) {
+    animation: slideInRight 0.3s ease forwards;
+    animation-delay: 0.05s;
+}
+
+.floating-menu-buttons.open .floating-menu-btn:nth-child(2) {
+    animation: slideInRight 0.3s ease forwards;
+    animation-delay: 0.1s;
+}
+
+.floating-menu-buttons.open .floating-menu-btn:nth-child(3) {
+    animation: slideInRight 0.3s ease forwards;
+    animation-delay: 0.15s;
+}
+
+.floating-menu-buttons.open .floating-menu-btn:nth-child(4) {
+    animation: slideInRight 0.3s ease forwards;
+    animation-delay: 0.2s;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive para menú flotante */
+@media (max-width: 768px) {
+    .floating-menu-container {
+        bottom: 90px;
+        right: 15px;
+    }
+    
+    .floating-menu-toggle {
+        width: 50px;
+        height: 50px;
+    }
+    
+    
+    .floating-menu-btn {
+        min-width: 150px;
+        padding: 10px 15px;
+    }
+    
+    .floating-menu-btn span {
+        font-size: 12px;
+    }
+    
+    .settings-dropdown {
+        width: 280px;
+        right: -10px;
+    }
+}
+
+@media (max-width: 420px) {
+    .settings-panel-toggle {
+        top: 15px;
+        right: 15px;
+    }
+    
+    .settings-btn {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .settings-dropdown {
+        width: calc(100vw - 30px);
+        right: -10px;
+    }
+}
+
+/* ============================================
+   MENÚ FLOTANTE INTEGRADO EN SIDEBAR
+   ============================================ */
+
+.floating-menu-integrated {
+    width: 50px;
+    display: none;
+}
+
+.floating-menu-toggle-integrated {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(20, 30, 48, 0.98), rgba(36, 59, 85, 0.98));
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(52, 152, 219, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    font-size: 24px;
+    color: #3498db;
+}
+
+.floating-menu-toggle-integrated:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5);
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(155, 89, 182, 0.3));
+    border-color: #3498db;
+}
+
+.floating-menu-toggle-integrated.active {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.5), rgba(155, 89, 182, 0.5));
+    border-color: #3498db;
+}
+
+.menu-icon {
+    font-size: 24px;
+    transition: transform 0.3s ease;
+}
+
+.floating-menu-toggle-integrated.active .menu-icon {
+    transform: rotate(90deg);
+}
+
+.floating-menu-buttons-integrated {
+    width: 280px;
+    background: linear-gradient(135deg, rgba(20, 30, 48, 0.98), rgba(36, 59, 85, 0.98));
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(52, 152, 219, 0.3);
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+}
+
+.floating-menu-buttons-integrated.open {
+    display: flex;
+}
+
+.floating-menu-buttons-integrated::-webkit-scrollbar {
+    width: 8px;
+}
+
+.floating-menu-buttons-integrated::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.floating-menu-buttons-integrated::-webkit-scrollbar-thumb {
+    background: rgba(52, 152, 219, 0.5);
+    border-radius: 10px;
+}
+
+.floating-menu-buttons-integrated::-webkit-scrollbar-thumb:hover {
+    background: rgba(52, 152, 219, 0.7);
+}
+
+.floating-menu-btn-integrated {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ecf0f1;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+    white-space: nowrap;
+}
+
+.floating-menu-btn-integrated:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(52, 152, 219, 0.5);
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.floating-menu-btn-integrated .btn-text {
+    flex: 1;
+    text-align: left;
+}
+
+.floating-menu-btn-integrated .btn-icon {
+    flex-shrink: 0;
+    color: #3498db;
+    transition: all 0.3s ease;
+}
+
+.floating-menu-btn-integrated:hover .btn-icon {
+    color: #5dade2;
+    transform: scale(1.1);
+}
+
+.floating-menu-btn-integrated .notification-dot {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 10px;
+    height: 10px;
+    background: #e74c3c;
+    border-radius: 50%;
+    border: 2px solid rgba(20, 30, 48, 0.98);
+    animation: pulse 2s infinite;
+}
+
+/* ============================================
+   RESPONSIVE MOBILE
+   ============================================ */
+@media only screen and (max-width: 600px) {
+    .left-sidebar {
+        top: 10px;
+        left: 10px;
+        gap: 5px;
+        z-index: 9998;
+    }
+
+    .settings-btn,
+    .user-panel-toggle {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .vertical-menu-dropdown,
+    .user-info-dropdown {
+        width: calc(100vw - 30px);
+        max-width: 320px;
+        max-height: calc(100vh - 120px);
+        padding: 15px;
+    }
+
+    .vertical-menu-dropdown h4 {
+        font-size: 1.1em;
+    }
+
+    .menu-option {
+        padding: 12px;
+        font-size: 0.9em;
+    }
+}

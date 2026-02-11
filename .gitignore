@@ -1,0 +1,32 @@
+# Archivos de prueba y temporales
+test_api.php
+test_connection.html
+diagnostico.html
+upload.html
+
+# Configuración sensible
+.env
+api/.env
+
+# Archivos de respaldo
+*_backup.*
+*-Copia*
+
+# Logs y caché
+*.log
+error.log
+
+# Archivos del sistema
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Node modules (si usas npm)
+node_modules/
+
+# Archivos de IDE
+.vscode/
+.idea/
+
+# Archivos temporales de Windows
+~$*
