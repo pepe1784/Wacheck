@@ -48,8 +48,3 @@ apk/WacheckAPK/wacheck-release-key.jks
 # Carpetas pesadas innecesarias
 "Idea de diseño/"
 client/
-
-# Archivos de audio grandes (pueden descargarse aparte)
-sounds/sound_spawmob/*.mp3
-sounds/sound_spawmob/**/*.zip
-sounds/sound_spawmob/enemigo/
