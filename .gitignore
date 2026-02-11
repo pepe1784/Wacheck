@@ -37,6 +37,14 @@ node_modules/
 *.aab
 apk/WacheckAPK/*.apk
 apk/WacheckAPK/*.idsig
+apk/WacheckAPK/electron-app/
+apk/WacheckAPK/Wacheck_APK_*.zip
+apk/WacheckAPK/wacheck-key-nuevo.jks
+apk/WacheckAPK/wacheck-release-key.jks
 
 # Archivos grandes de base de datos
 *.sql
+
+# Carpetas pesadas innecesarias
+"Idea de diseño/"
+client/
