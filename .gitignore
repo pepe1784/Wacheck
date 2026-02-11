@@ -30,3 +30,13 @@ node_modules/
 
 # Archivos temporales de Windows
 ~$*
+
+# Archivos APK y binarios grandes
+*.apk
+*.idsig
+*.aab
+apk/WacheckAPK/*.apk
+apk/WacheckAPK/*.idsig
+
+# Archivos grandes de base de datos
+*.sql
