@@ -3,6 +3,36 @@
 // ==========================================
 
 // ==========================================
+// Session Check for Play Buttons
+// ==========================================
+function handlePlayButton() {
+    // Verificar si hay sesión activa
+    const userDataStr = localStorage.getItem('wacheck_user');
+    
+    if (userDataStr) {
+        try {
+            const userData = JSON.parse(userDataStr);
+            if (userData && userData.id !== undefined) {
+                // Hay sesión activa, ir directamente al juego
+                console.log('✅ Sesión activa detectada, redirigiendo al juego...');
+                window.location.href = 'game-page.html';
+                return;
+            }
+        } catch (e) {
+            console.error('Error al verificar sesión:', e);
+        }
+    }
+    
+    // No hay sesión, abrir modal de login
+    console.log('ℹ️ No hay sesión activa, abriendo modal...');
+    openLoginModal();
+}
+
+// Exportar al scope global
+window.handlePlayButton = handlePlayButton;
+
+
+// ==========================================
 // Navbar Scroll Effect
 // ==========================================
 const navbar = document.getElementById('navbar');
@@ -41,9 +71,17 @@ navHamburger.addEventListener('click', () => {
 // Close mobile menu when clicking on a link
 const mobileLinks = document.querySelectorAll('.nav-mobile-link, .nav-mobile-cta');
 mobileLinks.forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
+        // Cerrar el menú móvil
         navMobile.classList.remove('active');
         hamburgerIcon.setAttribute('d', 'M3 12h18M3 6h18M3 18h18');
+        
+        // Si es un enlace a rewards, no hacer nada más (dejar que el hash funcione)
+        const href = link.getAttribute('href');
+        if (href && (href.toLowerCase() === '#rewards' || href.toLowerCase() === '#recompensas')) {
+            // No hacer nada, dejar que el hashchange lo maneje
+            console.log('🎁 Enlace de recompensas detectado, hash será:', href);
+        }
     });
 });
 
@@ -54,8 +92,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
         
-        // Only prevent default if it's not just "#"
-        if (href !== '#' && href !== '#inicio') {
+        // Hashtags especiales que NO deben usar smooth scroll (son para modales)
+        const specialHashes = ['#rewards', '#recompensas'];
+        const isSpecialHash = specialHashes.includes(href.toLowerCase());
+        
+        // Only prevent default if it's not just "#" and not a special hash
+        if (href !== '#' && href !== '#inicio' && !isSpecialHash) {
             e.preventDefault();
             
             const targetId = href.substring(1);

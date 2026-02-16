@@ -79,18 +79,37 @@ async function handleLogin() {
             // Login exitoso
             showMessage('loginMessage', '✅ Sesión iniciada correctamente', false);
             
-            // Guardar datos en localStorage para compatibilidad
-            localStorage.setItem('currentUser', JSON.stringify(data));
-            localStorage.setItem('wacheck-session', JSON.stringify({
+            // Crear objeto de usuario consistente con el sistema
+            const userData = {
                 id: data.id,
                 name: data.name,
-                authenticated: true
-            }));
+                email: data.email || '',
+                isGuest: false,
+                coins: data.coins || 100,
+                specialCoins: data.specialCoins || 0,
+                runes: data.runes || 0,
+                stars: data.stars || 0,
+                unlockedDefenders: data.unlockedDefenders || ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"],
+                calculatorCompleted: data.calculatorCompleted || false,
+                rewardsData: data.rewardsData || {},
+                achievementsData: data.achievementsData || {},
+                storyProgress: data.storyProgress || {},
+                dailyRewardsData: data.dailyRewardsData || {}
+            };
             
-            // Redirigir al juego protegido
+            // Guardar en localStorage con la clave correcta
+            localStorage.setItem('wacheck_user', JSON.stringify(userData));
+            
+            console.log('✅ Usuario guardado en localStorage:', userData);
+            
+            // Cerrar modal y actualizar UI
             setTimeout(() => {
-                window.location.href = 'game-page.html';
-            }, 1000);
+                closeLoginModal();
+                // Actualizar UI si SessionManager está disponible
+                if (window.SessionManager) {
+                    SessionManager.updateIndexUI(userData);
+                }
+            }, 800);
         } else if (response.status === 403 && data.error === 'Email no verificado') {
             // Email no verificado
             showMessage('loginMessage', 

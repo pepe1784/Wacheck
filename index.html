@@ -6,6 +6,14 @@
     <title>Wacheck - Defensores del Agua | Universidad de Colima</title>
     <link rel="stylesheet" href="css/landing.css">
     <link rel="stylesheet" href="css/auth-modal.css">
+    <!-- Anti-Cheat System -->
+    <script src="anti-cheat.js" defer></script>
+    <!-- Daily Rewards System -->
+    <script src="daily-rewards-modal.js" defer></script>
+    <!-- Guest User Manager -->
+    <script src="guest-user-manager.js" defer></script>
+    <!-- Session Manager -->
+    <script src="session-manager.js" defer></script>
     <script src="sounds.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,6 +51,7 @@
                 <a href="#caracteristicas" class="nav-link">Características</a>
                 <a href="#bachillerato" class="nav-link">Bachillerato 25</a>
                 <a href="#calculadora" class="nav-link">Calculadora</a>
+                <a href="#rewards" class="nav-link">🎁 Recompensas</a>
                 <button class="volume-btn" id="volumeBtn" onclick="toggleVolume()" title="Volumen">
                     <span id="volumeIcon">🔊</span>
                 </button>
@@ -64,9 +73,96 @@
             <a href="#caracteristicas" class="nav-mobile-link">Características</a>
             <a href="#bachillerato" class="nav-mobile-link">Bachillerato 25</a>
             <a href="#calculadora" class="nav-mobile-link">Calculadora</a>
+            <a href="#rewards" class="nav-mobile-link">🎁 Recompensas</a>
             <button class="nav-mobile-cta" onclick="openLoginModal()" style="width: 100%; text-align: center; border: none; cursor: pointer;">🎮 ¡Jugar!</button>
         </div>
     </header>
+
+    <!-- User Dropdown Menu (Hidden by default) -->
+    <div class="user-dropdown-menu" id="userDropdownMenu" style="display: none;">
+        <div class="user-menu-overlay" id="userMenuOverlay"></div>
+        <div class="user-menu-content">
+            <div class="user-menu-header" id="userMenuHeader">
+                <span class="user-menu-name" id="userMenuName">Usuario</span>
+                <span class="user-menu-email" id="userMenuEmail"></span>
+            </div>
+            <button class="user-menu-item" id="menuGoToGame">
+                🎮 Ir al Juego
+            </button>
+            <button class="user-menu-item" id="menuViewRewards">
+                🎁 Ver Recompensas
+            </button>
+            <button class="user-menu-item" id="menuMyProgress">
+                📊 Mi Progreso
+            </button>
+            <button class="user-menu-item" id="menuLinkAccount" style="display: none;">
+                🔗 Vincular Cuenta
+            </button>
+            <button class="user-menu-item danger" id="menuLogout">
+                🚪 Cerrar Sesión
+            </button>
+        </div>
+    </div>
+
+    <!-- Progress Modal -->
+    <div class="progress-modal" id="progressModal" style="display: none;">
+        <div class="progress-overlay" id="progressOverlay"></div>
+        <div class="progress-modal-content">
+            <button class="progress-modal-close" id="progressModalClose">✕</button>
+            
+            <div class="progress-header">
+                <div class="progress-icon">📊</div>
+                <h2 class="progress-title">Tu Progreso</h2>
+                <p class="progress-subtitle" id="progressUserName">Usuario</p>
+            </div>
+
+            <div class="progress-stats-grid">
+                <div class="progress-stat-card">
+                    <div class="progress-stat-icon">💰</div>
+                    <div class="progress-stat-value" id="progressCoins">0</div>
+                    <div class="progress-stat-label">Monedas</div>
+                </div>
+
+                <div class="progress-stat-card">
+                    <div class="progress-stat-icon">⭐</div>
+                    <div class="progress-stat-value" id="progressSpecialCoins">0</div>
+                    <div class="progress-stat-label">Especiales</div>
+                </div>
+
+                <div class="progress-stat-card">
+                    <div class="progress-stat-icon">🔮</div>
+                    <div class="progress-stat-value" id="progressRunes">0</div>
+                    <div class="progress-stat-label">Runas</div>
+                </div>
+
+                <div class="progress-stat-card">
+                    <div class="progress-stat-icon">🏅</div>
+                    <div class="progress-stat-value" id="progressStars">0</div>
+                    <div class="progress-stat-label">Estrellas</div>
+                </div>
+
+                <div class="progress-stat-card">
+                    <div class="progress-stat-icon">🛡️</div>
+                    <div class="progress-stat-value" id="progressDefenders">8</div>
+                    <div class="progress-stat-label">Defensores</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal (Logout) -->
+    <div class="confirm-modal" id="confirmModal" style="display: none;">
+        <div class="confirm-overlay" id="confirmOverlay"></div>
+        <div class="confirm-modal-content">
+            <div class="confirm-icon">⚠️</div>
+            <h3 class="confirm-title">¿Cerrar Sesión?</h3>
+            <p class="confirm-message">¿Estás seguro de que deseas cerrar sesión?</p>
+            <div class="confirm-buttons">
+                <button class="confirm-btn cancel" id="confirmCancel">Cancelar</button>
+                <button class="confirm-btn confirm" id="confirmYes">Cerrar Sesión</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section id="inicio" class="hero-section">
@@ -107,7 +203,7 @@
 
             <!-- CTA Buttons -->
             <div class="hero-buttons">
-                <button class="hero-btn-primary" onclick="openLoginModal()" style="border: none; cursor: pointer;">
+                <button class="hero-btn-primary" onclick="handlePlayButton()" style="border: none; cursor: pointer;">
                     <span>🎮</span>
                     ¡Jugar Ahora!
                 </button>
@@ -347,7 +443,7 @@
                     Únete a miles de jugadores que ya están haciendo la diferencia. 
                     Aprende, juega y conviértete en un verdadero Defensor del Agua.
                 </p>
-                <button class="cta-button" onclick="openLoginModal()" style="border: none; cursor: pointer;">
+                <button class="cta-button" onclick="handlePlayButton()" style="border: none; cursor: pointer;">
                     <span>🚀</span>
                     Comenzar Ahora
                 </button>
@@ -430,6 +526,15 @@
                 </div>
                 
                 <button class="auth-button" onclick="handleLogin()">Entrar</button>
+                
+                <div class="auth-divider">
+                    <span>o</span>
+                </div>
+                
+                <button class="auth-button-guest" onclick="GuestUserManager.showGuestModal()">
+                    <span class="guest-icon">👤</span>
+                    <span>Jugar como Invitado</span>
+                </button>
                 
                 <p class="auth-message" id="loginMessage"></p>
             </div>

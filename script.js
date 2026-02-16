@@ -1846,6 +1846,13 @@ function healDefendersOnKill(contaminator) {
 }
 
 function handleContaminatorDeath(contaminator) {
+    // ANTI-CHEAT: Verificar si las recompensas están bloqueadas
+    if (window.REWARDS_BLOCKED === true) {
+        console.warn('⚠️ ANTI-CHEAT: Recompensas bloqueadas, no se otorgan monedas');
+        removeContaminator(contaminator);
+        return;
+    }
+
     const coinsGained = getCoinsWithMultiplier(contaminator.type.coins);
     gameState.coins += coinsGained;
 
@@ -1877,9 +1884,14 @@ function handleContaminatorDeath(contaminator) {
 
     // Si es un jefe, da una moneda especial y actualiza misión
     if (contaminator.type.isBoss) {
-        gameState.specialCoins++;
-        saveCurrentUserProgress();
-        showFloatingText('+1 ⭐', document.body, 'special-coin-effect');
+        // ANTI-CHEAT: Solo otorgar si no está bloqueado
+        if (window.REWARDS_BLOCKED !== true) {
+            gameState.specialCoins++;
+            saveCurrentUserProgress();
+            showFloatingText('+1 ⭐', document.body, 'special-coin-effect');
+        } else {
+            console.warn('⚠️ ANTI-CHEAT: Moneda especial de jefe bloqueada');
+        }
 
         if (typeof updateMissionProgress === 'function') {
             updateMissionProgress('boss', 1);
@@ -2281,6 +2293,11 @@ function gameOver() {
     clearAllIntervals();
 
     playSound(120, 1.2, 'sawtooth', 0.3); // Sonido de Game Over: diente de sierra muy grave y largo
+
+    // ANTI-CHEAT: Validar estado del juego antes de otorgar recompensas
+    if (typeof AntiCheat !== 'undefined') {
+        AntiCheat.validateGameState();
+    }
 
     // Otorgar monedas especiales según oleada alcanzada
     const coinsEarned = Math.floor(gameState.wave / 5) + 1; // 1 moneda cada 5 oleadas + 1 base
@@ -2856,6 +2873,21 @@ function updateShopBalance() {
 
 // Otorgar monedas especiales (llamar después de ciertas oleadas)
 function awardSpecialCoins(amount) {
+    // ANTI-CHEAT: Verificar si las recompensas están bloqueadas
+    if (window.REWARDS_BLOCKED === true) {
+        console.warn('⚠️ ANTI-CHEAT: No se pueden otorgar monedas especiales - Recompensas bloqueadas');
+        if (typeof AntiCheat !== 'undefined' && AntiCheat.showRewardBlockedMessage) {
+            AntiCheat.showRewardBlockedMessage();
+        }
+        return 0;
+    }
+
+    // ANTI-CHEAT: Validar que el monto sea razonable
+    if (typeof AntiCheat !== 'undefined' && amount > AntiCheat.limits.specialCoins.maxPerSession) {
+        console.warn('⚠️ ANTI-CHEAT: Monto de monedas especiales sospechoso:', amount);
+        amount = Math.min(amount, AntiCheat.limits.specialCoins.maxPerSession / 2);
+    }
+
     specialCoins += amount;
     gameState.specialCoins += amount; // NUEVO: Actualizar total del usuario
     gameState.coinsEarnedThisSession += amount; // NUEVO: Actualizar monedas de esta sesión
