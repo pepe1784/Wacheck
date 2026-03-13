@@ -25,7 +25,9 @@ desktop.ini
 node_modules/
 
 # Archivos de IDE
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 .idea/
 
 # Archivos temporales de Windows
