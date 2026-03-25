@@ -182,7 +182,7 @@ async function handleLogout() {
     }
 
     try {
-        const API_URL = 'api/user_handler_HYBRID.php';
+        const API_URL = 'api/user_handler_SECURE.php';
         
         const response = await fetch(`${API_URL}?action=logout`, {
             method: 'POST',

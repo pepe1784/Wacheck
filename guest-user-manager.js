@@ -4,6 +4,21 @@
 // Permite jugar sin registro y vincular progreso después
 
 const GuestUserManager = {
+    escapeHTML(value) {
+        if (value === null || value === undefined) return '';
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    },
+
+    safeNumber(value, fallback = 0) {
+        const num = Number(value);
+        return Number.isFinite(num) ? num : fallback;
+    },
+
     // Inicializar sistema
     init() {
         this.checkSession();
@@ -59,17 +74,36 @@ const GuestUserManager = {
         const banner = document.createElement('div');
         banner.id = 'guestBanner';
         banner.className = 'game-guest-banner';
-        banner.innerHTML = `
-            <div class="game-guest-banner-content">
-                <div class="guest-banner-text">
-                    <span class="guest-banner-icon">👤</span>
-                    <span>Jugando como: <span class="guest-banner-name">${user.name}</span></span>
-                </div>
-                <button class="guest-banner-link-btn" onclick="GuestUserManager.showLinkAccountModal()">
-                    🔗 Guardar mi Progreso
-                </button>
-            </div>
-        `;
+
+        const content = document.createElement('div');
+        content.className = 'game-guest-banner-content';
+
+        const textWrap = document.createElement('div');
+        textWrap.className = 'guest-banner-text';
+
+        const icon = document.createElement('span');
+        icon.className = 'guest-banner-icon';
+        icon.textContent = '👤';
+
+        const text = document.createElement('span');
+        text.textContent = 'Jugando como: ';
+
+        const name = document.createElement('span');
+        name.className = 'guest-banner-name';
+        name.textContent = user?.name || 'Invitado';
+
+        text.appendChild(name);
+        textWrap.appendChild(icon);
+        textWrap.appendChild(text);
+
+        const linkBtn = document.createElement('button');
+        linkBtn.className = 'guest-banner-link-btn';
+        linkBtn.textContent = '🔗 Guardar mi Progreso';
+        linkBtn.addEventListener('click', () => this.showLinkAccountModal());
+
+        content.appendChild(textWrap);
+        content.appendChild(linkBtn);
+        banner.appendChild(content);
 
         // Insertar después del header del juego
         const gameHeader = document.querySelector('.game-header');
@@ -146,7 +180,7 @@ const GuestUserManager = {
 
         try {
             // Registrar cuenta en el servidor
-            const response = await fetch('api/user_handler_HYBRID.php?action=create_user', {
+            const response = await fetch('api/user_handler_SECURE.php?action=create_user', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -202,7 +236,7 @@ const GuestUserManager = {
     // Guardar progreso en servidor
     async saveProgressToServer(user) {
         try {
-            const response = await fetch('api/user_handler_HYBRID.php?action=save_progress', {
+            const response = await fetch('api/user_handler_SECURE.php?action=save_progress', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -374,6 +408,10 @@ const GuestUserManager = {
             return;
         }
 
+        const safeCoins = this.safeNumber(guest.coins);
+        const safeSpecialCoins = this.safeNumber(guest.specialCoins);
+        const safeRunes = this.safeNumber(guest.runes);
+
         // Crear modal
         const modal = document.createElement('div');
         modal.id = 'linkAccountModal';
@@ -394,15 +432,15 @@ const GuestUserManager = {
                     <div class="progress-items">
                         <div class="progress-item">
                             <span class="progress-icon">💰</span>
-                            <span>${guest.coins || 0} Monedas</span>
+                            <span>${safeCoins} Monedas</span>
                         </div>
                         <div class="progress-item">
                             <span class="progress-icon">⭐</span>
-                            <span>${guest.specialCoins || 0} Especiales</span>
+                            <span>${safeSpecialCoins} Especiales</span>
                         </div>
                         <div class="progress-item">
                             <span class="progress-icon">🔮</span>
-                            <span>${guest.runes || 0} Runas</span>
+                            <span>${safeRunes} Runas</span>
                         </div>
                     </div>
                 </div>

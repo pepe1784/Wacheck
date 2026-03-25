@@ -30,12 +30,9 @@ try {
     Security::init();
     
 } catch (Exception $e) {
+    error_log('user_handler_SECURE.php bootstrap exception: ' . $e->getMessage());
     http_response_code(500);
-    if (EnvLoader::get('APP_DEBUG', 'false') === 'true') {
-        echo json_encode(['error' => 'Configuration error: ' . $e->getMessage()]);
-    } else {
-        echo json_encode(['error' => 'Server configuration error']);
-    }
+    echo json_encode(['error' => 'Server configuration error']);
     exit();
 }
 
@@ -74,14 +71,30 @@ if (!Security::checkRateLimit($clientIP)) {
 }
 
 // ====================================
-// FUNCIÓN: Enviar email de verificación
+// FUNCIÓN: Enviar email de verificación con SMTP
 // ====================================
 function sendVerificationEmail($email, $username, $token) {
     $appUrl = EnvLoader::get('APP_URL', 'http://localhost/Wacheck');
     $verifyUrl = "$appUrl/verify-email.php?token=$token";
     
+    // Configuración SMTP desde .env
+    $smtpHost = EnvLoader::get('SMTP_HOST', 'smtp.gmail.com');
+    $smtpPort = EnvLoader::get('SMTP_PORT', 587);
+    $smtpUsername = EnvLoader::get('SMTP_USERNAME');
+    $smtpPassword = EnvLoader::get('SMTP_PASSWORD');
+    $smtpFromEmail = EnvLoader::get('SMTP_FROM_EMAIL', $smtpUsername);
+    $smtpFromName = EnvLoader::get('SMTP_FROM_NAME', 'Wacheck');
+    
+    // Verificar que las credenciales SMTP están configuradas
+    if (empty($smtpUsername) || empty($smtpPassword) || 
+        $smtpUsername === 'tu-correo@gmail.com' || 
+        $smtpPassword === 'tu-contraseña-de-aplicacion-aqui') {
+        error_log("ERROR: Configuración SMTP incompleta en .env");
+        return false;
+    }
+    
     $subject = "Wacheck - Verifica tu correo";
-    $message = "
+    $htmlMessage = "
     <html>
     <head>
         <style>
@@ -112,11 +125,78 @@ function sendVerificationEmail($email, $username, $token) {
     </html>
     ";
     
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= "From: Wacheck <noreply@wacheck.gamer.gd>" . "\r\n";
+    // Configurar headers
+    $headers = [
+        'MIME-Version: 1.0',
+        'Content-type: text/html; charset=UTF-8',
+        "From: $smtpFromName <$smtpFromEmail>",
+        "Reply-To: $smtpFromEmail"
+    ];
     
-    return mail($email, $subject, $message, $headers);
+    // Intentar enviar con SMTP usando fsockopen
+    try {
+        $socket = fsockopen($smtpHost, $smtpPort, $errno, $errstr, 30);
+        
+        if (!$socket) {
+            error_log("ERROR SMTP: No se pudo conectar - $errstr ($errno)");
+            return false;
+        }
+        
+        // Función helper para leer respuesta
+        $getResponse = function() use ($socket) {
+            $response = '';
+            while ($str = fgets($socket, 515)) {
+                $response .= $str;
+                if (substr($str, 3, 1) == ' ') break;
+            }
+            return $response;
+        };
+        
+        // Función helper para enviar comando
+        $sendCommand = function($command) use ($socket, $getResponse) {
+            fwrite($socket, $command . "\r\n");
+            return $getResponse();
+        };
+        
+        // Conexión SMTP
+        $getResponse(); // Banner inicial
+        $sendCommand("EHLO $smtpHost");
+        $sendCommand("STARTTLS");
+        
+        // Actualizar a TLS
+        stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+        
+        $sendCommand("EHLO $smtpHost");
+        $sendCommand("AUTH LOGIN");
+        $sendCommand(base64_encode($smtpUsername));
+        $authResponse = $sendCommand(base64_encode($smtpPassword));
+        
+        // Verificar autenticación
+        if (strpos($authResponse, '235') === false) {
+            error_log("ERROR SMTP: Autenticación fallida");
+            fclose($socket);
+            return false;
+        }
+        
+        // Enviar email
+        $sendCommand("MAIL FROM: <$smtpFromEmail>");
+        $sendCommand("RCPT TO: <$email>");
+        $sendCommand("DATA");
+        
+        $emailData = "Subject: $subject\r\n";
+        $emailData .= implode("\r\n", $headers) . "\r\n\r\n";
+        $emailData .= $htmlMessage . "\r\n.\r\n";
+        
+        $sendCommand($emailData);
+        $sendCommand("QUIT");
+        
+        fclose($socket);
+        return true;
+        
+    } catch (Exception $e) {
+        error_log("ERROR enviando email: " . $e->getMessage());
+        return false;
+    }
 }
 
 // ====================================
@@ -133,7 +213,8 @@ class Database {
                 $user = EnvLoader::get('DB_USER');
                 $pass = EnvLoader::get('DB_PASS');
                 
-                $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
+                // Para InfinityFree: agregar puerto 3306 explícitamente
+                $dsn = "mysql:host=$host;port=3306;dbname=$dbname;charset=utf8mb4";
                 $options = [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_EMULATE_PREPARES => false,
@@ -185,7 +266,11 @@ function initDatabase() {
         $sql = "CREATE TABLE IF NOT EXISTS users (
             id INT(11) NOT NULL AUTO_INCREMENT,
             username VARCHAR(50) NOT NULL UNIQUE,
+            email VARCHAR(255) DEFAULT NULL,
             password VARCHAR(255) NOT NULL,
+            email_verified TINYINT(1) NOT NULL DEFAULT 0,
+            verification_token VARCHAR(64) DEFAULT NULL,
+            verification_expires TIMESTAMP NULL DEFAULT NULL,
             special_coins INT(11) NOT NULL DEFAULT 0,
             coins INT(11) NOT NULL DEFAULT 0,
             stars INT(11) NOT NULL DEFAULT 0,
@@ -197,16 +282,24 @@ function initDatabase() {
             story_progress TEXT DEFAULT NULL,
             last_login TIMESTAMP NULL DEFAULT NULL,
             failed_login_attempts INT DEFAULT 0,
-            locked_until TIMESTAMP NULL DEFAULT NULL,
+            account_locked_until TIMESTAMP NULL DEFAULT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
+            UNIQUE KEY idx_email (email),
             INDEX idx_username (username),
-            INDEX idx_last_login (last_login)
+            INDEX idx_last_login (last_login),
+            INDEX idx_verification_token (verification_token)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
         
         $conn->exec($sql);
-        
+
+        // Agregar columna username_changed_at si no existe
+        $check = $conn->query("SHOW COLUMNS FROM users LIKE 'username_changed_at'");
+        if ($check->rowCount() === 0) {
+            $conn->exec("ALTER TABLE users ADD COLUMN username_changed_at TIMESTAMP NULL DEFAULT NULL");
+        }
+
         return true;
     } catch (Exception $e) {
         throw new Exception('Failed to initialize database: ' . $e->getMessage());
@@ -330,8 +423,9 @@ function registerUser($data) {
         return $response;
         
     } catch (Exception $e) {
+        error_log('registerUser exception: ' . $e->getMessage());
         http_response_code(500);
-        return ['error' => 'Registration failed: ' . $e->getMessage()];
+        return ['error' => 'Registration failed'];
     }
 }
 
@@ -443,8 +537,9 @@ function loginUser($data) {
         return $response;
         
     } catch (Exception $e) {
+        error_log('loginUser exception: ' . $e->getMessage());
         http_response_code(500);
-        return ['error' => 'Login failed: ' . $e->getMessage()];
+        return ['error' => 'Login failed'];
     }
 }
 
@@ -522,8 +617,9 @@ function saveProgress($data) {
         ];
         
     } catch (Exception $e) {
+        error_log('saveProgress exception: ' . $e->getMessage());
         http_response_code(500);
-        return ['error' => 'Failed to save progress: ' . $e->getMessage()];
+        return ['error' => 'Failed to save progress'];
     }
 }
 
@@ -580,8 +676,9 @@ function verifyEmail($data) {
         ];
         
     } catch (Exception $e) {
+        error_log('verifyEmail exception: ' . $e->getMessage());
         http_response_code(500);
-        return ['error' => 'Error al verificar email: ' . $e->getMessage()];
+        return ['error' => 'Error al verificar email'];
     }
 }
 
@@ -640,18 +737,53 @@ function resendVerification($data) {
         ];
         
     } catch (Exception $e) {
+        error_log('resendVerification exception: ' . $e->getMessage());
         http_response_code(500);
-        return ['error' => 'Error al reenviar verificación: ' . $e->getMessage()];
+        return ['error' => 'Error al reenviar verificación'];
     }
 }
 
 /**
  * Mapear respuesta de usuario
  */
+/**
+ * Devuelve el perfil actualizado del usuario (incluye google_avatar fresco del servidor)
+ */
+function getProfile($data) {
+    $userId = (int)Security::sanitizeInput($data['userId'] ?? '', 'int');
+    if (!$userId) {
+        http_response_code(400);
+        return ['error' => 'userId requerido'];
+    }
+    try {
+        $conn = Database::getConnection();
+        $stmt = $conn->prepare('SELECT * FROM users WHERE id = ? LIMIT 1');
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch();
+        if (!$user) {
+            http_response_code(404);
+            return ['error' => 'Usuario no encontrado'];
+        }
+        return ['status' => 'ok', 'user' => mapUserResponse($user)];
+    } catch (Exception $e) {
+        error_log('[getProfile] ' . $e->getMessage());
+        http_response_code(500);
+        return ['error' => 'Error al obtener perfil'];
+    }
+}
+
 function mapUserResponse($user) {
     return [
         'id' => (int)$user['id'],
         'name' => $user['username'],
+        'email' => $user['email'] ?? '',
+        'isGuest' => false,
+        'googleLogin' => !empty($user['google_id']),
+        'googleAvatar' => $user['google_avatar'] ?? '',
+        'avatar' => $user['google_avatar'] ?? '',
+        'avatarUrl' => $user['google_avatar'] ?? '',
+        'hasPassword' => !empty($user['password']),
+        'usernameChangedAt' => $user['username_changed_at'] ?? null,
         'specialCoins' => (int)($user['special_coins'] ?? 0),
         'coins' => (int)($user['coins'] ?? 0),
         'stars' => (int)($user['stars'] ?? 0),
@@ -662,6 +794,155 @@ function mapUserResponse($user) {
         'achievementsData' => json_decode($user['achievements_data'] ?? '{}', true) ?: (object)[],
         'storyProgress' => json_decode($user['story_progress'] ?? '{}', true) ?: (object)[]
     ];
+}
+
+/**
+ * Cambiar nombre de usuario (límite: 1 vez cada 30 días)
+ */
+function changeUsername($data) {
+    $userId      = (int)Security::sanitizeInput($data['userId']      ?? '', 'int');
+    $newUsername = Security::sanitizeInput($data['newUsername'] ?? '', 'string');
+    $password    = $data['password'] ?? '';
+
+    if (!$userId || empty($newUsername) || empty($password)) {
+        http_response_code(400);
+        return ['error' => 'Datos requeridos'];
+    }
+
+    if (!preg_match('/^[a-zA-Z0-9_\-]{3,30}$/', $newUsername)) {
+        http_response_code(400);
+        return ['error' => 'Solo letras, números, _ y - (3-30 caracteres)'];
+    }
+
+    try {
+        $conn = Database::getConnection();
+
+        $stmt = $conn->prepare('SELECT * FROM users WHERE id = ? LIMIT 1');
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch();
+
+        if (!$user) { http_response_code(404); return ['error' => 'Usuario no encontrado']; }
+
+        if (!Security::verifyPassword($password, $user['password'])) {
+            http_response_code(401);
+            return ['error' => 'Contraseña incorrecta'];
+        }
+
+        // Verificar cooldown de 30 días
+        if (!empty($user['username_changed_at'])) {
+            $secsPassed = time() - strtotime($user['username_changed_at']);
+            if ($secsPassed < 30 * 86400) {
+                $daysLeft = ceil((30 * 86400 - $secsPassed) / 86400);
+                http_response_code(429);
+                return ['error' => "Puedes cambiar tu usuario en $daysLeft día(s)"];
+            }
+        }
+
+        // Verificar unicidad
+        $check = $conn->prepare('SELECT id FROM users WHERE username = ? AND id != ? LIMIT 1');
+        $check->execute([$newUsername, $userId]);
+        if ($check->fetch()) {
+            http_response_code(409);
+            return ['error' => 'Ese nombre de usuario ya está en uso'];
+        }
+
+        $conn->prepare('UPDATE users SET username = ?, username_changed_at = CURRENT_TIMESTAMP WHERE id = ?')
+             ->execute([$newUsername, $userId]);
+
+        http_response_code(200);
+        return ['success' => true, 'newUsername' => $newUsername];
+
+    } catch (Exception $e) {
+        http_response_code(500);
+        return ['error' => 'Error al cambiar usuario'];
+    }
+}
+
+/**
+ * Cambiar contraseña
+ */
+function changePassword($data) {
+    $userId      = (int)Security::sanitizeInput($data['userId']      ?? '', 'int');
+    $oldPassword = $data['oldPassword'] ?? '';
+    $newPassword = $data['newPassword'] ?? '';
+
+    if (!$userId || empty($oldPassword) || empty($newPassword)) {
+        http_response_code(400);
+        return ['error' => 'Datos requeridos'];
+    }
+
+    if (strlen($newPassword) < 8) {
+        http_response_code(400);
+        return ['error' => 'La contraseña debe tener al menos 8 caracteres'];
+    }
+
+    try {
+        $conn = Database::getConnection();
+
+        $stmt = $conn->prepare('SELECT * FROM users WHERE id = ? LIMIT 1');
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch();
+
+        if (!$user) { http_response_code(404); return ['error' => 'Usuario no encontrado']; }
+
+        if (!Security::verifyPassword($oldPassword, $user['password'])) {
+            http_response_code(401);
+            return ['error' => 'Contraseña actual incorrecta'];
+        }
+
+        $hash = Security::hashPassword($newPassword);
+        $conn->prepare('UPDATE users SET password = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
+             ->execute([$hash, $userId]);
+
+        http_response_code(200);
+        return ['success' => true];
+
+    } catch (Exception $e) {
+        http_response_code(500);
+        return ['error' => 'Error al cambiar contraseña'];
+    }
+}
+
+/**
+ * Eliminar cuenta
+ */
+function deleteAccount($data) {
+    $userId   = (int)Security::sanitizeInput($data['userId'] ?? '', 'int');
+    $password = $data['password'] ?? '';
+
+    if (!$userId || empty($password)) {
+        http_response_code(400);
+        return ['error' => 'Datos requeridos'];
+    }
+
+    try {
+        $conn = Database::getConnection();
+
+        $stmt = $conn->prepare('SELECT * FROM users WHERE id = ? LIMIT 1');
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch();
+
+        if (!$user) { http_response_code(404); return ['error' => 'Usuario no encontrado']; }
+
+        // Google-only accounts may have an empty password hash; require password anyway
+        if (!empty($user['password']) && !Security::verifyPassword($password, $user['password'])) {
+            http_response_code(401);
+            return ['error' => 'Contraseña incorrecta'];
+        }
+
+        $conn->prepare('DELETE FROM users WHERE id = ?')->execute([$userId]);
+
+        // Destruir sesión PHP
+        if (session_status() !== PHP_SESSION_ACTIVE) session_start();
+        session_destroy();
+
+        http_response_code(200);
+        return ['success' => true];
+
+    } catch (Exception $e) {
+        http_response_code(500);
+        return ['error' => 'Error al eliminar cuenta'];
+    }
 }
 
 // ====================================
@@ -698,7 +979,12 @@ try {
     
     switch ($action) {
         case 'ping':
-            $response = ['status' => 'ok', 'message' => 'Wacheck API is running (SECURE)'];
+            $response = [
+                'status' => 'ok',
+                'message' => 'Wacheck API online',
+                'authenticated' => isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset($_SESSION['user_id']),
+                'user_id' => $_SESSION['user_id'] ?? null
+            ];
             break;
             
         case 'register':
@@ -722,6 +1008,22 @@ try {
             $response = resendVerification($requestData);
             break;
             
+        case 'change_username':
+            $response = changeUsername($requestData);
+            break;
+
+        case 'change_password':
+            $response = changePassword($requestData);
+            break;
+
+        case 'delete_account':
+            $response = deleteAccount($requestData);
+            break;
+
+        case 'get_profile':
+            $response = getProfile($requestData);
+            break;
+
         default:
             http_response_code(404);
             $response = ['error' => 'Action not found'];
@@ -732,11 +1034,8 @@ try {
     
 } catch (Exception $e) {
     Security::cleanOutput();
+    error_log('user_handler_SECURE.php exception: ' . $e->getMessage());
     http_response_code(500);
-    
-    if (EnvLoader::get('APP_DEBUG', 'false') === 'true') {
-        echo json_encode(['error' => $e->getMessage()]);
-    } else {
-        echo json_encode(['error' => 'Internal server error']);
-    }
+
+    echo json_encode(['error' => 'Internal server error']);
 }

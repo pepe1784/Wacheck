@@ -1,0 +1,60 @@
+{
+  "name": "Wacheck - Defensores del Agua",
+  "short_name": "Wacheck",
+  "description": "Juego educativo de defensa de torre sobre protección del agua. Universidad de Colima – Bachillerato 25 de Comala.",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0c1a2e",
+  "theme_color": "#0891b2",
+  "categories": ["games", "education"],
+  "lang": "es",
+  "icons": [
+    {
+      "src": "img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "img/screenshot-wide.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Pantalla de Juego - Escritorio"
+    },
+    {
+      "src": "img/screenshot-narrow.jpg",
+      "sizes": "390x844",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Pantalla de Juego - Móvil"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Jugar Ahora",
+      "short_name": "Jugar",
+      "description": "Empieza a jugar directamente",
+      "url": "/game-page.html",
+      "icons": [{ "src": "img/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Mi Perfil",
+      "short_name": "Perfil",
+      "description": "Ver mi progreso y recompensas",
+      "url": "/index.html#rewards",
+      "icons": [{ "src": "img/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

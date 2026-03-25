@@ -12,7 +12,7 @@ async function handleLogin() {
     }
 
     try {
-        const response = await fetch('api/user_handler_HYBRID.php?action=login', {
+        const response = await fetch('api/user_handler_SECURE.php?action=login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: username, password: password })
@@ -45,7 +45,7 @@ async function handleRegister() {
     }
 
     try {
-        const response = await fetch('api/user_handler_HYBRID.php?action=create_user', {
+        const response = await fetch('api/user_handler_SECURE.php?action=create_user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: username, password: password })
@@ -113,30 +113,55 @@ function login(userObject) {
         }
     }
     
-    // Actualizar UI
-    document.getElementById('userLogin').style.display = 'none'; // Ocultar el formulario de login
-    document.getElementById('userDropdown').style.display = 'none'; // Ocultar el desplegable por defecto
-    document.getElementById('userPanelToggle').textContent = '👤';
-
+    // Actualizar UI (null-safe: estos elementos solo existen en la versión antigua del lobby)
+    const _ul = document.getElementById('userLogin');
+    const _ud = document.getElementById('userDropdown');
+    const _upt = document.getElementById('userPanelToggle');
     const userInfoDiv = document.getElementById('userInfo');
-    // Asegurarse de que el contenedor de info de usuario esté visible
-    userInfoDiv.style.display = 'block';
-    userInfoDiv.innerHTML = `
-        <p>Usuario: <strong>${userObject.name}</strong></p>
-        <p>ID: <strong>${userObject.id}</strong></p>
-        <button class="logout-button" onclick="logout()">Cambiar Usuario</button>
-    `;
+    if (_ul)  _ul.style.display  = 'none';
+    if (_ud)  _ud.style.display  = 'none';
+    if (_upt) _upt.textContent   = '👤';
+    if (userInfoDiv) {
+        userInfoDiv.style.display = 'block';
+        userInfoDiv.textContent = '';
+
+        const pUser = document.createElement('p');
+        pUser.append('Usuario: ');
+        const strongUser = document.createElement('strong');
+        strongUser.textContent = String(userObject.name ?? '');
+        pUser.appendChild(strongUser);
+
+        const pId = document.createElement('p');
+        pId.append('ID: ');
+        const strongId = document.createElement('strong');
+        strongId.textContent = String(userObject.id ?? '');
+        pId.appendChild(strongId);
+
+        const logoutBtn = document.createElement('button');
+        logoutBtn.className = 'logout-button';
+        logoutBtn.textContent = 'Cambiar Usuario';
+        logoutBtn.addEventListener('click', logout);
+
+        userInfoDiv.appendChild(pUser);
+        userInfoDiv.appendChild(pId);
+        userInfoDiv.appendChild(logoutBtn);
+    }
 
     updateUnlockShop();
 }
 
 function logout() {
     localStorage.removeItem('wacheck_user'); // BORRAR SESIÓN
-    document.getElementById('userDropdown').style.display = 'block';
-    document.getElementById('userLogin').style.display = 'block';
-    document.getElementById('userInfo').style.display = 'none';
-    document.getElementById('userPanelToggle').textContent = '➕';
-    document.getElementById('usernameInput').value = '';
+    const _ud  = document.getElementById('userDropdown');
+    const _ul  = document.getElementById('userLogin');
+    const _ui  = document.getElementById('userInfo');
+    const _upt = document.getElementById('userPanelToggle');
+    const _ui2 = document.getElementById('usernameInput');
+    if (_ud)  _ud.style.display  = 'block';
+    if (_ul)  _ul.style.display  = 'block';
+    if (_ui)  _ui.style.display  = 'none';
+    if (_upt) _upt.textContent   = '➕';
+    if (_ui2) _ui2.value         = '';
     loginAsGuest();
 }
 
@@ -171,7 +196,7 @@ async function saveProgressToServer() {
                 unlockedChapters: storyState.unlockedChapters
             } : {}
         };
-        const response = await fetch('api/user_handler_HYBRID.php?action=save_progress', {
+        const response = await fetch('api/user_handler_SECURE.php?action=save_progress', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(progressData)
@@ -242,6 +267,7 @@ function loginAsGuest() {
     };
     gameState.specialCoins = 0;
     gameState.unlockedDefenders = ["filter","plant","recycler","cleaner","stream","bubble","wind","earth"];
-    document.getElementById('userLogin').style.display = 'block';
+    const _ul = document.getElementById('userLogin');
+    if (_ul) _ul.style.display = 'block';
     updateUnlockShop();
 }

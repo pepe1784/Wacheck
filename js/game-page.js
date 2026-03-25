@@ -5,14 +5,14 @@
 // Data structures
 const defenders = [
     // Defensores básicos del juego (siempre disponibles)
-    { id: "filter", name: "Filtro", emoji: "🔵", category: "low-cost", cost: 100, damage: 25, health: 100, range: 4, description: "Defensor básico que filtra contaminantes a distancia media." },
-    { id: "plant", name: "Planta", emoji: "🌱", category: "special", cost: 125, damage: 35, health: 150, range: 3, description: "Planta purificadora que se auto-cura con el tiempo." },
-    { id: "recycler", name: "Reciclador", emoji: "♻️", category: "damage", cost: 150, damage: 45, health: 120, range: 3, description: "Ataque rápido que recicla los desechos en energía." },
-    { id: "cleaner", name: "Purificador", emoji: "🧽", category: "damage", cost: 175, damage: 60, health: 100, range: 5, description: "Limpiador de alto alcance que elimina contaminantes a distancia." },
-    { id: "stream", name: "Chorro", emoji: "💧", category: "low-cost", cost: 75, damage: 18, health: 80, range: 3, description: "Económico y eficiente. Ideal para defensa temprana." },
-    { id: "bubble", name: "Burbuja", emoji: "🫧", category: "special", cost: 100, damage: 6, health: 60, range: 2, description: "Ralentiza a los enemigos con burbujas adhesivas." },
-    { id: "wind", name: "Viento", emoji: "💨", category: "special", cost: 125, damage: 18, health: 90, range: 3, description: "Empuja a los contaminantes hacia atrás." },
-    { id: "earth", name: "Tierra", emoji: "🪨", category: "tank", cost: 150, damage: 22, health: 250, range: 1, description: "Muro de tierra con gran resistencia que aturde al impactar." },
+    { id: "filter", name: "Filtro", emoji: "🔵", category: "low-cost", cost: 25, damage: 25, health: 50, range: 4, description: "Defensor básico que filtra contaminantes a distancia media." },
+    { id: "plant", name: "Planta", emoji: "🌱", category: "special", cost: 40, damage: 35, health: 100, range: 4, description: "Planta purificadora que se auto-cura con el tiempo." },
+    { id: "recycler", name: "Reciclador", emoji: "♻️", category: "damage", cost: 60, damage: 45, health: 70, range: 3, description: "Ataque rápido que recicla los desechos en energía." },
+    { id: "cleaner", name: "Purificador", emoji: "🧽", category: "damage", cost: 100, damage: 60, health: 100, range: 5, description: "Limpiador de alto alcance que elimina contaminantes a distancia." },
+    { id: "stream", name: "Chorro", emoji: "💧", category: "low-cost", cost: 20, damage: 18, health: 150, range: 6, description: "Económico y eficiente. Ideal para defensa temprana." },
+    { id: "bubble", name: "Burbuja", emoji: "🫧", category: "special", cost: 30, damage: 6, health: 150, range: 6, description: "Ralentiza a los enemigos con burbujas adhesivas." },
+    { id: "wind", name: "Viento", emoji: "💨", category: "special", cost: 20, damage: 18, health: 60, range: 4, description: "Empuja a los contaminantes hacia atrás." },
+    { id: "earth", name: "Tierra", emoji: "🪨", category: "tank", cost: 25, damage: 22, health: 80, range: 3, description: "Muro de tierra con gran resistencia que aturde al impactar." },
     
     // Defensores especiales desbloqueables
     { id: "water-shield", name: "Gota Escudo", emoji: "🛡️", category: "low-cost", cost: 50, damage: 15, health: 100, range: 1, description: "Defensor básico con escudo. Barato y resistente para las primeras líneas." },
@@ -160,6 +160,70 @@ const shopItems = [
 let selectedDefenders = [];
 let currentShopFilter = 'all';
 
+function showGamePageDialog(title, message, type = 'info') {
+    let overlay = document.getElementById('gamePageDialogOverlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'gamePageDialogOverlay';
+        overlay.className = 'game-page-dialog-overlay';
+        overlay.innerHTML = `
+            <div class="game-page-dialog" role="dialog" aria-modal="true" aria-labelledby="gamePageDialogTitle">
+                <h3 id="gamePageDialogTitle" class="game-page-dialog-title"></h3>
+                <div id="gamePageDialogMessage" class="game-page-dialog-message"></div>
+                <div class="game-page-dialog-actions">
+                    <button id="gamePageDialogOk" class="game-page-dialog-btn">Aceptar</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+        overlay.querySelector('#gamePageDialogOk').addEventListener('click', () => {
+            overlay.classList.remove('active');
+        });
+        overlay.addEventListener('click', (event) => {
+            if (event.target === overlay) {
+                overlay.classList.remove('active');
+            }
+        });
+    }
+
+    const titleEl = document.getElementById('gamePageDialogTitle');
+    const messageEl = document.getElementById('gamePageDialogMessage');
+    const dialogEl = overlay.querySelector('.game-page-dialog');
+
+    titleEl.textContent = title;
+    messageEl.innerHTML = message;
+    dialogEl.classList.remove('type-success', 'type-error', 'type-info');
+    dialogEl.classList.add(`type-${type}`);
+    overlay.classList.add('active');
+}
+
+function getStoredUser() {
+    const candidateKeys = ['wacheck_user', 'currentUser'];
+
+    for (const key of candidateKeys) {
+        const raw = localStorage.getItem(key);
+        if (!raw) continue;
+
+        try {
+            const user = JSON.parse(raw);
+            if (user && typeof user === 'object') {
+                return user;
+            }
+        } catch (error) {
+            console.warn(`⚠️ Invalid user JSON in ${key}:`, error);
+        }
+    }
+
+    return null;
+}
+
+function saveStoredUser(user) {
+    if (!user || typeof user !== 'object') return;
+
+    localStorage.setItem('wacheck_user', JSON.stringify(user));
+    localStorage.setItem('currentUser', JSON.stringify(user));
+}
+
 // Definición mínima de logros si achievements.js no está cargado
 if (typeof ACHIEVEMENTS === 'undefined') {
     window.ACHIEVEMENTS = {
@@ -249,11 +313,9 @@ function renderDefenders() {
     // Obtener defensores adicionales desbloqueados del usuario
     let unlockedDefenders = [...basicDefenders]; // Siempre incluir los básicos
     try {
-        const savedUser = localStorage.getItem('currentUser');
-        if (savedUser) {
-            const user = JSON.parse(savedUser);
+        const user = getStoredUser();
+        if (user) {
             const userUnlocked = user.unlockedDefenders || [];
-            // Combinar básicos con los desbloqueados del usuario (sin duplicados)
             unlockedDefenders = [...new Set([...basicDefenders, ...userUnlocked])];
             console.log('🔓 Defensores disponibles:', unlockedDefenders);
         }
@@ -341,6 +403,7 @@ function toggleDefender(id) {
         }
     }
     
+    saveSelectedDefenders(); // persistir selección inmediatamente
     updateSelectedSlots();
     renderDefenders();
 }
@@ -392,12 +455,10 @@ function updateSelectedSlots() {
 // Función para quitar defensor por índice del slot
 function removeDefenderByIndex(index) {
     if (index >= 0 && index < selectedDefenders.length) {
-        const removedId = selectedDefenders[index];
         selectedDefenders.splice(index, 1);
         saveSelectedDefenders();
         updateSelectedSlots();
         renderDefenders();
-        console.log(`🗑️ Defensor eliminado del slot ${index + 1}`);
     }
 }
 
@@ -406,6 +467,10 @@ function removeDefenderByIndex(index) {
 // ==========================================
 function renderStoryChapters() {
     const container = document.getElementById('storyChapters');
+    if (!container) {
+        console.warn('ℹ️ storyChapters container not found; skipping dynamic story render');
+        return;
+    }
     container.innerHTML = '';
     
     storyChapters.forEach(chapter => {
@@ -530,9 +595,8 @@ function renderShopItems(filter = 'all') {
     let unlockedDefenders = [...basicDefenders];
     let userCoins = 0;
     try {
-        const savedUser = localStorage.getItem('currentUser');
-        if (savedUser) {
-            const user = JSON.parse(savedUser);
+        const user = getStoredUser();
+        if (user) {
             const userUnlocked = user.unlockedDefenders || [];
             unlockedDefenders = [...new Set([...basicDefenders, ...userUnlocked])];
             userCoins = user.coins || 0;
@@ -597,15 +661,38 @@ function renderShopItems(filter = 'all') {
 
 function buyShopItem(defenderId) {
     const defender = defenders.find(d => d.id === defenderId);
-    const currentCoins = parseInt(document.getElementById('coins').textContent);
+    if (!defender) return;
+
+    const currentCoins = parseInt(document.getElementById('coins').textContent) || 0;
     
     if (currentCoins >= defender.cost) {
         const newCoins = currentCoins - defender.cost;
         document.getElementById('coins').textContent = newCoins;
         saveGameCoins(newCoins);
-        alert(`✅ ¡Has desbloqueado ${defender.name}!\n\n${defender.description}\n\n💥 Daño: ${defender.damage}\n❤️ Vida: ${defender.health}\n🎯 Alcance: ${defender.range}`);
+
+        const user = getStoredUser() || {};
+        const unlocked = Array.isArray(user.unlockedDefenders) ? user.unlockedDefenders : [];
+        if (!unlocked.includes(defender.id)) {
+            unlocked.push(defender.id);
+            user.unlockedDefenders = unlocked;
+            user.coins = newCoins;
+            saveStoredUser(user);
+        }
+
+        renderShopItems(currentShopFilter);
+        renderDefenders();
+
+        showGamePageDialog(
+            `✅ ${defender.name} desbloqueado`,
+            `${defender.description}<br><br>💥 Daño: <strong>${defender.damage}</strong><br>❤️ Vida: <strong>${defender.health}</strong><br>🎯 Alcance: <strong>${defender.range}</strong>`,
+            'success'
+        );
     } else {
-        alert(`❌ No tienes suficientes monedas.\n\nNecesitas: 💰 ${defender.cost}\nTienes: 💰 ${currentCoins}`);
+        showGamePageDialog(
+            '❌ No tienes suficientes monedas',
+            `Necesitas: 💰 <strong>${defender.cost}</strong><br>Tienes: 💰 <strong>${currentCoins}</strong>`,
+            'error'
+        );
     }
 }
 
@@ -628,25 +715,21 @@ shopFilters.forEach(filter => {
 function loadGameStats() {
     // Intentar cargar desde localStorage (datos del juego principal)
     try {
-        const savedUser = localStorage.getItem('currentUser');
-        if (savedUser) {
-            const user = JSON.parse(savedUser);
-            
-            // Actualizar monedas
+        const user = getStoredUser();
+        if (user) {
             if (user.coins !== undefined) {
                 document.getElementById('coins').textContent = user.coins;
             }
-            
-            // Actualizar estrellas
+
             if (user.stars !== undefined) {
                 document.getElementById('stars').textContent = user.stars || 0;
             }
-            
-            // Actualizar runas
-            if (user.runes !== undefined) {
-                document.getElementById('runes').textContent = user.runes || 0;
+
+            const userRunes = user.rewardsData?.runes ?? user.runes;
+            if (userRunes !== undefined) {
+                document.getElementById('runes').textContent = userRunes || 0;
             }
-            
+
             console.log('✅ Game stats loaded:', user);
         }
     } catch (error) {
@@ -657,11 +740,10 @@ function loadGameStats() {
 // Guardar monedas actualizadas
 function saveGameCoins(newCoins) {
     try {
-        const savedUser = localStorage.getItem('currentUser');
-        if (savedUser) {
-            const user = JSON.parse(savedUser);
+        const user = getStoredUser();
+        if (user) {
             user.coins = newCoins;
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            saveStoredUser(user);
         }
     } catch (error) {
         console.error('Error saving coins:', error);
@@ -725,19 +807,14 @@ function loadSelectedDefenders() {
     }
 }
 
-// Auto-save when selection changes
-const originalToggleDefender = toggleDefender;
-toggleDefender = function(id) {
-    originalToggleDefender(id);
-    saveSelectedDefenders();
-};
+// (auto-save now built directly into toggleDefender above)
 
 // ==========================================
 // Start Game from Page
 // ==========================================
 function startGameFromPage() {
     if (selectedDefenders.length === 0) {
-        alert('⚠️ Selecciona al menos 1 defensor para comenzar');
+        showGamePageDialog('⚠️ Selección requerida', 'Selecciona al menos 1 defensor para comenzar.', 'info');
         return;
     }
     
@@ -803,9 +880,9 @@ const UPGRADE_INFO = {
 };
 
 function renderUpgrades() {
-    const grid = document.getElementById('upgradesGrid');
+    const grid = document.getElementById('upgradesContainer') || document.getElementById('upgradesGrid');
     if (!grid) {
-        console.error('❌ upgradesGrid container not found');
+        console.error('❌ upgrades container not found');
         return;
     }
     
@@ -816,11 +893,10 @@ function renderUpgrades() {
     let upgrades = {};
     
     try {
-        const savedUser = localStorage.getItem('currentUser');
-        if (savedUser) {
-            const user = JSON.parse(savedUser);
-            userRunes = user.runes || 0;
-            
+        const user = getStoredUser();
+        if (user) {
+            userRunes = user.rewardsData?.runes ?? user.runes ?? 0;
+
             if (user.rewardsData && user.rewardsData.upgrades) {
                 upgrades = user.rewardsData.upgrades;
             }
@@ -864,8 +940,11 @@ function renderUpgrades() {
 
 function buyUpgrade(upgradeId) {
     console.log('🔮 Intentando comprar mejora:', upgradeId);
-    // Esta función será manejada por el juego principal
-    alert('💡 Las mejoras se compran en el menú de Mejoras del juego principal (botón ⬆️ en el menú flotante)');
+    showGamePageDialog(
+        '💡 Mejora disponible en partida',
+        'Las mejoras se compran en el menú de Mejoras del juego principal (botón ⬆️ en el menú flotante).',
+        'info'
+    );
 }
 
 // ==========================================
@@ -885,13 +964,10 @@ function renderAchievements(filter = 'all') {
     let achievementProgress = {};
     
     try {
-        const savedUser = localStorage.getItem('currentUser');
-        if (savedUser) {
-            const user = JSON.parse(savedUser);
-            if (user.achievementsData) {
-                unlockedAchievements = user.achievementsData.unlockedAchievements || [];
-                achievementProgress = user.achievementsData.progress || {};
-            }
+        const user = getStoredUser();
+        if (user && user.achievementsData) {
+            unlockedAchievements = user.achievementsData.unlockedAchievements || [];
+            achievementProgress = user.achievementsData.progress || {};
             console.log('👤 Unlocked achievements:', unlockedAchievements);
         }
     } catch (error) {
@@ -908,9 +984,10 @@ function renderAchievements(filter = 'all') {
     console.log('✅ ACHIEVEMENTS loaded:', Object.keys(ACHIEVEMENTS).length, 'achievements');
     
     const achievementsList = Object.values(ACHIEVEMENTS);
-    const filtered = filter === 'all' 
-        ? achievementsList 
-        : achievementsList.filter(a => a.category === filter);
+    const normalizedFilter = filter === 'eliminaciones' ? 'combate' : filter;
+    const filtered = normalizedFilter === 'all'
+        ? achievementsList
+        : achievementsList.filter(a => a.category === normalizedFilter);
     
     if (filtered.length === 0) {
         grid.innerHTML = '<p style="text-align: center; color: var(--color-muted-foreground);">No hay logros en esta categoría</p>';

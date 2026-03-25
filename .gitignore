@@ -7,6 +7,11 @@ upload.html
 # Configuración sensible
 .env
 api/.env
+api/.env.prod
+.env.docker
+.env.xampp
+.env.local
+.env.*.local
 
 # Archivos de respaldo
 *_backup.*
@@ -38,6 +43,15 @@ node_modules/
 apk/WacheckAPK/*.apk
 apk/WacheckAPK/*.idsig
 apk/WacheckAPK/electron-app/
+apk/WacheckAPK/Wacheck_APK_*.zip
+apk/WacheckAPK/wacheck-key-nuevo.jks
+apk/WacheckAPK/wacheck-release-key.jks
+
+# Recovery / temp files
+index.recovered.*
+*.recovered.*
+.playwright-mcp/
+css/landing_mcp.css
 apk/WacheckAPK/Wacheck_APK_*.zip
 apk/WacheckAPK/wacheck-key-nuevo.jks
 apk/WacheckAPK/wacheck-release-key.jks

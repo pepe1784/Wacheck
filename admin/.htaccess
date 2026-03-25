@@ -1,0 +1,25 @@
+# Admin panel - allow only index.php, deny directory listing and all other files
+Options -Indexes
+
+# Deny all by default
+Order deny,allow
+Deny from all
+
+# Allow only the admin index
+<Files "index.php">
+    Order allow,deny
+    Allow from all
+</Files>
+
+# Protection headers
+<IfModule mod_headers.c>
+    Header always set X-Robots-Tag "noindex, nofollow, nosnippet, noarchive"
+    Header always set X-Frame-Options "DENY"
+    Header always set X-Content-Type-Options "nosniff"
+</IfModule>
+
+# Block search engine indexing
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^$ index.php [L]
+</IfModule>

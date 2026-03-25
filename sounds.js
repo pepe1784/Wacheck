@@ -478,7 +478,7 @@ function playSoundFile(soundName) {
     
     // Reproducir
     audio.currentTime = 0;
-    audio.volume = soundVolumes[soundName] || 0.5;
+    audio.volume = (soundVolumes[soundName] || 0.5) * (window.masterVolume ?? 1);
     
     audio.play().catch(err => {
         activeSounds[soundName] = Math.max(0, (activeSounds[soundName] || 1) - 1);
@@ -604,6 +604,18 @@ if (typeof window.soundEnabled === 'undefined') {
     window.soundEnabled = (saved === 'false') ? false : true;
 }
 
+// Volumen maestro (0.0 - 1.0)
+if (typeof window.masterVolume === 'undefined') {
+    const savedVol = localStorage.getItem('wacheck_masterVolume');
+    window.masterVolume = savedVol !== null ? parseFloat(savedVol) : 1.0;
+}
+
+function setMasterVolume(v) {
+    window.masterVolume = Math.max(0, Math.min(1, v));
+    localStorage.setItem('wacheck_masterVolume', window.masterVolume);
+}
+window.setMasterVolume = setMasterVolume;
+
 function initAudio() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -618,11 +630,34 @@ function toggleSound() {
     
     // Actualizar ambos botones (global y del juego)
     const globalBtn = document.getElementById('soundToggle');
-    const gameBtn = document.getElementById('gameSoundToggle');
-    const icon = window.soundEnabled ? '🔊' : '🔇';
-    
-    if (globalBtn) globalBtn.textContent = icon;
-    if (gameBtn) gameBtn.textContent = icon;
+    const gameBtn   = document.getElementById('gameSoundToggle');
+    const lucideIcon = window.soundEnabled ? 'volume-2' : 'volume-x';
+
+    // Actualizar botón global (game.php / index.html style: contiene <i data-lucide>)
+    if (globalBtn) {
+        const ico = globalBtn.querySelector('[data-lucide]');
+        if (ico) {
+            ico.setAttribute('data-lucide', lucideIcon);
+            if (window.lucide) lucide.createIcons();
+        } else {
+            globalBtn.textContent = window.soundEnabled ? '🔊' : '🔇';
+        }
+    }
+    // Actualizar icono de volumen en index.html (#volumeIcon / #volumeBtn)
+    const volumeIcon = document.getElementById('volumeIcon');
+    if (volumeIcon) {
+        volumeIcon.setAttribute('data-lucide', lucideIcon);
+        if (window.lucide) lucide.createIcons();
+    }
+    if (gameBtn) {
+        const gameIco = gameBtn.querySelector('[data-lucide]');
+        if (gameIco) {
+            gameIco.setAttribute('data-lucide', lucideIcon);
+            if (window.lucide) lucide.createIcons();
+        } else {
+            gameBtn.textContent = window.soundEnabled ? '🔊' : '🔇';
+        }
+    }
 
     if (window.soundEnabled) {
         initAudio();
@@ -657,7 +692,7 @@ function playSound(frequency, duration, type = 'sine', volume = 0.1) {
     
     oscillator.frequency.value = frequency;
     oscillator.type = type;
-    gainNode.gain.value = volume;
+    gainNode.gain.value = volume * (window.masterVolume ?? 1.0);
     
     oscillator.start();
     oscillator.stop(audioContext.currentTime + duration);
@@ -666,6 +701,7 @@ function playSound(frequency, duration, type = 'sine', volume = 0.1) {
 // Exportar funciones de compatibilidad
 window.initAudio = initAudio;
 window.toggleSound = toggleSound;
+window.toggleSoundGlobal = toggleSound; // alias para index.html
 window.playSound = playSound;
 
 // Función para detener audios por nombre (ej: 'spawnBoss', 'gameOver')

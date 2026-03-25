@@ -2,30 +2,40 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wacheck - Juego | Defensores del Agua</title>
     <link rel="stylesheet" href="css/landing.css">
     <link rel="stylesheet" href="css/game-page.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="./img/vaporeon.jpg" type="image/x-icon">
+    <script src="js/lucide.min.js"></script>
 </head>
 <body>
+    <script>
+    // Sync theme from localStorage (set on index.html)
+    (function(){
+        var saved = localStorage.getItem('wacheck_theme');
+        if (saved === 'light') document.body.classList.add('light-theme');
+    })();
+    </script>
     <!-- Top bar -->
     <header class="game-header">
         <div class="container game-header-content">
             <a href="index.html" class="back-button">
-                <span>←</span> Volver
+                <i data-lucide="arrow-left"></i> Volver
             </a>
             <div class="game-logo">
-                <span class="game-logo-icon">💧</span>
+                <svg class="game-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24" aria-hidden="true">
+                    <path d="M12 2C6.5 8 2 12.5 2 16a10 10 0 0020 0c0-3.5-4.5-8-10-14z"/>
+                    <path d="M9 16a3 3 0 006 0"/>
+                </svg>
                 <span class="game-logo-text">Wacheck</span>
             </div>
             <div class="game-stats">
-                <span class="stat-item">💰 <span id="coins">100</span></span>
-                <span class="stat-item">⭐ <span id="stars">0</span></span>
-                <span class="stat-item">🔮 <span id="runes">0</span></span>
+                <span class="stat-item"><i data-lucide="circle-dollar-sign"></i> <span id="coins">100</span></span>
+                <span class="stat-item"><i data-lucide="star"></i> <span id="stars">0</span></span>
+                <span class="stat-item"><i data-lucide="gem"></i> <span id="runes">0</span></span>
             </div>
         </div>
     </header>
@@ -35,27 +45,27 @@
         <div class="container">
             <div class="tabs-wrapper">
                 <button class="tab-button active" data-tab="jugar">
-                    <span class="tab-icon">🎮</span>
+                    <span class="tab-icon"><i data-lucide="gamepad-2"></i></span>
                     <span class="tab-label">Jugar</span>
                 </button>
                 <button class="tab-button" data-tab="historia">
-                    <span class="tab-icon">📜</span>
+                    <span class="tab-icon"><i data-lucide="book-open"></i></span>
                     <span class="tab-label">Historia</span>
                 </button>
                 <button class="tab-button" data-tab="tutorial">
-                    <span class="tab-icon">🎓</span>
+                    <span class="tab-icon"><i data-lucide="graduation-cap"></i></span>
                     <span class="tab-label">Tutorial</span>
                 </button>
                 <button class="tab-button" data-tab="tienda">
-                    <span class="tab-icon">🏪</span>
+                    <span class="tab-icon"><i data-lucide="shopping-bag"></i></span>
                     <span class="tab-label">Tienda</span>
                 </button>
                 <button class="tab-button" data-tab="mejoras">
-                    <span class="tab-icon">🔮</span>
+                    <span class="tab-icon"><i data-lucide="sparkles"></i></span>
                     <span class="tab-label">Mejoras</span>
                 </button>
                 <button class="tab-button" data-tab="logros">
-                    <span class="tab-icon">🏆</span>
+                    <span class="tab-icon"><i data-lucide="trophy"></i></span>
                     <span class="tab-label">Logros</span>
                 </button>
             </div>
@@ -67,7 +77,7 @@
         <!-- Tab: Jugar -->
         <div class="tab-content active" id="jugar-tab">
             <div class="container">
-                <h2 class="section-title-game">🎮 Selecciona tu Equipo de Defensores</h2>
+                <h2 class="section-title-game">Selecciona tu Equipo de Defensores</h2>
                 <p class="section-description-game">
                     Elige hasta 8 defensores para llevar a la batalla. Cada uno tiene habilidades únicas que te ayudarán a proteger el agua.
                 </p>
@@ -95,7 +105,7 @@
                 <!-- Start Button -->
                 <div class="start-game-section">
                     <button class="start-game-button" id="startGameButton" onclick="startGameFromPage()">
-                        <span class="start-icon">🚀</span>
+                        <span class="start-icon"><i data-lucide="sword"></i></span>
                         <span class="start-text">Comenzar Batalla</span>
                     </button>
                     <p class="start-hint">Se te redirigirá al juego principal</p>
@@ -106,9 +116,9 @@
         <!-- Tab: Historia -->
         <div class="tab-content" id="historia-tab">
             <div class="container">
-                <h2 class="section-title-game">📜 Modo Historia</h2>
+                <h2 class="section-title-game">Historia: Defensores del Agua</h2>
                 <p class="section-description-game">
-                    Viaja a través de Colima y protege sus fuentes de agua en una épica aventura por la conservación.
+                    Avanza por capítulos, derrota jefes y desbloquea nuevas recompensas en esta campaña narrativa.
                 </p>
 
                 <div class="story-chapters" id="storyChapters">
@@ -120,7 +130,7 @@
         <!-- Tab: Tutorial -->
         <div class="tab-content" id="tutorial-tab">
             <div class="container">
-                <h2 class="section-title-game">🎓 Cómo Jugar Wacheck</h2>
+                <h2 class="section-title-game">Cómo Jugar Wacheck</h2>
                 <p class="section-description-game">
                     Aprende los fundamentos del juego y conviértete en un maestro defensor del agua.
                 </p>
@@ -134,7 +144,7 @@
         <!-- Tab: Tienda -->
         <div class="tab-content" id="tienda-tab">
             <div class="container">
-                <h2 class="section-title-game">🏪 Tienda de Defensores</h2>
+                <h2 class="section-title-game">Tienda de Defensores</h2>
                 <p class="section-description-game">
                     Compra y desbloquea nuevos defensores con tus monedas. Cada defensor tiene habilidades únicas para proteger el agua.
                 </p>
@@ -142,10 +152,10 @@
                 <!-- Shop Filters -->
                 <div class="shop-filters">
                     <button class="shop-filter-btn active" data-filter="all">Todos</button>
-                    <button class="shop-filter-btn" data-filter="low-cost">💵 Bajo Costo</button>
-                    <button class="shop-filter-btn" data-filter="damage">⚔️ Daño</button>
-                    <button class="shop-filter-btn" data-filter="tank">🛡️ Tanque</button>
-                    <button class="shop-filter-btn" data-filter="special">✨ Especiales</button>
+                    <button class="shop-filter-btn" data-filter="low-cost">Bajo Costo</button>
+                    <button class="shop-filter-btn" data-filter="damage">Daño</button>
+                    <button class="shop-filter-btn" data-filter="tank">Tanque</button>
+                    <button class="shop-filter-btn" data-filter="special">Especiales</button>
                 </div>
 
                 <div class="shop-items" id="shopItems">
@@ -157,13 +167,13 @@
         <!-- Tab: Mejoras -->
         <div class="tab-content" id="mejoras-tab">
             <div class="container">
-                <h2 class="section-title-game">🔮 Mejoras Permanentes</h2>
+                <h2 class="section-title-game">Mejoras Permanentes</h2>
                 <p class="section-description-game">
                     Usa tus runas 🔮 para comprar mejoras permanentes que te ayudarán en todas tus partidas.
                 </p>
 
-                <div class="upgrades-grid" id="upgradesGrid">
-                    <!-- Se llenará dinámicamente -->
+                <div class="upgrades-container" id="upgradesContainer">
+                    <!-- Se llenará dinámicamente desde rewards.js -->
                 </div>
             </div>
         </div>
@@ -171,7 +181,7 @@
         <!-- Tab: Logros -->
         <div class="tab-content" id="logros-tab">
             <div class="container">
-                <h2 class="section-title-game">🏆 Logros y Progreso</h2>
+                <h2 class="section-title-game">Logros y Progreso</h2>
                 <p class="section-description-game">
                     Completa logros para ganar recompensas y demostrar tu habilidad como defensor del agua.
                 </p>
@@ -184,23 +194,68 @@
                     <button class="achievement-filter-btn" data-filter="eliminaciones">Eliminaciones</button>
                     <button class="achievement-filter-btn" data-filter="jefes">Jefes</button>
                     <button class="achievement-filter-btn" data-filter="economia">Economía</button>
+                    <button class="achievement-filter-btn" data-filter="defensores">Defensores</button>
+                    <button class="achievement-filter-btn" data-filter="upgrades">Upgrades</button>
+                    <button class="achievement-filter-btn" data-filter="especial">Especial</button>
+                    <button class="achievement-filter-btn" data-filter="misiones">Misiones</button>
+                    <button class="achievement-filter-btn" data-filter="secreto">Secreto</button>
                 </div>
 
                 <div class="achievements-grid" id="achievementsGrid">
-                    <!-- Se llenará dinámicamente -->
+                    <!-- Se llenará dinámicamente desde achievements.js -->
                 </div>
             </div>
         </div>
     </main>
 
     <!-- Anti-Cheat System -->
-    <script src="anti-cheat.js"></script>
+    <script src="anti-cheat.js?v=10"></script>
     <!-- Daily Rewards System -->
-    <script src="daily-rewards-modal.js"></script>
+    <script src="daily-rewards-modal.js?v=10"></script>
     <!-- Guest User Manager -->
-    <script src="guest-user-manager.js"></script>
+    <script src="guest-user-manager.js?v=10"></script>
     <!-- Session Manager -->
-    <script src="session-manager.js"></script>
-    <script src="js/game-page.js"></script>
+    <script src="session-manager.js?v=10"></script>
+    <script>
+        window.gameState = window.gameState || {};
+        if (!window.gameState.currentUser) {
+            try {
+                const raw = localStorage.getItem('wacheck_user') || localStorage.getItem('currentUser');
+                window.gameState.currentUser = raw ? JSON.parse(raw) : null;
+            } catch (error) {
+                window.gameState.currentUser = null;
+            }
+        }
+    </script>
+    <script src="achievements.js?v=10"></script>
+    <script src="js/game-page.js?v=10"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) lucide.createIcons();
+            
+            // Tab navigation
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabName = button.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    button.classList.add('active');
+                    const targetTab = document.getElementById(`${tabName}-tab`);
+                    if (targetTab) {
+                        targetTab.classList.add('active');
+                        if (window.lucide) lucide.createIcons(); // Reinitialize lucide icons
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
+

@@ -10,7 +10,14 @@ $_SESSION = array();
 
 // Eliminar la cookie de sesión
 if (isset($_COOKIE[session_name()])) {
-    setcookie(session_name(), '', time() - 42000, '/');
+    $secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+    setcookie(session_name(), '', [
+        'expires' => time() - 42000,
+        'path' => '/',
+        'secure' => $secure,
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
 }
 
 // Destruir la sesión

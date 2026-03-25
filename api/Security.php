@@ -26,12 +26,11 @@ class Security {
      */
     private static function setSecurityHeaders() {
         // Prevenir ataques XSS
-        header('X-Frame-Options: DENY');
         header('X-Content-Type-Options: nosniff');
         header('X-XSS-Protection: 1; mode=block');
         
         // Content Security Policy
-        header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
+        header("Content-Security-Policy: default-src 'self'; frame-ancestors 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'");
         
         // HSTS (solo en producción)
         if (getenv('APP_ENV') === 'production') {

@@ -13,19 +13,24 @@ let storyState = {
 };
 
 // Definición de capítulos y misiones
+// Lore: El agua del mundo cobró conciencia gracias a la Runa de Marea.
+// El océano ascendió sin control. Los últimos archipiélagos son defendidos
+// por Guardianes — agua purificada que tomó forma. Solo el agua más pura
+// puede combatir el agua corrompida.
 const storyChapters = {
     1: {
-        name: "El Despertar",
-        description: "Aprende los fundamentos de la defensa acuática",
+        name: "La Conciencia del Océano",
+        description: "El agua despierta — aprende los fundamentos de la defensa",
         unlockRequirement: null,
         missions: [
             {
                 id: 1,
-                title: "Misión 1: Primeros Pasos",////Primeros Pasos 
-                subtitle: "Aprende a usar los defensores básicos",
+                title: "Misión I: El Primer Latido",
+                subtitle: "El océano recuerda quién era antes de ser corrompido",
                 story: [
-                    "El año es 2030. La contaminación ha alcanzado niveles críticos y las últimas reservas de agua limpia están bajo ataque.",
-                    "Tú eres el guardián de una de las últimas islas puras del planeta. Tu misión es proteger esta fuente de agua usando defensores ecológicos."
+                    "Hace siglos, el océano era puro. El agua circulaba libre, dando vida a todo lo que tocaba. Pero la humanidad vertió venenos en sus venas: petróleo, plástico, químicos.",
+                    "Un día, el agua dejó de ser solo agua. Algo despertó en sus profundidades — una voluntad milenaria, una memoria de pureza perdida.",
+                    "Tú eres el primer Guardián. El agua te ha elegido. Aprende a usarla antes de que el oleaje corrupto llegue a esta isla."
                 ],
                 objectives: [
                     { text: "Sobrevive 3 oleadas usando solo Filtros", reward: 1, completed: false },
@@ -39,7 +44,7 @@ const storyChapters = {
                 },
                 educational: {
                     title: "Los filtros de carbón activado",
-                    content: "Los filtros de carbón activado pueden eliminar más del 99% de las bacterias y virus del agua, así como químicos nocivos como el cloro y pesticidas. En la vida real, estos filtros se usan en plantas de tratamiento de agua y sistemas domésticos."
+                    content: "Los filtros de carbón activado pueden eliminar más del 99% de las bacterias y virus del agua, así como químicos nocivos como el cloro y pesticidas. En la vida real, estos filtros se usan en plantas de tratamiento de agua y sistemas domésticos de purificación."
                 },
                 restrictions: {
                     allowedDefenders: ["filter"],
@@ -50,17 +55,18 @@ const storyChapters = {
         ]
     },
     2: {
-        name: "La Naturaleza Contraataca",
-        description: "Descubre el poder de los defensores naturales",
+        name: "La Runa de Marea",
+        description: "Descubre el origen del caos — y el poder de la naturaleza viva",
         unlockRequirement: { chapter: 1, completed: true },
         missions: [
             {
                 id: 2,
-                title: "Misión 2: Poder Verde",
-                subtitle: "Aprende sobre la bioremediación",
+                title: "Misión II: La Runa Despierta",
+                subtitle: "La fuente del poder corrupto surge de las profundidades",
                 story: [
-                    "Has demostrado tu valía con los filtros básicos. Ahora es momento de aprender sobre el poder de la naturaleza.",
-                    "Las plantas no solo son hermosas, sino que son purificadores naturales increíblemente efectivos."
+                    "En el fondo del océano, grabada sobre una roca de obsidiana negra, existe la Runa de Marea. Nadie sabe quién la talló ni cuándo.",
+                    "Al contacto con décadas de veneno industrial, la Runa se activó — y el océano cobró conciencia de su propio sufrimiento. Pero esa conciencia estaba corrupta: llena de furia y dolor.",
+                    "Para combatir agua corrompida, necesitas agua viva. Las plantas son el puente entre la tierra y el mar — úsalas."
                 ],
                 objectives: [
                     { text: "Usa al menos 3 Plantas en tu defensa", reward: 2, completed: false },
@@ -74,7 +80,7 @@ const storyChapters = {
                 },
                 educational: {
                     title: "Bioremediación natural",
-                    content: "Las plantas acuáticas y los humedales actúan como filtros biológicos naturales. Absorben nitratos, fosfatos y otros contaminantes del agua, mientras producen oxígeno. Los humedales pueden procesar hasta 1000 litros de agua contaminada por metro cuadrado por día."
+                    content: "Las plantas acuáticas y los humedales actúan como filtros biológicos naturales. Absorben nitratos, fosfatos y otros contaminantes del agua, mientras producen oxígeno. Los humedales pueden procesar hasta 1000 litros de agua contaminada por metro cuadrado al día."
                 },
                 restrictions: {
                     allowedDefenders: ["plant", "filter"],
@@ -86,17 +92,18 @@ const storyChapters = {
         ]
     },
     3: {
-        name: "Tecnología Sostenible",
-        description: "Combina tecnología verde con defensa natural",
+        name: "Las Islas del Último Refugio",
+        description: "Los archipiélagos supervivientes combaten el avance del mar corrupto",
         unlockRequirement: { chapter: 2, completed: true },
         missions: [
             {
                 id: 3,
-                title: "Misión 3: Fusión Tecnológica",
-                subtitle: "Reciclar para proteger",
+                title: "Misión III: El Archipiélago Resistente",
+                subtitle: "Las últimas tierras se mantienen en pie gracias a la tecnología del reciclaje",
                 story: [
-                    "La crisis se intensifica. Necesitas tecnología más avanzada, pero debe ser sostenible.",
-                    "Los recicladores pueden transformar los desechos en energía limpia para fortalecer tus defensas."
+                    "Cuando el océano ascendió, las ciudades costeras desaparecieron primero. Solo sobrevivieron las islas más altas — y solo las que supieron purificarse.",
+                    "En estas islas vive la humanidad que aprendió a reciclar, a reusar, a cerrar el ciclo del agua. Aquí no se desperdicia nada. Todo vuelve a ser puro.",
+                    "El mar corrupto envía oleadas más densas ahora. Necesitas recicladores para transformar los venenos en energía de defensa."
                 ],
                 objectives: [
                     { text: "Construye al menos 5 Recicladores", reward: 2, completed: false },
@@ -110,7 +117,7 @@ const storyChapters = {
                 },
                 educational: {
                     title: "Economía circular del agua",
-                    content: "Los sistemas de reciclaje de agua pueden procesar y reutilizar hasta el 95% del agua residual. Las plantas de tratamiento modernas usan tecnología de membranas y procesos biológicos para producir agua tan limpia que puede volver a ser potable."
+                    content: "Los sistemas de reciclaje de agua pueden procesar y reutilizar hasta el 95% del agua residual. Las plantas de tratamiento modernas usan tecnología de membranas y procesos biológicos para producir agua tan limpia que puede volver a ser potable. En México, solo el 50% del agua residual recibe tratamiento — el resto regresa contaminada a ríos y mares."
                 },
                 restrictions: {
                     allowedDefenders: ["recycler", "plant", "filter"],
@@ -121,21 +128,22 @@ const storyChapters = {
         ]
     },
     4: {
-        name: "La Purificación Avanzada",
-        description: "Domina los sistemas de purificación más avanzados",
+        name: "Los Guardianes del Agua Pura",
+        description: "El agua purificada toma forma — los Guardianes despiertan",
         unlockRequirement: { chapter: 3, completed: true },
         missions: [
             {
                 id: 4,
-                title: "Misión 4: Pureza Absoluta",
-                subtitle: "Tecnología de punta para la crisis final",
+                title: "Misión IV: El Agua Toma Forma",
+                subtitle: "Cuando el agua alcanza pureza absoluta, recuerda quién fue antes de ser corrompida",
                 story: [
-                    "Los contaminantes se han vuelto más resistentes. Necesitas la tecnología más avanzada.",
-                    "Los purificadores representan lo mejor de la ingeniería ambiental moderna."
+                    "No todos los que defienden estas islas son humanos. Algunos son agua.",
+                    "El agua purificada al límite — sometida a filtros, plantas, recicladores, ciclos de limpieza — en algún punto deja de ser solo agua. Toma conciencia. Toma forma. Se convierte en un Guardián.",
+                    "Los Purificadores son el último paso. Con ellos, el agua alcanza su estado más elevado: el estado capaz de disolver cualquier corrupción."
                 ],
                 objectives: [
-                    { text: "Derrota al menos 2 contaminantes 'Tóxicos'", reward: 3, completed: false },
-                    { text: "Mantén tu isla 100% pura por 5 oleadas", reward: 2, completed: false },
+                    { text: "Derrota al menos 2 contaminantes Tóxicos", reward: 3, completed: false },
+                    { text: "Mantén tu isla en pie por 5 oleadas consecutivas", reward: 2, completed: false },
                     { text: "Usa todos los tipos de defensores disponibles", reward: 2, completed: false }
                 ],
                 rewards: {
@@ -144,8 +152,8 @@ const storyChapters = {
                     educational: true
                 },
                 educational: {
-                    title: "Tecnologías de purificación avanzada",
-                    content: "Los sistemas de ósmosis inversa pueden eliminar hasta el 99.9% de todos los contaminantes, incluyendo virus, bacterias, metales pesados y químicos. Un sistema doméstico puede procesar 300 litros de agua pura al día usando solo la presión del agua."
+                    title: "Ósmosis inversa: pureza máxima",
+                    content: "Los sistemas de ósmosis inversa pueden eliminar hasta el 99.9% de todos los contaminantes, incluyendo virus, bacterias, metales pesados y químicos industriales. Un sistema doméstico puede producir 300 litros de agua purísima al día usando solo la presión. Esta tecnología es la base del agua embotellada de alta calidad y de los sistemas de desalinización que abastecen ciudades costeras."
                 },
                 restrictions: {
                     allowedDefenders: ["cleaner", "recycler", "plant", "filter"],
@@ -156,17 +164,18 @@ const storyChapters = {
         ]
     },
     5: {
-        name: "El Guardián Definitivo",
-        description: "Enfréntate al desafío final",
+        name: "Tu Misión",
+        description: "La Runa de Marea convoca su ejército final — el océano corrupto ataca con todo",
         unlockRequirement: { chapter: 4, completed: true },
         missions: [
             {
                 id: 5,
-                title: "Misión 5: El Último Bastión",
-                subtitle: "Protege la última gota de agua pura",
+                title: "Misión V: El Leviatán de la Runa",
+                subtitle: "Solo el Guardián más puro puede enfrentarse a la conciencia corrompida del océano",
                 story: [
-                    "Esta es la batalla final. Todos los contaminantes del mundo convergen en tu isla.",
-                    "Eres la última esperanza de la humanidad para preservar el agua limpia. No puedes fallar."
+                    "La Runa de Marea ha reunido toda la corrupción acumulada durante siglos en una sola entidad: el Leviatán.",
+                    "No es solo un monstruo de agua sucia. Es la memoria de cada río envenenado, cada playa contaminada, cada gota de agua que alguna vez fue pura y luego fue traicionada.",
+                    "Eres el Guardián Comandante. El agua pura te ha entregado todo su poder. Esta es la última batalla — si el Leviatán cae, la Runa se romperá y el océano comenzará a sanar. No puedes fallar."
                 ],
                 objectives: [
                     { text: "Derrota al Leviatán (jefe final)", reward: 5, completed: false },
@@ -177,11 +186,11 @@ const storyChapters = {
                     coins: 15,
                     unlocks: ["kraken", "golem"],
                     educational: true,
-                    special: "Título: Guardián del Agua"
+                    special: "Título: Guardián del Agua Pura"
                 },
                 educational: {
-                    title: "El futuro del agua",
-                    content: "Con la tecnología actual, podríamos purificar toda el agua del planeta. El desafío no es técnico, sino de voluntad política y económica. Cada persona puede marcar la diferencia ahorrando agua, evitando contaminar fuentes naturales y apoyando tecnologías limpias."
+                    title: "El futuro del agua en México",
+                    content: "México enfrenta una crisis hídrica real: más de 12 millones de personas no tienen acceso a agua potable de calidad. Sin embargo, con tecnología de tratamiento accesible, plantas naturales de bioremediación y cultura de ahorro, podríamos garantizar agua limpia para todos. Cada litro de agua que cuidas hoy es una batalla ganada contra el Leviatán real."
                 },
                 restrictions: {
                     allowedDefenders: "all",

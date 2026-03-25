@@ -804,6 +804,23 @@ function getMissionIcon(type) {
 // Inicializar al cargar
 if (typeof window !== 'undefined') {
     window.addEventListener('load', () => {
-        initializeRewardsSystem();
+        // No mostrar popup de recompensas diarias en game.php (solo en index.html)
+        const isGamePage = window.location.pathname.includes('game.php');
+        if (isGamePage) {
+            // Solo inicializar datos (misiones, estado), sin popup
+            if (gameState.currentUser && gameState.currentUser.rewardsData) {
+                Object.assign(rewardsState, gameState.currentUser.rewardsData);
+            } else {
+                const savedRewards = localStorage.getItem('wacheck_rewards');
+                if (savedRewards) {
+                    try { Object.assign(rewardsState, JSON.parse(savedRewards)); } catch(e) {}
+                }
+            }
+            if (rewardsState.dailyMissions.length === 0) {
+                generateDailyMissions();
+            }
+        } else {
+            initializeRewardsSystem();
+        }
     });
 }

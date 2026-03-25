@@ -1,0 +1,62 @@
+# ============================================================
+# WACHECK API - MÁXIMA SEGURIDAD
+# Solo user_handler_SECURE.php, check-session.php, upload_image.php
+# y admin_handler.php son accesibles públicamente.
+# TODOS los demás PHP son internos y denegados.
+# ============================================================
+
+# ----- DESHABILITAR LISTADO DE DIRECTORIOS -----
+Options -Indexes -MultiViews
+
+# ----- DENY ALL POR DEFECTO -----
+Order deny,allow
+Deny from all
+
+# ----- PERMITIR SOLO ENDPOINTS PÚBLICOS -----
+<FilesMatch "^(user_handler_SECURE|check-session|upload_image|admin_handler|oauth_google)\.php$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# ----- BLOQUEAR ARCHIVOS SENSIBLES SIEMPRE -----
+<FilesMatch "(\.env|\.env\..*|EnvLoader\.php|Security\.php|\.bak|\.sql|\.log|\.git|\.htpasswd|\.example)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# ----- REWRITE PARA SEGURIDAD EXTRA -----
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Bloquear acceso a archivos ocultos
+    RewriteRule (^|/)\.(?!well-known) - [F,L]
+
+    # Bloquear path traversal
+    RewriteCond %{REQUEST_URI} \.\. [NC]
+    RewriteRule .* - [F,L]
+
+    # Bloquear inyección SQL en query strings
+    RewriteCond %{QUERY_STRING} (UNION.*SELECT|INSERT.*INTO|DROP.*TABLE|UPDATE.*SET|DELETE.*FROM) [NC]
+    RewriteRule .* - [F,L]
+
+    # Bloquear XSS en query strings
+    RewriteCond %{QUERY_STRING} (<script|javascript:|vbscript:|onload=|onerror=|eval\() [NC]
+    RewriteRule .* - [F,L]
+
+    # Bloquear ejecución remota de código
+    RewriteCond %{QUERY_STRING} (system\(|exec\(|passthru\(|shell_exec\(|phpinfo\(\)) [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# ----- HEADERS DE SEGURIDAD PARA LA API -----
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always unset X-Powered-By
+    Header always set Cache-Control "no-store, no-cache, must-revalidate"
+</IfModule>
+
+# ----- LIMITAR TAMAÑO DE PETICIÓN API (5MB) -----
+LimitRequestBody 5242880

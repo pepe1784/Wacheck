@@ -1,49 +1,114 @@
-# Forzar HTTPS (redirigir automáticamente HTTP a HTTPS)
+# ============================================================
+# WACHECK - CONFIGURACIÓN DE SEGURIDAD COMPLETA
+# Nivel: Grado bancario / Producción alta disponibilidad
+# ============================================================
+
+# ----- CHARSET UTF-8 GLOBAL (debe ir antes que cualquier otra regla) -----
+AddDefaultCharset UTF-8
+
+# ----- FORZAR HTTPS (DESHABILITADO EN LOCALHOST - re-habilitar en producción) -----
+# En localhost el redirect HTTP→HTTPS rompe el scope del service worker PWA.
+# Descomentar RewriteRule en producción con dominio real + SSL válido.
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    
-    # Si la petición NO es HTTPS, redirigir a HTTPS
-    RewriteCond %{HTTPS} off
-    RewriteCond %{HTTP:X-Forwarded-Proto} !https
-    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+    # Redirigir HTTP → HTTPS
+    # RewriteCond %{HTTPS} off
+    # RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    # RewriteCond %{HTTP_HOST} !^localhost
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+    # Bloquear acceso a archivos ocultos (.env, .git, etc.)
+    RewriteRule (^|/)\.(?!well-known) - [F,L]
+
+    # Bloquear intentos de path traversal y LFI
+    RewriteCond %{REQUEST_URI} \.\. [NC]
+    RewriteRule .* - [F,L]
+
+    # Bloquear payloads de inyección en query strings
+    RewriteCond %{QUERY_STRING} (eval\(|base64_decode|system\(|exec\(|passthru\(|shell_exec\(|phpinfo\(\)) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<script|javascript:|vbscript:|onload=|onerror=) [NC,OR]
+    RewriteCond %{QUERY_STRING} (UNION.*SELECT|INSERT.*INTO|DROP.*TABLE|UPDATE.*SET) [NC]
+    RewriteRule .* - [F,L]
+
+    # Bloquear user agents maliciosos conocidos
+    RewriteCond %{HTTP_USER_AGENT} (sqlmap|nikto|w3af|masscan|nmap|dirbuster|gobuster|havij) [NC]
+    RewriteRule .* - [F,L]
 </IfModule>
 
-# Habilitar CORS para API (permite APK comunicarse con el servidor)
+# ----- PROTEGER ARCHIVOS SENSIBLES -----
+<FilesMatch "(\.env|\.env\..*|\.git|\.gitignore|\.htpasswd|\.sql|composer\.(json|lock)|package(-lock)?\.json|tsconfig.*|drizzle\.config\.ts|tailwind\.config\.ts|vite\.config\.ts|postcss\.config\.js|README.*|CHECKLIST.*|\.bak|\.backup|~$)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Proteger carpeta api/, solo se accede por PHP
+<IfModule mod_rewrite.c>
+    RewriteRule ^api/(EnvLoader|Security)\.php$ - [F,L]
+</IfModule>
+
+# ----- HEADERS DE SEGURIDAD -----
 <IfModule mod_headers.c>
-    # Solo para archivos PHP en carpeta api
-    <FilesMatch "\.(php)$">
-        Header set Access-Control-Allow-Origin "*"
-        Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
-        Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+    # HSTS - 2 años, incluye subdominios
+    Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+
+    # Protección XSS
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # Evitar MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Anti-clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Permissions Policy (denegar funciones no necesarias)
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), accelerometer=(), gyroscope=()"
+
+    # Content Security Policy
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://accounts.google.com; frame-src https://accounts.google.com; media-src 'self' blob:; worker-src 'self' blob:;"
+
+    # Ocultar información del servidor
+    Header always unset X-Powered-By
+    Header always unset Server
+
+    # Cache-Control para HTML (nunca cachear respuestas dinámicas)
+    <FilesMatch "\.(php|html)$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
     </FilesMatch>
 </IfModule>
 
-# Configuración de seguridad adicional
-<IfModule mod_headers.c>
-    # HSTS (forzar HTTPS por 1 año después de la primera visita)
-    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-    
-    # Protección XSS
-    Header set X-XSS-Protection "1; mode=block"
-    
-    # Protección contra clickjacking
-    Header set X-Frame-Options "SAMEORIGIN"
-</IfModule>
-
-# Mejorar rendimiento (compresión)
+# ----- COMPRENSION GZIP -----
 <IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/manifest+json
 </IfModule>
 
-# Cache para recursos estáticos
+# ----- CACHE PARA RECURSOS ESTÁTICOS -----
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType image/jpg "access plus 1 year"
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/gif "access plus 1 year"
     ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
     ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
     ExpiresByType audio/mpeg "access plus 1 month"
+    ExpiresByType application/manifest+json "access plus 1 week"
 </IfModule>
+
+# ----- DESHABILITAR LISTADO DE DIRECTORIOS -----
+Options -Indexes -MultiViews
+
+# ----- LIMITAR MÉTODOS HTTP -----
+<LimitExcept GET POST OPTIONS HEAD>
+    Deny from all
+</LimitExcept>
+
+# ----- LIMITAR TAMAÑO DE PETICIÓN (10MB max upload) -----
+LimitRequestBody 10485760

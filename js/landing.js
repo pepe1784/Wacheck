@@ -149,7 +149,7 @@ const COST_PER_LITRE = 0.0158; // CIAPACOV 2025 tariff
 const activities = [
     {
         id: 'shower',
-        icon: '🚿',
+        icon: 'droplets',
         name: 'Ducha',
         question: '¿Cuántas veces te duchas al día?',
         litresPerUse: 80,
@@ -160,7 +160,7 @@ const activities = [
     },
     {
         id: 'toilet',
-        icon: '🚽',
+        icon: 'droplet',
         name: 'Ir al baño (WC)',
         question: '¿Cuántas veces jalas la cadena del WC al día?',
         litresPerUse: 6,
@@ -171,7 +171,7 @@ const activities = [
     },
     {
         id: 'teeth',
-        icon: '🪥',
+        icon: 'sparkles',
         name: 'Cepillado de dientes',
         question: '¿Cuántas veces te cepillas los dientes al día?',
         litresPerUse: 1,
@@ -185,7 +185,7 @@ const activities = [
     },
     {
         id: 'dishes',
-        icon: '🍽️',
+        icon: 'utensils',
         name: 'Lavar platos',
         question: '¿Cuántas veces lavas los platos al día?',
         litresPerUse: 20,
@@ -196,7 +196,7 @@ const activities = [
     },
     {
         id: 'laundry',
-        icon: '👕',
+        icon: 'shirt',
         name: 'Lavadora',
         question: '¿Cuántas cargas de lavadora pones por semana?',
         litresPerUse: 50,
@@ -221,7 +221,7 @@ function renderCalculatorActivities() {
         
         card.innerHTML = `
             <div class="activity-main">
-                <span class="activity-icon">${activity.icon}</span>
+                <span class="activity-icon"><i data-lucide="${activity.icon}"></i></span>
                 <div class="activity-info">
                     <div class="activity-name">${activity.name}</div>
                     <div class="activity-question">${activity.question}</div>
@@ -246,13 +246,14 @@ function renderCalculatorActivities() {
                     ${activity.toggleActive ? '<span class="toggle-warning">¡Gastas 12x más!</span>' : ''}
                 </div>
             ` : ''}
-            <div class="activity-source">📊 ${activity.source}</div>
+            <div class="activity-source"><i data-lucide="bar-chart-2" style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:4px"></i>${activity.source}</div>
         `;
         
         container.appendChild(card);
     });
     
     updateCalculatorResults();
+    if (window.lucide) lucide.createIcons();
 }
 
 function updateActivityTimes(activityId, change) {

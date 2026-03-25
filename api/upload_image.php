@@ -1,11 +1,21 @@
 <?php
 // Evitar cualquier salida antes del JSON
-// Mostrar errores mínimos para diagnóstico local (puedes desactivar en producción)
+// Evitar exponer trazas en respuesta HTTP
 error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
-// CORS - permitir que Live Share u otros clientes locales hagan requests
-header('Access-Control-Allow-Origin: *');
+// CORS restringido
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+$allowedOrigins = [
+    'http://localhost',
+    'http://127.0.0.1',
+    'http://localhost:5500',
+    'http://127.0.0.1:5500'
+];
+if ($origin && in_array($origin, $allowedOrigins, true)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Vary: Origin');
+}
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, X-Requested-With, X-File-Name');
 header('Content-Type: application/json; charset=utf-8');
@@ -153,7 +163,8 @@ try {
         echo json_encode(['success' => false, 'error' => 'No se recibió archivo']);
     }
 } catch (Exception $e) {
+    error_log('upload_image.php exception: ' . $e->getMessage());
     http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'Error del servidor: ' . $e->getMessage()]);
+    echo json_encode(['success' => false, 'error' => 'Error interno del servidor']);
 }
 ?>

@@ -1,26 +1,33 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+﻿<html lang="es"><head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wacheck - Defensores del Agua | Universidad de Colima</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://lh3.googleusercontent.com; connect-src 'self';">
+    <meta name="description" content="Wacheck: juego educativo tipo Tower Defense sobre protección del agua. Bachillerato 25, Universidad de Colima.">
+    <meta name="theme-color" content="#0891b2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Wacheck">
+    <meta property="og:title" content="Wacheck – Defensores del Agua">
+    <meta property="og:description" content="Protege el agua. Defiende la Tierra. Juega y aprende.">
+    <meta property="og:image" content="img/hero-banner.jpg">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="img/icon-192.png">
+    <link rel="icon" type="image/png" href="img/vaporeon.png">
+    <title>Wacheck – Defensores del Agua | Universidad de Colima</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/landing.css">
     <link rel="stylesheet" href="css/auth-modal.css">
-    <!-- Anti-Cheat System -->
-    <script src="anti-cheat.js" defer></script>
-    <!-- Daily Rewards System -->
-    <script src="daily-rewards-modal.js" defer></script>
-    <!-- Guest User Manager -->
-    <script src="guest-user-manager.js" defer></script>
-    <!-- Session Manager -->
-    <script src="session-manager.js" defer></script>
-    <script src="sounds.js" defer></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="./img/vaporeon.jpg" type="image/x-icon">
+    <script src="anti-cheat.js" defer=""></script>
+    <script src="daily-rewards-modal.js" defer=""></script>
+    <script src="guest-user-manager.js" defer=""></script>
+    <script src="session-manager.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js" defer=""></script>
+    <script src="js/animations.js" defer=""></script>
+    <script src="sounds.js" defer=""></script>
 </head>
-<body>
+<body class="loaded light-theme"><a href="#inicio" class="skip-to-content" style="position: absolute; top: -100px; left: 10px; z-index: 9999; padding: 10px 20px; background: var(--color-primary); color: white; text-decoration: none; border-radius: 5px; transition: top 0.3s;">Saltar al contenido</a>
     <!-- Navbar -->
     <header class="navbar" id="navbar">
         <!-- Top utility bar -->
@@ -30,14 +37,17 @@
                     <a href="https://www.ucol.mx/" target="_blank" rel="noopener">Sitio UdeC</a>
                     <a href="https://portal.ucol.mx/bach25/" target="_blank" rel="noopener">Portal Bach. 25</a>
                 </div>
-                <span class="nav-utility-badge">🌍 Proyecto de Educación Ambiental</span>
+                <span class="nav-utility-badge">Proyecto de Educación Ambiental</span>
             </div>
         </div>
 
         <!-- Main nav -->
         <div class="container nav-main">
-            <a href="#inicio" class="nav-logo">
-                <span class="nav-logo-icon">💧</span>
+            <a href="#inicio" class="nav-logo" aria-label="Inicio Wacheck">
+                <svg class="nav-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                    <path d="M12 2C6.5 8 2 12.5 2 16a10 10 0 0020 0c0-3.5-4.5-8-10-14z"></path>
+                    <path d="M9 16a3 3 0 006 0"></path>
+                </svg>
                 <div class="nav-logo-text">
                     <span class="nav-logo-title">Wacheck</span>
                     <span class="nav-logo-subtitle">Universidad de Colima</span>
@@ -46,35 +56,38 @@
 
             <!-- Desktop nav -->
             <nav class="nav-links">
-                <a href="#inicio" class="nav-link">Inicio</a>
+                <a href="#inicio" class="nav-link active">Inicio</a>
                 <a href="#sobre" class="nav-link">Sobre el Juego</a>
                 <a href="#caracteristicas" class="nav-link">Características</a>
                 <a href="#bachillerato" class="nav-link">Bachillerato 25</a>
                 <a href="#calculadora" class="nav-link">Calculadora</a>
-                <a href="#rewards" class="nav-link">🎁 Recompensas</a>
-                <button class="volume-btn" id="volumeBtn" onclick="toggleVolume()" title="Volumen">
-                    <span id="volumeIcon">🔊</span>
+                <a href="#recompensas" class="nav-link">Recompensas</a>
+                <button class="nav-icon-btn" id="volumeBtn" onclick="toggleVolume()" title="Volumen" aria-label="Controlar volumen">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="volume-2" aria-hidden="true" id="volumeIcon" class="lucide lucide-volume-2"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>
                 </button>
-                <button class="nav-cta" onclick="openLoginModal()">🔐 Iniciar Sesión</button>
+                <button class="nav-icon-btn" onclick="toggleTheme()" title="Tema" aria-label="Cambiar tema">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="moon" aria-hidden="true" class="lucide lucide-moon"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg>
+                </button>
+                <button class="nav-cta" id="navLoginBtn" style="background: linear-gradient(135deg, rgb(5, 150, 105) 0%, rgb(4, 120, 87) 100%);"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span class="nav-user-name">Fabian</span></button>
             </nav>
 
             <!-- Mobile hamburger -->
             <button class="nav-hamburger" id="navHamburger" aria-label="Menú">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path id="hamburgerIcon" d="M3 12h18M3 6h18M3 18h18" />
+                    <path id="hamburgerIcon" d="M3 12h18M3 6h18M3 18h18"></path>
                 </svg>
             </button>
         </div>
 
         <!-- Mobile menu -->
         <div class="nav-mobile" id="navMobile">
-            <a href="#inicio" class="nav-mobile-link">Inicio</a>
+            <a href="#inicio" class="nav-mobile-link active">Inicio</a>
             <a href="#sobre" class="nav-mobile-link">Sobre el Juego</a>
             <a href="#caracteristicas" class="nav-mobile-link">Características</a>
             <a href="#bachillerato" class="nav-mobile-link">Bachillerato 25</a>
             <a href="#calculadora" class="nav-mobile-link">Calculadora</a>
-            <a href="#rewards" class="nav-mobile-link">🎁 Recompensas</a>
-            <button class="nav-mobile-cta" onclick="openLoginModal()" style="width: 100%; text-align: center; border: none; cursor: pointer;">🎮 ¡Jugar!</button>
+                <a href="#recompensas" class="nav-mobile-link">Recompensas</a>
+            <button class="nav-mobile-cta" style="background: linear-gradient(135deg, rgb(5, 150, 105) 0%, rgb(4, 120, 87) 100%);"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span class="nav-user-name">Fabian</span></button>
         </div>
     </header>
 
@@ -83,66 +96,188 @@
         <div class="user-menu-overlay" id="userMenuOverlay"></div>
         <div class="user-menu-content">
             <div class="user-menu-header" id="userMenuHeader">
-                <span class="user-menu-name" id="userMenuName">Usuario</span>
-                <span class="user-menu-email" id="userMenuEmail"></span>
+                <img id="userMenuAvatar" class="user-menu-avatar" src="" alt="" style="display:none">
+                <div id="userMenuAvatarFallback" class="user-menu-avatar-fallback">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg>
+                </div>
+                <div class="user-menu-info">
+                    <span class="user-menu-name" id="userMenuName">Usuario</span>
+                    <span class="user-menu-email" id="userMenuEmail"></span>
+                </div>
             </div>
-            <button class="user-menu-item" id="menuGoToGame">
-                🎮 Ir al Juego
-            </button>
-            <button class="user-menu-item" id="menuViewRewards">
-                🎁 Ver Recompensas
-            </button>
-            <button class="user-menu-item" id="menuMyProgress">
-                📊 Mi Progreso
-            </button>
-            <button class="user-menu-item" id="menuLinkAccount" style="display: none;">
-                🔗 Vincular Cuenta
-            </button>
-            <button class="user-menu-item danger" id="menuLogout">
-                🚪 Cerrar Sesión
-            </button>
+            <button class="user-menu-item" id="menuGoToGame"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="gamepad-2" aria-hidden="true" class="lucide lucide-gamepad-2"><line x1="6" x2="10" y1="11" y2="11"></line><line x1="8" x2="8" y1="9" y2="13"></line><line x1="15" x2="15.01" y1="12" y2="12"></line><line x1="18" x2="18.01" y1="10" y2="10"></line><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path></svg> Ir al Juego</button>
+            <button class="user-menu-item" id="menuViewRewards"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="gift" aria-hidden="true" class="lucide lucide-gift"><path d="M12 7v14"></path><path d="M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"></path><path d="M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5"></path><rect x="3" y="7" width="18" height="4" rx="1"></rect></svg> Ver Recompensas</button>
+            <button class="user-menu-item" id="menuMyProgress"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="bar-chart-2" aria-hidden="true" class="lucide lucide-bar-chart-2"><path d="M5 21v-6"></path><path d="M12 21V3"></path><path d="M19 21V9"></path></svg> Mi Progreso</button>
+            <button class="user-menu-item" id="menuSettings"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="settings" aria-hidden="true" class="lucide lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg> Configuración</button>
+            <button class="user-menu-item" id="menuLinkAccount" style="display: none;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="link" aria-hidden="true" class="lucide lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> Vincular Cuenta</button>
+            <div class="user-menu-divider"></div>
+            <button class="user-menu-item danger" id="menuLogout"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="log-out" aria-hidden="true" class="lucide lucide-log-out"><path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg> Cerrar Sesión</button>
         </div>
     </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel-overlay" id="settingsPanel" style="display:none">
+        <div class="settings-panel-backdrop" id="settingsPanelBackdrop"></div>
+        <div class="settings-panel-content">
+            <div class="settings-panel-header">
+                <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="settings" aria-hidden="true" class="lucide lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg> Configuración</h2>
+                <button class="settings-panel-close" id="settingsPanelClose" aria-label="Cerrar"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+            </div>
+
+            <div class="settings-tabs-nav">
+                <button class="settings-tab-btn active" data-settab="account"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Cuenta</button>
+                <button class="settings-tab-btn" data-settab="sound"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="volume-2" aria-hidden="true" class="lucide lucide-volume-2"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg> Sonido</button>
+                <button class="settings-tab-btn" data-settab="more"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="layout-grid" aria-hidden="true" class="lucide lucide-layout-grid"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg> Más</button>
+            </div>
+
+            <div class="settings-tabs-body">
+
+                <!-- ===== TAB: CUENTA ===== -->
+                <div class="settings-tab-content active" id="settingsTabAccount">
+
+                    <!-- Perfil -->
+                    <div class="settings-profile-card">
+                        <div class="settings-avatar-wrap">
+                            <img id="settingsAvatarImg" class="settings-avatar-img" src="" alt="" style="display:none">
+                            <div id="settingsAvatarFallback" class="settings-avatar-fallback">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="settings-profile-name" id="settingsProfileName">–</div>
+                            <div class="settings-profile-email" id="settingsProfileEmail">–</div>
+                        </div>
+                    </div>
+
+                    <!-- Apodo (local) -->
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Apodo</h3>
+                        <p class="settings-section-desc">Nombre corto que aparece en la barra de navegación</p>
+                        <input type="text" class="settings-input" id="settingsNickname" placeholder="Ej: Fabian" maxlength="20">
+                        <button class="settings-btn" id="settingsSaveNickname">Guardar apodo</button>
+                        <p class="settings-msg" id="settingsNicknameMsg"></p>
+                    </div>
+
+                    <!-- Cambiar nombre de usuario -->
+                    <div class="settings-section" id="settingsUsernameSection">
+                        <h3 class="settings-section-title">Nombre de usuario</h3>
+                        <p class="settings-section-desc" id="settingsUsernameCooldownInfo">Puedes cambiarlo cada 30 días</p>
+                        <input type="text" class="settings-input" id="settingsNewUsername" placeholder="Nuevo nombre (3-30 chars)">
+                        <input type="password" class="settings-input" id="settingsUsernamePassword" placeholder="Contraseña actual">
+                        <button class="settings-btn" id="settingsSaveUsername">Cambiar usuario</button>
+                        <p class="settings-msg" id="settingsUsernameMsg"></p>
+                    </div>
+
+                    <!-- Cambiar contraseña -->
+                    <div class="settings-section" id="settingsPasswordSection">
+                        <h3 class="settings-section-title">Contraseña</h3>
+                        <input type="password" class="settings-input" id="settingsOldPassword" placeholder="Contraseña actual">
+                        <input type="password" class="settings-input" id="settingsNewPassword" placeholder="Nueva contraseña (mín 8 chars)">
+                        <input type="password" class="settings-input" id="settingsConfirmPassword" placeholder="Confirmar nueva contraseña">
+                        <button class="settings-btn" id="settingsSavePassword">Cambiar contraseña</button>
+                        <p class="settings-msg" id="settingsPasswordMsg"></p>
+                    </div>
+
+                    <!-- Zona peligrosa -->
+                    <div class="settings-section settings-danger-zone">
+                        <h3 class="settings-section-title" style="color:#f87171">Zona peligrosa</h3>
+                        <p class="settings-section-desc">Esta acción no se puede deshacer. Se borrarán todos tus datos.</p>
+                        <button class="settings-btn-danger" id="settingsDeleteAccount">Eliminar mi cuenta</button>
+                        <p class="settings-msg" id="settingsDeleteMsg"></p>
+                    </div>
+                </div>
+
+                <!-- ===== TAB: SONIDO ===== -->
+                <div class="settings-tab-content" id="settingsTabSound">
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Volumen general</h3>
+                        <p class="settings-section-desc">Ajusta el volumen de todos los sonidos del juego</p>
+                        <div class="settings-volume-wrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="volume-x" aria-hidden="true" class="lucide lucide-volume-x"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><line x1="22" x2="16" y1="9" y2="15"></line><line x1="16" x2="22" y1="9" y2="15"></line></svg>
+                            <input type="range" class="settings-slider" id="settingsVolumeSlider" min="0" max="100" step="1" value="100">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="volume-2" aria-hidden="true" class="lucide lucide-volume-2"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>
+                            <span class="settings-volume-pct" id="settingsVolumeValue">100%</span>
+                        </div>
+                        <button class="settings-btn-secondary" id="settingsTestSound"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="play-circle" aria-hidden="true" class="lucide lucide-play-circle"><path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z"></path><circle cx="12" cy="12" r="10"></circle></svg> Probar sonido</button>
+                    </div>
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Activar sonido</h3>
+                        <div class="settings-toggle-row">
+                            <span>Sonido del juego</span>
+                            <label class="settings-toggle">
+                                <input type="checkbox" id="settingsSoundEnabled" checked="">
+                                <span class="settings-toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== TAB: MÁS ===== -->
+                <div class="settings-tab-content" id="settingsTabMore">
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Apariencia</h3>
+                        <div class="settings-toggle-row">
+                            <span>Tema oscuro</span>
+                            <label class="settings-toggle">
+                                <input type="checkbox" id="settingsThemeToggle" checked="">
+                                <span class="settings-toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Mi progreso</h3>
+                        <button class="settings-btn-secondary" id="settingsViewProgress"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="bar-chart-2" aria-hidden="true" class="lucide lucide-bar-chart-2"><path d="M5 21v-6"></path><path d="M12 21V3"></path><path d="M19 21V9"></path></svg> Ver estadísticas</button>
+                    </div>
+                    <div class="settings-section">
+                        <h3 class="settings-section-title">Sesión</h3>
+                        <button class="settings-btn-secondary" id="settingsCheckSession"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield-check" aria-hidden="true" class="lucide lucide-shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg> Verificar sesión del servidor</button>
+                        <p class="settings-msg" id="settingsSessionMsg"></p>
+                    </div>
+                </div>
+
+            </div><!-- /settings-tabs-body -->
+        </div><!-- /settings-panel-content -->
+    </div><!-- /settingsPanel -->
 
     <!-- Progress Modal -->
     <div class="progress-modal" id="progressModal" style="display: none;">
         <div class="progress-overlay" id="progressOverlay"></div>
         <div class="progress-modal-content">
-            <button class="progress-modal-close" id="progressModalClose">✕</button>
+            <button class="progress-modal-close" id="progressModalClose" aria-label="Cerrar"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
             
             <div class="progress-header">
-                <div class="progress-icon">📊</div>
+                <div class="progress-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="bar-chart-2" aria-hidden="true" class="lucide lucide-bar-chart-2"><path d="M5 21v-6"></path><path d="M12 21V3"></path><path d="M19 21V9"></path></svg></div>
                 <h2 class="progress-title">Tu Progreso</h2>
                 <p class="progress-subtitle" id="progressUserName">Usuario</p>
             </div>
 
             <div class="progress-stats-grid">
                 <div class="progress-stat-card">
-                    <div class="progress-stat-icon">💰</div>
+                    <div class="progress-stat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="coins" aria-hidden="true" class="lucide lucide-coins"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48"></path><path d="M15 6h1v4"></path><path d="m6.134 14.768.866-.5 2 3.464"></path><circle cx="16" cy="8" r="6"></circle></svg></div>
                     <div class="progress-stat-value" id="progressCoins">0</div>
                     <div class="progress-stat-label">Monedas</div>
                 </div>
 
                 <div class="progress-stat-card">
-                    <div class="progress-stat-icon">⭐</div>
+                    <div class="progress-stat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="star" aria-hidden="true" class="lucide lucide-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg></div>
                     <div class="progress-stat-value" id="progressSpecialCoins">0</div>
                     <div class="progress-stat-label">Especiales</div>
                 </div>
 
                 <div class="progress-stat-card">
-                    <div class="progress-stat-icon">🔮</div>
+                    <div class="progress-stat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="gem" aria-hidden="true" class="lucide lucide-gem"><path d="M10.5 3 8 9l4 13 4-13-2.5-6"></path><path d="M17 3a2 2 0 0 1 1.6.8l3 4a2 2 0 0 1 .013 2.382l-7.99 10.986a2 2 0 0 1-3.247 0l-7.99-10.986A2 2 0 0 1 2.4 7.8l2.998-3.997A2 2 0 0 1 7 3z"></path><path d="M2 9h20"></path></svg></div>
                     <div class="progress-stat-value" id="progressRunes">0</div>
                     <div class="progress-stat-label">Runas</div>
                 </div>
 
                 <div class="progress-stat-card">
-                    <div class="progress-stat-icon">🏅</div>
+                    <div class="progress-stat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="award" aria-hidden="true" class="lucide lucide-award"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg></div>
                     <div class="progress-stat-value" id="progressStars">0</div>
                     <div class="progress-stat-label">Estrellas</div>
                 </div>
 
                 <div class="progress-stat-card">
-                    <div class="progress-stat-icon">🛡️</div>
+                    <div class="progress-stat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield" aria-hidden="true" class="lucide lucide-shield"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg></div>
                     <div class="progress-stat-value" id="progressDefenders">8</div>
                     <div class="progress-stat-label">Defensores</div>
                 </div>
@@ -154,7 +289,7 @@
     <div class="confirm-modal" id="confirmModal" style="display: none;">
         <div class="confirm-overlay" id="confirmOverlay"></div>
         <div class="confirm-modal-content">
-            <div class="confirm-icon">⚠️</div>
+            <div class="confirm-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="alert-triangle" aria-hidden="true" class="lucide lucide-alert-triangle"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg></div>
             <h3 class="confirm-title">¿Cerrar Sesión?</h3>
             <p class="confirm-message">¿Estás seguro de que deseas cerrar sesión?</p>
             <div class="confirm-buttons">
@@ -165,140 +300,266 @@
     </div>
 
     <!-- Hero Section -->
-    <section id="inicio" class="hero-section">
-        <!-- Background image -->
-        <div class="hero-background">
-            <img src="img/hero-banner.jpg" alt="Defensores del Agua - Universidad de Colima" class="hero-background-img">
-            <div class="hero-background-overlay"></div>
+    <section id="inicio" class="hero">
+        <!-- CSS animated ocean layers (no emojis) -->
+        <div class="hero-ocean" aria-hidden="true">
+            <div class="ocean-layer ocean-back"></div>
+            <div class="ocean-layer ocean-mid"></div>
+            <div class="ocean-layer ocean-front"></div>
         </div>
+        <div class="hero-overlay" aria-hidden="true"></div>
 
-        <!-- Floating water elements -->
-        <div class="hero-water-elements">
-            <span class="water-drop" style="animation-delay: 0s;">💧</span>
-            <span class="water-drop" style="animation-delay: 1.5s;">💧</span>
-            <span class="water-drop" style="animation-delay: 3s;">💧</span>
-            <span class="water-drop" style="animation-delay: 4.5s;">💧</span>
-            <span class="water-drop" style="animation-delay: 6s;">💧</span>
-            <span class="water-drop" style="animation-delay: 7.5s;">💧</span>
-        </div>
-
-        <!-- Content -->
-        <div class="container hero-content">
-            <!-- Official UCol Logo -->
-            <div class="hero-logo">
-                <span class="hero-logo-text">🎓</span>
+        <div class="container hero-content" style="animation: 0.8s ease-out 0s 1 normal none running fadeInUp;">
+            <div class="hero-institutional">
+                <img src="IMG_institucion/EscudoPNG2Lizq/PNG 2L izq/UdeC_2L izq Blanco.png" alt="Universidad de Colima" class="hero-ucol-logo" onerror="this.style.display='none'">
+                <span class="hero-institutional-text">Bachillerato 25 · Comala, Col.</span>
             </div>
 
-            <!-- Institutional badge -->
-            <div class="hero-badge">
-                <span>Universidad de Colima · Bachillerato 25</span>
+            <div class="hero-game-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield" aria-hidden="true" class="lucide lucide-shield"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+                <span>Tower Defense Educativo</span>
             </div>
 
-            <h1 class="hero-title">Wacheck</h1>
-            <p class="hero-subtitle">Defensores del Agua</p>
+            <h1 class="hero-title">
+                <span class="hero-title-main">Wacheck</span>
+                <span class="hero-title-sub">Defensores del Agua</span>
+            </h1>
+
             <p class="hero-description">
-                Únete a la misión de proteger nuestras fuentes de agua de los contaminantes.
-                ¡Defiende tu isla y salva el planeta en este juego educativo tipo Tower Defense!
+                El agua del mundo ha despertado. Las islas que quedan son el último refugio de la humanidad.
+                Defiéndelas con guardianes del agua pura contra las hordas de contaminación que buscan la inundación total.
             </p>
 
-            <!-- CTA Buttons -->
-            <div class="hero-buttons">
-                <button class="hero-btn-primary" onclick="handlePlayButton()" style="border: none; cursor: pointer;">
-                    <span>🎮</span>
-                    ¡Jugar Ahora!
+            <div class="hero-actions">
+                <button class="btn-hero-primary" onclick="handlePlayButton()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="play-circle" aria-hidden="true" class="lucide lucide-play-circle"><path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                    <span>Jugar Ahora</span>
                 </button>
-                <a href="#sobre" class="hero-btn-secondary">
-                    <span>📖</span>
-                    Conoce más
+                <a href="#sobre" class="btn-hero-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="book-open" aria-hidden="true" class="lucide lucide-book-open"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg>
+                    <span>La Historia</span>
                 </a>
             </div>
+
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="hero-stat-num">22+</span>
+                    <span class="hero-stat-label">Defensores</span>
+                </div>
+                <div class="hero-stat-divider" aria-hidden="true"></div>
+                <div class="hero-stat">
+                    <span class="hero-stat-num">13+</span>
+                    <span class="hero-stat-label">Enemigos</span>
+                </div>
+                <div class="hero-stat-divider" aria-hidden="true"></div>
+                <div class="hero-stat">
+                    <span class="hero-stat-num">30</span>
+                    <span class="hero-stat-label">Oleadas</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-scroll" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-down" aria-hidden="true" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"></path></svg>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="sobre" class="about-section">
+    <section id="sobre" class="section-historia">
         <div class="container">
-            <div class="about-grid">
-                <!-- Left - Game info -->
-                <div class="about-content fade-in-left">
-                    <span class="section-badge">🌍 Sobre el Proyecto</span>
-                    <h2 class="section-title">Aprende jugando a cuidar el recurso más valioso</h2>
-                    <p class="section-text">
-                        <strong>Wacheck: Defensores del Agua</strong> es un videojuego educativo tipo Tower Defense inspirado en Plants vs Zombies, 
-                        donde los jugadores protegen fuentes de agua de agentes contaminantes utilizando defensores ecológicos.
-                    </p>
-                    <p class="section-text">
-                        Desarrollado como proyecto de educación ambiental del <strong>Bachillerato 25</strong> de la 
-                        Universidad de Colima, este juego busca concientizar a los jóvenes sobre la importancia de la conservación del agua 
-                        de forma interactiva y divertida.
-                    </p>
+            <div class="section-label"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="scroll-text" aria-hidden="true" class="lucide lucide-scroll-text"><path d="M15 12h-5"></path><path d="M15 8h-5"></path><path d="M19 17V5a2 2 0 0 0-2-2H4"></path><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"></path></svg> La Narrativa</div>
+            <h2 class="section-heading">El Despertar del Agua</h2>
 
-                    <!-- Stats -->
-                    <div class="about-stats">
-                        <div class="stat-card">
-                            <div class="stat-value">5+</div>
-                            <div class="stat-label">Niveles</div>
+            <div class="historia-grid">
+                <div class="historia-lore">
+                    <div class="lore-chapter">
+                        <div class="lore-chapter-num">I</div>
+                        <div class="lore-chapter-body">
+                            <h3>La Conciencia del Océano</h3>
+                            <p>Nadie sabe cuándo ocurrió, ni cómo. Un día, el agua del mundo simplemente <em>despertó</em>. Siglos de contaminación industrial, vertidos tóxicos y negligencia humana la habían llevado al límite — y al cruzarlo, el océano adquirió voluntad propia.</p>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-value">12+</div>
-                            <div class="stat-label">Defensores</div>
+                    </div>
+                    <div class="lore-chapter">
+                        <div class="lore-chapter-num">II</div>
+                        <div class="lore-chapter-body">
+                            <h3>La Runa de Marea</h3>
+                            <p>Con su nueva consciencia, el agua convocó las <strong>Runas de Marea</strong>: artefactos ancestrales enterrados en el fondo del mar que amplificaban su poder de manera exponencial. Cada runa activada elevaba el nivel del océano metros por encima de lo normal, inundando costas, llanuras y ciudades enteras.</p>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-value">∞</div>
-                            <div class="stat-label">Diversión</div>
+                    </div>
+                    <div class="lore-chapter">
+                        <div class="lore-chapter-num">III</div>
+                        <div class="lore-chapter-body">
+                            <h3>Las Islas del Último Refugio</h3>
+                            <p>Lo que queda de la humanidad sobrevive en islas elevadas. El agua no ataca directamente — en vez de eso, envía sus <strong>Contaminantes</strong>, residuos tóxicos convertidos en entidades con forma y propósito que avanzan sobre la tierra buscando destruir lo poco que queda.</p>
+                        </div>
+                    </div>
+                    <div class="lore-chapter">
+                        <div class="lore-chapter-num">IV</div>
+                        <div class="lore-chapter-body">
+                            <h3>Los Guardianes del Agua Pura</h3>
+                            <p>Nuestra única esperanza son los <strong>Guardianes</strong>: fragmentos de agua que los humanos lograron purificar. <em>Solo el agua pura puede detener al agua corrompida.</em> Los Guardianes combaten con torrentes limpios, burbujas energizadas y la fuerza de los elementos naturales.</p>
+                        </div>
+                    </div>
+                    <div class="lore-chapter">
+                        <div class="lore-chapter-num">V</div>
+                        <div class="lore-chapter-body">
+                            <h3>Tu Misión</h3>
+                            <p>Eres el estratega de la última isla. Coloca a tus Guardianes con sabiduría, gana monedas con cada Contaminante derrotado y lleva a la humanidad a través de las 30 oleadas que separan la extinción de la <em>reconquista del planeta</em>.</p>
+                            <button class="btn-lore-play" onclick="handlePlayButton()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="sword" aria-hidden="true" class="lucide lucide-sword"><path d="m11 19-6-6"></path><path d="m5 21-2-2"></path><path d="m8 16-4 4"></path><path d="M9.5 17.5 21 6V3h-3L6.5 14.5"></path></svg>
+                                Defender la Isla
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right - Visual card -->
-                <div class="about-card fade-in-right">
-                    <div class="about-card-inner">
-                        <!-- Background pattern -->
-                        <div class="about-card-pattern">
-                            <span style="top: 10%; left: 15%; transform: rotate(45deg);">💧</span>
-                            <span style="top: 25%; left: 75%; transform: rotate(120deg);">💧</span>
-                            <span style="top: 45%; left: 30%; transform: rotate(200deg);">💧</span>
-                            <span style="top: 65%; left: 80%; transform: rotate(310deg);">💧</span>
-                            <span style="top: 80%; left: 50%; transform: rotate(90deg);">💧</span>
+                <div class="historia-visual">
+                    <div class="historia-card">
+                        <div class="historia-card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zap" aria-hidden="true" class="lucide lucide-zap"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg>
+                            <span>Mecánicas del Juego</span>
                         </div>
-
-                        <div class="about-card-content">
-                            <div class="about-card-icon">🎮</div>
-                            <h3 class="about-card-title">¿Cómo se juega?</h3>
-                            <ul class="about-card-list">
-                                <li>
-                                    <span class="list-number">1</span>
-                                    Elige tu equipo de defensores acuáticos
-                                </li>
-                                <li>
-                                    <span class="list-number">2</span>
-                                    Colócalos estratégicamente en el campo
-                                </li>
-                                <li>
-                                    <span class="list-number">3</span>
-                                    Detén a los contaminantes antes de que lleguen al agua
-                                </li>
-                                <li>
-                                    <span class="list-number">4</span>
-                                    Gana monedas y mejora tus defensores
-                                </li>
-                                <li>
-                                    <span class="list-number">5</span>
-                                    Completa misiones y desbloquea logros
-                                </li>
-                            </ul>
-                        </div>
+                        <ul class="historia-mechanics">
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="layout-grid" aria-hidden="true" class="lucide lucide-layout-grid"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg><span>Grilla 5×11 tipo PvZ</span></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield-check" aria-hidden="true" class="lucide lucide-shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg><span>Coloca Guardianes estratégicamente</span></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="waves" aria-hidden="true" class="lucide lucide-waves"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path></svg><span>30 oleadas con dificultad progresiva</span></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="coins" aria-hidden="true" class="lucide lucide-coins"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48"></path><path d="M15 6h1v4"></path><path d="m6.134 14.768.866-.5 2 3.464"></path><circle cx="16" cy="8" r="6"></circle></svg><span>Economía de monedas en tiempo real</span></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="flame" aria-hidden="true" class="lucide lucide-flame"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"></path></svg><span>Jefe épico cada 10 oleadas</span></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="star" aria-hidden="true" class="lucide lucide-star"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path></svg><span>Sistema de estrellas y desbloqueos</span></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trophy" aria-hidden="true" class="lucide lucide-trophy"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"></path><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"></path><path d="M18 9h1.5a1 1 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"></path><path d="M6 9H4.5a1 1 0 0 1 0-5H6"></path></svg><span>30+ logros desbloqueables</span></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="lock-open" aria-hidden="true" class="lucide lucide-lock-open"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg><span>22 Guardianes únicos</span></li>
+                        </ul>
                     </div>
+
+                    <div class="historia-card">
+                        <div class="historia-card-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="skull" aria-hidden="true" class="lucide lucide-skull"><path d="m12.5 17-.5-1-.5 1h1z"></path><path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z"></path><circle cx="15" cy="12" r="1"></circle><circle cx="9" cy="12" r="1"></circle></svg>
+                            <span>Contaminantes Notables</span>
+                        </div>
+                        <ul class="historia-enemies">
+                            <li>
+                                <div class="enemy-info"><strong>El Leviatán</strong><span class="badge-boss">JEFE</span></div>
+                                <div class="enemy-desc">1,500 HP · Cambia de carril · 300 monedas</div>
+                            </li>
+                            <li>
+                                <div class="enemy-info"><strong>Tanque Industrial</strong></div>
+                                <div class="enemy-desc">800 HP · Ultra lento pero imparable</div>
+                            </li>
+                            <li>
+                                <div class="enemy-info"><strong>Fantasma Tóxico</strong></div>
+                                <div class="enemy-desc">Se vuelve intangible cada pocos segundos</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─── Capítulos de Misión ─── -->
+            <div class="section-label" style="margin-top:4rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="map" aria-hidden="true" class="lucide lucide-map"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"></path><path d="M15 5.764v15"></path><path d="M9 3.236v15"></path></svg> Capítulos de Misión
+            </div>
+            <p class="section-description" style="text-align:center;color:#94a3b8;margin-bottom:2rem;">
+                Cinco capítulos — mecánicas únicas y un jefe final que lo cambia todo
+            </p>
+            <div class="chapter-cards-grid">
+                <div class="chapter-card">
+                    <span class="chapter-card-num">CAPÍTULO I</span>
+                    <h3 class="chapter-card-title">La Conciencia del Océano</h3>
+                    <p class="chapter-card-desc">El agua despierta. Aprende los fundamentos de la defensa usando solo Filtros de carbón activado en tu primera batalla.</p>
+                    <div class="chapter-card-meta">
+                        <span class="chapter-tag waves"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="waves" aria-hidden="true" class="lucide lucide-waves"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path></svg> 3 oleadas</span>
+                        <span class="chapter-tag reward"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="coins" aria-hidden="true" class="lucide lucide-coins"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48"></path><path d="M15 6h1v4"></path><path d="m6.134 14.768.866-.5 2 3.464"></path><circle cx="16" cy="8" r="6"></circle></svg> 3 rms.</span>
+                        <span class="chapter-tag"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="lock-open" aria-hidden="true" class="lucide lucide-lock-open"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg> Corriente</span>
+                    </div>
+                </div>
+                <div class="chapter-card">
+                    <span class="chapter-card-num">CAPÍTULO II</span>
+                    <h3 class="chapter-card-title">La Runa de Marea</h3>
+                    <p class="chapter-card-desc">Descubre el origen del caos. Combate con plantas vivas y bioremediación — sin usar filtros para el bono.</p>
+                    <div class="chapter-card-meta">
+                        <span class="chapter-tag waves"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="waves" aria-hidden="true" class="lucide lucide-waves"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path></svg> 5 oleadas</span>
+                        <span class="chapter-tag reward"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="coins" aria-hidden="true" class="lucide lucide-coins"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48"></path><path d="M15 6h1v4"></path><path d="m6.134 14.768.866-.5 2 3.464"></path><circle cx="16" cy="8" r="6"></circle></svg> 5 rms.</span>
+                        <span class="chapter-tag"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="lock-open" aria-hidden="true" class="lucide lucide-lock-open"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg> Coral</span>
+                    </div>
+                </div>
+                <div class="chapter-card">
+                    <span class="chapter-card-num">CAPÍTULO III</span>
+                    <h3 class="chapter-card-title">Las Islas del Último Refugio</h3>
+                    <p class="chapter-card-desc">Los archipiélagos supervivientes dominan el reciclaje. Construye 5+ Recicladores y genera más de 200 monedas.</p>
+                    <div class="chapter-card-meta">
+                        <span class="chapter-tag waves"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="waves" aria-hidden="true" class="lucide lucide-waves"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path></svg> 7 oleadas</span>
+                        <span class="chapter-tag reward"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="coins" aria-hidden="true" class="lucide lucide-coins"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48"></path><path d="M15 6h1v4"></path><path d="m6.134 14.768.866-.5 2 3.464"></path><circle cx="16" cy="8" r="6"></circle></svg> 7 rms.</span>
+                        <span class="chapter-tag"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="lock-open" aria-hidden="true" class="lucide lucide-lock-open"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg> Generador · Solar</span>
+                    </div>
+                </div>
+                <div class="chapter-card">
+                    <span class="chapter-card-num">CAPÍTULO IV</span>
+                    <h3 class="chapter-card-title">Los Guardianes del Agua Pura</h3>
+                    <p class="chapter-card-desc">El agua purificada toma forma. Usa todos los tipos de defensores disponibles y activa la ósmosis inversa.</p>
+                    <div class="chapter-card-meta">
+                        <span class="chapter-tag waves"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="waves" aria-hidden="true" class="lucide lucide-waves"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path></svg> 8 oleadas</span>
+                        <span class="chapter-tag reward"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="coins" aria-hidden="true" class="lucide lucide-coins"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48"></path><path d="M15 6h1v4"></path><path d="m6.134 14.768.866-.5 2 3.464"></path><circle cx="16" cy="8" r="6"></circle></svg> 10 rms.</span>
+                        <span class="chapter-tag"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="lock-open" aria-hidden="true" class="lucide lucide-lock-open"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg> Cristal · Mago</span>
+                    </div>
+                </div>
+                <div class="chapter-card">
+                    <span class="chapter-card-num">CAPÍTULO V</span>
+                    <h3 class="chapter-card-title">Tu Misión</h3>
+                    <p class="chapter-card-desc">La Runa convoca su ejército final. Todos los defensores, todas las amenazas — y el Leviatán esperando en la oleada 12.</p>
+                    <div class="chapter-card-meta">
+                        <span class="chapter-tag waves"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="waves" aria-hidden="true" class="lucide lucide-waves"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path></svg> 12 oleadas</span>
+                        <span class="chapter-tag boss"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="skull" aria-hidden="true" class="lucide lucide-skull"><path d="m12.5 17-.5-1-.5 1h1z"></path><path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z"></path><circle cx="15" cy="12" r="1"></circle><circle cx="9" cy="12" r="1"></circle></svg> El Leviatán</span>
+                        <span class="chapter-tag reward"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="crown" aria-hidden="true" class="lucide lucide-crown"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"></path><path d="M5 21h14"></path></svg> Guardián Comandante</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─── Boss Showcase ─── -->
+            <div class="section-label" style="margin-top:4rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="skull" aria-hidden="true" class="lucide lucide-skull"><path d="m12.5 17-.5-1-.5 1h1z"></path><path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z"></path><circle cx="15" cy="12" r="1"></circle><circle cx="9" cy="12" r="1"></circle></svg> Jefes Finales
+            </div>
+            <p class="section-description" style="text-align:center;color:#94a3b8;margin-bottom:2rem;">
+                Los enemigos más peligrosos del mundo contaminado
+            </p>
+            <div class="boss-showcase-grid">
+                <div class="boss-card">
+                    <span class="boss-badge">JEFE FINAL — CAP. V</span>
+                    <div class="boss-name">El Leviatán de la Runa</div>
+                    <div class="boss-stats">
+                        <span class="boss-stat"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="heart" aria-hidden="true" class="lucide lucide-heart"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"></path></svg> <strong>1,500 HP</strong></span>
+                        <span class="boss-stat"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="move" aria-hidden="true" class="lucide lucide-move"><path d="M12 2v20"></path><path d="m15 19-3 3-3-3"></path><path d="m19 9 3 3-3 3"></path><path d="M2 12h20"></path><path d="m5 9-3 3 3 3"></path><path d="m9 5 3-3 3 3"></path></svg> <strong>Cambia de carril</strong></span>
+                        <span class="boss-stat"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="coins" aria-hidden="true" class="lucide lucide-coins"><path d="M13.744 17.736a6 6 0 1 1-7.48-7.48"></path><path d="M15 6h1v4"></path><path d="m6.134 14.768.866-.5 2 3.464"></path><circle cx="16" cy="8" r="6"></circle></svg> <strong>300 monedas</strong></span>
+                    </div>
+                    <p class="boss-desc">La memoria de cada río envenenado condensada en una entidad. Cambia de carril al recibir daño crítico. Solo el agua más pura puede derrotarlo.</p>
+                </div>
+                <div class="boss-card">
+                    <span class="boss-badge">CONTAMINANTE ÉLITE</span>
+                    <div class="boss-name">Tanque Industrial</div>
+                    <div class="boss-stats">
+                        <span class="boss-stat"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="heart" aria-hidden="true" class="lucide lucide-heart"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"></path></svg> <strong>800 HP</strong></span>
+                        <span class="boss-stat"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield" aria-hidden="true" class="lucide lucide-shield"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg> <strong>Ultra lento</strong></span>
+                        <span class="boss-stat"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zap-off" aria-hidden="true" class="lucide lucide-zap-off"><path d="M10.513 4.856 13.12 2.17a.5.5 0 0 1 .86.46l-1.377 4.317"></path><path d="M15.656 10H20a1 1 0 0 1 .78 1.63l-1.72 1.773"></path><path d="M16.273 16.273 10.88 21.83a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14H4a1 1 0 0 1-.78-1.63l4.507-4.643"></path><path d="m2 2 20 20"></path></svg> <strong>Inmune a hielo</strong></span>
+                    </div>
+                    <p class="boss-desc">Un contenedor rebosante de desechos tóxicos. Avanza imparable. Su lentitud es su mayor arma — te da tiempo para desesperarte.</p>
+                </div>
+                <div class="boss-card">
+                    <span class="boss-badge">CONTAMINANTE ESPECIAL</span>
+                    <div class="boss-name">Fantasma Tóxico</div>
+                    <div class="boss-stats">
+                        <span class="boss-stat"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="heart" aria-hidden="true" class="lucide lucide-heart"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"></path></svg> <strong>200 HP</strong></span>
+                        <span class="boss-stat"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="eye-off" aria-hidden="true" class="lucide lucide-eye-off"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"></path><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"></path><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"></path><path d="m2 2 20 20"></path></svg> <strong>Intangible 2s</strong></span>
+                        <span class="boss-stat"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="zap" aria-hidden="true" class="lucide lucide-zap"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path></svg> <strong>Muy rápido</strong></span>
+                    </div>
+                    <p class="boss-desc">Gas venenoso metamorfoseado en entidad sólida. Se vuelve intangible durante 2 segundos, ignorando todos los ataques.</p>
                 </div>
             </div>
         </div>
     </section>
-
     <!-- Features Section -->
     <section id="caracteristicas" class="features-section">
         <div class="container">
             <div class="features-header fade-in">
-                <span class="section-badge accent">🎮 Características del Juego</span>
+                <span class="section-badge accent">Características del Juego</span>
                 <h2 class="section-title">Todo lo que necesitas para defender el agua</h2>
                 <p class="section-description">
                     Un juego completo tipo Plants vs Zombies con temática ambiental desarrollado por estudiantes del Bachillerato 25.
@@ -307,7 +568,7 @@
 
             <div class="features-grid">
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield" aria-hidden="true" class="lucide lucide-shield"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg></div>
                     <h3 class="feature-title">Tower Defense Acuático</h3>
                     <p class="feature-description">
                         Coloca defensores estratégicamente para proteger las fuentes de agua de contaminantes que avanzan sin cesar.
@@ -315,7 +576,7 @@
                 </div>
 
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">🌊</div>
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="gift" aria-hidden="true" class="lucide lucide-gift"><path d="M12 7v14"></path><path d="M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"></path><path d="M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5"></path><rect x="3" y="7" width="18" height="4" rx="1"></rect></svg></div>
                     <h3 class="feature-title">Misiones Diarias</h3>
                     <p class="feature-description">
                         Completa misiones y desafíos diarios para ganar recompensas, subir de nivel y desbloquear nuevos defensores.
@@ -323,7 +584,7 @@
                 </div>
 
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">📊</div>
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="calculator" aria-hidden="true" class="lucide lucide-calculator"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16" y1="14" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg></div>
                     <h3 class="feature-title">Calculadora de Agua</h3>
                     <p class="feature-description">
                         Aprende cuánta agua consumes diariamente con nuestra herramienta interactiva y descubre cómo reducir tu huella hídrica.
@@ -331,7 +592,7 @@
                 </div>
 
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">🏆</div>
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trophy" aria-hidden="true" class="lucide lucide-trophy"><path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"></path><path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"></path><path d="M18 9h1.5a1 1 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"></path><path d="M6 9H4.5a1 1 0 0 1 0-5H6"></path></svg></div>
                     <h3 class="feature-title">Sistema de Logros</h3>
                     <p class="feature-description">
                         Desbloquea logros, sube en el ranking y demuestra tu compromiso con la conservación del agua.
@@ -339,7 +600,7 @@
                 </div>
 
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">📖</div>
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="book-open" aria-hidden="true" class="lucide lucide-book-open"><path d="M12 7v14"></path><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path></svg></div>
                     <h3 class="feature-title">Modo Historia</h3>
                     <p class="feature-description">
                         Explora una narrativa envolvente sobre la importancia de la conservación del agua en nuestro planeta.
@@ -347,7 +608,7 @@
                 </div>
 
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">⬆️</div>
+                    <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trending-up" aria-hidden="true" class="lucide lucide-trending-up"><path d="M16 7h6v6"></path><path d="m22 7-8.5 8.5-5-5L2 17"></path></svg></div>
                     <h3 class="feature-title">Mejoras Permanentes</h3>
                     <p class="feature-description">
                         Invierte tus puntos en mejoras que fortalecen a tus defensores y te dan ventaja en cada partida.
@@ -361,7 +622,7 @@
     <section id="bachillerato" class="bachillerato-section">
         <div class="container">
             <div class="bachillerato-content fade-in">
-                <div class="bachillerato-icon">🎓</div>
+                <div class="bachillerato-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="graduation-cap" aria-hidden="true" class="lucide lucide-graduation-cap"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path><path d="M22 10v6"></path><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg></div>
                 <h2 class="section-title white">Proyecto del Bachillerato 25</h2>
                 <p class="section-text white">
                     Este juego ha sido desarrollado por estudiantes del <strong>Bachillerato No. 25</strong> de la Universidad de Colima 
@@ -379,7 +640,7 @@
     <section id="calculadora" class="calculator-section">
         <div class="container">
             <div class="calculator-header fade-in">
-                <span class="section-badge">💧 Herramienta Educativa</span>
+                <span class="section-badge">Herramienta Educativa</span>
                 <h2 class="section-title">Calculadora de Consumo de Agua</h2>
                 <p class="section-description">
                     Descubre cuánta agua consumes al día, cuánto te cuesta y aprende a reducir tu huella hídrica.
@@ -387,46 +648,154 @@
             </div>
 
             <div class="calculator-card-full fade-in">
-                <div class="calculator-activities" id="calculatorActivities">
-                    <!-- Activities will be rendered by JavaScript -->
+                <div class="calculator-activities" id="calculatorActivities"><div class="activity-card">
+            <div class="activity-main">
+                <span class="activity-icon">🚿</span>
+                <div class="activity-info">
+                    <div class="activity-name">Ducha</div>
+                    <div class="activity-question">¿Cuántas veces te duchas al día?</div>
                 </div>
+                <div class="activity-controls">
+                    <button class="activity-btn" onclick="updateActivityTimes('shower', -1)">−</button>
+                    <span class="activity-value" id="shower-value">1</span>
+                    <button class="activity-btn" onclick="updateActivityTimes('shower', 1)">+</button>
+                    <span class="activity-unit">veces/día</span>
+                </div>
+                <div class="activity-result">
+                    <div class="activity-result-value" id="shower-litres">80L</div>
+                    <div class="activity-result-label">por día</div>
+                </div>
+            </div>
+            
+            <div class="activity-source">📊 Una ducha de ~8 min gasta aprox. 80 litros (OMS)</div>
+        </div><div class="activity-card">
+            <div class="activity-main">
+                <span class="activity-icon">🚽</span>
+                <div class="activity-info">
+                    <div class="activity-name">Ir al baño (WC)</div>
+                    <div class="activity-question">¿Cuántas veces jalas la cadena del WC al día?</div>
+                </div>
+                <div class="activity-controls">
+                    <button class="activity-btn" onclick="updateActivityTimes('toilet', -1)">−</button>
+                    <span class="activity-value" id="toilet-value">5</span>
+                    <button class="activity-btn" onclick="updateActivityTimes('toilet', 1)">+</button>
+                    <span class="activity-unit">veces/día</span>
+                </div>
+                <div class="activity-result">
+                    <div class="activity-result-value" id="toilet-litres">30L</div>
+                    <div class="activity-result-label">por día</div>
+                </div>
+            </div>
+            
+            <div class="activity-source">📊 Cada descarga usa aprox. 6 litros (CONAGUA)</div>
+        </div><div class="activity-card">
+            <div class="activity-main">
+                <span class="activity-icon">🪥</span>
+                <div class="activity-info">
+                    <div class="activity-name">Cepillado de dientes</div>
+                    <div class="activity-question">¿Cuántas veces te cepillas los dientes al día?</div>
+                </div>
+                <div class="activity-controls">
+                    <button class="activity-btn" onclick="updateActivityTimes('teeth', -1)">−</button>
+                    <span class="activity-value" id="teeth-value">3</span>
+                    <button class="activity-btn" onclick="updateActivityTimes('teeth', 1)">+</button>
+                    <span class="activity-unit">veces/día</span>
+                </div>
+                <div class="activity-result">
+                    <div class="activity-result-value" id="teeth-litres">3L</div>
+                    <div class="activity-result-label">por día</div>
+                </div>
+            </div>
+            
+                <div class="activity-toggle">
+                    <div class="toggle-switch " id="teeth-toggle" onclick="toggleActivity('teeth')">
+                        <div class="toggle-knob"></div>
+                    </div>
+                    <span class="toggle-label">¿Dejas la llave abierta?</span>
+                    
+                </div>
+            
+            <div class="activity-source">📊 Con la llave cerrada ~1L; abierta ~12L (CONAGUA)</div>
+        </div><div class="activity-card">
+            <div class="activity-main">
+                <span class="activity-icon">🍽️</span>
+                <div class="activity-info">
+                    <div class="activity-name">Lavar platos</div>
+                    <div class="activity-question">¿Cuántas veces lavas los platos al día?</div>
+                </div>
+                <div class="activity-controls">
+                    <button class="activity-btn" onclick="updateActivityTimes('dishes', -1)">−</button>
+                    <span class="activity-value" id="dishes-value">2</span>
+                    <button class="activity-btn" onclick="updateActivityTimes('dishes', 1)">+</button>
+                    <span class="activity-unit">veces/día</span>
+                </div>
+                <div class="activity-result">
+                    <div class="activity-result-value" id="dishes-litres">40L</div>
+                    <div class="activity-result-label">por día</div>
+                </div>
+            </div>
+            
+            <div class="activity-source">📊 A mano con llave abierta ~20L por lavada (SEMARNAT)</div>
+        </div><div class="activity-card">
+            <div class="activity-main">
+                <span class="activity-icon">👕</span>
+                <div class="activity-info">
+                    <div class="activity-name">Lavadora</div>
+                    <div class="activity-question">¿Cuántas cargas de lavadora pones por semana?</div>
+                </div>
+                <div class="activity-controls">
+                    <button class="activity-btn" onclick="updateActivityTimes('laundry', -1)">−</button>
+                    <span class="activity-value" id="laundry-value">3</span>
+                    <button class="activity-btn" onclick="updateActivityTimes('laundry', 1)">+</button>
+                    <span class="activity-unit">cargas/semana</span>
+                </div>
+                <div class="activity-result">
+                    <div class="activity-result-value" id="laundry-litres">21L</div>
+                    <div class="activity-result-label">por día</div>
+                </div>
+            </div>
+            
+            <div class="activity-source">📊 Una carga promedio usa ~50 litros (PROFECO)</div>
+        </div></div>
 
                 <!-- Results Section -->
                 <div class="calculator-results">
-                    <div class="result-card">
-                        <div class="result-icon-large">💧</div>
-                        <div class="result-row">
-                            <span class="result-label-main">Consumo Diario</span>
-                            <span class="result-value-main" id="totalDaily">0</span>
-                            <span class="result-unit">litros/día</span>
+                    <div class="calculator-results-grid">
+                        <div class="result-card">
+                            <div class="result-icon-large"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="droplets" aria-hidden="true" class="lucide lucide-droplets"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"></path><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"></path></svg></div>
+                            <div class="result-row">
+                                <span class="result-label-main">Consumo Diario</span>
+                                <span class="result-value-main" id="totalDaily">174</span>
+                                <span class="result-unit">litros/día</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="result-card">
-                        <div class="result-icon-large">📅</div>
-                        <div class="result-row">
-                            <span class="result-label-main">Consumo Mensual</span>
-                            <span class="result-value-main" id="totalMonthly">0</span>
-                            <span class="result-unit">litros/mes</span>
+                        <div class="result-card">
+                            <div class="result-icon-large"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="calendar" aria-hidden="true" class="lucide lucide-calendar"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg></div>
+                            <div class="result-row">
+                                <span class="result-label-main">Consumo Mensual</span>
+                                <span class="result-value-main" id="totalMonthly">5233</span>
+                                <span class="result-unit">litros/mes</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="result-card">
-                        <div class="result-icon-large">💵</div>
-                        <div class="result-row">
-                            <span class="result-label-main">Costo Mensual</span>
-                            <span class="result-value-main" id="costMonthly">$0</span>
-                            <span class="result-unit">MXN</span>
+                        <div class="result-card">
+                            <div class="result-icon-large"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="banknote" aria-hidden="true" class="lucide lucide-banknote"><rect width="20" height="12" x="2" y="6" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg></div>
+                            <div class="result-row">
+                                <span class="result-label-main">Costo Mensual</span>
+                                <span class="result-value-main" id="costMonthly">$83</span>
+                                <span class="result-unit">MXN</span>
+                            </div>
                         </div>
                     </div>
 
                     <div class="result-level" id="resultLevel">
-                        <div class="level-badge" id="levelBadge">🌟 Excelente</div>
-                        <p class="level-message" id="levelMessage"></p>
+                        <div class="level-badge level-good" id="levelBadge"><i data-lucide="thumbs-up" style="width:18px;height:18px;display:inline;vertical-align:middle;margin-right:4px"></i> Bien</div>
+                        <p class="level-message" id="levelMessage">Tu consumo está dentro del promedio. Pequeños cambios como cerrar la llave al cepillarte pueden hacer la diferencia.</p>
                     </div>
 
                     <div class="calculator-source">
-                        <small>📊 Tarifa CIAPACOV 2025 – Uso Doméstico Popular 1 (Colima–Villa de Álvarez)</small>
+                        <small>Tarifa CIAPACOV 2025 – Uso Doméstico Popular 1 (Colima–Villa de Álvarez)</small>
                     </div>
                 </div>
             </div>
@@ -437,15 +806,14 @@
     <section class="cta-section">
         <div class="container">
             <div class="cta-content fade-in">
-                <div class="cta-icon">🎮</div>
+                <div class="cta-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield-check" aria-hidden="true" class="lucide lucide-shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg></div>
                 <h2 class="cta-title">¿Listo para salvar el agua?</h2>
                 <p class="cta-description">
                     Únete a miles de jugadores que ya están haciendo la diferencia. 
                     Aprende, juega y conviértete en un verdadero Defensor del Agua.
                 </p>
                 <button class="cta-button" onclick="handlePlayButton()" style="border: none; cursor: pointer;">
-                    <span>🚀</span>
-                    Comenzar Ahora
+                    <span>Comenzar Ahora</span>
                 </button>
             </div>
         </div>
@@ -457,7 +825,10 @@
             <div class="footer-grid">
                 <div class="footer-section">
                     <div class="footer-logo">
-                        <span class="footer-logo-icon">💧</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" width="24" height="24">
+                            <path d="M12 2C6.5 8 2 12.5 2 16a10 10 0 0020 0c0-3.5-4.5-8-10-14z"></path>
+                            <path d="M9 16a3 3 0 006 0"></path>
+                        </svg>
                         <span class="footer-logo-text">Wacheck</span>
                     </div>
                     <p class="footer-description">
@@ -492,52 +863,252 @@
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 Wacheck - Defensores del Agua. Proyecto educativo del Bachillerato 25 - Universidad de Colima</p>
+                <p>© 2026 Wacheck - Defensores del Agua. Proyecto educativo del Bachillerato 25 - Universidad de Colima</p>
             </div>
         </div>
     </footer>
 
     <!-- Modal de Login/Registro -->
     <div class="auth-modal" id="authModal">
+        <div class="auth-modal-backdrop" onclick="closeLoginModal()"></div>
         <div class="auth-modal-content">
-            <button class="auth-modal-close" onclick="closeLoginModal()">&times;</button>
-            
+            <button class="auth-modal-close" onclick="closeLoginModal()" aria-label="Cerrar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+            </button>
+
+            <div class="auth-modal-logo" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2C6.5 8 2 12.5 2 16a10 10 0 0020 0c0-3.5-4.5-8-10-14z"></path>
+                    <path d="M9 16a3 3 0 006 0"></path>
+                </svg>
+            </div>
+
             <!-- Tabs -->
-            <div class="auth-tabs">
-                <button class="auth-tab active" onclick="switchAuthTab('login')">Iniciar Sesión</button>
-                <button class="auth-tab" onclick="switchAuthTab('register')">Registrarse</button>
+            <div class="auth-tabs" role="tablist">
+                <button class="auth-tab active" onclick="switchAuthTab('login')" role="tab" aria-selected="true" id="tabLogin">Iniciar Sesión</button>
+                <button class="auth-tab" onclick="switchAuthTab('register')" role="tab" aria-selected="false" id="tabRegister">Registrarse</button>
             </div>
 
             <!-- Login Form -->
-            <div class="auth-form" id="loginForm">
-                <h2 class="auth-title">Bienvenido de Vuelta</h2>
-                <p class="auth-subtitle">Inicia sesión para continuar tu aventura</p>
-                
-                <input type="text" id="loginUsername" placeholder="Nombre de usuario" class="auth-input" autocomplete="username">
-                
-                <div class="password-field">
-                    <input type="password" id="loginPassword" placeholder="Contraseña" class="auth-input" autocomplete="current-password">
-                    <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')" aria-label="Mostrar contraseña">
-                        <svg id="loginPassword-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                    </button>
+            <div class="auth-form" id="loginForm" role="tabpanel">
+                <h2 class="auth-title">Bienvenido de vuelta</h2>
+                <p class="auth-subtitle">Inicia sesión para continuar tu misión</p>
+
+                <div class="form-field">
+                    <label for="loginUsername">Usuario</label>
+                    <input type="text" id="loginUsername" placeholder="tu_usuario" class="auth-input" autocomplete="username" maxlength="50" required="">
                 </div>
-                
-                <button class="auth-button" onclick="handleLogin()">Entrar</button>
-                
-                <div class="auth-divider">
-                    <span>o</span>
+                <div class="form-field">
+                    <label for="loginPassword">Contraseña</label>
+                    <div class="password-field">
+                        <input type="password" id="loginPassword" placeholder="••••••••" class="auth-input" autocomplete="current-password" maxlength="128" required="">
+                        <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')" aria-label="Ver contraseña">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="eye" aria-hidden="true" id="loginPassword-icon" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </button>
+                    </div>
                 </div>
-                
-                <button class="auth-button-guest" onclick="GuestUserManager.showGuestModal()">
-                    <span class="guest-icon">👤</span>
+
+                <p class="auth-msg" id="loginMessage"></p>
+                <button class="auth-button" onclick="handleLogin()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="log-in" aria-hidden="true" class="lucide lucide-log-in"><path d="m10 17 5-5-5-5"></path><path d="M15 12H3"></path><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path></svg> Entrar
+                </button>
+
+                <div class="auth-divider"><span>o continúa con</span></div>
+
+                <button class="auth-button-google" onclick="handleGoogleAuth()" id="googleLoginBtn">
+                    <svg viewBox="0 0 24 24" class="google-icon" aria-hidden="true" width="18" height="18">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"></path>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"></path>
+                    </svg>
+                    Continuar con Google
+                </button>
+
+                <button class="auth-button-guest" onclick="GuestUserManager?.showGuestModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user-x" aria-hidden="true" class="lucide lucide-user-x"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="17" x2="22" y1="8" y2="13"></line><line x1="22" x2="17" y1="8" y2="13"></line></svg>
                     <span>Jugar como Invitado</span>
                 </button>
+            </div>
+
+            <!-- Register Form -->
+            <div class="auth-form" id="registerForm" style="display:none" role="tabpanel">
+                <h2 class="auth-title">Crear cuenta</h2>
+                <p class="auth-subtitle">Únete a la resistencia</p>
+
+                <div class="form-field">
+                    <label for="registerUsername">Usuario</label>
+                    <input type="text" id="registerUsername" placeholder="tu_usuario" class="auth-input" autocomplete="username" maxlength="50" minlength="3" required="">
+                </div>
+                <div class="form-field">
+                    <label for="registerEmail">Correo Electrónico</label>
+                    <input type="email" id="registerEmail" placeholder="tu@correo.com" class="auth-input" autocomplete="email" maxlength="255" required="">
+                </div>
+                <div class="form-field">
+                    <label for="registerPassword">Contraseña</label>
+                    <div class="password-field">
+                        <input type="password" id="registerPassword" placeholder="Mínimo 8 caracteres" class="auth-input" autocomplete="new-password" maxlength="128" minlength="8" required="">
+                        <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')" aria-label="Ver contraseña">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="eye" aria-hidden="true" id="registerPassword-icon" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label for="registerPasswordConfirm">Confirmar Contraseña</label>
+                    <div class="password-field">
+                        <input type="password" id="registerPasswordConfirm" placeholder="Repite tu contraseña" class="auth-input" autocomplete="new-password" maxlength="128" minlength="8" required="">
+                        <button type="button" class="password-toggle" onclick="togglePassword('registerPasswordConfirm')" aria-label="Ver contraseña">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="eye" aria-hidden="true" id="registerPasswordConfirm-icon" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Password strength indicator -->
+                <div class="password-strength" id="passwordStrength" style="display:none">
+                    <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+                    <span class="strength-label" id="strengthLabel"></span>
+                </div>
+
+                <p class="auth-msg" id="registerMessage"></p>
+                <button class="auth-button" onclick="handleRegister()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user-plus" aria-hidden="true" class="lucide lucide-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" x2="19" y1="8" y2="14"></line><line x1="22" x2="16" y1="11" y2="11"></line></svg> Crear Cuenta
+                </button>
+
+                <div class="auth-divider"><span>o regístrate con</span></div>
+
+                <button class="auth-button-google" onclick="handleGoogleAuth()" id="googleRegisterBtn">
+                    <svg viewBox="0 0 24 24" class="google-icon" aria-hidden="true" width="18" height="18">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"></path>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"></path>
+                    </svg>
+                    Registrarse con Google
+                </button>
+            </div>
+        </div>
+    </div>
+
+<script>
+// ===== PWA Service Worker Registration =====
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+            .catch(err => console.warn('[SW] Registration failed:', err));
+    });
+}
+
+// ===== PWA Install Banner =====
+let pwaInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    pwaInstallPrompt = e;
+    const banner = document.getElementById('pwaBanner');
+    if (banner && !localStorage.getItem('pwa_dismissed')) {
+        banner.style.display = 'flex';
+    }
+});
+
+function dismissPWA() {
+    localStorage.setItem('pwa_dismissed', '1');
+    const banner = document.getElementById('pwaBanner');
+    if (banner) banner.style.display = 'none';
+}
+
+// ===== Init Lucide Icons =====
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.lucide) lucide.createIcons();
+    // Sincronizar icono de volumen con preferencia guardada
+    const savedSound = localStorage.getItem('wacheck_soundEnabled');
+    if (savedSound === 'false') {
+        const ico = document.getElementById('volumeIcon');
+        if (ico) { ico.setAttribute('data-lucide', 'volume-x'); if (window.lucide) lucide.createIcons(); }
+    }
+});
+
+// Navbar scroll & mobile menu handlers are in js/landing.js
+
+// togglePassword is in js/auth.js
+
+// ===== Password strength =====
+document.addEventListener('DOMContentLoaded', () => {
+    const p = document.getElementById('registerPassword');
+    if (p) {
+        p.addEventListener('input', () => {
+            const v = p.value;
+            const el = document.getElementById('passwordStrength');
+            const fill = document.getElementById('strengthFill');
+            const lbl = document.getElementById('strengthLabel');
+            if (!el) return;
+            if (!v) { el.style.display = 'none'; return; }
+            el.style.display = 'flex';
+            let s = 0;
+            if (v.length >= 8) s++;
+            if (/[A-Z]/.test(v)) s++;
+            if (/[0-9]/.test(v)) s++;
+            if (/[^A-Za-z0-9]/.test(v)) s++;
+            const lv = [['Muy débil','#ef4444','25%'],['Débil','#f59e0b','50%'],['Buena','#0891b2','75%'],['Fuerte','#10b981','100%']];
+            const [t, c, w] = lv[s-1] || lv[0];
+            fill.style.width = w; fill.style.background = c;
+            lbl.textContent = t; lbl.style.color = c;
+        });
+    }
+});
+
+// ===== Google OAuth — implementación real en js/auth.js =====
+// Esta función se sobreescribirá por js/auth.js (cargado después).
+// Queda de fallback por si auth.js no cargó.
+function handleGoogleAuth() {
+    if (typeof processGoogleCallback === 'undefined') {
+        alert('Google OAuth requiere configuración adicional en el servidor.');
+    }
+}
+
+// ===== Theme toggle =====
+function toggleTheme() {
+    document.body.classList.toggle('light-theme');
+    const isLight = document.body.classList.contains('light-theme');
+    localStorage.setItem('wacheck_theme', isLight ? 'light' : 'dark');
+    // Switch navbar icon: moon (when light) → sun (when dark)
+    const themeBtn = document.querySelector('[onclick="toggleTheme()"] svg, [onclick="toggleTheme()"] [data-lucide]');
+    if (themeBtn) {
+        themeBtn.setAttribute('data-lucide', isLight ? 'moon' : 'sun');
+        if (window.lucide) lucide.createIcons();
+    }
+    // Sync settings panel checkbox if open
+    const chk = document.getElementById('settingsThemeToggle');
+    if (chk) chk.checked = !isLight;
+}
+(function initTheme() {
+    const saved = localStorage.getItem('wacheck_theme');
+    if (saved === 'light') {
+        document.body.classList.add('light-theme');
+    } else if (saved === 'dark') {
+        document.body.classList.remove('light-theme');
+    }
+    // Set correct icon on load
+    const isLight = document.body.classList.contains('light-theme');
+    const themeBtn = document.querySelector('[onclick="toggleTheme()"] svg, [onclick="toggleTheme()"] [data-lucide]');
+    if (themeBtn) {
+        themeBtn.setAttribute('data-lucide', isLight ? 'moon' : 'sun');
+        if (window.lucide) lucide.createIcons();
+    }
+    const chk = document.getElementById('settingsThemeToggle');
+    if (chk) chk.checked = !isLight;
+})();
+
+// ===== Volume toggle - delegates to sounds.js =====
+function toggleVolume() {
+    if (typeof toggleSoundGlobal === 'function') toggleSoundGlobal();
+}
+
+// handlePlayButton, smooth scroll & IntersectionObserver are in js/landing.js
+</script>
+
+
                 
                 <p class="auth-message" id="loginMessage"></p>
-            </div>
+            
 
             <!-- Register Form -->
             <div class="auth-form" id="registerForm" style="display: none;">
@@ -548,7 +1119,7 @@
                 <input type="email" id="registerEmail" placeholder="Email (@gmail.com, @ucol.mx, etc.)" class="auth-input" autocomplete="email">
                 
                 <div class="password-field">
-                    <input type="password" id="registerPassword" placeholder="Contraseña (mínimo 4 caracteres)" class="auth-input" autocomplete="new-password">
+                    <input type="password" id="registerPassword" placeholder="Contraseña (mínimo 8 caracteres)" minlength="8" class="auth-input" autocomplete="new-password">
                     <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')" aria-label="Mostrar contraseña">
                         <svg id="registerPassword-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -568,17 +1139,19 @@
                 </div>
                 
                 <div class="auth-info">
-                    📧 Recibirás un correo de verificación
+                    <i data-lucide="mail" style="width:16px;height:16px;display:inline;vertical-align:middle;margin-right:4px"></i> Recibirás un correo de verificación
                 </div>
                 
                 <button class="auth-button" onclick="handleRegister()">Crear Cuenta</button>
                 
                 <p class="auth-message" id="registerMessage"></p>
             </div>
-        </div>
-    </div>
+        
+    
 
+    <script src="js/lucide.min.js"></script>
     <script src="js/landing.js"></script>
     <script src="js/auth.js"></script>
-</body>
-</html>
+
+
+</body></html>

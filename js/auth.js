@@ -2,9 +2,8 @@
 // auth.js - Sistema de Autenticación
 // ====================================
 
-// Usar HYBRID por ahora (compatible con tu BD actual)
-// Cambia a 'api/user_handler_SECURE.php' después de importar wacheck_db_SECURE.sql
-const API_URL = 'api/user_handler_HYBRID.php';
+// API SEGURA para producción en InfinityFree
+const API_URL = 'api/user_handler_SECURE.php';
 
 // Abrir modal de login
 function openLoginModal() {
@@ -53,6 +52,47 @@ function showMessage(elementId, message, isError = true) {
     element.style.color = isError ? '#ef4444' : '#10b981';
 }
 
+function extractUserAvatar(data) {
+    if (!data || typeof data !== 'object') return '';
+
+    const avatar = data.googleAvatar
+        || data.google_avatar
+        || data.avatar
+        || data.avatarUrl
+        || data.picture
+        || '';
+
+    return typeof avatar === 'string' ? avatar : '';
+}
+
+function normalizeStoredUser(data) {
+    const avatar = extractUserAvatar(data);
+
+    return {
+        id: data.id,
+        name: data.name || data.username || 'Usuario',
+        email: data.email || '',
+        isGuest: Boolean(data.isGuest),
+        googleLogin: Boolean(data.googleLogin || data.google_login || avatar),
+        googleAvatar: avatar,
+        avatar,
+        avatarUrl: avatar,
+        hasPassword: typeof data.hasPassword === 'boolean' ? data.hasPassword : !Boolean(data.googleLogin),
+        usernameChangedAt: data.usernameChangedAt || data.username_changed_at || null,
+        coins: data.coins || 100,
+        specialCoins: data.specialCoins || 0,
+        runes: data.runes || 0,
+        stars: data.stars || 0,
+        unlockedDefenders: data.unlockedDefenders || ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"],
+        calculatorCompleted: Boolean(data.calculatorCompleted),
+        rewardsData: data.rewardsData || {},
+        achievementsData: data.achievementsData || {},
+        storyProgress: data.storyProgress || {},
+        dailyRewardsData: data.dailyRewardsData || data.daily_rewards_data || {},
+        nickname: data.nickname || ''
+    };
+}
+
 // Handle Login
 async function handleLogin() {
     const username = document.getElementById('loginUsername').value.trim();
@@ -79,23 +119,7 @@ async function handleLogin() {
             // Login exitoso
             showMessage('loginMessage', '✅ Sesión iniciada correctamente', false);
             
-            // Crear objeto de usuario consistente con el sistema
-            const userData = {
-                id: data.id,
-                name: data.name,
-                email: data.email || '',
-                isGuest: false,
-                coins: data.coins || 100,
-                specialCoins: data.specialCoins || 0,
-                runes: data.runes || 0,
-                stars: data.stars || 0,
-                unlockedDefenders: data.unlockedDefenders || ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"],
-                calculatorCompleted: data.calculatorCompleted || false,
-                rewardsData: data.rewardsData || {},
-                achievementsData: data.achievementsData || {},
-                storyProgress: data.storyProgress || {},
-                dailyRewardsData: data.dailyRewardsData || {}
-            };
+            const userData = normalizeStoredUser(data);
             
             // Guardar en localStorage con la clave correcta
             localStorage.setItem('wacheck_user', JSON.stringify(userData));
@@ -255,7 +279,134 @@ function togglePassword(fieldId) {
     }
 }
 
-// Permitir login con Enter
+// ============================================================
+// Google OAuth
+// ============================================================
+
+/**
+ * Inicia el flujo OAuth de Google.
+ * 1. Pide la URL de autorización a nuestro backend (evita exponer CLIENT_ID en JS)
+ * 2. Redirige al usuario a Google
+ */
+async function handleGoogleAuth() {
+    const btn = document.getElementById('googleLoginBtn');
+    if (btn) {
+        btn.disabled = true;
+        btn.style.opacity = '0.65';
+    }
+
+    try {
+        const res = await fetch('api/oauth_google.php?action=redirect', {
+            credentials: 'include'
+        });
+
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            const msg = err.error || 'Error al iniciar sesión con Google';
+            showMessage('loginMessage', msg);
+            if (btn) { btn.disabled = false; btn.style.opacity = ''; }
+            return;
+        }
+
+        const { url } = await res.json();
+        if (!url) {
+            showMessage('loginMessage', 'No se recibió URL de Google');
+            if (btn) { btn.disabled = false; btn.style.opacity = ''; }
+            return;
+        }
+
+        let safeUrl = null;
+        try {
+            const parsed = new URL(url, window.location.origin);
+            const allowedHosts = new Set([
+                'accounts.google.com',
+                'oauth2.googleapis.com',
+                'google.com',
+                'www.google.com'
+            ]);
+            const isGoogleHost = parsed.hostname === 'accounts.google.com'
+                || parsed.hostname.endsWith('.google.com')
+                || allowedHosts.has(parsed.hostname);
+            if (parsed.protocol === 'https:' && isGoogleHost) {
+                safeUrl = parsed.href;
+            }
+        } catch (_) {}
+
+        if (!safeUrl) {
+            showMessage('loginMessage', 'URL de redirección no confiable');
+            if (btn) { btn.disabled = false; btn.style.opacity = ''; }
+            return;
+        }
+
+        // Redirigir a Google (no popup — ventana completa para máxima compatibilidad)
+        window.location.href = safeUrl;
+
+    } catch (e) {
+        console.error('[GoogleAuth]', e);
+        showMessage('loginMessage', 'Error de conexión (Google OAuth)');
+        if (btn) { btn.disabled = false; btn.style.opacity = ''; }
+    }
+}
+
+/**
+ * Procesa el resultado del callback de Google.
+ * oauth_google.php redirige a index.html#google_auth=<base64> o
+ * index.html?google_error=<reason>
+ */
+function processGoogleCallback() {
+    // Manejar error devuelto por el callback
+    const params = new URLSearchParams(window.location.search);
+    const googleError = params.get('google_error');
+    if (googleError) {
+        const msgs = {
+            not_configured : 'Google OAuth aún no está configurado.',
+            invalid_state  : 'Error de seguridad (state inválido). Intenta de nuevo.',
+            no_code        : 'No se recibió código de autorización de Google.',
+            no_profile     : 'No se pudo obtener el perfil de Google.',
+            db_error       : 'Error interno al guardar tu cuenta.',
+            cancelled      : 'Inicio de sesión con Google cancelado.',
+        };
+        const msg = msgs[googleError] || `Error de Google: ${googleError}`;
+        // Limpiar URL y mostrar error
+        history.replaceState({}, '', window.location.pathname);
+        // El modal puede no estar abierto; abrirlo y mostrar error
+        openLoginModal();
+        setTimeout(() => showMessage('loginMessage', msg), 100);
+        return;
+    }
+
+    // Manejar callback exitoso: #google_auth=<base64>
+    const hash = window.location.hash;
+    if (!hash.startsWith('#google_auth=')) return;
+
+    try {
+        const encoded = decodeURIComponent(hash.slice('#google_auth='.length));
+        const userData = normalizeStoredUser(JSON.parse(atob(encoded)));
+
+        // Guardar en localStorage con la misma clave que el login normal
+        localStorage.setItem('wacheck_user', JSON.stringify(userData));
+
+        // Limpiar hash de la URL
+        history.replaceState({}, '', window.location.pathname);
+
+        console.log('[GoogleAuth] Login exitoso:', userData.name);
+
+        // Actualizar UI si el SessionManager ya está listo
+        if (window.SessionManager && typeof SessionManager.updateIndexUI === 'function') {
+            SessionManager.updateIndexUI(userData);
+        } else {
+            // Recarga suave para aplicar sesión
+            window.location.reload();
+        }
+    } catch (e) {
+        console.error('[GoogleAuth] Error procesando callback:', e);
+        history.replaceState({}, '', window.location.pathname);
+    }
+}
+
+// ============================================================
+// Permitir login con Enter + procesar callback de Google
+// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
     const loginPassword = document.getElementById('loginPassword');
     if (loginPassword) {
@@ -263,11 +414,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'Enter') handleLogin();
         });
     }
-    
+
     const registerConfirm = document.getElementById('registerPasswordConfirm');
     if (registerConfirm) {
         registerConfirm.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') handleRegister();
         });
     }
+
+    // Procesar resultado de Google OAuth (si viene del callback)
+    processGoogleCallback();
 });

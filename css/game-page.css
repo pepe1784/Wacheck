@@ -9,7 +9,9 @@
     z-index: 100;
     background-color: var(--color-primary);
     color: var(--color-primary-foreground);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.14);
+    backdrop-filter: blur(6px);
 }
 
 .game-header-content {
@@ -17,6 +19,7 @@
     align-items: center;
     justify-content: space-between;
     height: 3.5rem;
+    gap: 0.75rem;
 }
 
 .back-button {
@@ -36,6 +39,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    min-width: 0;
 }
 
 .game-logo-icon {
@@ -46,6 +50,7 @@
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 1.125rem;
+    letter-spacing: 0.02em;
 }
 
 /* Guest User Banner */
@@ -112,20 +117,25 @@
     align-items: center;
     gap: 0.75rem;
     font-size: 0.875rem;
+    min-width: 0;
 }
 
 .stat-item {
     display: flex;
     align-items: center;
     gap: 0.25rem;
-    padding: 0.25rem 0.5rem;
+    min-height: 2rem;
+    padding: 0.25rem 0.65rem;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 0.375rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    white-space: nowrap;
 }
 
 /* Navigation Tabs */
 .game-tabs {
-    background-color: white;
+    background-color: var(--color-card);
+    color: var(--color-foreground);
     border-bottom: 2px solid var(--color-border);
     position: sticky;
     top: 3.5rem;
@@ -143,6 +153,17 @@ body:has(.game-guest-banner) .game-tabs {
     gap: 0.5rem;
     overflow-x: auto;
     padding: 0.5rem 0;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+}
+
+.tabs-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+
+.tabs-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(34, 92, 68, 0.35);
+    border-radius: 999px;
 }
 
 .tab-button {
@@ -159,20 +180,29 @@ body:has(.game-guest-banner) .game-tabs {
     font-family: var(--font-heading);
     font-weight: 600;
     color: var(--color-muted-foreground);
+    min-height: 44px;
+    scroll-snap-align: start;
 }
 
 .tab-button:hover {
-    background-color: var(--color-secondary);
+    background-color: var(--color-surface-2, var(--color-secondary));
     color: var(--color-foreground);
 }
 
 .tab-button.active {
     color: var(--color-primary);
     border-bottom-color: var(--color-primary);
+    background: linear-gradient(180deg, rgba(34, 92, 68, 0.06) 0%, rgba(34, 92, 68, 0.12) 100%);
 }
 
 .tab-icon {
     font-size: 1.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
 .tab-label {
@@ -182,7 +212,7 @@ body:has(.game-guest-banner) .game-tabs {
 /* Main Content */
 .game-main {
     min-height: calc(100vh - 7rem);
-    background-color: var(--color-background);
+    background: radial-gradient(circle at top, rgba(8, 145, 178, 0.08) 0%, rgba(255, 255, 255, 0) 40%), var(--color-background);
     padding: 2rem 0;
 }
 
@@ -202,6 +232,7 @@ body:has(.game-guest-banner) .game-tabs {
     color: var(--color-foreground);
     margin-bottom: 0.5rem;
     text-align: center;
+    letter-spacing: 0.015em;
 }
 
 .section-description-game {
@@ -213,6 +244,70 @@ body:has(.game-guest-banner) .game-tabs {
     margin-right: auto;
 }
 
+.game-page-dialog-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(2, 6, 23, 0.55);
+    padding: 1rem;
+}
+
+.game-page-dialog-overlay.active {
+    display: flex;
+}
+
+.game-page-dialog {
+    width: min(520px, 100%);
+    background: var(--color-card);
+    color: var(--color-card-foreground);
+    border: 1px solid var(--color-border);
+    border-radius: 0.875rem;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+    padding: 1rem;
+}
+
+.game-page-dialog.type-success {
+    border-left: 5px solid var(--color-primary);
+}
+
+.game-page-dialog.type-error {
+    border-left: 5px solid var(--color-destructive, var(--color-primary));
+}
+
+.game-page-dialog.type-info {
+    border-left: 5px solid var(--color-muted-foreground);
+}
+
+.game-page-dialog-title {
+    margin: 0 0 0.5rem 0;
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+}
+
+.game-page-dialog-message {
+    color: var(--color-muted-foreground);
+    line-height: 1.55;
+}
+
+.game-page-dialog-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.game-page-dialog-btn {
+    border: none;
+    cursor: pointer;
+    border-radius: 0.6rem;
+    padding: 0.55rem 1rem;
+    font-weight: 700;
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+}
+
 /* Selected Defenders Bar */
 .selected-defenders {
     background: linear-gradient(135deg, var(--color-water-blue) 0%, var(--color-water-blue-deep) 100%);
@@ -221,6 +316,12 @@ body:has(.game-guest-banner) .game-tabs {
     border-radius: 1rem;
     margin-bottom: 2rem;
     box-shadow: var(--shadow-card-hover);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+body.light-theme .selected-defenders {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    border-color: rgba(255, 255, 255, 0.6);
 }
 
 .selected-title {
@@ -279,7 +380,8 @@ body:has(.game-guest-banner) .game-tabs {
 }
 
 .defender-card {
-    background-color: white;
+    background-color: var(--color-card);
+    color: var(--color-card-foreground);
     border-radius: 1rem;
     padding: 1.5rem;
     box-shadow: var(--shadow-card);
@@ -288,6 +390,7 @@ body:has(.game-guest-banner) .game-tabs {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    isolation: isolate;
 }
 
 .defender-card::before {
@@ -300,6 +403,16 @@ body:has(.game-guest-banner) .game-tabs {
     background: linear-gradient(90deg, var(--color-water-blue) 0%, var(--color-water-blue-deep) 100%);
     transform: scaleX(0);
     transition: transform 0.3s ease;
+}
+
+.defender-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(8, 145, 178, 0.05) 0%, rgba(37, 99, 235, 0.03) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
 }
 
 .defender-card.selected {
@@ -315,6 +428,28 @@ body:has(.game-guest-banner) .game-tabs {
 .defender-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-card-hover);
+}
+
+body.light-theme .defender-card {
+    background: var(--color-card);
+    border-color: var(--color-border);
+}
+
+body.light-theme .defender-card-title,
+body.light-theme .defender-name {
+    color: var(--color-foreground);
+}
+
+body.light-theme .defender-description,
+body.light-theme .defender-detail,
+body.light-theme .defender-cost,
+body.light-theme .defender-category {
+    color: var(--color-muted-foreground);
+}
+
+.defender-card:hover::after,
+.defender-card.selected::after {
+    opacity: 1;
 }
 
 .defender-header {
@@ -442,6 +577,14 @@ body:has(.game-guest-banner) .game-tabs {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.start-game-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+    box-shadow: none;
+    filter: saturate(0.7);
+}
+
 .start-game-button:hover {
     transform: translateY(-4px) scale(1.05);
     box-shadow: 0 15px 40px rgba(32, 178, 170, 0.5);
@@ -449,6 +592,16 @@ body:has(.game-guest-banner) .game-tabs {
 
 .start-game-button:active {
     transform: translateY(-2px) scale(1.02);
+}
+
+@media (max-width: 1024px) {
+    .game-main {
+        padding: 1.5rem 0;
+    }
+
+    .section-title-game {
+        font-size: 1.8rem;
+    }
 }
 
 .start-icon {
@@ -753,6 +906,13 @@ body:has(.game-guest-banner) .game-tabs {
     box-shadow: var(--shadow-card-hover);
 }
 
+body.light-theme .shop-item,
+body.light-theme .upgrade-card,
+body.light-theme .achievement-card {
+    background: var(--color-card);
+    border-color: var(--color-border);
+}
+
 .shop-item-header {
     display: flex;
     align-items: center;
@@ -962,6 +1122,431 @@ body:has(.game-guest-banner) .game-tabs {
 /* ==========================================
    Achievements Styles
    ========================================== */
+
+.achievement-filters {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.achievement-filter-btn {
+    padding: 0.5rem 1.25rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--color-muted-foreground);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.achievement-filter-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.achievement-filter-btn.active {
+    background: var(--color-accent);
+    color: white;
+    border-color: var(--color-accent);
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.achievement-item {
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    display: flex;
+    gap: 1rem;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.achievement-item.unlocked {
+    background: rgba(34, 198, 156, 0.1);
+    border-color: rgba(34, 198, 156, 0.25);
+}
+
+.achievement-item.unlocked:hover {
+    background: rgba(34, 198, 156, 0.15);
+    border-color: rgba(34, 198, 156, 0.4);
+    transform: translateY(-2px);
+}
+
+.achievement-item.locked {
+    opacity: 0.6;
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.achievement-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.achievement-info {
+    flex: 1;
+}
+
+.achievement-name {
+    font-weight: 700;
+    color: var(--color-foreground);
+    margin-bottom: 0.375rem;
+    font-size: 0.95rem;
+}
+
+.achievement-desc {
+    font-size: 0.85rem;
+    color: var(--color-muted-foreground);
+    line-height: 1.4;
+}
+
+/* Light theme achievements */
+body.light-theme .achievement-filter-btn {
+    background: rgba(34, 92, 68, 0.08);
+    border-color: rgba(34, 92, 68, 0.2);
+    color: hsl(150, 15%, 50%);
+}
+
+body.light-theme .achievement-filter-btn.active {
+    background: #20b2aa;
+    color: white;
+    border-color: #20b2aa;
+}
+
+body.light-theme .achievement-item {
+    background: rgba(34, 92, 68, 0.06);
+    border-color: rgba(34, 92, 68, 0.15);
+}
+
+body.light-theme .achievement-item.unlocked {
+    background: rgba(32, 178, 170, 0.12);
+    border-color: rgba(32, 178, 170, 0.3);
+}
+
+/* ==========================================
+   Upgrade Items
+   ========================================== */
+
+.upgrades-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.upgrade-item {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.upgrade-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(8, 145, 178, 0.15);
+}
+
+.upgrade-item-header {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    align-items: flex-start;
+}
+
+.upgrade-item-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.upgrade-item-info {
+    flex: 1;
+}
+
+.upgrade-item-name {
+    font-weight: 600;
+    color: var(--color-foreground);
+    font-size: 0.95rem;
+}
+
+.upgrade-item-cost {
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-top: 0.25rem;
+}
+
+.upgrade-item-reward {
+    font-size: 0.85rem;
+    color: var(--color-muted-foreground);
+    padding: 0.75rem;
+    background: rgba(8, 145, 178, 0.1);
+    border-radius: 6px;
+    border-left: 3px solid var(--color-accent);
+    line-height: 1.4;
+}
+
+body.light-theme .upgrade-item {
+    background: rgba(34, 92, 68, 0.05);
+    border-color: rgba(34, 92, 68, 0.15);
+}
+
+body.light-theme .upgrade-item:hover {
+    background: rgba(34, 92, 68, 0.12);
+    border-color: rgba(34, 92, 68, 0.3);
+    box-shadow: 0 8px 20px rgba(32, 178, 170, 0.12);
+}
+   
+/* ==========================================
+   Historia - Story Section Styles
+   ========================================== */
+.section-historia {
+    padding: 2rem 0;
+    background: transparent;
+    color: var(--color-foreground);
+}
+
+.section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+}
+
+.section-heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-foreground);
+    margin-bottom: 2rem;
+    font-family: var(--font-heading);
+}
+
+.historia-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 2.5rem;
+    text-align: left;
+    margin-top: 2rem;
+}
+
+.historia-lore {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.lore-chapter {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.lore-chapter:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.lore-chapter-num {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--color-accent);
+    min-width: 60px;
+    text-align: center;
+    line-height: 1;
+    font-family: var(--font-heading);
+}
+
+.lore-chapter-body h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-foreground);
+    margin: 0 0 0.75rem;
+    font-family: var(--font-heading);
+}
+
+.lore-chapter-body p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-muted-foreground);
+    margin: 0;
+}
+
+.historia-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.historia-card {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.historia-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--color-accent);
+    font-weight: 700;
+    color: var(--color-foreground);
+    font-size: 1.05rem;
+}
+
+.historia-card-header i {
+    font-size: 1.3rem;
+    color: var(--color-accent);
+}
+
+.historia-mechanics,
+.historia-enemies {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.historia-mechanics li,
+.historia-enemies li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--color-muted-foreground);
+    padding: 0.5rem;
+}
+
+.historia-mechanics i {
+    font-size: 1.1rem;
+    color: var(--color-accent);
+    flex-shrink: 0;
+}
+
+.enemy-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+    color: var(--color-foreground);
+}
+
+.enemy-desc {
+    font-size: 0.8rem;
+    color: var(--color-muted-foreground);
+}
+
+.badge-boss {
+    display: inline-block;
+    font-size: 0.65rem;
+    background: #ef4444;
+    color: white;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.btn-lore-play {
+    margin-top: 1rem;
+    padding: 0.75rem 1.25rem;
+    background: linear-gradient(135deg, var(--color-accent) 0%, #0891b2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.btn-lore-play:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(8, 145, 178, 0.3);
+}
+
+/* Light theme overrides for historia */
+body.light-theme .lore-chapter {
+    background: rgba(34, 92, 68, 0.06);
+    border: 1px solid rgba(34, 92, 68, 0.15);
+}
+
+body.light-theme .lore-chapter:hover {
+    background: rgba(34, 92, 68, 0.12);
+    border-color: rgba(34, 92, 68, 0.25);
+}
+
+body.light-theme .historia-card {
+    background: rgba(34, 92, 68, 0.05);
+    border: 1px solid rgba(34, 92, 68, 0.15);
+}
+
+body.light-theme .historia-card-header {
+    border-bottom-color: #20b2aa;
+    color: hsl(150, 30%, 12%);
+}
+
+body.light-theme .historia-card-header i {
+    color: #20b2aa;
+}
+
+body.light-theme .lore-chapter-body p {
+    color: hsl(150, 15%, 50%);
+}
+
+body.light-theme .enemy-info {
+    color: hsl(150, 30%, 12%);
+}
+
+/* Responsive Historia */
+@media (max-width: 768px) {
+    .historia-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .section-heading {
+        font-size: 1.75rem;
+    }
+    
+    .lore-chapter {
+        flex-direction: column;
+    }
+    
+    .lore-chapter-num {
+        text-align: left;
+    }
+}
 .achievement-filters {
     display: flex;
     gap: 0.75rem;
@@ -1004,10 +1589,14 @@ body:has(.game-guest-banner) .game-tabs {
     border-radius: 1rem;
     padding: 1.5rem;
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+        "icon info"
+        "icon points";
     gap: 1rem;
-    align-items: center;
+    align-items: start;
     transition: all 0.3s;
+    overflow: hidden;
 }
 
 .achievement-card:hover {
@@ -1021,6 +1610,7 @@ body:has(.game-guest-banner) .game-tabs {
 }
 
 .achievement-icon {
+    grid-area: icon;
     font-size: 3rem;
     transition: filter 0.3s;
 }
@@ -1031,7 +1621,9 @@ body:has(.game-guest-banner) .game-tabs {
 }
 
 .achievement-info {
+    grid-area: info;
     flex: 1;
+    min-width: 0;
 }
 
 .achievement-title {
@@ -1046,6 +1638,7 @@ body:has(.game-guest-banner) .game-tabs {
     color: var(--color-muted-foreground);
     font-size: 0.875rem;
     margin-bottom: 0.5rem;
+    overflow-wrap: anywhere;
 }
 
 .achievement-progress {
@@ -1074,6 +1667,9 @@ body:has(.game-guest-banner) .game-tabs {
 }
 
 .achievement-points {
+    grid-area: points;
+    justify-self: start;
+    align-self: start;
     background: var(--color-muted);
     color: var(--color-muted-foreground);
     padding: 0.5rem 1rem;
@@ -1089,8 +1685,114 @@ body:has(.game-guest-banner) .game-tabs {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .game-header-content {
+        height: auto;
+        min-height: 3.5rem;
+        padding: 0.5rem 0;
+        gap: 0.45rem;
+    }
+
+    .back-button {
+        font-size: 0.9rem;
+        gap: 0.35rem;
+    }
+
+    .game-logo-text {
+        font-size: 1rem;
+    }
+
+    .game-stats {
+        gap: 0.35rem;
+    }
+
+    .stat-item {
+        min-height: 1.9rem;
+        padding: 0.2rem 0.5rem;
+        font-size: 0.82rem;
+    }
+
+    .tabs-wrapper {
+        padding: 0.55rem 0.1rem;
+        gap: 0.4rem;
+    }
+
+    .tab-button {
+        padding: 0.62rem 0.9rem;
+        border-bottom-width: 0;
+        border-radius: 0.65rem;
+        background: var(--color-secondary);
+    }
+
+    .tab-button.active {
+        color: var(--color-primary-foreground);
+        background: var(--color-primary);
+    }
+
+    .tab-icon {
+        font-size: 1.05rem;
+        width: 1.05rem;
+        height: 1.05rem;
+    }
+
+    .tab-label {
+        font-size: 0.82rem;
+    }
+
+    .section-title-game {
+        font-size: 1.5rem;
+    }
+
+    .section-description-game {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .selected-defenders {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .selected-slots {
+        grid-template-columns: repeat(4, minmax(56px, 1fr));
+    }
+
+    .defender-card {
+        padding: 1.1rem;
+    }
+
+    .defender-card:hover,
+    .defender-card.selected,
+    .shop-item:hover,
+    .upgrade-card:hover,
+    .story-chapter:not(.locked):hover,
+    .tutorial-card:hover,
+    .lore-chapter:hover,
+    .achievement-item.unlocked:hover,
+    .upgrade-item:hover,
+    .start-game-button:hover {
+        transform: none;
+    }
+
+    .defender-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 2rem;
+    }
+
+    .start-game-section {
+        padding: 1.25rem 0;
+    }
+
+    .start-game-button {
+        width: 100%;
+        justify-content: center;
+        padding: 1rem 1.1rem;
+        font-size: 1.02rem;
+    }
+
     .defenders-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
     
     .tutorial-steps {
@@ -1106,12 +1808,59 @@ body:has(.game-guest-banner) .game-tabs {
     }
     
     .achievement-card {
-        grid-template-columns: auto 1fr;
+        grid-template-columns: auto minmax(0, 1fr);
         gap: 0.75rem;
     }
-    
-    .achievement-points {
-        grid-column: 2;
-        justify-self: start;
+}
+
+@media (max-width: 480px) {
+    .game-logo-text {
+        display: none;
+    }
+
+    .game-main {
+        padding: 1rem 0;
+    }
+
+    .selected-slots {
+        grid-template-columns: repeat(4, minmax(52px, 1fr));
+        gap: 0.55rem;
+    }
+
+    .defender-slot {
+        font-size: 1.6rem;
+    }
+
+    .tab-label {
+        font-size: 0.78rem;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .tab-button:active,
+    .defender-card:active,
+    .shop-item:active,
+    .upgrade-card:active,
+    .tutorial-card:active,
+    .story-chapter:active,
+    .start-game-button:active {
+        transform: scale(0.98);
+    }
+
+    .defender-card:hover,
+    .shop-item:hover,
+    .upgrade-card:hover,
+    .tutorial-card:hover,
+    .story-chapter:hover,
+    .lore-chapter:hover,
+    .achievement-item.unlocked:hover,
+    .upgrade-item:hover,
+    .start-game-button:hover,
+    .guest-banner-link-btn:hover,
+    .level-clickable:hover,
+    .shop-buy-button:hover,
+    .upgrade-buy-button:hover,
+    .btn-lore-play:hover {
+        transform: none;
     }
 }

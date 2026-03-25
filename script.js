@@ -42,37 +42,12 @@ function getCellHeightWithGap() {
 
 
 // Datos del juego
-let gameState = {
-    coins: 100,
-    health: 100,
-    wave: 1,
-    selectedDefender: null,
-    selectedCost: 0,
-    defenders: [],
-    contaminators: [],
-    gameRunning: false,
-    waveActive: false,
-    contaminatorsSpawned: 0,
-    contaminatorsToSpawn: 0,
-    projectiles: [], // Proyectiles en el aire
-    effects: [], // Efectos visuales como explosiones
-    statusEffects: [], // Efectos de estado sobre los enemigos (quemadura, lentitud)
-    currentUser: null, // Almacenará el objeto de usuario completo 
-    specialCoins: 0, // Total de monedas del usuario
-    coinsEarnedThisSession: 0, // NUEVO: Monedas ganadas solo en esta sesión de juego
-    unlockedDefenders: ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"],
-    contaminationLevel: 0,
-    coinsAtWaveStart: 100, // Nuevo: Guarda las monedas al inicio de la oleada
-    isPaused: false, // Para el menú de pausa
-    healthAtWaveStart: 100,  // Nuevo: Guarda la salud al inicio de la oleada
-    defendersAtWaveStart: [], // Nuevo: Guarda el estado de los defensores
-    removalMode: false, // NEW: Estado de la herramienta de eliminación
-    selectedDefenderOnBoard: null, // NUEVO: Para el panel de mejora
-    multiPlacementMode: false // NUEVO: Modo de colocación múltiple con doble clic
-};
+const runtime = window.WacheckGameRuntime;
+let gameState = runtime.state;
 
 // Tipos de defensores (incluye los desbloqueables)
-const allDefenderTypes = {
+// Usar var (no const) para que js/game/defenders.js pueda sobreescribir vía window.allDefenderTypes
+var allDefenderTypes = window.allDefenderTypes || {
     // Básicos (siempre disponibles)
     filter: { icon: '🔵', image: "./img/filter.png", damage: 25, cost: 25, shootInterval: 1200, range: 4, health: 50, name: 'Filtro', projectile: 'water', info: "Los filtros de carbón activado se usan en la vida real para eliminar impurezas químicas del agua, haciéndola segura para beber." },
     plant: { icon: '🌱', image: "./img/plant.png", damage: 35, cost: 40, shootInterval: 1200, range: 4, health: 100, name: 'Planta', projectile: 'nature', selfHeal: { amount: 5, interval: 5000 }, info: "Las plantas acuáticas y los humedales son filtros biológicos naturales que limpian nuestros ríos absorbiendo nitratos y otros contaminantes." },
@@ -106,12 +81,22 @@ const allDefenderTypes = {
     golem: { icon: '🗿', damage: 30, cost: 180, shootInterval: 2500, range: 3, health: 400, name: 'Gólem', projectile: 'pure' },
     // --- DEFENSOR ESPECIAL DE RECOMPENSA ---
     antiTankArea: { icon: '🎯', damage: 150, cost: 250, shootInterval: 3000, range: 6, health: 180, name: 'Antitanque de Área', projectile: 'explosion', splashRadius: 2, bidirectional: true, info: "¡Recompensa especial! Ataca hacia adelante Y hacia atrás. Daño masivo en área." },
-    
+
+    // --- DEFENSORES DEL MENÚ DE SELECCIÓN (game-page.html) ---
+    // Estos IDs provienen de game-page.js y deben coincidir aquí para que aparezcan en la tienda del juego
+    'water-shield':  { icon: '🛡️', damage: 15,  cost: 50,  shootInterval: 2000, range: 1, health: 100, name: 'Gota Escudo',      projectile: 'water',  info: "Defensor básico con escudo. Barato y resistente." },
+    'rain-cloud':    { icon: '☁️',  damage: 20,  cost: 75,  shootInterval: 1200, range: 3, health: 60,  name: 'Nube Lluviosa',    projectile: 'water',  info: "Ataca con lluvia a distancia. Apoyo desde atrás." },
+    'water-cannon':  { icon: '💦',  damage: 45,  cost: 150, shootInterval: 1000, range: 4, health: 80,  name: 'Aqua Cañón',       projectile: 'water',  info: "Chorros de agua a alta presión. Gran alcance y daño." },
+    'ice-crystal':   { icon: '❄️',  damage: 35,  cost: 125, shootInterval: 1800, range: 3, health: 70,  name: 'Cristal de Hielo', projectile: 'ice',    statusEffect: { type: 'slow', power: 0.5, duration: 2000 }, info: "Congela y ralentiza contaminantes." },
+    'wave-warrior':  { icon: '🌊',  damage: 30,  cost: 200, shootInterval: 2000, range: 1, health: 250, name: 'Guerrero Ola',     projectile: 'water',  info: "Tanque pesado. Aguanta oleadas enteras." },
+    'water-lily':    { icon: '🪷',  cost: 100, health: 80,  name: 'Lirio Acuático',  generate: 15, interval: 6000, isGenerator: true, info: "Genera recursos adicionales pasivamente." },
+    'coral-reef':    { icon: '🪸',  damage: 25,  cost: 175, shootInterval: 1200, range: 2, health: 120, name: 'Coral Dorado',     projectile: 'nature', supportAura: { type: 'damage_reduction', power: 0.2, range: 1 }, info: "Aura que aumenta el daño de defensores adyacentes." },
+    'tsunami-giant': { icon: '🗿',  damage: 150, cost: 300, shootInterval: 3000, range: 6, health: 180, name: 'Titán Tsunami',    projectile: 'explosion', splashRadius: 2, info: "Defensor legendario. Daño en área masivo." },
 
 };
 
-// Tipos de contaminantes (se van revelando)
-const allContaminatorTypes = [
+// Tipos de contaminantes — var para permitir override desde js/game/contaminants.js
+var allContaminatorTypes = window.allContaminatorTypes || [
     { icon: '🏭', health: 60, speed: 1, coins: 15, name: 'Fábrica' },
     { icon: '🛢️', health: 90, speed: 0.8, coins: 25, name: 'Petróleo' },
     { icon: '☢️', health: 120, speed: 0.6, coins: 40, name: 'Nuclear' },
@@ -129,8 +114,8 @@ const allContaminatorTypes = [
     { icon: '🦑', health: 1500, speed: 0.5, coins: 300, name: 'El Leviatán', isBoss: true, ability: { type: 'lane_change', cooldown: 8000, lastUsed: 0 } } // Jefe que cambia de carril
 ];
 
-// Defensores desbloqueables con sus costos
-const unlockableDefenders = {
+// Defensores desbloqueables — var para permitir override desde js/game/defenders.js
+var unlockableDefenders = window.unlockableDefenders || {
     crystal: { cost: 2, description: "Cristal purificador de gran alcance" },
     solar: { cost: 3, description: "Panel solar con ataque rápido" },
     coral: { cost: 2, description: "Coral regenerativo y resistente" },
@@ -153,77 +138,9 @@ const unlockableDefenders = {
     golem: { cost: 6, description: "Tanque con mucha vida pero poco daño" }
 };
 
-// ============================================
-// SISTEMA DE OPTIMIZACIÓN: OBJECT POOLING
-// ============================================
-const projectilePool = {
-    pool: [],
-    maxSize: 100,
-
-    // Obtener un proyectil del pool o crear uno nuevo
-    get(type) {
-        let projectile;
-        if (this.pool.length > 0) {
-            projectile = this.pool.pop();
-            projectile.className = `projectile ${type}`;
-        } else {
-            projectile = document.createElement('div');
-            projectile.className = `projectile ${type}`;
-        }
-
-        // Añadir clases especiales
-        if (type === 'fire') projectile.classList.add('fire-projectile');
-        if (type === 'ice') projectile.classList.add('ice-projectile');
-
-        projectile.style.display = 'block';
-        projectile.style.zIndex = '10';
-        return projectile;
-    },
-
-    // Devolver un proyectil al pool
-    release(projectile) {
-        if (this.pool.length < this.maxSize) {
-            projectile.style.display = 'none';
-            if (projectile.parentNode) {
-                projectile.parentNode.removeChild(projectile);
-            }
-            this.pool.push(projectile);
-        } else {
-            // Pool lleno, eliminar el elemento
-            if (projectile.parentNode) {
-                projectile.parentNode.removeChild(projectile);
-            }
-        }
-    }
-};
-
-// Sistema de batching para actualizaciones del DOM
-const domUpdateBatcher = {
-    updates: [],
-    isScheduled: false,
-
-    add(element, property, value) {
-        this.updates.push({ element, property, value });
-        if (!this.isScheduled) {
-            this.isScheduled = true;
-            requestAnimationFrame(() => this.flush());
-        }
-    },
-
-    flush() {
-        for (const update of this.updates) {
-            if (update.property === 'transform') {
-                update.element.style.transform = update.value;
-            } else if (update.property === 'left') {
-                update.element.style.left = update.value;
-            } else if (update.property === 'width') {
-                update.element.style.width = update.value;
-            }
-        }
-        this.updates.length = 0;
-        this.isScheduled = false;
-    }
-};
+// Servicios compartidos extraídos a módulos dedicados
+const projectilePool = window.projectilePool;
+const domUpdateBatcher = runtime.services.domUpdateBatcher;
 
 function getAvailableDefenders() {
     const available = {};
@@ -250,83 +167,8 @@ function getAvailableContaminators() {
 
 function updateUnlockShop() {
     // Ya no se usa - la tienda ahora está en el menú lateral
-    return;
-
-    const grid = document.getElementById('unlockGrid');
-    const specialCoinsDisplay = document.getElementById('specialCoinsDisplay');
-    const specialCoinsDisplay2 = document.getElementById('specialCoinsDisplay2');
-
-    if (!grid || !specialCoinsDisplay) return;
-
-    specialCoinsDisplay.textContent = gameState.specialCoins;
-    if (specialCoinsDisplay2) {
-        specialCoinsDisplay2.textContent = gameState.specialCoins;
-    }
-    grid.innerHTML = '';
-
-    Object.keys(unlockableDefenders).forEach(key => {
-        const defender = allDefenderTypes[key];
-        const unlock = unlockableDefenders[key];
-        const card = document.createElement('div');
-        card.className = 'unlock-card';
-
-        const isUnlocked = gameState.unlockedDefenders.includes(key);
-        const canAfford = gameState.specialCoins >= unlock.cost;
-
-        if (isUnlocked) {
-            card.classList.add('unlocked');
-        } else if (canAfford) {
-            card.classList.add('available');
-            card.onclick = () => unlockDefender(key);
-        } else {
-            card.classList.add('locked');
-        }
-
-        // Usar imagen si está disponible, si no usar icono
-        const displayElement = defender.image
-            ? `<img src="${defender.image}" style="width: 60px; height: 60px; object-fit: contain;">`
-            : `<div style="font-size: 2em;">${defender.icon}</div>`;
-
-        card.innerHTML = `
-                    ${displayElement}
-                    <div><strong>${defender.name}</strong></div>
-                    <div style="font-size: 0.9em; color: #666;">${unlock.description}</div>
-                    <div style="color: #ffd700; font-weight: bold;">
-                        ${isUnlocked ? '✅ Desbloqueado' : `⭐ ${unlock.cost}`}
-                    </div>
-                `;
-
-        grid.appendChild(card);
-    });
 }
 
-function unlockDefender(key) {
-    const cost = unlockableDefenders[key].cost;
-    if (gameState.specialCoins >= cost && !gameState.unlockedDefenders.includes(key)) {
-        gameState.specialCoins -= cost;
-        gameState.unlockedDefenders.push(key);
-
-        saveCurrentUserProgress(); // Guardar datos del usuario actual
-
-        // Verificar si desbloqueó todos los defensores
-        const allUnlockableKeys = Object.keys(unlockableDefenders);
-        const allUnlocked = allUnlockableKeys.every(k => gameState.unlockedDefenders.includes(k));
-        if (allUnlocked && typeof unlockAchievement === 'function') {
-            unlockAchievement('all_defenders');
-        }
-
-        updateUnlockShop();
-        playSound(1000, 0.2, 'triangle', 0.3); // Sonido de desbloqueo: más agudo, onda triangular
-
-        showMessage(
-            "¡Desbloqueado!",
-            `Has desbloqueado ${allDefenderTypes[key].name}. ¡Ahora puedes usarlo en el juego!`,
-            [{ text: '¡Genial!', action: hideMessage }]
-        );
-    }
-}
-
-// NEW: Función para activar/desactivar el modo de eliminación
 function toggleRemovalMode() {
     gameState.removalMode = !gameState.removalMode;
     gameState.selectedDefender = null;
@@ -401,129 +243,6 @@ function removeDefender(row, col) {
     return true;
 }
 
-function updateDefenderShop() {
-    const shop = document.getElementById('defenderShop');
-    shop.innerHTML = '';
-
-    // NEW: Agregar herramienta de eliminación
-    const removalTool = document.createElement('div');
-    removalTool.className = 'defender-card removal-tool';
-    removalTool.onclick = toggleRemovalMode;
-    removalTool.innerHTML = `
-                <div class="defender-icon">🗑️</div>
-                <div class="defender-name">Eliminar</div>
-                <div class="defender-cost">50% 💰</div>
-            `;
-    shop.appendChild(removalTool);
-
-    // Usar los defensores seleccionados por el jugador en lugar de todos los disponibles
-    selectedDefendersForGame.forEach(defenderId => {
-        const defenderData = getDefenderData(defenderId);
-        if (!defenderData) return;
-
-        // Buscar el defensor en allDefenderTypes para obtener el costo y detalles
-        const defender = allDefenderTypes[defenderId];
-        if (!defender) return;
-
-        const card = document.createElement('div');
-        card.className = 'defender-card';
-        card.dataset.type = defenderId;
-
-        // Hacer que toda la tarjeta seleccione al defensor (mejora UX)
-        card.onclick = () => selectDefender(defenderId, defender.cost);
-
-        // NUEVO: Doble clic para activar modo de colocación múltiple
-        card.ondblclick = () => {
-            if (gameState.coins >= defender.cost && !gameState.isPaused) {
-                gameState.multiPlacementMode = true;
-                gameState.selectedDefender = defenderId;
-                gameState.selectedCost = defender.cost;
-                gameState.removalMode = false;
-
-                // Actualizar visualización de las cartas
-                document.querySelectorAll('.defender-card, .removal-tool').forEach(c => {
-                    c.classList.remove('selected', 'multi-placement');
-                });
-                card.classList.add('selected', 'multi-placement');
-
-                updateCellHoverEffects();
-                playSound(800, 0.1, 'triangle', 0.15); // Sonido especial para modo múltiple
-            }
-        };
-
-        card.onkeydown = (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                selectDefender(defenderId, defender.cost);
-            }
-        };
-        card.tabIndex = 0; // Hacer foco navegable
-        card.setAttribute('role', 'button');
-
-        const mainCardArea = document.createElement('div');
-        mainCardArea.className = 'defender-card-main';
-
-        // Determinar si usar imagen o icono
-        const iconHTML = defender.image
-            ? `<img src="${defender.image}" alt="${defender.name}" class="defender-image" style="width: 40px; height: 40px; object-fit: contain;">`
-            : `<div class="defender-icon">${defenderData.icon}</div>`;
-
-        mainCardArea.innerHTML = `
-                    ${iconHTML}
-                    <div class="defender-name">${defenderData.name}</div>
-                    <div class="defender-cost">${defender.cost} 💰</div>
-                `;
-        card.appendChild(mainCardArea);
-
-        if (defender.info) {
-            const infoBtn = document.createElement('button');
-            infoBtn.className = 'info-btn';
-            infoBtn.innerHTML = 'ℹ️';
-            infoBtn.onclick = (event) => {
-                event.stopPropagation(); // Evita que se seleccione el defensor al hacer clic en el botón de info
-                showMessage(defender.name, defender.info, [{ text: 'Entendido', action: hideMessage }]);
-            };
-            card.appendChild(infoBtn);
-        }
-
-        shop.appendChild(card);
-    });
-}
-
-// --- Función para actualizar el color de la barra de vida según nivel ---
-function updateDefenderHealthBarColor(defender) {
-    if (!defender.healthFill) return;
-
-    // Colores según nivel (evitando rojo que usan los enemigos)
-    switch (defender.level) {
-        case 1:
-            // Verde (nivel inicial)
-            defender.healthFill.style.background = 'linear-gradient(90deg, #10b981, #059669)';
-            defender.healthFill.style.boxShadow = '0 0 8px rgba(16, 185, 129, 0.6)';
-            break;
-        case 2:
-            // Verde-azulado
-            defender.healthFill.style.background = 'linear-gradient(90deg, #14b8a6, #0d9488)';
-            defender.healthFill.style.boxShadow = '0 0 8px rgba(20, 184, 166, 0.6)';
-            break;
-        case 3:
-            // Azul
-            defender.healthFill.style.background = 'linear-gradient(90deg, #3b82f6, #2563eb)';
-            defender.healthFill.style.boxShadow = '0 0 8px rgba(59, 130, 246, 0.6)';
-            break;
-        case 4:
-            // Azul-morado
-            defender.healthFill.style.background = 'linear-gradient(90deg, #8b5cf6, #7c3aed)';
-            defender.healthFill.style.boxShadow = '0 0 8px rgba(139, 92, 246, 0.6)';
-            break;
-        case 5:
-            // Morado (nivel máximo)
-            defender.healthFill.style.background = 'linear-gradient(90deg, #a855f7, #9333ea)';
-            defender.healthFill.style.boxShadow = '0 0 10px rgba(168, 85, 247, 0.8)';
-            break;
-    }
-}
-
 function startGame() {
     // Redirigir a game-page.html para selección de defensores
     window.location.href = 'game-page.html';
@@ -535,12 +254,36 @@ function startGameDirectly() {
     const gamePageDefenders = localStorage.getItem('wacheck-selected-defenders');
     if (gamePageDefenders) {
         try {
-            const defenders = JSON.parse(gamePageDefenders);
-            selectedDefendersForGame = defenders;
-            localStorage.setItem('selectedDefendersForGame', JSON.stringify(defenders));
-            console.log('🛡️ Defensores cargados desde game-page:', defenders);
+            const parsed = JSON.parse(gamePageDefenders);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                window.selectedDefendersForGame = parsed;
+                localStorage.setItem('selectedDefendersForGame', JSON.stringify(parsed));
+            }
         } catch (e) {
             console.error('Error parsing defenders:', e);
+        }
+    }
+    // Garantizar que siempre haya defensores — nunca arrancar con shop vacío
+    if (!window.selectedDefendersForGame || window.selectedDefendersForGame.length === 0) {
+        window.selectedDefendersForGame = ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"];
+    }
+
+    // Garantizar que gameState.currentUser esté cargado.
+    // session-manager.js corre antes que script.js, así que su restauración
+    // no encuentra gameState todavía. Lo cargamos aquí manualmente si falta.
+    if (!gameState.currentUser) {
+        try {
+            const savedUser = localStorage.getItem('wacheck_user');
+            if (savedUser) {
+                const user = JSON.parse(savedUser);
+                gameState.currentUser = user;
+                gameState.specialCoins = user.specialCoins || 0;
+                // gameState.coins se mantiene en 100 (monedas de juego, independientes de las de cuenta)
+                gameState.unlockedDefenders = user.unlockedDefenders ||
+                    ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"];
+            }
+        } catch (e) {
+            console.error('[startGameDirectly] Error loading user from localStorage:', e);
         }
     }
     
@@ -557,7 +300,7 @@ function startGameDirectly() {
     document.getElementById('mainPage').style.display = 'none';
     document.getElementById('userPanel').style.display = 'none';
     document.getElementById('settingsPanelToggle').style.display = 'none';
-    document.getElementById('gameContainer').style.display = 'block';
+    document.getElementById('gameContainer').style.display = 'flex';
 
     if (typeof closeSettingsPanel === 'function') {
         closeSettingsPanel();
@@ -643,43 +386,44 @@ function initializeGame() {
     }
 
     // Guardar los datos que deben persistir entre partidas
+    // NOTA: currentUser puede ser null si no hay sesión iniciada (jugador invitado sin localStorage)
+    const _cu = gameState.currentUser || null;
     const persistentData = {
-        // El currentUser (objeto) ya contiene specialCoins y unlockedDefenders
-        currentUser: gameState.currentUser,
-        specialCoins: gameState.currentUser.specialCoins, // ¡CORRECCIÓN CLAVE! Usar las monedas del perfil de usuario
+        currentUser: _cu,
+        specialCoins: _cu ? (_cu.specialCoins || 0) : 0,
         unlockedDefenders: gameState.unlockedDefenders
     };
 
     // CORRECCIÓN: Asegurar que los defensores básicos SIEMPRE estén disponibles
-    const basicDefenders = ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"];
-    const userUnlocked = persistentData.currentUser.unlockedDefenders || [];
+    const basicDefenders = runtime.constants.basicDefenders;
+    const userUnlocked = (_cu && _cu.unlockedDefenders) ? _cu.unlockedDefenders : [];
     const allUnlocked = [...new Set([...basicDefenders, ...userUnlocked])]; // Combinar sin duplicados
 
-    // Restablecer completamente el estado del juego, preservando los datos importantes
-    gameState = {
+    // Restablecer completamente el estado del juego sin romper la referencia compartida
+    runtime.resetGameState(gameState, {
         // Datos que persisten entre partidas
         specialCoins: persistentData.specialCoins,
-        currentUser: persistentData.currentUser, // Se mantiene el usuario logueado
-        unlockedDefenders: allUnlocked, // CORRECCIÓN: Usar lista combinada
+        currentUser: persistentData.currentUser,
+        unlockedDefenders: allUnlocked,
 
         // Datos reiniciados para una nueva partida
         coins: 100,
         health: 100,
         wave: 1,
-        coinsEarnedThisSession: 0, // NUEVO: Resetear monedas ganadas en sesión
-        selectedDefender: null,
-        selectedCost: 0,
-        defenders: [], contaminators: [], projectiles: [], effects: [], statusEffects: [],
+        coinsEarnedThisSession: 0,
         gameRunning: true,
         waveActive: false,
-        contaminatorsSpawned: 0, contaminatorsToSpawn: 0,
+        contaminatorsSpawned: 0,
+        contaminatorsToSpawn: 0,
         contaminationLevel: 0,
         coinsAtWaveStart: 100,
-        healthAtWaveStart: 100,  // Reiniciar para un nuevo juego
+        healthAtWaveStart: 100,
         isPaused: false,
         defendersAtWaveStart: [],
-        removalMode: false // NEW: Resetear modo de eliminación
-    };
+        removalMode: false,
+        selectedDefenderOnBoard: null,
+        multiPlacementMode: false
+    });
 
     // Aplicar upgrades permanentes
     applyGameUpgrades();
@@ -717,38 +461,6 @@ function handleCellClick(row, col) {
     }
 }
 
-function selectDefender(type, cost) {
-    // Permitir selección durante el tutorial o cuando el juego no esté pausado
-    const isTutorialActive = typeof tutorialManager !== 'undefined' && tutorialManager.isActive;
-    const canSelect = (isTutorialActive || !gameState.isPaused);
-
-    if (gameState.coins >= cost && canSelect) {
-        gameState.selectedDefender = type;
-        gameState.selectedCost = cost;
-        gameState.removalMode = false; // NEW: Desactivar modo eliminación al seleccionar defensor
-        gameState.multiPlacementMode = false; // NUEVO: Desactivar modo múltiple en clic simple
-
-        document.querySelectorAll('.defender-card, .removal-tool').forEach(card => { // NEW: Incluir removal-tool
-            card.classList.remove('selected', 'multi-placement');
-        });
-        document.querySelector(`[data-type="${type}"]`).classList.add('selected');
-
-        updateCellHoverEffects(); // NEW: Actualizar efectos hover
-        playSound(600, 0.05, 'sine', 0.1); // Sonido de selección: seno rápido
-
-        // Notificar al tutorial que se seleccionó un defensor
-        if (typeof tutorialManager !== 'undefined') {
-            tutorialManager.checkCondition('defender_selected');
-        }
-    } else {
-        showMessage(
-            "Sin fondos",
-            "No tienes suficientes monedas para este defensor.",
-            [{ text: 'Aceptar', action: hideMessage }]
-        );
-        playSound(200, 0.3, 'square', 0.2); // Sonido de error: cuadrado grave
-    }
-}
 
 function placeDefender(row, col) {
     // Permitir colocación durante el tutorial incluso si el juego está pausado
@@ -1390,7 +1102,7 @@ function shoot() {
                         // Volver a comprobar si el objetivo sigue vivo y en rango
                         const currentTarget = gameState.contaminators.find(c => c.id === target.id && c.health > 0);
                         if (currentTarget) {
-                            shootProjectile(defender, currentTarget, defenderType, damageToUse);
+                            shootProjectile(defender, currentTarget, damageToUse);
                         }
                     }, i * shotDelay);
                 }
@@ -1401,298 +1113,18 @@ function shoot() {
     });
 }
 
-function shootProjectile(defender, target, defenderType, currentDamage) {
-    defender.element.classList.add('attacking');
-    setTimeout(() => defender.element.classList.remove('attacking'), 500);
-
-    const defenderCell = document.querySelector(`[data-row="${defender.row}"][data-col="${defender.col}"]`);
-    if (!defenderCell) return; // Si la celda no existe, no disparar
-
-    // OPTIMIZACIÓN: Usar Object Pool
-    const projectile = projectilePool.get(defenderType.projectile);
-
-    defenderCell.appendChild(projectile);
-
-    // Calcular el ancho real de la celda (importante para diferentes tamaños de pantalla)
-    const cellWidth = defenderCell.offsetWidth || 70;
-    const cellHeight = defenderCell.offsetHeight || 70;
-    const projectileSize = 18; // Tamaño del proyectil en CSS
-
-    // Centrar el proyectil en la celda
-    const initialTop = (cellHeight - projectileSize) / 2;
-    const initialLeft = (cellWidth - projectileSize) / 2;
-
-    projectile.style.top = `${initialTop}px`;
-    projectile.style.top = `${initialTop}px`;
-    projectile.style.left = `${initialLeft}px`;
-    // Z-Index para 2.5D
-    projectile.style.zIndex = defender.row * 100 + 30; // Proyectiles por encima de unidades en la misma fila
-
-    // Verificar crítico
-    const isCrit = checkCriticalHit();
-    const finalDamage = isCrit ? currentDamage * 2 : currentDamage;
-
-    const projectileData = {
-        element: projectile,
-        row: defender.row,
-        startCol: defender.col,
-        targetId: target.id,
-        damage: finalDamage,
-        speed: 8,
-        position: defender.col,
-        critChance: defender.critChance,
-        isCrit: isCrit,
-        statusEffect: defenderType.statusEffect,
-        splashRadius: defenderType.splashRadius,
-        defenderType: defender.type,
-        // Cachear valores para optimización
-        cellWidth: cellWidth,
-        initialTop: initialTop,
-        initialLeft: initialLeft
-    };
-
-    gameState.projectiles.push(projectileData);
-}
-
-function removeProjectile(projectileData) {
-    const index = gameState.projectiles.indexOf(projectileData);
-    if (index > -1) {
-        gameState.projectiles.splice(index, 1);
-        if (projectileData.element) {
-            // OPTIMIZACIÓN: Devolver al pool en vez de destruir
-            projectilePool.release(projectileData.element);
-        }
-    }
-}
-
-// OPTIMIZACIÓN: Actualizar todos los proyectiles en un solo bucle
-function updateProjectiles() {
-    if (gameState.projectiles.length === 0) return;
-
-    // Usar bucle inverso para poder eliminar proyectiles sin problemas
-    for (let i = gameState.projectiles.length - 1; i >= 0; i--) {
-        const projectileData = gameState.projectiles[i];
-
-        // Mover proyectil
-        projectileData.position += projectileData.speed / 60;
-
-        // Buscar objetivo
-        const target = gameState.contaminators.find(c => c.id === projectileData.targetId);
-
-        // Verificar colisión
-        if (target && target.health > 0) {
-            // Si el objetivo está en fase (intangible), el proyectil lo atraviesa
-            if (!(target.status.phasing && Date.now() < target.status.phasing.endTime)) {
-                // Colisión normal
-                if (Math.abs(projectileData.position - target.position) < 0.3) {
-                    hitTarget(projectileData, target);
-                    removeProjectile(projectileData);
-                    continue;
-                }
-            }
-        }
-
-        // Verificar si salió del tablero
-        if (projectileData.position >= 11) {
-            removeProjectile(projectileData);
-            continue;
-        }
-
-        // OPTIMIZACIÓN: Usar batching para actualizar posición visual
-        if (projectileData.element && projectileData.element.parentNode) {
-            const offset = (projectileData.position - projectileData.startCol) * projectileData.cellWidth;
-            const newLeft = `${projectileData.initialLeft + offset}px`;
-
-            // Batch update en vez de escribir directo al DOM
-            domUpdateBatcher.add(projectileData.element, 'left', newLeft);
-        }
-    }
-}
-
-function hitTarget(projectile, mainTarget) {
-    // --- LÓGICA DE DAÑO SPLASH (ÁREA) ---
-    const defenderType = allDefenderTypes[projectile.defenderType];
-
-    // --- NUEVO: LÓGICA DE ATAQUE EN CADENA ---
-    if (defenderType.chain) {
-        let currentTarget = mainTarget;
-        let damage = projectile.damage;
-        const targetsHit = new Set([currentTarget.id]);
-
-        for (let i = 0; i <= defenderType.chain.jumps; i++) {
-            if (!currentTarget) break;
-            applyDamageAndEffectsV2(currentTarget, damage, projectile.statusEffect, projectile.critChance);
-            damage = Math.floor(damage * defenderType.chain.damageFalloff);
-
-            // Buscar siguiente objetivo cercano no golpeado
-            const nextTarget = gameState.contaminators.find(c =>
-                c.health > 0 && !targetsHit.has(c.id) &&
-                Math.abs(c.position - currentTarget.position) < 3 && // Rango de salto de 3 celdas
-                c.row === currentTarget.row
-            );
-            currentTarget = nextTarget;
-            if (currentTarget) targetsHit.add(currentTarget.id);
-        }
-    } else if (projectile.splashRadius) {
-        // OPTIMIZACIÓN: Crear efecto visual de explosión con partículas
-        createExplosionEffect(mainTarget.element, defenderType.projectile);
-
-        // Encontrar enemigos en el radio
-        const targetsInSplash = gameState.contaminators.filter(c =>
-            c.health > 0 &&
-            Math.abs(c.position - mainTarget.position) < projectile.splashRadius &&
-            c.row === mainTarget.row
-        );
-
-        targetsInSplash.forEach(t => {
-            // El daño splash puede ser menor que el daño principal
-            const splashDamage = t === mainTarget ? projectile.damage : Math.floor(projectile.damage * 0.5);
-            applyDamageAndEffectsV2(t, splashDamage, projectile.statusEffect, projectile.isCrit);
-        });
-    } else {
-        // Daño a un solo objetivo - agregar efecto de impacto
-        createImpactEffect(mainTarget.element, defenderType.projectile);
-        applyDamageAndEffectsV2(mainTarget, projectile.damage, projectile.statusEffect, projectile.isCrit);
-    }
-}
-
-// ============================================
-// SISTEMA DE PARTÍCULAS EFICIENTE
-// ============================================
-const particlePool = {
-    pool: [],
-    maxSize: 50,
-
-    get() {
-        if (this.pool.length > 0) {
-            return this.pool.pop();
-        }
-        return document.createElement('div');
-    },
-
-    release(particle) {
-        if (this.pool.length < this.maxSize) {
-            particle.className = '';
-            particle.style.cssText = '';
-            if (particle.parentNode) {
-                particle.parentNode.removeChild(particle);
-            }
-            this.pool.push(particle);
-        }
-    }
-};
-
-function createExplosionEffect(targetElement, type) {
-    const colors = {
-        water: '#3b82f6',
-        fire: '#f59e0b',
-        ice: '#0ea5e9',
-        nature: '#10b981',
-        energy: '#fbbf24',
-        pure: '#a855f7',
-        explosion: '#ef4444'
-    };
-
-    const color = colors[type] || '#fbbf24';
-    const particleCount = 8;
-
-    for (let i = 0; i < particleCount; i++) {
-        const particle = particlePool.get();
-        particle.className = 'particle explosion-particle';
-        particle.style.background = color;
-        particle.style.left = '50%';
-        particle.style.top = '50%';
-
-        // Calcular dirección aleatoria
-        const angle = (i / particleCount) * Math.PI * 2;
-        const distance = 40 + Math.random() * 20;
-        const tx = Math.cos(angle) * distance;
-        const ty = Math.sin(angle) * distance;
-
-        particle.style.setProperty('--tx', `${tx}px`);
-        particle.style.setProperty('--ty', `${ty}px`);
-
-        targetElement.appendChild(particle);
-
-        // Limpiar después de la animación
-        setTimeout(() => particlePool.release(particle), 600);
-    }
-}
-
-function createImpactEffect(targetElement, type) {
-    const particleClass = {
-        water: 'splash-particle',
-        fire: 'fire-particle',
-        ice: 'ice-particle',
-        nature: 'splash-particle',
-        energy: 'explosion-particle',
-        pure: 'explosion-particle'
-    };
-
-    const className = particleClass[type] || 'splash-particle';
-    const particleCount = 4;
-
-    for (let i = 0; i < particleCount; i++) {
-        const particle = particlePool.get();
-        particle.className = `particle ${className}`;
-        particle.style.left = '50%';
-        particle.style.top = '50%';
-
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 20 + Math.random() * 15;
-        const tx = Math.cos(angle) * distance;
-        const ty = Math.sin(angle) * distance;
-
-        particle.style.setProperty('--tx', `${tx}px`);
-        particle.style.setProperty('--ty', `${ty}px`);
-
-        targetElement.appendChild(particle);
-
-        setTimeout(() => particlePool.release(particle), type === 'fire' ? 700 : 800);
-    }
-}
-
-// --- NUEVA FUNCIÓN PARA APLICAR DAÑO Y EFECTOS ---
-function applyDamageAndEffects(target, damage, statusEffect) {
-    // La función original ahora es un wrapper para la nueva lógica
-    applyDamageAndEffectsV2(target, damage, statusEffect, false);
-}
-
-function applyDamageAndEffectsV2(target, damage, statusEffect, isCrit) {
-    if (target.status.phasing && Date.now() < target.status.phasing.endTime) return; // Inmune si está en fase
-
-    let finalDamage = damage;
-
-    if (damage > 0) {
-        target.health -= finalDamage;
-        showFloatingText(`-${finalDamage}`, target.element, isCrit ? 'crit-hit-effect' : 'hit-effect');
-    }
-
-    target.element.classList.add('damaged');
-    setTimeout(() => target.element.classList.remove('damaged'), 300);
-
-    // --- APLICAR EFECTOS DE ESTADO (QUEMADURA, RALENTIZACIÓN) ---
-    if (statusEffect) {
-        const now = Date.now();
-        if (statusEffect.type === 'burn') {
-            target.status.burn = { endTime: now + statusEffect.duration, dps: statusEffect.dps };
-            target.element.classList.add('burning');
-        }
-        if (statusEffect.type === 'slow') {
-            target.status.slow = { endTime: now + statusEffect.duration, power: statusEffect.power };
-            target.element.classList.add('slowed');
-        }
-    }
-
-    updateContaminatorHealthBar(target);
-    playSound(400, 0.1, 'triangle', 0.08); // Sonido de golpe a contaminante: triángulo corto
-
-    if (target.health <= 0) {
-        // Guardar referencia del contaminante para curación
-        target.maxHealthBeforeDeath = target.type.health;
-        handleContaminatorDeath(target);
-    }
-}
+// ====================================
+// FUNCIONES DE PROYECTILES (importadas de projectiles-service.js)
+// Aliases para mantener compatibilidad
+// ====================================
+const shootProjectile = window.WacheckProjectiles.shootProjectile;
+const updateProjectiles = window.WacheckProjectiles.updateProjectiles;
+const hitTarget = window.WacheckProjectiles.hitTarget;
+const applyDamageAndEffectsV2 = window.WacheckProjectiles.applyDamageAndEffectsV2;
+const applyDamageAndEffects = window.WacheckProjectiles.applyDamageAndEffects;
+const removeProjectile = window.WacheckProjectiles.removeProjectile;
+const createExplosionEffect = window.WacheckProjectiles.createExplosionEffect;
+const createImpactEffect = window.WacheckProjectiles.createImpactEffect;
 
 function checkWaveComplete() {
     const checkComplete = () => {
@@ -1928,141 +1360,36 @@ function showWaveComplete(bonus) {
     }, 3000);
 }
 
-// Función de utilidad para mostrar texto flotante
-function showFloatingText(text, element, className) {
-    const floatText = document.createElement('div');
-    floatText.className = `floating-text ${className}`;
-    floatText.textContent = text;
-    // Si el elemento es el body, lo posiciona en el centro. Si no, sobre el elemento.
-    const container = element === document.body ? document.body : element;
-    container.appendChild(floatText);
-    setTimeout(() => floatText.remove(), 2000);
-}
+// ====================================
+// FUNCIONES DE UI (importadas de ui-system.js)
+// Aliases para mantener compatibilidad
+// ====================================
+const showFloatingText = window.WacheckUI.showFloatingText;
+const updateIslandContamination = window.WacheckUI.updateIslandContamination;
+const updateWaveStatus = window.WacheckUI.updateWaveStatus;
+const updateUI = window.WacheckUI.updateUI;
+const showMessage = window.WacheckUI.showMessage;
+const hideMessage = window.WacheckUI.hideMessage;
 
-function updateIslandContamination() {
-    const island = document.getElementById('island');
-    const level = Math.min(Math.floor(gameState.contaminationLevel / 3), 5);
-
-    island.className = 'island';
-    if (level > 0) {
-        island.classList.add(`contaminated-${level}`);
-    }
-}
-
-function updateWaveStatus(status) {
-    document.getElementById('waveStatus').textContent = status;
-}
-
-function updateUI() {
-    document.getElementById('coinCount').textContent = gameState.coins;
-    document.getElementById('waveCount').textContent = gameState.wave;
-    document.getElementById('healthCount').textContent = gameState.health;
-    
-    // CORRECCIÓN: Durante el juego, mostrar monedas ganadas en esta sesión, no el total
-    document.getElementById('specialCoins').textContent = gameState.coinsEarnedThisSession;
-
-    // Actualizar también los displays en la página principal (mostrar total del usuario)
-    const specialCoinsDisplay = document.getElementById('specialCoinsDisplay');
-    const specialCoinsDisplay2 = document.getElementById('specialCoinsDisplay2');
-    if (specialCoinsDisplay) {
-        specialCoinsDisplay.textContent = gameState.specialCoins;
-    }
-    if (specialCoinsDisplay2) {
-        specialCoinsDisplay2.textContent = gameState.specialCoins;
-    }
-
-    document.querySelectorAll('.defender-card').forEach(card => {
-        const type = card.dataset.type;
-        if (type) { // NEW: Verificar que existe el tipo (excluir removal-tool)
-            const cost = allDefenderTypes[type].cost;
-            if (gameState.coins < cost) {
-                card.classList.add('disabled');
-            } else {
-                card.classList.remove('disabled');
-            }
-        }
-    });
-}
-
-function showMessage(title, text, buttons, timeout = 0) {
-    document.getElementById('messageTitle').textContent = title;
-    document.getElementById('messageText').innerHTML = text; // Cambiar a innerHTML para interpretar HTML
-
-    const buttonsContainer = document.getElementById('messageButtons');
-    buttonsContainer.innerHTML = '';
-
-    if (buttons && buttons.length > 0) {
-        buttons.forEach((btnInfo, index) => {
-            const button = document.createElement('button');
-            button.textContent = btnInfo.text;
-
-            // Mejorar el manejo de acciones
-            if (typeof btnInfo.action === 'string') {
-                // Si es una string, evaluar como función
-                button.onclick = () => {
-                    try {
-                        eval(btnInfo.action);
-                    } catch (e) {
-                        console.error('Error ejecutando acción:', e);
-                        hideMessage();
-                    }
-                };
-            } else if (typeof btnInfo.action === 'function') {
-                // Si es una función, asignar directamente
-                button.onclick = btnInfo.action;
-            } else {
-                // Si no hay acción, solo cerrar el mensaje
-                button.onclick = hideMessage;
-            }
-
-            // Añadir clases CSS para estilos
-            if (btnInfo.class) {
-                button.className = btnInfo.class;
-            } else {
-                // Clases por defecto según el índice
-                if (index === 0 && buttons.length > 1) {
-                    button.className = 'success';
-                } else if (index === buttons.length - 1 && buttons.length > 1) {
-                    button.className = 'secondary';
-                }
-            }
-
-            buttonsContainer.appendChild(button);
-        });
-    } else {
-        // Si no hay botones, crear uno por defecto
-        const okButton = document.createElement('button');
-        okButton.textContent = '¡Entendido!';
-        okButton.className = 'success';
-        okButton.onclick = hideMessage;
-        buttonsContainer.appendChild(okButton);
-    }
-
-    const msgBox = document.getElementById('gameMessage');
-    msgBox.style.display = 'block';
-    msgBox.classList.add('show');
-
-    // Si se proporciona un timeout, ocultar el mensaje después de ese tiempo
-    if (timeout > 0) {
-        setTimeout(() => {
-            hideMessage();
-        }, timeout);
-    }
-}
-
-function hideMessage() {
-    const msgBox = document.getElementById('gameMessage');
-    if (msgBox) {
-        msgBox.classList.remove('game-over-message');
-        msgBox.classList.remove('show');
-        msgBox.classList.add('hiding');
-
-        setTimeout(() => {
-            msgBox.style.display = 'none';
-            msgBox.classList.remove('hiding');
-        }, 300); // Dar tiempo para la animación de salida
-    }
-}
+// ====================================
+// FUNCIONES DE TIENDA (importadas de shop-system.js)
+// Aliases para mantener compatibilidad
+// ====================================
+const unlockDefender = window.WacheckShop.unlockDefender;
+const updateDefenderShop = window.WacheckShop.updateDefenderShop;
+const updateDefenderHealthBarColor = window.WacheckShop.updateDefenderHealthBarColor;
+const selectDefender = window.WacheckShop.selectDefender;
+const openShopMenu = window.WacheckShop.openShopMenu;
+const closeShopMenu = window.WacheckShop.closeShopMenu;
+const closeShopMenuOnOutsideClick = window.WacheckShop.closeShopMenuOnOutsideClick;
+const renderShop = window.WacheckShop.renderShop;
+const purchaseDefender = window.WacheckShop.purchaseDefender;
+const updateShopBalance = window.WacheckShop.updateShopBalance;
+const awardSpecialCoins = window.WacheckShop.awardSpecialCoins;
+const showDefenderSelectionModal = window.WacheckShop.showDefenderSelectionModal;
+const hideDefenderSelectionModal = window.WacheckShop.hideDefenderSelectionModal;
+const getDefenderData = window.WacheckShop.getDefenderData;
+const confirmDefenderSelection = window.WacheckShop.confirmDefenderSelection;
 
 // --- NUEVO: SISTEMA DE NIVELES ---
 
@@ -2146,14 +1473,6 @@ function showUpgradePanel(defender) {
     } else {
         groupUpgradeButton.style.display = 'none';
     }
-}
-
-function massUpgradeDefenders() {
-    const mainDefender = gameState.selectedDefenderOnBoard;
-    if (!mainDefender) return;
-
-    // La lógica de la mejora grupal se ejecutará aquí
-    // (Se añade en el siguiente bloque)
 }
 
 function hideUpgradePanel() {
@@ -2305,7 +1624,7 @@ function gameOver() {
 
     // Generar mensaje educativo aleatorio
     const educationalMessage = getRandomWaterMessage();
-    document.getElementById('gameMessage').classList.add('game-over-message');
+    document.getElementById('gameMessage').classList.add('game-over');
 
     showMessage(
         "¡Isla Contaminada!",
@@ -2528,9 +1847,9 @@ function initializeSound() {
 
 // Inicializar
 initializeSound(); // Cargar configuración de sonido
-initializeSession(); // Reemplaza a loginAsGuest()
+try { initializeSession(); } catch(e) { console.warn('[Wacheck] session init error:', e); } // siempre continúa
 updateUnlockShop(); // Actualizar displays de monedas especiales
-requestAnimationFrame(gameLoop); // Iniciar con timestamp correcto
+requestAnimationFrame(gameLoop); // Iniciar con timestamp correcto — SIEMPRE debe ejecutarse
 if (window.soundEnabled) initAudio(); // Inicializar audio solo si está activado
 
 // ============================================
@@ -2735,386 +2054,24 @@ window.shopDefenders = [
 ];
 
 // Estado de la tienda (qué defensores ha comprado el jugador)
-let purchasedDefenders = JSON.parse(localStorage.getItem('purchasedDefenders')) || [];
-let specialCoins = parseInt(localStorage.getItem('specialCoins')) || 0;
-
-// Abrir/Cerrar tienda
-function openShopMenu() {
-    const shopMenu = document.getElementById('shopMenu');
-    const globalSoundBtn = document.getElementById('soundToggle');
-    const shopBtn = document.querySelector('.shop-toggle-btn');
-
-    if (shopMenu) {
-        shopMenu.classList.add('active');
-        renderShop();
-        updateShopBalance();
-    }
-
-    // Ocultar botón de sonido global y botón de tienda
-    if (globalSoundBtn) {
-        globalSoundBtn.style.display = 'none';
-    }
-    if (shopBtn) {
-        shopBtn.style.display = 'none';
-    }
-}
-
-function closeShopMenu() {
-    const shopMenu = document.getElementById('shopMenu');
-    const globalSoundBtn = document.getElementById('soundToggle');
-    const shopBtn = document.querySelector('.shop-toggle-btn');
-
-    if (shopMenu) {
-        shopMenu.classList.remove('active');
-    }
-
-    // Mostrar botón de sonido global y botón de tienda de nuevo
-    if (globalSoundBtn) {
-        globalSoundBtn.style.display = 'flex';
-    }
-    if (shopBtn) {
-        shopBtn.style.display = 'flex';
-    }
-}
-
-// Cerrar tienda al hacer clic fuera del contenido
-function closeShopMenuOnOutsideClick(event) {
-    if (event.target.id === 'shopMenu') {
-        closeShopMenu();
-    }
-}
-
-// Hacer la función accesible globalmente
-window.closeShopMenuOnOutsideClick = closeShopMenuOnOutsideClick;
-
-// Renderizar tienda por categorías
-function renderShop() {
-    const categories = {
-        lowCost: document.getElementById('shopLowCost'),
-        damage: document.getElementById('shopDamage'),
-        tank: document.getElementById('shopTank'),
-        special: document.getElementById('shopSpecial')
-    };
-
-    console.log('Renderizando tienda...', categories);
-    console.log('Defensores en tienda:', shopDefenders.length);
-
-    // Limpiar grids
-    Object.values(categories).forEach(grid => {
-        if (grid) grid.innerHTML = '';
-    });
-
-    // Renderizar cada defensor
-    shopDefenders.forEach(defender => {
-        const grid = categories[defender.category];
-        if (!grid) {
-            console.log('Grid no encontrado para categoría:', defender.category);
-            return;
-        }
-
-        const isPurchased = purchasedDefenders.includes(defender.id);
-        const canAfford = specialCoins >= defender.cost;
-
-        const itemDiv = document.createElement('div');
-        itemDiv.className = `shop-item ${isPurchased ? 'purchased' : ''} ${!canAfford && !isPurchased ? 'locked' : ''}`;
-        itemDiv.innerHTML = `
-                    <div class="shop-item-icon">${defender.icon}</div>
-                    <div class="shop-item-name">${defender.name}</div>
-                    <div class="shop-item-desc">${defender.desc}</div>
-                    <div class="shop-item-price">
-                        ${isPurchased ? 'COMPRADO' : `⭐ ${defender.cost}`}
-                    </div>
-                `;
-
-        if (!isPurchased && canAfford) {
-            itemDiv.onclick = () => purchaseDefender(defender);
-        }
-
-        grid.appendChild(itemDiv);
-    });
-
-    console.log('Tienda renderizada');
-}
-
-// Comprar defensor
-function purchaseDefender(defender) {
-    if (specialCoins >= defender.cost && !purchasedDefenders.includes(defender.id)) {
-        specialCoins -= defender.cost;
-        purchasedDefenders.push(defender.id);
-
-        // NUEVO: Sincronizar con gameState
-        gameState.specialCoins = specialCoins;
-        if (!gameState.unlockedDefenders.includes(defender.id)) {
-            gameState.unlockedDefenders.push(defender.id);
-        }
-
-        localStorage.setItem('specialCoins', specialCoins);
-        localStorage.setItem('purchasedDefenders', JSON.stringify(purchasedDefenders));
-
-        // NUEVO: Guardar en la base de datos
-        if (typeof saveCurrentUserProgress === 'function') {
-            saveCurrentUserProgress();
-        }
-
-        updateShopBalance();
-        renderShop();
-
-        showMessage(`🎉 ¡${defender.name} comprado!`, 'success');
-    }
-}
-
-// Actualizar balance de monedas especiales
-function updateShopBalance() {
-    const balanceElement = document.getElementById('shopSpecialCoins');
-    if (balanceElement) {
-        balanceElement.textContent = specialCoins;
-    }
-}
-
-// Otorgar monedas especiales (llamar después de ciertas oleadas)
-function awardSpecialCoins(amount) {
-    // ANTI-CHEAT: Verificar si las recompensas están bloqueadas
-    if (window.REWARDS_BLOCKED === true) {
-        console.warn('⚠️ ANTI-CHEAT: No se pueden otorgar monedas especiales - Recompensas bloqueadas');
-        if (typeof AntiCheat !== 'undefined' && AntiCheat.showRewardBlockedMessage) {
-            AntiCheat.showRewardBlockedMessage();
-        }
-        return 0;
-    }
-
-    // ANTI-CHEAT: Validar que el monto sea razonable
-    if (typeof AntiCheat !== 'undefined' && amount > AntiCheat.limits.specialCoins.maxPerSession) {
-        console.warn('⚠️ ANTI-CHEAT: Monto de monedas especiales sospechoso:', amount);
-        amount = Math.min(amount, AntiCheat.limits.specialCoins.maxPerSession / 2);
-    }
-
-    specialCoins += amount;
-    gameState.specialCoins += amount; // NUEVO: Actualizar total del usuario
-    gameState.coinsEarnedThisSession += amount; // NUEVO: Actualizar monedas de esta sesión
-    
-    localStorage.setItem('specialCoins', specialCoins);
-    
-    updateShopBalance();
-    updateUI(); // NUEVO: Actualizar UI para reflejar monedas ganadas
-    
-    showMessage(`⭐ +${amount} Monedas Especiales`, 'reward');
-}
+// NOTA: var en lugar de let para evitar TDZ cuando login() los lee antes de esta línea
+var purchasedDefenders = JSON.parse(localStorage.getItem('purchasedDefenders')) || [];
+var specialCoins = parseInt(localStorage.getItem('specialCoins')) || 0;
 
 // ====================================
 // SISTEMA DE SELECCIÓN DE DEFENSORES PRE-PARTIDA
 // ====================================
 
 // CORRECCIÓN: Inicializar con los 8 defensores básicos si está vacío
-let selectedDefendersForGame = JSON.parse(localStorage.getItem('selectedDefendersForGame')) || ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"];
+window.selectedDefendersForGame = JSON.parse(localStorage.getItem('selectedDefendersForGame')) || ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"];
 
-// Mostrar modal de selección
-function showDefenderSelectionModal() {
-    const modal = document.getElementById('defenderSelectionModal');
-    if (modal) {
-        modal.classList.add('active');
-        renderDefenderSelection();
-    }
-}
 
-// Ocultar modal
-function hideDefenderSelectionModal() {
-    const modal = document.getElementById('defenderSelectionModal');
-    if (modal) {
-        modal.classList.remove('active');
-    }
-    
-    // CORRECCIÓN: Restaurar visibilidad de los botones que se ocultaron
-    const globalSoundBtn = document.getElementById('soundToggle');
-    const shopBtn = document.querySelector('.shop-toggle-btn');
-    const sidebar = document.querySelector('.left-sidebar');
 
-    if (globalSoundBtn) globalSoundBtn.style.display = 'flex';
-    if (shopBtn) shopBtn.style.display = 'flex';
-    if (sidebar) sidebar.style.display = 'block';
-}
 
-// Renderizar selección de defensores
-function renderDefenderSelection() {
-    renderSelectedSlots();
-    renderAvailableDefenders();
-    updateStartButton();
-}
 
-// Renderizar slots seleccionados
-function renderSelectedSlots() {
-    const slots = document.querySelectorAll('.defender-slot');
-    slots.forEach((slot, index) => {
-        const defenderId = selectedDefendersForGame[index];
-        if (defenderId) {
-            const defenderData = getDefenderData(defenderId);
-            slot.textContent = defenderData ? defenderData.icon : '?';
-            slot.classList.remove('empty');
-        } else {
-            slot.textContent = '?';
-            slot.classList.add('empty');
-        }
 
-        // Click para remover
-        slot.onclick = () => {
-            if (defenderId) {
-                removeDefenderFromSelection(index);
-            }
-        };
-    });
 
-    // Actualizar contador
-    const countElement = document.getElementById('selectedCount');
-    if (countElement) {
-        countElement.textContent = selectedDefendersForGame.length;
-    }
-}
 
-// Renderizar defensores disponibles
-function renderAvailableDefenders() {
-    const grid = document.getElementById('availableGrid');
-    if (!grid) return;
-
-    grid.innerHTML = '';
-
-    // Todos los defensores base con sus datos
-    const allDefendersData = [
-        { id: 'filter', name: 'Filtro', icon: '🔵', stats: 'Daño: 25 | Rango: 4' },
-        { id: 'plant', name: 'Planta', icon: '🌱', stats: 'Daño: 35 | Auto-cura' },
-        { id: 'recycler', name: 'Reciclador', icon: '♻️', stats: 'Daño: 45 | Rápido' },
-        { id: 'cleaner', name: 'Purificador', icon: '🧽', stats: 'Daño: 60 | Rango: 5' },
-        { id: 'stream', name: 'Chorro', icon: '💧', stats: 'Daño: 18 | Económico' },
-        { id: 'bubble', name: 'Burbuja', icon: '🫧', stats: 'Daño: 6 | Ralentiza' },
-        { id: 'wind', name: 'Viento', icon: '💨', stats: 'Daño: 18 | Empuje' },
-        { id: 'earth', name: 'Tierra', icon: '🪨', stats: 'Daño: 22 | Aturdimiento' }
-    ];
-
-    // FILTRAR: Solo mostrar los que están desbloqueados en gameState.unlockedDefenders
-    const unlockedDefendersData = allDefendersData.filter(defender => 
-        gameState.unlockedDefenders.includes(defender.id)
-    );
-    
-    // Agregar defensores especiales desbloqueados de la tienda
-    const unlockedShopDefenders = shopDefenders.filter(def => 
-        gameState.unlockedDefenders.includes(def.id)
-    );
-
-    const allAvailable = [...unlockedDefendersData, ...unlockedShopDefenders.map(def => ({
-        id: def.id,
-        name: def.name,
-        icon: def.icon,
-        stats: `Daño: ${def.stats.damage || 0} | Rango: ${def.stats.range || 0}`
-    }))];
-
-    // Si no hay defensores desbloqueados, mostrar mensaje
-    if (allAvailable.length === 0) {
-        grid.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;">No tienes defensores desbloqueados. ¡Desbloquea algunos en la tienda! 🏪</div>';
-        return;
-    }
-
-    allAvailable.forEach(defender => {
-        const isSelected = selectedDefendersForGame.includes(defender.id);
-        const isFull = selectedDefendersForGame.length >= 8;
-
-        const card = document.createElement('div');
-        card.className = `available-defender-card ${isSelected ? 'selected' : ''} ${isFull && !isSelected ? 'locked' : ''}`;
-        card.innerHTML = `
-                    <div class="icon">${defender.icon}</div>
-                    <div class="name">${defender.name}</div>
-                    <div class="stats">${defender.stats}</div>
-                `;
-
-        if (!isSelected && !isFull) {
-            card.onclick = () => addDefenderToSelection(defender.id);
-        } else if (isSelected) {
-            card.onclick = () => removeDefenderFromSelectionById(defender.id);
-        }
-
-        grid.appendChild(card);
-    });
-}
-
-// Agregar defensor a la selección
-function addDefenderToSelection(defenderId) {
-    if (selectedDefendersForGame.length < 8 && !selectedDefendersForGame.includes(defenderId)) {
-        selectedDefendersForGame.push(defenderId);
-        localStorage.setItem('selectedDefendersForGame', JSON.stringify(selectedDefendersForGame));
-        renderDefenderSelection();
-    }
-}
-
-// Remover defensor por slot index
-function removeDefenderFromSelection(slotIndex) {
-    if (slotIndex >= 0 && slotIndex < selectedDefendersForGame.length) {
-        selectedDefendersForGame.splice(slotIndex, 1);
-        localStorage.setItem('selectedDefendersForGame', JSON.stringify(selectedDefendersForGame));
-        renderDefenderSelection();
-    }
-}
-
-// Remover defensor por ID
-function removeDefenderFromSelectionById(defenderId) {
-    const index = selectedDefendersForGame.indexOf(defenderId);
-    if (index !== -1) {
-        removeDefenderFromSelection(index);
-    }
-}
-
-// Actualizar botón de inicio
-function updateStartButton() {
-    const btn = document.getElementById('btnStartGame');
-    if (btn) {
-        btn.disabled = selectedDefendersForGame.length !== 8;
-    }
-}
-
-// Confirmar selección e iniciar partida
-function confirmDefenderSelection() {
-    if (selectedDefendersForGame.length === 8) {
-        hideDefenderSelectionModal();
-
-        // Ocultar botones globales y sidebar
-        const globalSoundBtn = document.getElementById('soundToggle');
-        const shopBtn = document.querySelector('.shop-toggle-btn');
-        const sidebar = document.querySelector('.left-sidebar');
-
-        if (globalSoundBtn) globalSoundBtn.style.display = 'none';
-        if (shopBtn) shopBtn.style.display = 'none';
-        if (sidebar) sidebar.style.display = 'none';
-
-        // Iniciar el juego
-        document.getElementById('mainPage').style.display = 'none';
-        document.getElementById('userPanel').style.display = 'none';
-        document.getElementById('settingsPanelToggle').style.display = 'none';
-        document.getElementById('gameContainer').style.display = 'block';
-
-        if (typeof closeSettingsPanel === 'function') {
-            closeSettingsPanel();
-        }
-
-        hideBottomMenu();
-        initAudio();
-        initializeGame();
-
-        if (typeof unlockAchievement === 'function') {
-            unlockAchievement('first_game');
-        }
-    }
-}
-
-// Obtener datos de un defensor por ID
-function getDefenderData(defenderId) {
-    // Buscar primero en allDefenderTypes
-    if (allDefenderTypes[defenderId]) {
-        return {
-            id: defenderId,
-            name: allDefenderTypes[defenderId].name,
-            icon: allDefenderTypes[defenderId].icon
-        };
-    }
-
-    // Buscar en tienda
-    return shopDefenders.find(def => def.id === defenderId);
-}
 
 // ====================================
 // EXPORTAR FUNCIONES GLOBALMENTE
@@ -3127,12 +2084,6 @@ window.hideUpgradePanel = hideUpgradePanel;
 window.upgradeSelectedDefender = upgradeSelectedDefender;
 window.massUpgradeDefenders = massUpgradeDefenders;
 window.showUpgradePanel = showUpgradePanel;
-window.updateUI = updateUI;
 window.performUpgrade = performUpgrade;
-window.hideDefenderSelectionModal = hideDefenderSelectionModal; // NUEVO: Exportar función de cierre del modal
 window.gameState = gameState;
-window.openShopMenu = openShopMenu;
-window.closeShopMenu = closeShopMenu;
-window.showDefenderSelectionModal = showDefenderSelectionModal;
-window.confirmDefenderSelection = confirmDefenderSelection;
 
