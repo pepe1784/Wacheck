@@ -58,7 +58,7 @@ const AntiCheat = {
 
     // Inicializar sistema
     init() {
-        console.log('🛡️ Anti-Cheat System initialized');
+        console.log('[AntiCheat] System initialized');
         this.loadViolations();
         this.startMonitoring();
         
@@ -191,7 +191,7 @@ const AntiCheat = {
 
     // Aplicar penalización por trampas
     applyPenalty(issues) {
-        console.warn('⚠️ ANTI-CHEAT: Valores irregulares detectados', issues);
+        console.warn('[AntiCheat] Valores irregulares detectados', issues);
 
         // Incrementar contador de violaciones
         this.violations.count++;
@@ -212,7 +212,7 @@ const AntiCheat = {
             this.showPermanentWarning();
             this.resetGameProgress();
             
-            console.error('🚫 ANTI-CHEAT: Usuario baneado por violaciones graves');
+            console.error('[AntiCheat] Usuario baneado por violaciones graves');
         } else {
             // ADVERTENCIA TEMPORAL
             this.showTemporaryWarning(issues);
@@ -231,7 +231,7 @@ const AntiCheat = {
         if (typeof awardSpecialCoins === 'function') {
             const originalAwardCoins = window.awardSpecialCoins;
             window.awardSpecialCoins = function(amount) {
-                console.warn('⚠️ ANTI-CHEAT: Recompensas bloqueadas');
+                console.warn('[AntiCheat] Recompensas bloqueadas');
                 AntiCheat.showRewardBlockedMessage();
                 return 0; // No dar monedas
             };
@@ -241,7 +241,7 @@ const AntiCheat = {
         const originalSave = window.saveProgressToServer;
         if (originalSave) {
             window.saveProgressToServer = function() {
-                console.warn('⚠️ ANTI-CHEAT: Guardado de progreso bloqueado');
+                console.warn('[AntiCheat] Guardado de progreso bloqueado');
                 return Promise.resolve({success: false, blocked: true});
             };
         }
@@ -271,7 +271,7 @@ const AntiCheat = {
             `;
             warning.innerHTML = `
                 <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
-                    <span style="font-size: 24px;">🚫</span>
+                    <span style="font-size: 24px;">[!]</span>
                     <div>
                         <div style="font-size: 16px;">SISTEMA ANTI-TRAMPA ACTIVADO</div>
                         <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
@@ -279,7 +279,7 @@ const AntiCheat = {
                             Violaciones: ${this.violations.count}
                         </div>
                     </div>
-                    <span style="font-size: 24px;">⚠️</span>
+                    <span style="font-size: 24px;">[!]</span>
                 </div>
             `;
 
@@ -320,7 +320,7 @@ const AntiCheat = {
         `;
         notification.innerHTML = `
             <div style="display: flex; gap: 15px; align-items: start;">
-                <div style="font-size: 32px;">⚠️</div>
+                <div style="font-size: 32px;">[!]</div>
                 <div>
                     <div style="font-weight: bold; font-size: 16px; margin-bottom: 5px;">
                         Advertencia del Sistema
@@ -374,7 +374,7 @@ const AntiCheat = {
             animation: popIn 0.3s ease-out;
         `;
         msg.innerHTML = `
-            <div style="font-size: 48px; margin-bottom: 15px;">🚫</div>
+            <div style="font-size: 48px; margin-bottom: 15px;">[X]</div>
             <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">
                 Recompensas Bloqueadas
             </div>
@@ -427,7 +427,7 @@ const AntiCheat = {
             }
         }
 
-        console.warn('⚠️ ANTI-CHEAT: Valores ajustados a límites permitidos');
+        console.warn('[AntiCheat] Valores ajustados a limites permitidos');
     },
 
     // Verificar si el usuario está limpio
@@ -447,19 +447,19 @@ const AntiCheat = {
             warnings: this.violations.warnings.length
         };
 
-        console.log('🛡️ ESTADO DEL SISTEMA ANTI-CHEAT:');
+        console.log('[AntiCheat] ESTADO DEL SISTEMA ANTI-CHEAT:');
         console.log('═══════════════════════════════════════');
-        console.log(`✅ Sistema activo: ${status.active ? 'SÍ' : 'NO'}`);
-        console.log(`${status.clean ? '✅' : '❌'} Estado: ${status.clean ? 'LIMPIO' : 'CON VIOLACIONES'}`);
-        console.log(`${status.banned ? '🚫' : '✅'} Baneado: ${status.banned ? 'SÍ' : 'NO'}`);
-        console.log(`⚠️ Violaciones totales: ${status.violations}`);
-        console.log(`🔒 Recompensas bloqueadas: ${status.rewardsBlocked ? 'SÍ' : 'NO'}`);
-        console.log(`📅 Última violación: ${status.lastViolation}`);
-        console.log(`📝 Warnings registrados: ${status.warnings}`);
+        console.log(`[AntiCheat] Sistema activo: ${status.active ? 'SI' : 'NO'}`);
+        console.log(`[AntiCheat] Estado: ${status.clean ? 'LIMPIO' : 'CON VIOLACIONES'}`);
+        console.log(`[AntiCheat] Baneado: ${status.banned ? 'SI' : 'NO'}`);
+        console.log(`[AntiCheat] Violaciones totales: ${status.violations}`);
+        console.log(`[AntiCheat] Recompensas bloqueadas: ${status.rewardsBlocked ? 'SI' : 'NO'}`);
+        console.log(`[AntiCheat] Ultima violacion: ${status.lastViolation}`);
+        console.log(`[AntiCheat] Warnings registrados: ${status.warnings}`);
         console.log('═══════════════════════════════════════');
 
         if (!status.clean) {
-            console.warn('⚠️ Para limpiar el registro: AntiCheat.resetViolations()');
+            console.warn('[AntiCheat] Para limpiar el registro: AntiCheat.resetViolations()');
         }
 
         return status;
@@ -482,7 +482,7 @@ const AntiCheat = {
         // Restaurar funciones
         window.REWARDS_BLOCKED = false;
         
-        console.log('✅ ANTI-CHEAT: Violaciones reseteadas');
+        console.log('[AntiCheat] Violaciones reseteadas');
     },
 
     // Validar hash de integridad (para detectar modificaciones de código)
@@ -510,7 +510,7 @@ const AntiCheat = {
         });
 
         if (suspicious.length > 0) {
-            console.warn('⚠️ ANTI-CHEAT: Funciones modificadas detectadas:', suspicious);
+            console.warn('[AntiCheat] Funciones modificadas detectadas:', suspicious);
             this.applyPenalty([{
                 type: 'code_tampering',
                 value: suspicious.join(', '),
@@ -531,27 +531,27 @@ window.AntiCheat = AntiCheat;
 
 window.acStatus = () => AntiCheat.getStatus();
 window.acReset = () => {
-    if (confirm('⚠️ ¿Estás seguro de resetear todas las violaciones? Esto limpiará el historial y desbaneará al usuario.')) {
+    if (confirm('[AntiCheat] ¿Estas seguro de resetear todas las violaciones? Esto limpiara el historial y desbaneara al usuario.')) {
         AntiCheat.resetViolations();
-        console.log('✅ Violaciones reseteadas correctamente');
+        console.log('[AntiCheat] Violaciones reseteadas correctamente');
     }
 };
 window.acLimits = () => {
-    console.log('🛡️ LÍMITES DEL SISTEMA:');
+    console.log('[AntiCheat] LIMITES DEL SISTEMA:');
     console.log('═══════════════════════════════════════');
     console.table(AntiCheat.limits);
 };
 window.acViolations = () => {
-    console.log('📋 HISTORIAL DE VIOLACIONES:');
+    console.log('[AntiCheat] HISTORIAL DE VIOLACIONES:');
     console.log('═══════════════════════════════════════');
     if (AntiCheat.violations.warnings.length === 0) {
-        console.log('✅ Sin violaciones registradas');
+        console.log('[AntiCheat] Sin violaciones registradas');
     } else {
         console.table(AntiCheat.violations.warnings);
     }
 };
 window.acHelp = () => {
-    console.log('%c🛡️ SISTEMA ANTI-CHEAT - COMANDOS DISPONIBLES', 'font-size: 16px; font-weight: bold; color: #0891b2;');
+    console.log('%c[AntiCheat] SISTEMA ANTI-CHEAT - COMANDOS DISPONIBLES', 'font-size: 16px; font-weight: bold; color: #0891b2;');
     console.log('═══════════════════════════════════════════════════════════════');
     console.log('%cacStatus()%c       - Ver estado completo del sistema', 'color: #10b981; font-weight: bold', 'color: white');
     console.log('%cacReset()%c        - Resetear todas las violaciones', 'color: #f59e0b; font-weight: bold', 'color: white');
@@ -567,7 +567,7 @@ window.acHelp = () => {
 };
 
 // Mostrar mensaje de bienvenida con comandos
-console.log('%c🛡️ Sistema Anti-Cheat cargado correctamente', 'background: #0891b2; color: white; padding: 5px 10px; border-radius: 3px; font-weight: bold;');
+console.log('%c[AntiCheat] Sistema Anti-Cheat cargado correctamente', 'background: #0891b2; color: white; padding: 5px 10px; border-radius: 3px; font-weight: bold;');
 console.log('%cEscribe acHelp() para ver comandos disponibles', 'color: #0891b2; font-style: italic;');
 
 // Auto-inicializar cuando el DOM esté listo
@@ -577,4 +577,4 @@ if (document.readyState === 'loading') {
     AntiCheat.init();
 }
 
-console.log('🛡️ Anti-Cheat System loaded');
+console.log('[AntiCheat] Anti-Cheat System loaded');

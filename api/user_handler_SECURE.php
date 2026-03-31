@@ -107,7 +107,7 @@ function sendVerificationEmail($email, $username, $token) {
     </head>
     <body>
         <div class='container'>
-            <h1 class='header'>💧 Bienvenido a Wacheck</h1>
+            <h1 class='header'> Bienvenido a Wacheck</h1>
             <p>Hola <strong>$username</strong>,</p>
             <p>Gracias por registrarte. Para activar tu cuenta, haz clic en el siguiente botón:</p>
             <p style='text-align: center;'>

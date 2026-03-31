@@ -18,7 +18,7 @@ const ACHIEVEMENTS = {
         id: 'first_game',
         name: 'Primera Partida',
         description: 'Juega tu primera partida',
-        icon: '🎮',
+        icon: 'play',
         points: 10,
         type: 'simple',
         category: 'inicio'
@@ -28,7 +28,7 @@ const ACHIEVEMENTS = {
         id: 'first_defender',
         name: 'Primer Defensor',
         description: 'Coloca tu primer defensor',
-        icon: '🛡️',
+        icon: 'shield-icon',
         points: 10,
         type: 'simple',
         category: 'inicio'
@@ -36,9 +36,9 @@ const ACHIEVEMENTS = {
 
     tutorial_complete: {
         id: 'tutorial_complete',
-        name: '🎓 Estudiante Dedicado',
+        name: 'Estudiante Dedicado',
         description: 'Completa el tutorial del juego',
-        icon: '📚',
+        icon: 'book',
         points: 15,
         type: 'simple',
         category: 'inicio'
@@ -49,7 +49,7 @@ const ACHIEVEMENTS = {
         id: 'wave_5',
         name: 'Superviviente',
         description: 'Alcanza la oleada 5',
-        icon: '🌊',
+        icon: 'wave',
         points: 20,
         type: 'progress',
         requirement: 5,
@@ -60,7 +60,7 @@ const ACHIEVEMENTS = {
         id: 'wave_10',
         name: 'Veterano',
         description: 'Alcanza la oleada 10',
-        icon: '🌀',
+        icon: 'wave',
         points: 50,
         type: 'progress',
         requirement: 10,
@@ -71,7 +71,7 @@ const ACHIEVEMENTS = {
         id: 'wave_20',
         name: 'Maestro de las Olas',
         description: 'Alcanza la oleada 20',
-        icon: '🌊',
+        icon: 'wave',
         points: 100,
         type: 'progress',
         requirement: 20,
@@ -82,7 +82,7 @@ const ACHIEVEMENTS = {
         id: 'wave_50',
         name: 'Guardián del Agua',
         description: 'Alcanza la oleada 50',
-        icon: '👑',
+        icon: 'crown',
         points: 250,
         type: 'progress',
         requirement: 50,
@@ -94,7 +94,7 @@ const ACHIEVEMENTS = {
         id: 'kills_50',
         name: 'Exterminador',
         description: 'Elimina 50 contaminadores',
-        icon: '💀',
+        icon: 'cross',
         points: 30,
         type: 'cumulative',
         requirement: 50,
@@ -105,7 +105,7 @@ const ACHIEVEMENTS = {
         id: 'kills_250',
         name: 'Cazador de Contaminantes',
         description: 'Elimina 250 contaminadores',
-        icon: '⚔️',
+        icon: 'sword',
         points: 75,
         type: 'cumulative',
         requirement: 250,
@@ -116,7 +116,7 @@ const ACHIEVEMENTS = {
         id: 'kills_1000',
         name: 'Leyenda del Agua',
         description: 'Elimina 1000 contaminadores',
-        icon: '🏆',
+        icon: 'trophy',
         points: 200,
         type: 'cumulative',
         requirement: 1000,
@@ -128,7 +128,7 @@ const ACHIEVEMENTS = {
         id: 'first_boss',
         name: 'Cazador de Jefes',
         description: 'Derrota a tu primer jefe',
-        icon: '👹',
+        icon: 'explosion',
         points: 40,
         type: 'simple',
         category: 'jefes'
@@ -138,7 +138,7 @@ const ACHIEVEMENTS = {
         id: 'boss_5',
         name: 'Matador de Titanes',
         description: 'Derrota a 5 jefes',
-        icon: '⚡',
+        icon: 'lightning',
         points: 100,
         type: 'cumulative',
         requirement: 5,
@@ -150,7 +150,7 @@ const ACHIEVEMENTS = {
         id: 'coins_1000',
         name: 'Rico',
         description: 'Acumula 1000 monedas en una partida',
-        icon: '💰',
+        icon: 'coin',
         points: 30,
         type: 'single_game',
         requirement: 1000,
@@ -161,7 +161,7 @@ const ACHIEVEMENTS = {
         id: 'coins_5000',
         name: 'Millonario',
         description: 'Acumula 5000 monedas en una partida',
-        icon: '💎',
+        icon: 'gem',
         points: 75,
         type: 'single_game',
         requirement: 5000,
@@ -172,7 +172,7 @@ const ACHIEVEMENTS = {
         id: 'special_coins_10',
         name: 'Coleccionista',
         description: 'Consigue 10 monedas especiales',
-        icon: '⭐',
+        icon: 'star',
         points: 50,
         type: 'cumulative',
         requirement: 10,
@@ -184,7 +184,7 @@ const ACHIEVEMENTS = {
         id: 'place_100',
         name: 'Constructor',
         description: 'Coloca 100 defensores',
-        icon: '🏗️',
+        icon: 'arrow-up',
         points: 40,
         type: 'cumulative',
         requirement: 100,
@@ -195,7 +195,7 @@ const ACHIEVEMENTS = {
         id: 'all_defenders',
         name: 'Colección Completa',
         description: 'Desbloquea todos los defensores',
-        icon: '🎁',
+        icon: 'gift',
         points: 150,
         type: 'simple',
         category: 'defensores'
@@ -205,7 +205,7 @@ const ACHIEVEMENTS = {
         id: 'max_upgrade',
         name: 'Poder Máximo',
         description: 'Maximiza cualquier upgrade',
-        icon: '⚡',
+        icon: 'lightning',
         points: 100,
         type: 'simple',
         category: 'upgrades'
@@ -216,7 +216,7 @@ const ACHIEVEMENTS = {
         id: 'no_damage_wave',
         name: 'Intocable',
         description: 'Completa una oleada sin recibir daño',
-        icon: '🛡️',
+        icon: 'shield-icon',
         points: 50,
         type: 'simple',
         category: 'especial'
@@ -226,7 +226,7 @@ const ACHIEVEMENTS = {
         id: 'perfect_defense',
         name: 'Defensa Perfecta',
         description: 'Completa 5 oleadas consecutivas sin daño',
-        icon: '✨',
+        icon: 'sparkle',
         points: 150,
         type: 'progress',
         requirement: 5,
@@ -237,7 +237,7 @@ const ACHIEVEMENTS = {
         id: 'daily_streak_7',
         name: 'Dedicado',
         description: 'Inicia sesión 7 días consecutivos',
-        icon: '🔥',
+        icon: 'flame',
         points: 75,
         type: 'simple',
         category: 'especial'
@@ -247,7 +247,7 @@ const ACHIEVEMENTS = {
         id: 'all_missions',
         name: 'Completista',
         description: 'Completa todas las misiones diarias en un día',
-        icon: '✓',
+        icon: 'check',
         points: 60,
         type: 'simple',
         category: 'misiones'
@@ -258,7 +258,7 @@ const ACHIEVEMENTS = {
         id: 'easter_egg',
         name: '???',
         description: 'Descubre el easter egg secreto',
-        icon: '🥚',
+        icon: 'gift',
         points: 100,
         type: 'simple',
         category: 'secreto',
@@ -268,16 +268,16 @@ const ACHIEVEMENTS = {
 
 // Categorías de logros
 const ACHIEVEMENT_CATEGORIES = {
-    inicio: { name: 'Primeros Pasos', icon: '🎮', color: '#3498db' },
-    oleadas: { name: 'Oleadas', icon: '🌊', color: '#00b894' },
-    combate: { name: 'Combate', icon: '⚔️', color: '#e74c3c' },
-    jefes: { name: 'Jefes', icon: '👹', color: '#9b59b6' },
-    economia: { name: 'Economía', icon: '💰', color: '#f1c40f' },
-    defensores: { name: 'Defensores', icon: '🛡️', color: '#3498db' },
-    upgrades: { name: 'Upgrades', icon: '📊', color: '#8e44ad' },
-    misiones: { name: 'Misiones', icon: '✓', color: '#2ecc71' },
-    especial: { name: 'Especiales', icon: '✨', color: '#e67e22' },
-    secreto: { name: 'Secretos', icon: '🔒', color: '#95a5a6' }
+    inicio: { name: 'Primeros Pasos', icon: 'play', color: '#3498db' },
+    oleadas: { name: 'Oleadas', icon: 'wave', color: '#00b894' },
+    combate: { name: 'Combate', icon: 'sword', color: '#e74c3c' },
+    jefes: { name: 'Jefes', icon: 'explosion', color: '#9b59b6' },
+    economia: { name: 'Economía', icon: 'coin', color: '#f1c40f' },
+    defensores: { name: 'Defensores', icon: 'shield-icon', color: '#3498db' },
+    upgrades: { name: 'Upgrades', icon: 'chart', color: '#8e44ad' },
+    misiones: { name: 'Misiones', icon: 'check', color: '#2ecc71' },
+    especial: { name: 'Especiales', icon: 'sparkle', color: '#e67e22' },
+    secreto: { name: 'Secretos', icon: 'lock', color: '#95a5a6' }
 };
 
 // ============================================
@@ -371,11 +371,11 @@ function showAchievementUnlocked(achievement) {
     notification.innerHTML = `
         <div class="achievement-notif-content">
             <div class="achievement-notif-header">
-                <span class="achievement-notif-trophy">🏆</span>
+                <span class="achievement-notif-trophy">${window.GameSprites ? window.GameSprites.ui('trophy') : ''}</span>
                 <strong>¡LOGRO DESBLOQUEADO!</strong>
             </div>
             <div class="achievement-notif-body">
-                <span class="achievement-notif-icon">${achievement.icon}</span>
+                <span class="achievement-notif-icon">${window.GameSprites ? window.GameSprites.ui(achievement.icon) : ''}</span>
                 <div class="achievement-notif-text">
                     <strong>${achievement.name}</strong>
                     <p>${achievement.description}</p>
@@ -456,7 +456,7 @@ function updateAchievementsUI() {
         html += `
             <div class="achievement-category">
                 <div class="category-header">
-                    <span class="category-icon" style="color: ${category.color}">${category.icon}</span>
+                    <span class="category-icon">${window.GameSprites ? window.GameSprites.ui(category.icon) : ''}</span>
                     <h3>${category.name}</h3>
                     <span class="category-progress">${categoryAchievements.filter(a => isAchievementUnlocked(a.id)).length}/${categoryAchievements.length}</span>
                 </div>
@@ -471,7 +471,7 @@ function updateAchievementsUI() {
             if (achievement.hidden && !unlocked) {
                 return `
                                 <div class="achievement-card locked hidden">
-                                    <div class="achievement-icon">🔒</div>
+                                    <div class="achievement-icon">${window.GameSprites ? window.GameSprites.ui('lock') : ''}</div>
                                     <div class="achievement-info">
                                         <h4>???</h4>
                                         <p>Logro secreto</p>
@@ -482,7 +482,7 @@ function updateAchievementsUI() {
 
             return `
                             <div class="achievement-card ${unlocked ? 'unlocked' : 'locked'}">
-                                <div class="achievement-icon">${achievement.icon}</div>
+                                <div class="achievement-icon">${window.GameSprites ? window.GameSprites.ui(achievement.icon) : ''}</div>
                                 <div class="achievement-info">
                                     <h4>${achievement.name}</h4>
                                     <p>${achievement.description}</p>
@@ -493,7 +493,7 @@ function updateAchievementsUI() {
                                         <div class="achievement-progress-text">${progress}/${requirement}</div>
                                     ` : ''}
                                     <div class="achievement-points">
-                                        ${unlocked ? '✓' : ''} ${achievement.points} puntos
+                                        ${unlocked ? (window.GameSprites ? window.GameSprites.ui('check') : '') : ''} ${achievement.points} puntos
                                     </div>
                                 </div>
                             </div>

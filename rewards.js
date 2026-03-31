@@ -172,10 +172,10 @@ function showDailyRewardPopup(forceShow = false) {
 
     popup.innerHTML = `
         <div class="daily-reward-content" onclick="event.stopPropagation()">
-            <button class="popup-close-btn" onclick="closeDailyRewardPopup()">✕</button>
+            <button class="popup-close-btn" onclick="closeDailyRewardPopup()">X</button>
             
             <div class="daily-reward-header">
-                <div class="daily-reward-icon">🎁</div>
+                <div class="daily-reward-icon">${window.GameSprites.inline('gift', 48)}</div>
                 <h2>${alreadyClaimed ? '¡Recompensa Reclamada!' : '¡Recompensa Diaria!'}</h2>
                 <p>Día ${currentDay} de 7</p>
             </div>
@@ -187,10 +187,10 @@ function showDailyRewardPopup(forceShow = false) {
             </div>
             
             <div class="daily-reward-items">
-                ${reward.coins ? `<div class="reward-item"><span class="reward-icon">💰</span>${reward.coins} Monedas</div>` : ''}
-                ${reward.runes ? `<div class="reward-item"><span class="reward-icon">🔮</span>${reward.runes} Runas</div>` : ''}
-                ${reward.specialCoins ? `<div class="reward-item"><span class="reward-icon">⭐</span>${reward.specialCoins} Monedas Especiales</div>` : ''}
-                ${reward.antiTank ? `<div class="reward-item special"><span class="reward-icon">🎯</span>¡Antitanque de Área Desbloqueado!</div>` : ''}
+                ${reward.coins ? `<div class="reward-item"><span class="reward-icon">${window.GameSprites.inline('coin', 20)}</span>${reward.coins} Monedas</div>` : ''}
+                ${reward.runes ? `<div class="reward-item"><span class="reward-icon">${window.GameSprites.inline('rune', 20)}</span>${reward.runes} Runas</div>` : ''}
+                ${reward.specialCoins ? `<div class="reward-item"><span class="reward-icon">${window.GameSprites.inline('star', 20)}</span>${reward.specialCoins} Monedas Especiales</div>` : ''}
+                ${reward.antiTank ? `<div class="reward-item special"><span class="reward-icon">${window.GameSprites.inline('target', 20)}</span>¡Antitanque de Área Desbloqueado!</div>` : ''}
             </div>
             
             ${!alreadyClaimed ? `
@@ -199,7 +199,7 @@ function showDailyRewardPopup(forceShow = false) {
                 </button>
             ` : `
                 <div style="text-align: center; color: #2ecc71; font-size: 18px; font-weight: bold; padding: 15px; background: rgba(46, 204, 113, 0.2); border-radius: 12px; margin-top: 10px;">
-                    ✅ Ya reclamaste esta recompensa hoy
+                    ${window.GameSprites.inline('check', 18)} Ya reclamaste esta recompensa hoy
                 </div>
             `}
             
@@ -252,7 +252,7 @@ function generateStreakDays(currentDay) {
         html += `
             <div class="streak-day ${isClaimed ? 'claimed' : ''} ${isCurrent ? 'current' : ''} ${i > currentDay ? 'locked' : ''}">
                 <div class="day-number">Día ${i}</div>
-                <div class="day-icon">${reward.antiTank ? '🎯' : isClaimed ? '✅' : i === 7 ? '👑' : '🎁'}</div>
+                <div class="day-icon">${reward.antiTank ? window.GameSprites.inline('target', 24) : isClaimed ? window.GameSprites.inline('check', 24) : i === 7 ? window.GameSprites.inline('crown', 24) : window.GameSprites.inline('gift', 24)}</div>
                 ${isCurrent && !isClaimed ? '<div class="day-pulse"></div>' : ''}
             </div>
         `;
@@ -503,7 +503,7 @@ function showMissionCompleteNotification(mission) {
     const notification = document.createElement('div');
     notification.className = 'mission-notification';
     notification.innerHTML = `
-        <div class="mission-notif-icon">✅</div>
+        <div class="mission-notif-icon">${window.GameSprites.inline('check', 24)}</div>
         <div class="mission-notif-text">
             <strong>¡Misión Completada!</strong>
             <p>${mission.name}</p>
@@ -677,7 +677,7 @@ function updateMissionsUI() {
         if (activeMissions.length === 0) {
             container.innerHTML = `
                 <div style="text-align: center; padding: 30px; color: #95a5a6;">
-                    <span style="font-size: 48px;">🎉</span>
+                    <span>${window.GameSprites.inline('sparkle', 48)}</span>
                     <p style="margin-top: 10px;">¡Todas las misiones completadas!</p>
                     <p style="font-size: 14px; opacity: 0.8;">Vuelve mañana para más misiones</p>
                 </div>
@@ -701,9 +701,9 @@ function updateMissionsUI() {
                             <span class="progress-text">${progress}/${mission.requirement}</span>
                         </div>
                         <div class="mission-rewards">
-                            ${mission.reward.coins ? `<span>💰 ${mission.reward.coins}</span>` : ''}
-                            ${mission.reward.runes ? `<span>🔮 ${mission.reward.runes}</span>` : ''}
-                            ${mission.reward.specialCoins ? `<span>⭐ ${mission.reward.specialCoins}</span>` : ''}
+                            ${mission.reward.coins ? `<span>${window.GameSprites.inline('coin', 14)} ${mission.reward.coins}</span>` : ''}
+                            ${mission.reward.runes ? `<span>${window.GameSprites.inline('rune', 14)} ${mission.reward.runes}</span>` : ''}
+                            ${mission.reward.specialCoins ? `<span>${window.GameSprites.inline('star', 14)} ${mission.reward.specialCoins}</span>` : ''}
                         </div>
                         ${mission.completed && !isClaimed ?
                         `<button class="claim-mission-btn" onclick="claimMissionReward('${mission.id}')">RECLAMAR</button>` :
@@ -726,7 +726,7 @@ function updateMissionsUI() {
         if (claimedMissions.length === 0) {
             claimedContainer.innerHTML = `
                 <div style="text-align: center; padding: 20px; color: #7f8c8d; font-size: 14px;">
-                    <span style="font-size: 32px; opacity: 0.5;">📭</span>
+                    <span style="opacity: 0.5;">${window.GameSprites.inline('scroll', 32)}</span>
                     <p style="margin-top: 8px;">Aún no has reclamado ninguna misión</p>
                 </div>
             `;
@@ -739,11 +739,11 @@ function updateMissionsUI() {
                             <h4>${mission.name}</h4>
                         </div>
                         <div class="mission-rewards" style="margin-top: 10px;">
-                            ${mission.reward.coins ? `<span>💰 ${mission.reward.coins}</span>` : ''}
-                            ${mission.reward.runes ? `<span>🔮 ${mission.reward.runes}</span>` : ''}
-                            ${mission.reward.specialCoins ? `<span>⭐ ${mission.reward.specialCoins}</span>` : ''}
+                            ${mission.reward.coins ? `<span>${window.GameSprites.inline('coin', 14)} ${mission.reward.coins}</span>` : ''}
+                            ${mission.reward.runes ? `<span>${window.GameSprites.inline('rune', 14)} ${mission.reward.runes}</span>` : ''}
+                            ${mission.reward.specialCoins ? `<span>${window.GameSprites.inline('star', 14)} ${mission.reward.specialCoins}</span>` : ''}
                         </div>
-                        <div class="claimed-badge">✅ Reclamada</div>
+                        <div class="claimed-badge">${window.GameSprites.inline('check', 14)} Reclamada</div>
                     </div>
                 `;
             }).join('');
@@ -756,11 +756,11 @@ function updateUpgradesUI() {
     if (!container) return;
 
     const upgrades = [
-        { type: 'coinMultiplier', name: 'Multiplicador de Monedas', icon: '💰', desc: '+10% monedas' },
-        { type: 'healthBoost', name: 'Aumento de Salud', icon: '❤️', desc: '+5 salud máxima' },
-        { type: 'defenderDamage', name: 'Poder de Defensores', icon: '⚔️', desc: '+5% daño' },
-        { type: 'startingCoins', name: 'Economía Inicial', icon: '🏦', desc: '+25 monedas iniciales' },
-        { type: 'criticalChance', name: 'Golpe Crítico', icon: '💥', desc: '+3% probabilidad' }
+        { type: 'coinMultiplier', name: 'Multiplicador de Monedas', icon: 'coin', desc: '+10% monedas' },
+        { type: 'healthBoost', name: 'Aumento de Salud', icon: 'heart', desc: '+5 salud máxima' },
+        { type: 'defenderDamage', name: 'Poder de Defensores', icon: 'sword', desc: '+5% daño' },
+        { type: 'startingCoins', name: 'Economía Inicial', icon: 'coins', desc: '+25 monedas iniciales' },
+        { type: 'criticalChance', name: 'Golpe Crítico', icon: 'explosion', desc: '+3% probabilidad' }
     ];
 
     container.innerHTML = upgrades.map(upgrade => {
@@ -771,7 +771,7 @@ function updateUpgradesUI() {
 
         return `
             <div class="upgrade-card ${isMaxed ? 'maxed' : ''}">
-                <div class="upgrade-icon">${upgrade.icon}</div>
+                <div class="upgrade-icon">${window.GameSprites.inline(upgrade.icon, 24)}</div>
                 <div class="upgrade-info">
                     <h4>${upgrade.name}</h4>
                     <p>${upgrade.desc}</p>
@@ -781,7 +781,7 @@ function updateUpgradesUI() {
                 `<button class="upgrade-btn ${rewardsState.runes < cost ? 'disabled' : ''}" 
                         onclick="purchaseUpgrade('${upgrade.type}')"
                         ${rewardsState.runes < cost ? 'disabled' : ''}>
-                        <span class="upgrade-cost">🔮 ${cost}</span>
+                        <span class="upgrade-cost">${window.GameSprites.inline('rune', 14)} ${cost}</span>
                     </button>` :
                 `<div class="max-badge">MAX</div>`}
             </div>
@@ -791,14 +791,14 @@ function updateUpgradesUI() {
 
 function getMissionIcon(type) {
     const icons = {
-        wave: '🌊',
-        boss: '👹',
-        place_defenders: '🏗️',
-        kill_enemies: '💀',
-        no_damage: '🛡️',
-        collect_coins: '💰'
+        wave: 'wave',
+        boss: 'sword',
+        place_defenders: 'shield-icon',
+        kill_enemies: 'explosion',
+        no_damage: 'shield-icon',
+        collect_coins: 'coin'
     };
-    return icons[type] || '🎯';
+    return window.GameSprites.inline(icons[type] || 'target', 20);
 }
 
 // Inicializar al cargar

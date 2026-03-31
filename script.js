@@ -49,69 +49,69 @@ let gameState = runtime.state;
 // Usar var (no const) para que js/game/defenders.js pueda sobreescribir vía window.allDefenderTypes
 var allDefenderTypes = window.allDefenderTypes || {
     // Básicos (siempre disponibles)
-    filter: { icon: '🔵', image: "./img/filter.png", damage: 25, cost: 25, shootInterval: 1200, range: 4, health: 50, name: 'Filtro', projectile: 'water', info: "Los filtros de carbón activado se usan en la vida real para eliminar impurezas químicas del agua, haciéndola segura para beber." },
-    plant: { icon: '🌱', image: "./img/plant.png", damage: 35, cost: 40, shootInterval: 1200, range: 4, health: 100, name: 'Planta', projectile: 'nature', selfHeal: { amount: 5, interval: 5000 }, info: "Las plantas acuáticas y los humedales son filtros biológicos naturales que limpian nuestros ríos absorbiendo nitratos y otros contaminantes." },
-    recycler: { icon: '♻️', image: "./img/recycler.png", damage: 45, cost: 60, shootInterval: 800, range: 3, health: 70, name: 'Reciclador', projectile: 'energy' },
-    cleaner: { icon: '🧽', damage: 60, cost: 100, shootInterval: 1000, range: 5, health: 100, name: 'Purificador', projectile: 'pure' },
-    stream: { icon: '💧', damage: 18, cost: 20, shootInterval: 1000, range: 6, health: 150, name: 'Chorro', projectile: 'water' }, // Coste 15, Daño 12
-    bubble: { icon: '🫧', damage: 6, cost: 30, shootInterval: 1800, range: 6, health: 150, name: 'Burbuja', projectile: 'water', statusEffect: { type: 'slow', power: 0.3, duration: 1500 }, shots: 2, shotDelay: 100 }, // Coste 10, 2 disparos
-        wind: { icon: '💨', damage: 18, cost: 20, shootInterval: 900, range: 4, health: 60, name: 'Viento', projectile: 'energy', info: "Ataque rápido con efecto de empuje" },
-    earth: { icon: '🪨', damage: 22, cost: 25, shootInterval: 1500, range: 3, health: 80, name: 'Tierra', projectile: 'pure', info: "Daño sólido con posibilidad de aturdimiento" },
+    filter: { icon: 'filter', image: "./img/filter.png", damage: 25, cost: 25, shootInterval: 1200, range: 4, health: 50, name: 'Filtro', projectile: 'water', info: "Los filtros de carbón activado se usan en la vida real para eliminar impurezas químicas del agua, haciéndola segura para beber." },
+    plant: { icon: 'plant', image: "./img/plant.png", damage: 35, cost: 40, shootInterval: 1200, range: 4, health: 100, name: 'Planta', projectile: 'nature', selfHeal: { amount: 5, interval: 5000 }, info: "Las plantas acuáticas y los humedales son filtros biológicos naturales que limpian nuestros ríos absorbiendo nitratos y otros contaminantes." },
+    recycler: { icon: 'recycler', image: "./img/recycler.png", damage: 45, cost: 60, shootInterval: 800, range: 3, health: 70, name: 'Reciclador', projectile: 'energy' },
+    cleaner: { icon: 'cleaner', damage: 60, cost: 100, shootInterval: 1000, range: 5, health: 100, name: 'Purificador', projectile: 'pure' },
+    stream: { icon: 'stream', damage: 18, cost: 20, shootInterval: 1000, range: 6, health: 150, name: 'Chorro', projectile: 'water' }, // Coste 15, Daño 12
+    bubble: { icon: 'bubble', damage: 6, cost: 30, shootInterval: 1800, range: 6, health: 150, name: 'Burbuja', projectile: 'water', statusEffect: { type: 'slow', power: 0.3, duration: 1500 }, shots: 2, shotDelay: 100 }, // Coste 10, 2 disparos
+        wind: { icon: 'wind', damage: 18, cost: 20, shootInterval: 900, range: 4, health: 60, name: 'Viento', projectile: 'energy', info: "Ataque rápido con efecto de empuje" },
+    earth: { icon: 'earth', damage: 22, cost: 25, shootInterval: 1500, range: 3, health: 80, name: 'Tierra', projectile: 'pure', info: "Daño sólido con posibilidad de aturdimiento" },
 
     // Desbloqueables
-    crystal: { icon: '💎', damage: 80, cost: 120, shootInterval: 1800, range: 6, health: 120, name: 'Cristal', projectile: 'pure' },
-    solar: { icon: '☀️', damage: 70, cost: 100, shootInterval: 900, range: 4, health: 90, name: 'Solar', projectile: 'energy' },
-    coral: { icon: '🪸', image: "./img/squirtle.png", damage: 55, cost: 120, shootInterval: 1100, range: 5, health: 110, name: 'Coral', projectile: 'nature', supportAura: { type: 'damage_reduction', power: 0.15, range: 1 } },
-    shield: { icon: '🛡️', damage: 40, cost: 200, shootInterval: 2000, range: 3, health: 500, name: 'Escudo', projectile: 'water' },
-    tornado: { icon: '🌪️', damage: 90, cost: 140, shootInterval: 2200, range: 7, health: 80, name: 'Tornado', projectile: 'energy' }, // Daño alto, muy lento
-    whale: { icon: '🐋', damage: 100, cost: 180, shootInterval: 2500, range: 8, health: 150, name: 'Ballena', projectile: 'water' }, // El más caro y potente
+    crystal: { icon: 'crystal', damage: 80, cost: 120, shootInterval: 1800, range: 6, health: 120, name: 'Cristal', projectile: 'pure' },
+    solar: { icon: 'solar', damage: 70, cost: 100, shootInterval: 900, range: 4, health: 90, name: 'Solar', projectile: 'energy' },
+    coral: { icon: 'coral', image: "./img/squirtle.png", damage: 55, cost: 120, shootInterval: 1100, range: 5, health: 110, name: 'Coral', projectile: 'nature', supportAura: { type: 'damage_reduction', power: 0.15, range: 1 } },
+    shield: { icon: 'shield', damage: 40, cost: 200, shootInterval: 2000, range: 3, health: 500, name: 'Escudo', projectile: 'water' },
+    tornado: { icon: 'tornado', damage: 90, cost: 140, shootInterval: 2200, range: 7, health: 80, name: 'Tornado', projectile: 'energy' }, // Daño alto, muy lento
+    whale: { icon: 'whale', damage: 100, cost: 180, shootInterval: 2500, range: 8, health: 150, name: 'Ballena', projectile: 'water' }, // El más caro y potente
     // --- NUEVOS DEFENSORES ---
-    dualcannon: { icon: '🔫', damage: 20, cost: 130, shootInterval: 1500, range: 5, health: 90, name: 'Cañón Doble', projectile: 'energy', shots: 2, shotDelay: 150 }, // Dispara 2 veces
-    incinerator: { icon: '🔥', damage: 10, cost: 150, shootInterval: 2000, range: 4, health: 100, name: 'Incinerador', projectile: 'fire', statusEffect: { type: 'burn', dps: 15, duration: 3000 } }, // Aplica quemadura
-    cryomancer: { icon: '❄️', damage: 15, cost: 110, shootInterval: 1800, range: 6, health: 80, name: 'Criomante', projectile: 'ice', statusEffect: { type: 'slow', power: 0.6, duration: 2000 } }, // Ralentiza
-    generator: { icon: '💰', cost: 75, health: 60, name: 'Generador', generate: 20, interval: 5000, isGenerator: true }, // Genera monedas
-    mortar: { icon: '💣', damage: 50, cost: 170, shootInterval: 4000, range: 8, health: 70, name: 'Mortero', projectile: 'explosion', splashRadius: 1.5 }, // Daño en área
+    dualcannon: { icon: 'dualcannon', damage: 20, cost: 130, shootInterval: 1500, range: 5, health: 90, name: 'Cañón Doble', projectile: 'energy', shots: 2, shotDelay: 150 }, // Dispara 2 veces
+    incinerator: { icon: 'incinerator', damage: 10, cost: 150, shootInterval: 2000, range: 4, health: 100, name: 'Incinerador', projectile: 'fire', statusEffect: { type: 'burn', dps: 15, duration: 3000 } }, // Aplica quemadura
+    cryomancer: { icon: 'cryomancer', damage: 15, cost: 110, shootInterval: 1800, range: 6, health: 80, name: 'Criomante', projectile: 'ice', statusEffect: { type: 'slow', power: 0.6, duration: 2000 } }, // Ralentiza
+    generator: { icon: 'generator', cost: 75, health: 60, name: 'Generador', generate: 20, interval: 5000, isGenerator: true }, // Genera monedas
+    mortar: { icon: 'mortar', damage: 50, cost: 170, shootInterval: 4000, range: 8, health: 70, name: 'Mortero', projectile: 'explosion', splashRadius: 1.5 }, // Daño en área
     // --- NUEVOS DEFENSORES DE BAJO COSTE Y APOYO ---
     
-    amplifier: { icon: '🔊', cost: 90, health: 80, name: 'Amplificador', isSupport: true, buff: { type: 'damage', power: 1.25 } }, // Aumenta daño en fila
+    amplifier: { icon: 'amplifier', cost: 90, health: 80, name: 'Amplificador', isSupport: true, buff: { type: 'damage', power: 1.25 } }, // Aumenta daño en fila
     // --- 4 NUEVOS DEFENSORES ---
-    wizard: { icon: '🧙', damage: 40, cost: 160, shootInterval: 2000, range: 5, health: 90, name: 'Mago Eléctrico', projectile: 'energy', chain: { jumps: 2, damageFalloff: 0.5 } },
-    otter: { icon: '🦦', damage: 60, cost: 140, shootInterval: 1300, range: 4, health: 130, name: 'Nutria', projectile: 'nature' },
-    kraken: { icon: '🐙', damage: 70, cost: 220, shootInterval: 2800, range: 7, health: 200, name: 'Kraken', projectile: 'water', chain: { jumps: 3, damageFalloff: 0.6 } },
-    golem: { icon: '🗿', damage: 30, cost: 180, shootInterval: 2500, range: 3, health: 400, name: 'Gólem', projectile: 'pure' },
+    wizard: { icon: 'wizard', damage: 40, cost: 160, shootInterval: 2000, range: 5, health: 90, name: 'Mago Eléctrico', projectile: 'energy', chain: { jumps: 2, damageFalloff: 0.5 } },
+    otter: { icon: 'otter', damage: 60, cost: 140, shootInterval: 1300, range: 4, health: 130, name: 'Nutria', projectile: 'nature' },
+    kraken: { icon: 'kraken', damage: 70, cost: 220, shootInterval: 2800, range: 7, health: 200, name: 'Kraken', projectile: 'water', chain: { jumps: 3, damageFalloff: 0.6 } },
+    golem: { icon: 'golem', damage: 30, cost: 180, shootInterval: 2500, range: 3, health: 400, name: 'Gólem', projectile: 'pure' },
     // --- DEFENSOR ESPECIAL DE RECOMPENSA ---
-    antiTankArea: { icon: '🎯', damage: 150, cost: 250, shootInterval: 3000, range: 6, health: 180, name: 'Antitanque de Área', projectile: 'explosion', splashRadius: 2, bidirectional: true, info: "¡Recompensa especial! Ataca hacia adelante Y hacia atrás. Daño masivo en área." },
+    antiTankArea: { icon: 'antiTankArea', damage: 150, cost: 250, shootInterval: 3000, range: 6, health: 180, name: 'Antitanque de Área', projectile: 'explosion', splashRadius: 2, bidirectional: true, info: "¡Recompensa especial! Ataca hacia adelante Y hacia atrás. Daño masivo en área." },
 
     // --- DEFENSORES DEL MENÚ DE SELECCIÓN (game-page.html) ---
     // Estos IDs provienen de game-page.js y deben coincidir aquí para que aparezcan en la tienda del juego
-    'water-shield':  { icon: '🛡️', damage: 15,  cost: 50,  shootInterval: 2000, range: 1, health: 100, name: 'Gota Escudo',      projectile: 'water',  info: "Defensor básico con escudo. Barato y resistente." },
-    'rain-cloud':    { icon: '☁️',  damage: 20,  cost: 75,  shootInterval: 1200, range: 3, health: 60,  name: 'Nube Lluviosa',    projectile: 'water',  info: "Ataca con lluvia a distancia. Apoyo desde atrás." },
-    'water-cannon':  { icon: '💦',  damage: 45,  cost: 150, shootInterval: 1000, range: 4, health: 80,  name: 'Aqua Cañón',       projectile: 'water',  info: "Chorros de agua a alta presión. Gran alcance y daño." },
-    'ice-crystal':   { icon: '❄️',  damage: 35,  cost: 125, shootInterval: 1800, range: 3, health: 70,  name: 'Cristal de Hielo', projectile: 'ice',    statusEffect: { type: 'slow', power: 0.5, duration: 2000 }, info: "Congela y ralentiza contaminantes." },
-    'wave-warrior':  { icon: '🌊',  damage: 30,  cost: 200, shootInterval: 2000, range: 1, health: 250, name: 'Guerrero Ola',     projectile: 'water',  info: "Tanque pesado. Aguanta oleadas enteras." },
-    'water-lily':    { icon: '🪷',  cost: 100, health: 80,  name: 'Lirio Acuático',  generate: 15, interval: 6000, isGenerator: true, info: "Genera recursos adicionales pasivamente." },
-    'coral-reef':    { icon: '🪸',  damage: 25,  cost: 175, shootInterval: 1200, range: 2, health: 120, name: 'Coral Dorado',     projectile: 'nature', supportAura: { type: 'damage_reduction', power: 0.2, range: 1 }, info: "Aura que aumenta el daño de defensores adyacentes." },
-    'tsunami-giant': { icon: '🗿',  damage: 150, cost: 300, shootInterval: 3000, range: 6, health: 180, name: 'Titán Tsunami',    projectile: 'explosion', splashRadius: 2, info: "Defensor legendario. Daño en área masivo." },
+    'water-shield':  { icon: 'water-shield', damage: 15,  cost: 50,  shootInterval: 2000, range: 1, health: 100, name: 'Gota Escudo',      projectile: 'water',  info: "Defensor básico con escudo. Barato y resistente." },
+    'rain-cloud':    { icon: 'rain-cloud',  damage: 20,  cost: 75,  shootInterval: 1200, range: 3, health: 60,  name: 'Nube Lluviosa',    projectile: 'water',  info: "Ataca con lluvia a distancia. Apoyo desde atrás." },
+    'water-cannon':  { icon: 'water-cannon',  damage: 45,  cost: 150, shootInterval: 1000, range: 4, health: 80,  name: 'Aqua Cañón',       projectile: 'water',  info: "Chorros de agua a alta presión. Gran alcance y daño." },
+    'ice-crystal':   { icon: 'ice-crystal',  damage: 35,  cost: 125, shootInterval: 1800, range: 3, health: 70,  name: 'Cristal de Hielo', projectile: 'ice',    statusEffect: { type: 'slow', power: 0.5, duration: 2000 }, info: "Congela y ralentiza contaminantes." },
+    'wave-warrior':  { icon: 'wave-warrior',  damage: 30,  cost: 200, shootInterval: 2000, range: 1, health: 250, name: 'Guerrero Ola',     projectile: 'water',  info: "Tanque pesado. Aguanta oleadas enteras." },
+    'water-lily':    { icon: 'water-lily',  cost: 100, health: 80,  name: 'Lirio Acuático',  generate: 15, interval: 6000, isGenerator: true, info: "Genera recursos adicionales pasivamente." },
+    'coral-reef':    { icon: 'coral-reef',  damage: 25,  cost: 175, shootInterval: 1200, range: 2, health: 120, name: 'Coral Dorado',     projectile: 'nature', supportAura: { type: 'damage_reduction', power: 0.2, range: 1 }, info: "Aura que aumenta el daño de defensores adyacentes." },
+    'tsunami-giant': { icon: 'tsunami-giant',  damage: 150, cost: 300, shootInterval: 3000, range: 6, health: 180, name: 'Titán Tsunami',    projectile: 'explosion', splashRadius: 2, info: "Defensor legendario. Daño en área masivo." },
 
 };
 
 // Tipos de contaminantes — var para permitir override desde js/game/contaminants.js
 var allContaminatorTypes = window.allContaminatorTypes || [
-    { icon: '🏭', health: 60, speed: 1, coins: 15, name: 'Fábrica' },
-    { icon: '🛢️', health: 90, speed: 0.8, coins: 25, name: 'Petróleo' },
-    { icon: '☢️', health: 120, speed: 0.6, coins: 40, name: 'Nuclear' },
-    { icon: '🚮', health: 40, speed: 1.2, coins: 10, name: 'Basura' },
-    { icon: '🚗', health: 80, speed: 1.1, coins: 20, name: 'Auto' },
-    { icon: '⚗️', health: 120, speed: 0.9, coins: 30, name: 'Químico' },
-    { icon: '🔥', health: 90, speed: 1.3, coins: 22, name: 'Fuego' },
-    { icon: '💀', health: 350, speed: 0.7, coins: 50, name: 'Tóxico' },
-    { icon: '🌪️', health: 110, speed: 1.4, coins: 28, name: 'Huracán' },
-    { icon: '👹', health: 250, speed: 0.5, coins: 60, name: 'Demonio' },
+    { icon: 'Fabrica', health: 60, speed: 1, coins: 15, name: 'Fábrica' },
+    { icon: 'Petroleo', health: 90, speed: 0.8, coins: 25, name: 'Petróleo' },
+    { icon: 'Nuclear', health: 120, speed: 0.6, coins: 40, name: 'Nuclear' },
+    { icon: 'Basura', health: 40, speed: 1.2, coins: 10, name: 'Basura' },
+    { icon: 'Auto', health: 80, speed: 1.1, coins: 20, name: 'Auto' },
+    { icon: 'Quimico', health: 120, speed: 0.9, coins: 30, name: 'Químico' },
+    { icon: 'Fuego', health: 90, speed: 1.3, coins: 22, name: 'Fuego' },
+    { icon: 'Toxico', health: 350, speed: 0.7, coins: 50, name: 'Tóxico' },
+    { icon: 'Huracan', health: 110, speed: 1.4, coins: 28, name: 'Huracán' },
+    { icon: 'Demonio', health: 250, speed: 0.5, coins: 60, name: 'Demonio' },
     // --- NUEVOS CONTAMINANTES ---
-    { icon: '👻', health: 80, speed: 1.5, coins: 35, name: 'Fantasma', ability: { type: 'phase', chance: 0.2, duration: 1500 } }, // Puede volverse intangible
-    { icon: '🚛', health: 800, speed: 0.4, coins: 70, name: 'Tanque' }, // Lento pero muy resistente
+    { icon: 'Fantasma', health: 80, speed: 1.5, coins: 35, name: 'Fantasma', ability: { type: 'phase', chance: 0.2, duration: 1500 } }, // Puede volverse intangible
+    { icon: 'Tanque', health: 800, speed: 0.4, coins: 70, name: 'Tanque' }, // Lento pero muy resistente
     // --- JEFE ---
-    { icon: '🦑', health: 1500, speed: 0.5, coins: 300, name: 'El Leviatán', isBoss: true, ability: { type: 'lane_change', cooldown: 8000, lastUsed: 0 } } // Jefe que cambia de carril
+    { icon: 'Leviatan', health: 1500, speed: 0.5, coins: 300, name: 'El Leviatán', isBoss: true, ability: { type: 'lane_change', cooldown: 8000, lastUsed: 0 } } // Jefe que cambia de carril
 ];
 
 // Defensores desbloqueables — var para permitir override desde js/game/defenders.js
@@ -226,7 +226,7 @@ function removeDefender(row, col) {
     const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
     const refundEffect = document.createElement('div');
     refundEffect.className = 'refund-effect';
-    refundEffect.textContent = `+${refund} 💰`;
+    refundEffect.textContent = `+${refund}`;
     cell.appendChild(refundEffect);
 
     setTimeout(() => {
@@ -488,7 +488,7 @@ function placeDefender(row, col) {
             defenderElement.classList.add('generator');
         }
 
-        // Determinar si usar imagen o icono
+        // Determinar si usar imagen, SVG sprite o icono
         if (defenderType.image) {
             const img = document.createElement('img');
             img.src = defenderType.image;
@@ -497,8 +497,10 @@ function placeDefender(row, col) {
             img.style.height = '100%';
             img.style.objectFit = 'contain';
             defenderElement.appendChild(img);
+        } else if (window.GameSprites) {
+            defenderElement.innerHTML = window.GameSprites.defender(gameState.selectedDefender);
         } else {
-            defenderElement.textContent = defenderType.icon;
+            defenderElement.textContent = defenderType.name.charAt(0);
         }
 
         // Barra de salud del defensor
@@ -725,7 +727,11 @@ function spawnContaminator() {
 
     const contaminatorElement = document.createElement('div');
     contaminatorElement.className = 'contaminator';
-    contaminatorElement.textContent = type.icon;
+    if (window.GameSprites) {
+        contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);
+    } else {
+        contaminatorElement.textContent = type.name.charAt(0);
+    }
 
     const healthBar = document.createElement('div');
     healthBar.className = 'health-bar';
@@ -1033,7 +1039,7 @@ function shoot() {
                 gameState.coins += defenderType.generate;
                 defender.lastAction = now;
                 // Efecto visual de moneda
-                showFloatingText(`+${defenderType.generate}💰`, defender.element, 'coin-effect');
+                showFloatingText(`+${defenderType.generate}`, defender.element, 'coin-effect');
                 updateUI();
             }
             return; // Los generadores no atacan
@@ -1158,7 +1164,7 @@ function checkWaveComplete() {
 
                 const specialEffect = document.createElement('div');
                 specialEffect.className = 'special-coin-effect';
-                specialEffect.textContent = '+1 ⭐';
+                specialEffect.textContent = '+1';
                 document.body.appendChild(specialEffect);
                 setTimeout(() => specialEffect.remove(), 2000);
 
@@ -1243,7 +1249,7 @@ function healDefendersOnKill(contaminator) {
                     defender.healthFill.style.width = `${healthPercent}%`;
 
                     // Mostrar texto de curación
-                    showFloatingText(`+${healAmount} 💚`, defender.element, 'heal-effect');
+                    showFloatingText(`+${healAmount}`, defender.element, 'heal-effect');
 
                     // Si ya llegó al 80%, desactivar curación
                     if (defender.health >= targetHealth) {
@@ -1270,7 +1276,7 @@ function healDefendersOnKill(contaminator) {
                     defender.healthFill.style.width = `${healthPercent}%`;
 
                     // Mostrar texto de curación
-                    showFloatingText(`+${healAmount} 💚`, defender.element, 'heal-effect');
+                    showFloatingText(`+${healAmount}`, defender.element, 'heal-effect');
                 }
             }
         }
@@ -1280,7 +1286,7 @@ function healDefendersOnKill(contaminator) {
 function handleContaminatorDeath(contaminator) {
     // ANTI-CHEAT: Verificar si las recompensas están bloqueadas
     if (window.REWARDS_BLOCKED === true) {
-        console.warn('⚠️ ANTI-CHEAT: Recompensas bloqueadas, no se otorgan monedas');
+        console.warn('[AntiCheat] Recompensas bloqueadas, no se otorgan monedas');
         removeContaminator(contaminator);
         return;
     }
@@ -1320,9 +1326,9 @@ function handleContaminatorDeath(contaminator) {
         if (window.REWARDS_BLOCKED !== true) {
             gameState.specialCoins++;
             saveCurrentUserProgress();
-            showFloatingText('+1 ⭐', document.body, 'special-coin-effect');
+            showFloatingText('+1', document.body, 'special-coin-effect');
         } else {
-            console.warn('⚠️ ANTI-CHEAT: Moneda especial de jefe bloqueada');
+            console.warn('[AntiCheat] Moneda especial de jefe bloqueada');
         }
 
         if (typeof updateMissionProgress === 'function') {
@@ -1343,13 +1349,13 @@ function handleContaminatorDeath(contaminator) {
 
 function showWaveComplete(bonus) {
     const waveComplete = document.getElementById('waveComplete');
-    let message = `¡Oleada ${gameState.wave - 1} Completada! 🎉<br>+${bonus} 💰`;
+    let message = `¡Oleada ${gameState.wave - 1} Completada!<br>+${bonus}`;
 
     if ((gameState.wave - 1) % 10 === 0 && (gameState.wave - 1) > 0) {
-        message += `<br>¡Jefe Derrotado! +250 💰 extra`;
+        message += `<br>¡Jefe Derrotado! +250 extra`;
     }
     if ((gameState.wave - 1) % 5 === 0) {
-        message += `<br>¡Moneda especial obtenida! +1 ⭐`;
+        message += `<br>¡Moneda especial obtenida! +1`;
     }
 
     waveComplete.innerHTML = message;
@@ -1405,11 +1411,13 @@ function showUpgradePanel(defender) {
     const defenderType = allDefenderTypes[defender.type];
 
     const iconElement = document.getElementById('upgradeDefenderIcon');
-    // Determinar si usar imagen o icono
+    // Determinar si usar imagen, SVG sprite o icono
     if (defenderType.image) {
         iconElement.innerHTML = `<img src="${defenderType.image}" alt="${defenderType.name}" style="width: 50px; height: 50px; object-fit: contain;">`;
+    } else if (window.GameSprites) {
+        iconElement.innerHTML = window.GameSprites.defender(defender.type);
     } else {
-        iconElement.textContent = defenderType.icon;
+        iconElement.textContent = defenderType.name.charAt(0);
     }
     document.getElementById('upgradeDefenderName').textContent = `${defenderType.name} (Nivel ${defender.level})`;
 
@@ -1432,14 +1440,14 @@ function showUpgradePanel(defender) {
         const cost = getUpgradeCost(defender.level);
         let bonusText = '';
         switch (defender.level + 1) {
-            case 2: bonusText = "Mejora: +25% Vida Máxima<br><small>💚 Curación instantánea: +25% de vida al mejorar</small>"; break;
-            case 3: bonusText = "Mejora: +20% Daño<br><small>🩹 Curación: Al matar recupera vida si está <30% HP y no recibió daño por 10s (hasta 80% HP máx.)</small>"; break;
+            case 2: bonusText = "Mejora: +25% Vida Máxima<br><small>Curación instantánea: +25% de vida al mejorar</small>"; break;
+            case 3: bonusText = "Mejora: +20% Daño<br><small>Curación: Al matar recupera vida si está <30% HP y no recibió daño por 10s (hasta 80% HP máx.)</small>"; break;
             case 4: bonusText = "Mejora: +20% Prob. de Crítico (x2 Daño)"; break;
-            case 5: bonusText = "Mejora: Habilidad Final<br><small>💚 Curación mejorada: Al matar recupera 5% de la vida del enemigo (sin daño por 10s)</small>"; break;
+            case 5: bonusText = "Mejora: Habilidad Final<br><small>Curación mejorada: Al matar recupera 5% de la vida del enemigo (sin daño por 10s)</small>"; break;
             default: bonusText = "Mejora: +15% Cadencia de Disparo"; break; // Nivel 1
         }
         nextLevelInfo.innerHTML = `<p><strong>Siguiente Nivel:</strong> ${bonusText}</p>`;
-        upgradeButton.textContent = `Mejorar (${cost} 💰)`;
+        upgradeButton.textContent = `Mejorar (${cost})`;
         upgradeButton.style.display = 'block';
         upgradeButton.disabled = gameState.coins < cost;
     }
@@ -1464,7 +1472,7 @@ function showUpgradePanel(defender) {
             const individualCost = getUpgradeCost(minLevel);
             const totalCost = Math.floor(individualCost * count * 0.8); // 20% de descuento
 
-            groupUpgradeButton.innerHTML = `Mejorar ${count} a Nv. ${minLevel + 1} (${totalCost} 💰)`;
+            groupUpgradeButton.innerHTML = `Mejorar ${count} a Nv. ${minLevel + 1} (${totalCost})`;
             groupUpgradeButton.style.display = 'block';
             groupUpgradeButton.disabled = gameState.coins < totalCost;
         } else {
@@ -1579,26 +1587,26 @@ function performUpgrade(defender, chargeCost = true) {
 // MENSAJES EDUCATIVOS SOBRE EL AGUA
 // ============================================
 const waterEducationMessages = [
-    "💧 El 71% de la Tierra es agua, pero solo el 2.5% es dulce y disponible para consumo humano.",
-    "🌊 Una persona puede sobrevivir un mes sin comida, pero solo una semana sin agua.",
-    "🚿 Una ducha de 5 minutos consume aproximadamente 100 litros de agua.",
-    "💦 El 70% del agua dulce del planeta se utiliza en agricultura.",
-    "🌍 Más de 2 mil millones de personas en el mundo no tienen acceso a agua potable segura.",
-    "🐋 Los océanos producen más del 50% del oxígeno que respiramos.",
-    "🏭 La contaminación industrial es responsable del 70% de la contaminación del agua en los países en desarrollo.",
-    "🌱 Un solo árbol puede filtrar hasta 450 litros de agua al día a través de sus raíces.",
-    "❄️ El 68.7% del agua dulce del mundo está congelada en glaciares y capas de hielo.",
-    "💧 Cerrar el grifo mientras te cepillas los dientes puede ahorrar hasta 12 litros de agua al día.",
-    "🌊 Los humedales actúan como 'riñones' naturales, filtrando contaminantes del agua.",
-    "🐠 El 80% de las aguas residuales del mundo se vierten sin tratamiento.",
-    "💰 Cada dólar invertido en agua y saneamiento genera $4.3 en beneficios económicos.",
-    "🌏 Para 2025, dos tercios de la población mundial podría enfrentar escasez de agua.",
-    "🚰 Una llave goteando puede desperdiciar hasta 30 litros de agua al día.",
-    "🌿 Las plantas nativas requieren hasta un 50% menos agua que las especies exóticas.",
-    "⚡ Se necesitan aproximadamente 140 litros de agua para producir una taza de café.",
-    "🍔 Producir 1 kg de carne de res requiere 15,000 litros de agua.",
-    "🌊 Los arrecifes de coral protegen las costas y filtran el agua del océano.",
-    "💧 El cuerpo humano está compuesto de aproximadamente 60% de agua."
+    "El 71% de la Tierra es agua, pero solo el 2.5% es dulce y disponible para consumo humano.",
+    "Una persona puede sobrevivir un mes sin comida, pero solo una semana sin agua.",
+    "Una ducha de 5 minutos consume aproximadamente 100 litros de agua.",
+    "El 70% del agua dulce del planeta se utiliza en agricultura.",
+    "Más de 2 mil millones de personas en el mundo no tienen acceso a agua potable segura.",
+    "Los océanos producen más del 50% del oxígeno que respiramos.",
+    "La contaminación industrial es responsable del 70% de la contaminación del agua en los países en desarrollo.",
+    "Un solo árbol puede filtrar hasta 450 litros de agua al día a través de sus raíces.",
+    "El 68.7% del agua dulce del mundo está congelada en glaciares y capas de hielo.",
+    "Cerrar el grifo mientras te cepillas los dientes puede ahorrar hasta 12 litros de agua al día.",
+    "Los humedales actúan como 'riñones' naturales, filtrando contaminantes del agua.",
+    "El 80% de las aguas residuales del mundo se vierten sin tratamiento.",
+    "Cada dólar invertido en agua y saneamiento genera $4.3 en beneficios económicos.",
+    "Para 2025, dos tercios de la población mundial podría enfrentar escasez de agua.",
+    "Una llave goteando puede desperdiciar hasta 30 litros de agua al día.",
+    "Las plantas nativas requieren hasta un 50% menos agua que las especies exóticas.",
+    "Se necesitan aproximadamente 140 litros de agua para producir una taza de café.",
+    "Producir 1 kg de carne de res requiere 15,000 litros de agua.",
+    "Los arrecifes de coral protegen las costas y filtran el agua del océano.",
+    "El cuerpo humano está compuesto de aproximadamente 60% de agua."
 ];
 
 function getRandomWaterMessage() {
@@ -1628,7 +1636,7 @@ function gameOver() {
 
     showMessage(
         "¡Isla Contaminada!",
-        `Llegaste hasta la oleada ${gameState.wave}.<br><br><strong>⭐ +${coinsEarned} Monedas Especiales</strong><br><br><strong>💧 ¿Sabías que...?</strong><br>${educationalMessage}<br><br>¡Visita la tienda para desbloquear nuevos defensores!`,
+        `Llegaste hasta la oleada ${gameState.wave}.<br><br><strong>+${coinsEarned} Monedas Especiales</strong><br><br><strong>¿Sabías que...?</strong><br>${educationalMessage}<br><br>¡Visita la tienda para desbloquear nuevos defensores!`,
         [
             { text: 'Volver al Lobby', action: backToMain, class: 'secondary' },
             { text: 'Reiniciar', action: restartGame }
@@ -1694,7 +1702,17 @@ function restartCurrentWave() {
         if (cell && defenderType) {
             const defenderElement = document.createElement('div');
             defenderElement.className = 'defender';
-            defenderElement.textContent = defenderType.icon;
+            if (defenderType.image) {
+                const img = document.createElement('img');
+                img.src = defenderType.image;
+                img.alt = defenderType.name;
+                img.style.cssText = 'width:100%;height:100%;object-fit:contain';
+                defenderElement.appendChild(img);
+            } else if (window.GameSprites) {
+                defenderElement.innerHTML = window.GameSprites.defender(defData.type);
+            } else {
+                defenderElement.textContent = defenderType.name.charAt(0);
+            }
 
             const healthBar = document.createElement('div');
             healthBar.className = 'defender-health';
@@ -1842,7 +1860,7 @@ function initializeSound() {
     } else {
         window.soundEnabled = true;
     }
-    document.getElementById('soundToggle').textContent = window.soundEnabled ? '🔊' : '🔇';
+    document.getElementById('soundToggle').textContent = window.soundEnabled ? 'ON' : 'OFF';
 }
 
 // Inicializar
@@ -2031,26 +2049,26 @@ function updateRunesDisplay() {
 // NOTA: stream, bubble, wind, earth NO están aquí porque ya vienen desbloqueados por defecto
 window.shopDefenders = [
     // DAÑO BAJO-MEDIO
-    { id: 'crystal', category: 'damage', name: 'Cristal', icon: '💎', cost: 2, desc: 'Cristal purificador de gran alcance', stats: { damage: 80, range: 6, shootInterval: 1800 } },
-    { id: 'coral', category: 'damage', name: 'Coral', icon: '🪸', cost: 2, desc: 'Coral regenerativo y resistente', stats: { damage: 55, range: 5, shootInterval: 1100 } },
-    { id: 'generator', category: 'special', name: 'Generador', icon: '💰', cost: 2, desc: 'Genera monedas extra durante la partida', stats: { damage: 0, range: 0, shootInterval: 0 } },
-    { id: 'solar', category: 'damage', name: 'Solar', icon: '☀️', cost: 3, desc: 'Panel solar con ataque rápido', stats: { damage: 70, range: 4, shootInterval: 900 } },
-    { id: 'cryomancer', category: 'damage', name: 'Criomante', icon: '❄️', cost: 3, desc: 'Lanza hielo que ralentiza a los enemigos', stats: { damage: 15, range: 6, shootInterval: 1800 } },
+    { id: 'crystal', category: 'damage', name: 'Cristal', icon: 'crystal', cost: 2, desc: 'Cristal purificador de gran alcance', stats: { damage: 80, range: 6, shootInterval: 1800 } },
+    { id: 'coral', category: 'damage', name: 'Coral', icon: 'coral', cost: 2, desc: 'Coral regenerativo y resistente', stats: { damage: 55, range: 5, shootInterval: 1100 } },
+    { id: 'generator', category: 'special', name: 'Generador', icon: 'generator', cost: 2, desc: 'Genera monedas extra durante la partida', stats: { damage: 0, range: 0, shootInterval: 0 } },
+    { id: 'solar', category: 'damage', name: 'Solar', icon: 'solar', cost: 3, desc: 'Panel solar con ataque rápido', stats: { damage: 70, range: 4, shootInterval: 900 } },
+    { id: 'cryomancer', category: 'damage', name: 'Criomante', icon: 'cryomancer', cost: 3, desc: 'Lanza hielo que ralentiza a los enemigos', stats: { damage: 15, range: 6, shootInterval: 1800 } },
     
     // DAÑO MEDIO-ALTO
-    { id: 'otter', category: 'damage', name: 'Nutria', icon: '🦦', cost: 4, desc: 'Defensor balanceado y resistente', stats: { damage: 60, range: 4, shootInterval: 1300 } },
-    { id: 'dualcannon', category: 'damage', name: 'Cañón Doble', icon: '🔫', cost: 4, desc: 'Cañón que dispara ráfagas dobles', stats: { damage: 20, range: 5, shootInterval: 1500 } },
-    { id: 'amplifier', category: 'special', name: 'Amplificador', icon: '🔊', cost: 4, desc: 'Aumenta el daño de los defensores en su fila', stats: { damage: 0, range: 0, shootInterval: 0 } },
-    { id: 'shield', category: 'tank', name: 'Escudo', icon: '🛡️', cost: 4, desc: 'Escudo ultra resistente', stats: { damage: 40, range: 3, shootInterval: 2000, health: 500 } },
+    { id: 'otter', category: 'damage', name: 'Nutria', icon: 'otter', cost: 4, desc: 'Defensor balanceado y resistente', stats: { damage: 60, range: 4, shootInterval: 1300 } },
+    { id: 'dualcannon', category: 'damage', name: 'Cañón Doble', icon: 'dualcannon', cost: 4, desc: 'Cañón que dispara ráfagas dobles', stats: { damage: 20, range: 5, shootInterval: 1500 } },
+    { id: 'amplifier', category: 'special', name: 'Amplificador', icon: 'amplifier', cost: 4, desc: 'Aumenta el daño de los defensores en su fila', stats: { damage: 0, range: 0, shootInterval: 0 } },
+    { id: 'shield', category: 'tank', name: 'Escudo', icon: 'shield', cost: 4, desc: 'Escudo ultra resistente', stats: { damage: 40, range: 3, shootInterval: 2000, health: 500 } },
     
     // ALTO DAÑO
-    { id: 'incinerator', category: 'damage', name: 'Incinerador', icon: '🔥', cost: 5, desc: 'Aplica quemaduras que dañan con el tiempo', stats: { damage: 10, range: 4, shootInterval: 2000 } },
-    { id: 'tornado', category: 'damage', name: 'Tornado', icon: '🌪️', cost: 5, desc: 'Tornado de largo alcance', stats: { damage: 90, range: 7, shootInterval: 2200 } },
-    { id: 'wizard', category: 'damage', name: 'Mago Eléctrico', icon: '🧙', cost: 5, desc: 'Ataque en cadena que salta a enemigos', stats: { damage: 40, range: 5, shootInterval: 2000 } },
-    { id: 'mortar', category: 'damage', name: 'Mortero', icon: '💣', cost: 6, desc: 'Causa daño en un área pequeña', stats: { damage: 50, range: 8, shootInterval: 4000 } },
-    { id: 'whale', category: 'damage', name: 'Ballena', icon: '🐋', cost: 6, desc: 'Ballena poderosa y tanque', stats: { damage: 100, range: 8, shootInterval: 2500 } },
-    { id: 'golem', category: 'tank', name: 'Gólem', icon: '🗿', cost: 6, desc: 'Tanque con mucha vida pero poco daño', stats: { damage: 30, range: 3, shootInterval: 2500, health: 400 } },
-    { id: 'kraken', category: 'damage', name: 'Kraken', icon: '🐙', cost: 7, desc: 'Ataque en cadena de gran alcance', stats: { damage: 70, range: 7, shootInterval: 2800 } }
+    { id: 'incinerator', category: 'damage', name: 'Incinerador', icon: 'incinerator', cost: 5, desc: 'Aplica quemaduras que dañan con el tiempo', stats: { damage: 10, range: 4, shootInterval: 2000 } },
+    { id: 'tornado', category: 'damage', name: 'Tornado', icon: 'tornado', cost: 5, desc: 'Tornado de largo alcance', stats: { damage: 90, range: 7, shootInterval: 2200 } },
+    { id: 'wizard', category: 'damage', name: 'Mago Eléctrico', icon: 'wizard', cost: 5, desc: 'Ataque en cadena que salta a enemigos', stats: { damage: 40, range: 5, shootInterval: 2000 } },
+    { id: 'mortar', category: 'damage', name: 'Mortero', icon: 'mortar', cost: 6, desc: 'Causa daño en un área pequeña', stats: { damage: 50, range: 8, shootInterval: 4000 } },
+    { id: 'whale', category: 'damage', name: 'Ballena', icon: 'whale', cost: 6, desc: 'Ballena poderosa y tanque', stats: { damage: 100, range: 8, shootInterval: 2500 } },
+    { id: 'golem', category: 'tank', name: 'Gólem', icon: 'golem', cost: 6, desc: 'Tanque con mucha vida pero poco daño', stats: { damage: 30, range: 3, shootInterval: 2500, health: 400 } },
+    { id: 'kraken', category: 'damage', name: 'Kraken', icon: 'kraken', cost: 7, desc: 'Ataque en cadena de gran alcance', stats: { damage: 70, range: 7, shootInterval: 2800 } }
 ];
 
 // Estado de la tienda (qué defensores ha comprado el jugador)

@@ -67,9 +67,9 @@
             }
         };
         removalTool.innerHTML = `
-            <div class="defender-icon">🗑️</div>
+            <div class="defender-icon"></div>
             <div class="defender-name">Eliminar</div>
-            <div class="defender-cost">50% 💰</div>
+            <div class="defender-cost">50% </div>
         `;
         shop.appendChild(removalTool);
 
@@ -129,19 +129,19 @@
 
             const iconHTML = defender.image
                 ? `<img src="${defender.image}" alt="${defender.name}" class="defender-image" style="width: 40px; height: 40px; object-fit: contain;">`
-                : `<div class="defender-icon">${defenderData.icon}</div>`;
+                : `<div class="defender-icon">${window.GameSprites ? window.GameSprites.defender(defenderId) : defenderData.name.charAt(0)}</div>`;
 
             mainCardArea.innerHTML = `
                 ${iconHTML}
                 <div class="defender-name">${defenderData.name}</div>
-                <div class="defender-cost">${defender.cost} 💰</div>
+                <div class="defender-cost">${defender.cost}</div>
             `;
             card.appendChild(mainCardArea);
 
             if (defender.info) {
                 const infoBtn = document.createElement('button');
                 infoBtn.className = 'info-btn';
-                infoBtn.innerHTML = 'ℹ️';
+                infoBtn.innerHTML = '<i data-lucide="info"></i>';
                 infoBtn.onclick = (event) => {
                     event.stopPropagation();
                     if (typeof window.showMessage === 'function') {
@@ -255,11 +255,11 @@
             itemDiv.dataset.category = defender.category;
             itemDiv.dataset.cost = defender.cost;
             itemDiv.innerHTML = `
-                <div class="shop-item-icon">${defender.icon}</div>
+                <div class="shop-item-icon">${window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0)}</div>
                 <div class="shop-item-name">${defender.name}</div>
                 <div class="shop-item-desc">${defender.desc}</div>
                 <div class="shop-item-price">
-                    ${isPurchased ? '✅ COMPRADO' : `⭐ ${defender.cost}`}
+                    ${isPurchased ? 'COMPRADO' : `${defender.cost}`}
                 </div>
             `;
 
@@ -320,7 +320,7 @@
 
             if (typeof window.showMessage === 'function') {
                 window.showMessage(
-                    `🎉 ¡${defender.name} comprado!`,
+                    ` ¡${defender.name} comprado!`,
                     `¡Ahora puedes usar a ${defender.name} en tus partidas!`,
                     [{ text: '¡Genial!', action: typeof window.hideMessage === 'function' ? window.hideMessage : () => {} }]
                 );
@@ -337,7 +337,7 @@
 
     function awardSpecialCoins(amount) {
         if (window.REWARDS_BLOCKED === true) {
-            console.warn('⚠️ ANTI-CHEAT: No se pueden otorgar monedas especiales');
+            console.warn(' ANTI-CHEAT: No se pueden otorgar monedas especiales');
             if (typeof window.AntiCheat !== 'undefined' && window.AntiCheat.showRewardBlockedMessage) {
                 window.AntiCheat.showRewardBlockedMessage();
             }
@@ -345,7 +345,7 @@
         }
 
         if (typeof window.AntiCheat !== 'undefined' && amount > window.AntiCheat.limits.specialCoins.maxPerSession) {
-            console.warn('⚠️ ANTI-CHEAT: Monto de monedas especiales sospechoso:', amount);
+            console.warn(' ANTI-CHEAT: Monto de monedas especiales sospechoso:', amount);
             amount = Math.min(amount, window.AntiCheat.limits.specialCoins.maxPerSession / 2);
         }
 
@@ -361,7 +361,7 @@
         }
         
         if (typeof window.showMessage === 'function') {
-            window.showMessage(`⭐ +${amount} Monedas Especiales`, 'reward');
+            window.showMessage(` +${amount} Monedas Especiales`, 'reward');
         }
     }
 
@@ -401,7 +401,7 @@
             const defenderId = selectedDefendersForGame[index];
             if (defenderId) {
                 const defenderData = getDefenderData(defenderId);
-                slot.textContent = defenderData ? defenderData.icon : '?';
+                slot.innerHTML = defenderData ? (window.GameSprites ? window.GameSprites.defender(defenderId) : defenderData.name.charAt(0)) : '?';
                 slot.classList.remove('empty');
             } else {
                 slot.textContent = '?';
@@ -429,14 +429,14 @@
         grid.innerHTML = '';
 
         const allDefendersData = [
-            { id: 'filter', name: 'Filtro', icon: '🔵', stats: 'Daño: 25 | Rango: 4' },
-            { id: 'plant', name: 'Planta', icon: '🌱', stats: 'Daño: 35 | Auto-cura' },
-            { id: 'recycler', name: 'Reciclador', icon: '♻️', stats: 'Daño: 45 | Rápido' },
-            { id: 'cleaner', name: 'Purificador', icon: '🧽', stats: 'Daño: 60 | Rango: 5' },
-            { id: 'stream', name: 'Chorro', icon: '💧', stats: 'Daño: 18 | Económico' },
-            { id: 'bubble', name: 'Burbuja', icon: '🫧', stats: 'Daño: 6 | Ralentiza' },
-            { id: 'wind', name: 'Viento', icon: '💨', stats: 'Daño: 18 | Empuje' },
-            { id: 'earth', name: 'Tierra', icon: '🪨', stats: 'Daño: 22 | Aturdimiento' }
+            { id: 'filter', name: 'Filtro', icon: 'filter', stats: 'Daño: 25 | Rango: 4' },
+            { id: 'plant', name: 'Planta', icon: 'plant', stats: 'Daño: 35 | Auto-cura' },
+            { id: 'recycler', name: 'Reciclador', icon: 'recycler', stats: 'Daño: 45 | Rápido' },
+            { id: 'cleaner', name: 'Purificador', icon: 'cleaner', stats: 'Daño: 60 | Rango: 5' },
+            { id: 'stream', name: 'Chorro', icon: 'stream', stats: 'Daño: 18 | Económico' },
+            { id: 'bubble', name: 'Burbuja', icon: 'bubble', stats: 'Daño: 6 | Ralentiza' },
+            { id: 'wind', name: 'Viento', icon: 'wind', stats: 'Daño: 18 | Empuje' },
+            { id: 'earth', name: 'Tierra', icon: 'earth', stats: 'Daño: 22 | Aturdimiento' }
         ];
 
         const unlockedDefendersData = allDefendersData.filter(defender => 
@@ -455,7 +455,7 @@
         }))];
 
         if (allAvailable.length === 0) {
-            grid.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;">No tienes defensores desbloqueados. ¡Desbloquea algunos en la tienda! 🏪</div>';
+            grid.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;">No tienes defensores desbloqueados. Desblóquea algunos en la tienda.</div>';
             return;
         }
 
@@ -467,7 +467,7 @@
             const card = document.createElement('div');
             card.className = `available-defender-card ${isSelected ? 'selected' : ''} ${isFull && !isSelected ? 'locked' : ''}`;
             card.innerHTML = `
-                <div class="icon">${defender.icon}</div>
+                <div class="icon">${window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0)}</div>
                 <div class="name">${defender.name}</div>
                 <div class="stats">${defender.stats}</div>
             `;
@@ -562,7 +562,7 @@
             return {
                 id: defenderId,
                 name: adt[defenderId].name,
-                icon: adt[defenderId].icon
+                icon: window.GameSprites ? window.GameSprites.defender(defenderId) : adt[defenderId].name.charAt(0)
             };
         }
 

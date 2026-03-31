@@ -33,7 +33,7 @@
                     if (!id) return;
 
                     apiDefenders[id] = {
-                        icon:           d.icon   || '💧',
+                        icon:           d.icon   || '',
                         name:           d.name   || id,
                         damage:         Number(d.damage)         || 25,
                         cost:           Number(d.cost)           || 50,

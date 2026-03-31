@@ -12,14 +12,14 @@ const DailyRewardsManager = {
             coins: 50, 
             runes: 5, 
             description: "¡Bienvenido!", 
-            icon: "🎁" 
+            icon: "gift" 
         },
         { 
             day: 2, 
             coins: 75, 
             runes: 10, 
             description: "¡Segundo día!", 
-            icon: "💎" 
+            icon: "gem" 
         },
         { 
             day: 3, 
@@ -27,14 +27,14 @@ const DailyRewardsManager = {
             runes: 15, 
             specialCoins: 1, 
             description: "¡Vas bien!", 
-            icon: "⭐" 
+            icon: "star" 
         },
         { 
             day: 4, 
             coins: 150, 
             runes: 20, 
             description: "¡Gran progreso!", 
-            icon: "🔥" 
+            icon: "flame" 
         },
         { 
             day: 5, 
@@ -42,7 +42,7 @@ const DailyRewardsManager = {
             runes: 25, 
             specialCoins: 2, 
             description: "¡Impresionante!", 
-            icon: "💫" 
+            icon: "sparkle" 
         },
         { 
             day: 6, 
@@ -50,7 +50,7 @@ const DailyRewardsManager = {
             runes: 35, 
             specialCoins: 3, 
             description: "¡Casi lo logras!", 
-            icon: "🌟" 
+            icon: "crown" 
         },
         { 
             day: 7, 
@@ -58,7 +58,7 @@ const DailyRewardsManager = {
             runes: 50, 
             specialCoins: 5, 
             description: "¡MEGA RECOMPENSA!", 
-            icon: "🏆" 
+            icon: "trophy" 
         }
     ],
 
@@ -78,7 +78,7 @@ const DailyRewardsManager = {
     init() {
         this.loadState();
         this.checkNewDay();
-        console.log('✅ Daily Rewards Manager initialized');
+        console.log('[DailyRewards] Manager initialized');
     },
 
     normalizeState(inputState) {
@@ -173,7 +173,7 @@ const DailyRewardsManager = {
 
         // Si nunca ha reclamado, es su primer día
         if (!lastClaim) {
-            console.log('🎁 Primer día del usuario');
+            console.log('[DailyRewards] Primer día del usuario');
             return;
         }
 
@@ -194,12 +194,12 @@ const DailyRewardsManager = {
                     this.state.currentDay = 1;
                 }
                 
-                console.log(`📅 Nuevo día consecutivo! Día ${this.state.currentDay}/7`);
+                console.log(`[DailyRewards] Nuevo día consecutivo! Día ${this.state.currentDay}/7`);
             } else if (diffDays > 1) {
                 // Rompió la racha: reiniciar desde día 1
                 this.state.currentStreak = 0;
                 this.state.currentDay = 1;
-                console.log('💔 Racha rota. Reiniciando desde día 1');
+                console.log('[DailyRewards] Racha rota. Reiniciando desde día 1');
             }
 
             // En un nuevo día, resetear la fecha de última muestra
@@ -224,7 +224,7 @@ const DailyRewardsManager = {
         
         // Solo mostrar para usuarios registrados o invitados logueados
         if (!user) {
-            console.log('ℹ️ Rewards: No hay usuario logueado');
+            console.log('[DailyRewards] No hay usuario logueado');
             return false;
         }
 
@@ -232,30 +232,30 @@ const DailyRewardsManager = {
 
         // No mostrar si ya se mostró hoy
         if (this.state.lastShownDate === today) {
-            console.log('ℹ️ Rewards: Ya se mostró hoy', today);
+            console.log('[DailyRewards] Ya se mostró hoy', today);
             return false;
         }
 
         // No mostrar si ya reclamó hoy
         if (this.state.lastClaimDate === today) {
-            console.log('ℹ️ Rewards: Ya reclamó hoy', today);
+            console.log('[DailyRewards] Ya reclamó hoy', today);
             return false;
         }
 
-        console.log(`✅ Rewards: Puede mostrar! (Día ${this.state.currentDay}/7)`);
+        console.log(`[DailyRewards] Puede mostrar! (Día ${this.state.currentDay}/7)`);
         return true;
     },
 
     // Mostrar modal de recompensa
     show() {
-        console.log('🎁 Intentando mostrar modal de recompensas...');
+        console.log('[DailyRewards] Intentando mostrar modal de recompensas...');
         
         if (!this.shouldShow()) {
-            console.log('ℹ️ Modal de recompensa diaria no se muestra');
+            console.log('[DailyRewards] Modal de recompensa diaria no se muestra');
             return;
         }
 
-        console.log('✅ Mostrando modal de recompensa diaria');
+        console.log('[DailyRewards] Mostrando modal de recompensa diaria');
 
         // Marcar como mostrado hoy con la fecha actual
         this.state.lastShownDate = this.getTodayString();
@@ -266,19 +266,19 @@ const DailyRewardsManager = {
 
     // Forzar mostrar modal (sin restricciones)
     forceShow() {
-        console.log('🔓 forceShow() llamado');
+        console.log('[DailyRewards] forceShow() llamado');
         const user = this.getCurrentUser();
         
-        console.log('👤 Usuario actual:', user);
-        console.log('🔍 Detalles del usuario:', user ? JSON.stringify(user, null, 2) : 'null');
+        console.log('[DailyRewards] Usuario actual:', user);
+        console.log('[DailyRewards] Detalles del usuario:', user ? JSON.stringify(user, null, 2) : 'null');
         
         if (!user) {
-            console.error('❌ No hay usuario logueado');
-            alert('⚠️ Debes iniciar sesión para ver las recompensas diarias.\n\nPor favor, inicia sesión o juega como invitado primero.');
+            console.error('[DailyRewards] No hay usuario logueado');
+            alert('Debes iniciar sesión para ver las recompensas diarias.\n\nPor favor, inicia sesión o juega como invitado primero.');
             return;
         }
 
-        console.log('✅ Usuario válido, renderizando modal...');
+        console.log('[DailyRewards] Usuario válido, renderizando modal...');
         this.renderModal();
     },
 
@@ -311,7 +311,7 @@ const DailyRewardsManager = {
         modal.innerHTML = `
             <div class="daily-reward-overlay"></div>
             <div class="daily-reward-container">
-                <button class="daily-reward-close">✕</button>
+                <button class="daily-reward-close"></button>
                 <div class="daily-reward-header"></div>
                 <div class="daily-reward-progress">
                     <div class="progress-label"></div>
@@ -349,6 +349,7 @@ const DailyRewardsManager = {
 
                 const fallback = document.createElement('div');
                 fallback.className = `reward-icon-large reward-icon-day-${safeCurrentDay}`;
+                if (window.GameSprites?.dailyReward) fallback.innerHTML = window.GameSprites.dailyReward(safeCurrentDay);
                 fallback.style.display = 'none';
 
                 avatarImg.addEventListener('error', () => {
@@ -361,6 +362,7 @@ const DailyRewardsManager = {
             } else {
                 const icon = document.createElement('div');
                 icon.className = `reward-icon-large reward-icon-day-${safeCurrentDay}`;
+                if (window.GameSprites?.dailyReward) icon.innerHTML = window.GameSprites.dailyReward(safeCurrentDay);
                 media.appendChild(icon);
             }
 
@@ -403,6 +405,12 @@ const DailyRewardsManager = {
 
             const icon = document.createElement('span');
             icon.className = `reward-item-icon ${iconClass}`;
+            const _spriteMap = {
+                'reward-icon-coins': window.GameSprites?.ui('coin'),
+                'reward-icon-runes': window.GameSprites?.ui('rune'),
+                'reward-icon-special': window.GameSprites?.ui('star')
+            };
+            if (_spriteMap[iconClass]) icon.innerHTML = _spriteMap[iconClass];
 
             const info = document.createElement('div');
             info.className = 'reward-item-info';
@@ -433,14 +441,18 @@ const DailyRewardsManager = {
             claimBtn.className = alreadyClaimed ? 'daily-reward-claim-btn claimed-already' : 'daily-reward-claim-btn';
             if (alreadyClaimed) {
                 claimBtn.disabled = true;
+                const checkIcon = document.createElement('span');
+                checkIcon.className = 'claim-btn-icon';
+                if (window.GameSprites?.ui) checkIcon.innerHTML = window.GameSprites.ui('check');
                 const txt = document.createElement('span');
                 txt.className = 'claim-btn-text';
-                txt.textContent = '✓ Ya reclamaste hoy — vuelve mañana';
+                txt.textContent = 'Ya reclamaste hoy - vuelve mañana';
+                claimBtn.appendChild(checkIcon);
                 claimBtn.appendChild(txt);
             } else {
                 const icon = document.createElement('span');
                 icon.className = 'claim-btn-icon';
-                icon.textContent = '🎁';
+                if (window.GameSprites?.ui) icon.innerHTML = window.GameSprites.ui('gift');
                 const txt = document.createElement('span');
                 txt.className = 'claim-btn-text';
                 txt.textContent = '¡RECLAMAR RECOMPENSA!';
@@ -506,6 +518,8 @@ const DailyRewardsManager = {
         // Agregar event listener al botón de cerrar
         const closeBtn = modal.querySelector('.daily-reward-close');
         if (closeBtn) {
+            if (window.GameSprites?.ui) closeBtn.innerHTML = window.GameSprites.ui('cross');
+            else closeBtn.textContent = 'X';
             closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModal(); });
         }
 
@@ -518,7 +532,7 @@ const DailyRewardsManager = {
         // Animación de entrada
         setTimeout(() => modal.classList.add('active'), 10);
 
-        console.log('🎁 Modal de recompensa diaria mostrado');
+        console.log('[DailyRewards] Modal de recompensa diaria mostrado');
     },
 
     // Generar puntos de progreso
@@ -545,7 +559,7 @@ const DailyRewardsManager = {
         // Guard 2: ya se reclamó hoy
         const today = this.getTodayString();
         if (this.state.lastClaimDate === today) {
-            console.warn('⚠️ Intento de reclamar dos veces el mismo día');
+            console.warn('[DailyRewards] Intento de reclamar dos veces el mismo día');
             this.close();
             return;
         }
@@ -576,7 +590,7 @@ const DailyRewardsManager = {
         // Cerrar modal después de la animación
         setTimeout(() => this.close(), 2000);
 
-        console.log('✅ Recompensa diaria reclamada:', currentReward);
+        console.log('[DailyRewards] Recompensa diaria reclamada:', currentReward);
     },
 
     // Dar recompensas al usuario
@@ -1021,9 +1035,9 @@ const DailyRewardsManager = {
                 animation: bounce 1s infinite;
             }
 
-            .reward-icon-coins::before { content: '\\1F4B0'; font-size: 22px; }
-            .reward-icon-runes::before { content: '\\1FAA8'; font-size: 22px; }
-            .reward-icon-special::before { content: '\\2B50'; font-size: 22px; }
+            .reward-icon-coins svg,
+            .reward-icon-runes svg,
+            .reward-icon-special svg { width: 22px; height: 22px; }
 
             .daily-reward-next {
                 text-align: center;
@@ -1211,33 +1225,33 @@ if (document.readyState === 'loading') {
 // ==========================================
 function handleRewardsHash() {
     const hash = window.location.hash.toLowerCase();
-    console.log('🔍 handleRewardsHash llamado');
-    console.log('🔍 Hash actual:', hash);
-    console.log('🔍 Hash completo (sin lowercase):', window.location.hash);
+    console.log(' handleRewardsHash llamado');
+    console.log(' Hash actual:', hash);
+    console.log(' Hash completo (sin lowercase):', window.location.hash);
     
     if (hash === '#rewards' || hash === '#recompensas') {
-        console.log('✅ Hash coincide con rewards!');
-        console.log('🔍 Tipo de DailyRewardsManager:', typeof DailyRewardsManager);
+        console.log(' Hash coincide con rewards!');
+        console.log(' Tipo de DailyRewardsManager:', typeof DailyRewardsManager);
         
         // Esperar a que DailyRewardsManager esté listo
         const checkManager = () => {
             if (typeof DailyRewardsManager !== 'undefined' && DailyRewardsManager.forceShow) {
-                console.log('✅ DailyRewardsManager está listo');
-                console.log('🔍 forceShow es:', typeof DailyRewardsManager.forceShow);
+                console.log(' DailyRewardsManager está listo');
+                console.log(' forceShow es:', typeof DailyRewardsManager.forceShow);
                 // Pequeño delay para asegurar que todo esté cargado
                 setTimeout(() => {
-                    console.log('🎁 Ejecutando forceShow()...');
+                    console.log(' Ejecutando forceShow()...');
                     DailyRewardsManager.forceShow();
-                    console.log('🔗 Modal abierto desde hashtag:', hash);
+                    console.log(' Modal abierto desde hashtag:', hash);
                 }, 300);
             } else {
-                console.log('⏳ Esperando a DailyRewardsManager...');
+                console.log(' Esperando a DailyRewardsManager...');
                 setTimeout(checkManager, 50);
             }
         };
         checkManager();
     } else {
-        console.log('ℹ️ Hash no es rewards:', hash);
+        console.log('[DailyRewards] Hash no es rewards:', hash);
     }
 }
 
@@ -1251,5 +1265,5 @@ if (document.readyState === 'loading') {
 // Detectar cambios en el hashtag
 window.addEventListener('hashchange', handleRewardsHash);
 
-console.log('🎁 Daily Rewards Manager loaded');
-console.log('💡 Tip: Usa #rewards o #recompensas para abrir el modal');
+console.log(' Daily Rewards Manager loaded');
+console.log(' Tip: Usa #rewards o #recompensas para abrir el modal');

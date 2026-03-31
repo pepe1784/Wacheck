@@ -314,26 +314,26 @@ function loadCurrentMission() {
     const objectiveList = document.getElementById('objectiveList');
     objectiveList.innerHTML = mission.objectives.map((obj, index) => `
         <div class="objective incomplete" data-obj="${index}">
-            <span class="objective-icon">❌</span>
+            <span class="objective-icon">${window.GameSprites.inline('cross', 16)}</span>
             <span class="objective-text">${obj.text}</span>
-            <span class="objective-reward">+${obj.reward} ⭐</span>
+            <span class="objective-reward">+${obj.reward} ${window.GameSprites.inline('star', 14)}</span>
         </div>
     `).join('');
     
     // Recompensas
     const rewardsList = mission.rewards;
     document.querySelector('.reward-list').innerHTML = `
-        <div class="reward">⭐ ${rewardsList.coins} Monedas Especiales</div>
-        ${rewardsList.unlocks ? rewardsList.unlocks.map(def => `<div class="reward">🔓 Desbloquear ${allDefenderTypes[def]?.name || def}</div>`).join('') : ''}
-        ${rewardsList.educational ? '<div class="reward">📚 Conocimiento sobre conservación del agua</div>' : ''}
-        ${rewardsList.special ? `<div class="reward">🏆 ${rewardsList.special}</div>` : ''}
+        <div class="reward">${window.GameSprites.inline('star', 16)} ${rewardsList.coins} Monedas Especiales</div>
+        ${rewardsList.unlocks ? rewardsList.unlocks.map(def => `<div class="reward">${window.GameSprites.inline('unlock', 16)} Desbloquear ${allDefenderTypes[def]?.name || def}</div>`).join('') : ''}
+        ${rewardsList.educational ? `<div class="reward">${window.GameSprites.inline('book', 16)} Conocimiento sobre conservación del agua</div>` : ''}
+        ${rewardsList.special ? `<div class="reward">${window.GameSprites.inline('trophy', 16)} ${rewardsList.special}</div>` : ''}
     `;
     
     // Contenido educativo
     document.querySelector('.educational-content').innerHTML = `
         <p><strong>${mission.educational.title}:</strong> ${mission.educational.content}</p>
         <button class="read-tip-btn" onclick="markEducationalRead()" ${storyState.educationalRead ? 'disabled' : ''}>
-            ${storyState.educationalRead ? '✓ Leído' : '✓ He leído esto'}
+            ${storyState.educationalRead ? '[ok] Leído' : '[ok] He leído esto'}
         </button>
     `;
     
@@ -361,7 +361,7 @@ function loadCurrentMission() {
 function markEducationalRead() {
     storyState.educationalRead = true;
     const readBtn = document.querySelector('.read-tip-btn');
-    readBtn.textContent = '✓ Leído';
+    readBtn.textContent = '[ok] Leído';
     readBtn.disabled = true;
     
     // Desbloquear botón de comenzar misión
@@ -402,8 +402,8 @@ function startStoryMission() {
         
         // Mostrar mensaje temporal
         showMessage(
-            '📚 ¡Espera!',
-            'Por favor, lee el contenido educativo y haz clic en "✓ He leído esto" antes de continuar.',
+            '¡Espera!',
+            'Por favor, lee el contenido educativo y haz clic en "[ok] He leído esto" antes de continuar.',
             [{ text: 'Entendido', action: 'hideMessage()' }]
         );
         
@@ -509,7 +509,7 @@ function initializeStoryGame(mission) {
     
     // Mostrar mensaje de inicio de misión
     showMessage(
-        `🎯 ${mission.title}`,
+        `${mission.title}`,
         `Objetivos: ${mission.objectives.map(obj => obj.text).join(' • ')}`,
         [{ text: '¡Comenzar!', action: 'hideMessage()' }]
     );
@@ -524,12 +524,12 @@ function completeObjective(objectiveIndex) {
         if (objectiveElement) {
             objectiveElement.classList.remove('incomplete');
             objectiveElement.classList.add('complete');
-            objectiveElement.querySelector('.objective-icon').textContent = '✅';
+            objectiveElement.querySelector('.objective-icon').innerHTML = window.GameSprites.inline('check', 16);
         }
         
         // Mostrar texto flotante
         if (typeof showFloatingText === 'function') {
-            showFloatingText(`+${storyState.missionObjectives[objectiveIndex].reward} ⭐`, 
+            showFloatingText(`+${storyState.missionObjectives[objectiveIndex].reward}`, 
                            document.querySelector('.story-coins'), 'special-coin-effect');
         }
         
@@ -540,7 +540,7 @@ function completeObjective(objectiveIndex) {
         // CORRECCIÓN: También añadir a specialCoins
         if (typeof gameState !== 'undefined' && gameState.specialCoins !== undefined) {
             gameState.specialCoins += rewardAmount;
-            console.log(`✅ Objetivo completado: +${rewardAmount} monedas especiales (Total: ${gameState.specialCoins})`);
+            console.log(`[Historia] Objetivo completado: +${rewardAmount} monedas especiales (Total: ${gameState.specialCoins})`);
         }
         
         if (typeof playSound === 'function') playSound(800, 0.1, 'triangle', 0.3);
@@ -567,7 +567,7 @@ function completeMission() {
     // CORRECCIÓN: También añadir las monedas a specialCoins para que se guarden
     if (typeof gameState !== 'undefined' && gameState.specialCoins !== undefined) {
         gameState.specialCoins += mission.rewards.coins;
-        console.log(`✅ Monedas especiales otorgadas: +${mission.rewards.coins} (Total: ${gameState.specialCoins})`);
+        console.log(`[Historia] Monedas especiales otorgadas: +${mission.rewards.coins} (Total: ${gameState.specialCoins})`);
     }
     
     // Desbloquear defensores
@@ -575,7 +575,7 @@ function completeMission() {
         mission.rewards.unlocks.forEach(defenderKey => {
             if (!gameState.unlockedDefenders.includes(defenderKey)) {
                 gameState.unlockedDefenders.push(defenderKey);
-                console.log(`✅ Defensor desbloqueado: ${defenderKey}`);
+                console.log(`[Historia] Defensor desbloqueado: ${defenderKey}`);
             }
         });
     }
@@ -621,7 +621,7 @@ function completeMission() {
     
     // Mostrar mensaje de misión completada
     showMessage(
-        '🎉 ¡Misión Completada!',
+        '¡Misión Completada!',
         `Has ganado ${mission.rewards.coins} monedas especiales y desbloqueado nuevos defensores.`,
         [
             { text: 'Continuar', action: 'hideMessage(); proceedToNextMission();' },
@@ -641,7 +641,7 @@ function proceedToNextMission() {
     } else {
         // Historia completa
         showMessage(
-            '🏆 ¡Historia Completada!',
+            '¡Historia Completada!',
             '¡Felicidades! Has completado todas las misiones y te has convertido en el Guardián Definitivo del Agua.',
             [{ text: 'Volver al Menú', action: 'hideMessage(); backToMainFromStory();' }]
         );
@@ -914,7 +914,7 @@ function showChapterSelection() {
             <div class="chapter-number">${chapterNum}</div>
             <div class="chapter-name">${chapter.name}</div>
             <div class="chapter-status">
-                ${!isUnlocked ? '🔒 Bloqueado' : isCompleted ? '✅ Completado' : '📖 Disponible'}
+                ${!isUnlocked ? window.GameSprites.inline('lock', 14) + ' Bloqueado' : isCompleted ? window.GameSprites.inline('check', 14) + ' Completado' : window.GameSprites.inline('book', 14) + ' Disponible'}
             </div>
         `;
         

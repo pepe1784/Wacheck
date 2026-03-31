@@ -117,14 +117,14 @@ async function handleLogin() {
         
         if (response.ok && data.session) {
             // Login exitoso
-            showMessage('loginMessage', '✅ Sesión iniciada correctamente', false);
+            showMessage('loginMessage', '[Auth] Sesion iniciada correctamente', false);
             
             const userData = normalizeStoredUser(data);
             
             // Guardar en localStorage con la clave correcta
             localStorage.setItem('wacheck_user', JSON.stringify(userData));
             
-            console.log('✅ Usuario guardado en localStorage:', userData);
+            console.log('[Auth] Usuario guardado en localStorage:', userData);
             
             // Cerrar modal y actualizar UI
             setTimeout(() => {
@@ -137,7 +137,7 @@ async function handleLogin() {
         } else if (response.status === 403 && data.error === 'Email no verificado') {
             // Email no verificado
             showMessage('loginMessage', 
-                `❌ ${data.message}\\n📧 Revisa tu correo: ${data.email}`);
+                `[Auth] ${data.message}\nRevisa tu correo: ${data.email}`);
             
             // Mostrar opción de reenviar
             setTimeout(() => {
@@ -208,7 +208,7 @@ async function handleRegister() {
         if (response.status === 201 || response.ok) {
             // Registro exitoso
             showMessage('registerMessage', 
-                `✅ ¡Cuenta creada!\\n📧 Revisa tu email para verificar tu cuenta`, false);
+                `[Auth] Cuenta creada!\nRevisa tu email para verificar tu cuenta`, false);
             
             // Limpiar formulario
             document.getElementById('registerUsername').value = '';
@@ -245,9 +245,9 @@ async function resendVerification(email) {
         const data = await response.json();
         
         if (response.ok) {
-            alert('✅ ' + data.message);
+            alert('[Auth] ' + data.message);
         } else {
-            alert('❌ ' + data.error);
+            alert('[Auth] Error: ' + data.error);
         }
     } catch (error) {
         console.error('Resend error:', error);

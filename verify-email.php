@@ -117,7 +117,7 @@
         function showSuccess(username) {
             card.className = 'verify-card success-card';
             card.innerHTML = `
-                <div class="verify-icon">✅</div>
+                <div class="verify-icon"></div>
                 <h1 class="verify-title">¡Email Verificado!</h1>
                 <p class="verify-message">
                     ¡Hola <strong>${username}</strong>!<br>
@@ -131,7 +131,7 @@
         function showError(title, message) {
             card.className = 'verify-card error-card';
             card.innerHTML = `
-                <div class="verify-icon">❌</div>
+                <div class="verify-icon"></div>
                 <h1 class="verify-title">${title}</h1>
                 <p class="verify-message">${message}</p>
                 <a href="landing.html" class="verify-button">Volver al inicio</a>

@@ -120,7 +120,7 @@ function login(userObject) {
     const userInfoDiv = document.getElementById('userInfo');
     if (_ul)  _ul.style.display  = 'none';
     if (_ud)  _ud.style.display  = 'none';
-    if (_upt) _upt.textContent   = '👤';
+    if (_upt) _upt.textContent   = '';
     if (userInfoDiv) {
         userInfoDiv.style.display = 'block';
         userInfoDiv.textContent = '';
@@ -160,7 +160,7 @@ function logout() {
     if (_ud)  _ud.style.display  = 'block';
     if (_ul)  _ul.style.display  = 'block';
     if (_ui)  _ui.style.display  = 'none';
-    if (_upt) _upt.textContent   = '➕';
+    if (_upt) _upt.textContent   = '';
     if (_ui2) _ui2.value         = '';
     loginAsGuest();
 }
@@ -237,7 +237,7 @@ function saveCurrentUserProgress() {
             gameState.currentUser.specialCoins = gameState.specialCoins;
             gameState.currentUser.unlockedDefenders = gameState.unlockedDefenders;
             localStorage.setItem('wacheck_user', JSON.stringify(gameState.currentUser));
-            console.log('✅ Progreso guardado localmente:', {
+            console.log(' Progreso guardado localmente:', {
                 specialCoins: gameState.specialCoins,
                 unlockedDefenders: gameState.unlockedDefenders
             });
@@ -246,11 +246,11 @@ function saveCurrentUserProgress() {
         // Luego, intentar guardar en servidor si la función existe
         if (typeof saveProgressToServer === 'function') {
             saveProgressToServer().catch(err => {
-                console.warn('⚠️ Error al guardar en servidor (guardado local OK):', err);
+                console.warn(' Error al guardar en servidor (guardado local OK):', err);
             });
         }
     } catch (e) {
-        console.error('❌ Error en saveCurrentUserProgress():', e);
+        console.error(' Error en saveCurrentUserProgress():', e);
     }
 }
 

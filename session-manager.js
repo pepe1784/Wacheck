@@ -10,7 +10,7 @@ const SessionManager = {
         this.setupAutoSave();
         this.setupMenuListeners();
         this.ensureMenuHidden();
-        console.log('🔐 Session Manager initialized');
+        console.log('[Session] Session Manager initialized');
     },
 
     // Asegurar que el menú esté oculto al iniciar
@@ -26,8 +26,8 @@ const SessionManager = {
     checkAndRestoreSession() {
         const user = this.getStoredUser();
         
-        console.log('🔍 Verificando sesión guardada...');
-        console.log('👤 Usuario encontrado:', user ? (user.isGuest ? `Invitado: ${user.name}` : user.name) : 'Ninguno');
+        console.log('[Session] Verificando sesion guardada...');
+        console.log('[Session] Usuario encontrado:', user ? (user.isGuest ? `Invitado: ${user.name}` : user.name) : 'Ninguno');
 
         if (user) {
             // Hay usuario guardado, restaurar sesión
@@ -35,11 +35,11 @@ const SessionManager = {
 
             // Si estamos en index.html y el usuario está logueado, mostrar recompensas
             if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
-                console.log('📍 Estamos en index.html, verificando recompensas...');
+                console.log('[Session] Estamos en index.html, verificando recompensas...');
                 this.handleDailyRewards(user);
             }
         } else {
-            console.log('❌ No hay sesión guardada');
+            console.log('[Session] No hay sesion guardada');
         }
     },
 
@@ -192,7 +192,7 @@ const SessionManager = {
             gameState.unlockedDefenders = user.unlockedDefenders || ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"];
         }
 
-        console.log('✅ Sesión restaurada:', user.isGuest ? `Invitado: ${user.name}` : user.name);
+        console.log('[Session] Sesion restaurada:', user.isGuest ? `Invitado: ${user.name}` : user.name);
 
         // Actualizar UI si estamos en index
         if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
@@ -239,14 +239,14 @@ const SessionManager = {
                 this._setAvatarImage(settingsAvatarImg, settingsAvatarFall, freshAvatar);
             }
 
-            console.log('✅ Avatar de Google refrescado desde servidor');
+            console.log('[Session] Avatar de Google refrescado desde servidor');
         })
         .catch(() => {/* silencioso */});
     },
 
     // Actualizar UI en index.html
     updateIndexUI(user) {
-        console.log('🔄 Actualizando UI de index.html para usuario:', user.name);
+        console.log('[Session] Actualizando UI de index.html para usuario:', user.name);
         
         // Cambiar el botón de "Iniciar Sesión" para mostrar el nombre del usuario
         const loginBtn = document.querySelector('.nav-cta');
@@ -284,7 +284,7 @@ const SessionManager = {
                 }
             });
             
-            console.log('✅ Botón de login actualizado');
+            console.log('[Session] Boton de login actualizado');
         }
         
         if (mobileLoginBtn) {
@@ -320,7 +320,7 @@ const SessionManager = {
             });
         }
 
-        console.log('✅ UI actualizada correctamente');
+        console.log('[Session] UI actualizada correctamente');
     },
 
     // Poblar avatar en el header del dropdown
@@ -487,7 +487,7 @@ const SessionManager = {
                 const daysLeft = Math.ceil(30 - (Date.now() - lastChange.getTime()) / 86400000);
                 if (daysLeft > 0) {
                     if (cooldownInfo) cooldownInfo.innerHTML =
-                        `<span class="settings-cooldown-badge">⏳ Disponible en ${daysLeft} días</span>`;
+                        `<span class="settings-cooldown-badge"> Disponible en ${daysLeft} días</span>`;
                     if (saveUsernameBtn) saveUsernameBtn.disabled = true;
                 } else {
                     if (cooldownInfo) cooldownInfo.textContent = 'Puedes cambiarlo (último cambio hace más de 30 días)';
@@ -568,7 +568,7 @@ const SessionManager = {
             localStorage.setItem('wacheck_user', JSON.stringify(user));
             // Update nav button
             this.updateIndexUI(user);
-            if (msg) { msg.textContent = '✓ Apodo guardado'; msg.className = 'settings-msg ok'; }
+            if (msg) { msg.textContent = '[ok] Apodo guardado'; msg.className = 'settings-msg ok'; }
         });
 
         // Save username (API)
@@ -595,10 +595,10 @@ const SessionManager = {
                     localStorage.setItem('wacheck_user', JSON.stringify(user));
                     this.updateIndexUI(user);
                     document.getElementById('settingsProfileName').textContent = data.newUsername;
-                    if (msg) { msg.textContent = '✓ Usuario actualizado'; msg.className = 'settings-msg ok'; }
+                    if (msg) { msg.textContent = '[ok] Usuario actualizado'; msg.className = 'settings-msg ok'; }
                     if (btn) btn.disabled = true; // block until 30 days pass
                     const info = document.getElementById('settingsUsernameCooldownInfo');
-                    if (info) info.innerHTML = '<span class="settings-cooldown-badge">⏳ Disponible en 30 días</span>';
+                    if (info) info.innerHTML = '<span class="settings-cooldown-badge"> Disponible en 30 días</span>';
                 } else {
                     if (msg) { msg.textContent = data.error || 'Error al cambiar usuario'; msg.className = 'settings-msg err'; }
                     if (btn) btn.disabled = false;
@@ -637,7 +637,7 @@ const SessionManager = {
                 });
                 const data = await res.json();
                 if (res.ok && data.success) {
-                    if (msg) { msg.textContent = '✓ Contraseña cambiada'; msg.className = 'settings-msg ok'; }
+                    if (msg) { msg.textContent = '[ok] Contraseña cambiada'; msg.className = 'settings-msg ok'; }
                     document.getElementById('settingsOldPassword').value = '';
                     document.getElementById('settingsNewPassword').value = '';
                     document.getElementById('settingsConfirmPassword').value = '';
@@ -732,13 +732,13 @@ const SessionManager = {
                     let text = '';
                     let isOk = false;
                     if (data.authenticated && hasLocalUser) {
-                        text = '✓ Loggueado en servidor';
+                        text = '[ok] Loggueado en servidor';
                         isOk = true;
                     } else if (hasLocalUser) {
-                        text = '✓ Loggueado localmente (Google)';
+                        text = '[ok] Loggueado localmente (Google)';
                         isOk = true;
                     } else {
-                        text = '✗ No loggueado';
+                        text = '[fail] No loggueado';
                         isOk = false;
                     }
                     msg.textContent = text;
@@ -910,7 +910,7 @@ const SessionManager = {
             gameState.coins = 100;
         }
 
-        console.log('👋 Sesión cerrada');
+        console.log('[Session] Sesion cerrada');
 
         // Recargar página
         window.location.reload();
@@ -944,4 +944,4 @@ if (document.readyState === 'loading') {
     SessionManager.init();
 }
 
-console.log('🔐 Session Manager loaded');
+console.log('[Session] Session Manager loaded');

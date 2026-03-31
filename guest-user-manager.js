@@ -22,7 +22,7 @@ const GuestUserManager = {
     // Inicializar sistema
     init() {
         this.checkSession();
-        console.log('👤 Guest User Manager initialized');
+        console.log('[Guest] Guest User Manager initialized');
     },
 
     // Verificar si hay sesión activa
@@ -50,7 +50,7 @@ const GuestUserManager = {
             gameState.unlockedDefenders = user.unlockedDefenders || ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"];
         }
 
-        console.log('✅ Sesión restaurada:', user.isGuest ? 'Invitado' : user.name);
+        console.log('[Guest] Sesion restaurada:', user.isGuest ? 'Invitado' : user.name);
 
         // Actualizar UI si existe
         if (typeof this.updateLoginUI === 'function') {
@@ -83,7 +83,7 @@ const GuestUserManager = {
 
         const icon = document.createElement('span');
         icon.className = 'guest-banner-icon';
-        icon.textContent = '👤';
+        icon.textContent = '[G]';
 
         const text = document.createElement('span');
         text.textContent = 'Jugando como: ';
@@ -98,7 +98,7 @@ const GuestUserManager = {
 
         const linkBtn = document.createElement('button');
         linkBtn.className = 'guest-banner-link-btn';
-        linkBtn.textContent = '🔗 Guardar mi Progreso';
+        linkBtn.textContent = 'Guardar mi Progreso';
         linkBtn.addEventListener('click', () => this.showLinkAccountModal());
 
         content.appendChild(textWrap);
@@ -114,7 +114,7 @@ const GuestUserManager = {
             document.body.insertBefore(banner, document.body.firstChild);
         }
 
-        console.log('✅ Banner de invitado mostrado');
+        console.log('[Guest] Banner de invitado mostrado');
     },
 
     // Crear usuario invitado
@@ -155,7 +155,7 @@ const GuestUserManager = {
             gameState.unlockedDefenders = guest.unlockedDefenders;
         }
 
-        console.log('✅ Usuario invitado creado:', guestName);
+        console.log('[Guest] Usuario invitado creado:', guestName);
 
         return guest;
     },
@@ -223,7 +223,7 @@ const GuestUserManager = {
                 gameState.currentUser = newUser;
             }
 
-            console.log('✅ Cuenta vinculada exitosamente');
+            console.log('[Guest] Cuenta vinculada exitosamente');
 
             return newUser;
 
@@ -283,7 +283,7 @@ const GuestUserManager = {
             gameState.coins = 100;
         }
 
-        console.log('👋 Sesión cerrada');
+        console.log('[Guest] Sesion cerrada');
 
         // Recargar página
         window.location.reload();
@@ -298,10 +298,10 @@ const GuestUserManager = {
         modal.innerHTML = `
             <div class="guest-modal-overlay"></div>
             <div class="guest-modal-container">
-                <button class="guest-modal-close" onclick="GuestUserManager.closeGuestModal()">✕</button>
+                <button class="guest-modal-close" onclick="GuestUserManager.closeGuestModal()">X</button>
                 
                 <div class="guest-modal-header">
-                    <div class="guest-icon">👤</div>
+                    <div class="guest-icon">[G]</div>
                     <h2>Jugar como Invitado</h2>
                     <p>Tu progreso se guardará localmente en este dispositivo</p>
                 </div>
@@ -321,7 +321,7 @@ const GuestUserManager = {
 
                 <div class="guest-modal-info">
                     <p class="info-text">
-                        💡 <strong>Consejo:</strong> Podrás vincular tu progreso a una cuenta de correo más tarde
+                        <strong>Consejo:</strong> Podras vincular tu progreso a una cuenta de correo mas tarde
                     </p>
                 </div>
 
@@ -419,10 +419,10 @@ const GuestUserManager = {
         modal.innerHTML = `
             <div class="guest-modal-overlay"></div>
             <div class="guest-modal-container">
-                <button class="guest-modal-close" onclick="GuestUserManager.closeLinkAccountModal()">✕</button>
+                <button class="guest-modal-close" onclick="GuestUserManager.closeLinkAccountModal()">X</button>
                 
                 <div class="guest-modal-header">
-                    <div class="guest-icon">🔗</div>
+                    <div class="guest-icon">[Link]</div>
                     <h2>Vincular Cuenta</h2>
                     <p>Guarda tu progreso creando una cuenta</p>
                 </div>
@@ -431,15 +431,15 @@ const GuestUserManager = {
                     <h3>Tu progreso actual:</h3>
                     <div class="progress-items">
                         <div class="progress-item">
-                            <span class="progress-icon">💰</span>
+                            <span class="progress-icon">[C]</span>
                             <span>${safeCoins} Monedas</span>
                         </div>
                         <div class="progress-item">
-                            <span class="progress-icon">⭐</span>
+                            <span class="progress-icon">[S]</span>
                             <span>${safeSpecialCoins} Especiales</span>
                         </div>
                         <div class="progress-item">
-                            <span class="progress-icon">🔮</span>
+                            <span class="progress-icon">[R]</span>
                             <span>${safeRunes} Runas</span>
                         </div>
                     </div>
@@ -465,7 +465,7 @@ const GuestUserManager = {
 
                 <div class="guest-modal-info">
                     <p class="info-text">
-                        🔒 Tu progreso se guardará de forma segura y podrás acceder desde cualquier dispositivo
+                        Tu progreso se guardara de forma segura y podras acceder desde cualquier dispositivo
                     </p>
                 </div>
             </div>
@@ -762,4 +762,4 @@ if (document.readyState === 'loading') {
     GuestUserManager.init();
 }
 
-console.log('👤 Guest User Manager loaded');
+console.log(' Guest User Manager loaded');

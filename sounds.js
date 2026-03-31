@@ -4,7 +4,7 @@
 // Este archivo gestiona todos los sonidos del juego.
 // Puedes usar archivos .mp3 o los sonidos sintéticos por defecto.
 //
-// ⚡ OPTIMIZACIONES ANTI-LAG:
+// OPTIMIZACIONES ANTI-LAG:
 // - Pool de audios reutilizables (sin crear/destruir constantemente)
 // - Límite de 8 sonidos simultáneos máximo
 // - Throttling de 50ms para evitar spam del mismo sonido
@@ -20,21 +20,22 @@
 // CONFIGURACIÓN DE ARCHIVOS DE SONIDO
 // ====================================
 // 
-// 📝 INSTRUCCIONES:
+// 
+// INSTRUCCIONES:
 // 1. Coloca tu archivo .mp3 en la carpeta "sounds/"
 // 2. Cambia null por "nombre_archivo.mp3" (con comillas)
 // 3. Si dejas null, usará el sonido sintético (beep)
 // 
 // Ejemplo:
-//   ✅ null                    → Usa sonido sintético (sin archivo .mp3)
-//   ✅ "mi_sonido.mp3"         → Usa el archivo sounds/mi_sonido.mp3
-//   ❌ mi_sonido.mp3           → ERROR (faltan comillas)
-//   ❌ "mi_sonido"             → ERROR (falta .mp3)
+//   OK null                    -> Usa sonido sintetico (sin archivo .mp3)
+//   OK "mi_sonido.mp3"         -> Usa el archivo sounds/mi_sonido.mp3
+//   BAD mi_sonido.mp3           -> ERROR (faltan comillas)
+//   BAD "mi_sonido"             -> ERROR (falta .mp3)
 //
 const soundFiles = {
     
     // ==========================================
-    // 🖱️ SONIDOS DE INTERFAZ (Menús y botones)
+    // SONIDOS DE INTERFAZ (Menus y botones)
     // ==========================================
     click: null,                    // Clic en cualquier botón
     hover: null,                    // Pasar el mouse sobre un botón
@@ -42,7 +43,7 @@ const soundFiles = {
     
     
     // ==========================================
-    // 🎮 SONIDOS DE DEFENSORES
+    // SONIDOS DE DEFENSORES
     // ==========================================
     
     // --- Colocar Defensores ---
@@ -59,7 +60,7 @@ const soundFiles = {
     
     
     // ==========================================
-    // 💧 SONIDOS DE ATAQUES POR DEFENSOR
+    // SONIDOS DE ATAQUES POR DEFENSOR
     // ==========================================
     
     // --- Ataques Generales (si no quieres sonido específico) ---
@@ -127,23 +128,23 @@ const soundFiles = {
     
     
     // ==========================================
-    // 💥 SONIDOS DE IMPACTOS
+    // SONIDOS DE IMPACTOS
     // ==========================================
     hit: null,                      // Impacto genérico en contaminante
     critical: null,                 // Golpe crítico (x2 daño) - efecto especial
     
     
     // ==========================================
-    // 🎯 SONIDOS DE CONTAMINANTES
+    // SONIDOS DE CONTAMINANTES
     // ==========================================
     kill: null,                     // Contaminante eliminado (muere)
     hurt: null,                     // La base recibe daño (contaminante llega al final)
     spawn: null,                    // Aparece un contaminante nuevo
-    spawnBoss: "sound_spawmob/enemigo/leviathan-fondo.mp3",            // Aparece el boss (El Leviatán 🦑)
+    spawnBoss: "sound_spawmob/enemigo/leviathan-fondo.mp3",            // Aparece el boss (El Leviatan)
     
     
     // ==========================================
-    // 🌊 SONIDOS DE OLEADAS
+    // SONIDOS DE OLEADAS
     // ==========================================
     waveStart: null,                // Empieza una nueva oleada
     waveComplete: null,             // Oleada completada con éxito
@@ -154,7 +155,7 @@ const soundFiles = {
     
     
     // ==========================================
-    // 💰 SONIDOS ESPECIALES
+    // SONIDOS ESPECIALES
     // ==========================================
     coin: null,                     // Ganar monedas (al matar enemigo o generar)
     unlock: null,                   // Desbloquear nuevo defensor
@@ -169,28 +170,28 @@ const soundFiles = {
 // CONFIGURACIÓN DE VOLUMEN
 // ====================================
 // 
-// 📊 Ajusta el volumen de cada sonido (0.0 = silencio, 1.0 = máximo)
+//  Ajusta el volumen de cada sonido (0.0 = silencio, 1.0 = máximo)
 //
 // Recomendaciones:
-//   � 0.1 - 0.2  → Muy bajo (para sonidos muy frecuentes)
-//   🔉 0.3 - 0.5  → Medio (para feedback normal)
-//   🔊 0.6 - 0.8  → Alto (para eventos importantes)
-//   🔊 0.9 - 1.0  → Máximo (para victoria/derrota)
+//   0.1 - 0.2  -> Muy bajo (para sonidos muy frecuentes)
+//   0.3 - 0.5  -> Medio (para feedback normal)
+//   0.6 - 0.8  -> Alto (para eventos importantes)
+//   0.9 - 1.0  -> Maximo (para victoria/derrota)
 //
 const soundVolumes = {
     
-    // 🖱️ INTERFAZ
+    // INTERFAZ
     click: 0.3,                     // Clic en botón
     hover: 0.15,                    // Hover sobre botón
     back: 0.25,                     // Volver atrás
     
-    // 🎮 DEFENSORES
+    //  DEFENSORES
     placeDefender: 0.4,             // Colocar defensor
     selectDefender: 0.3,            // Seleccionar defensor
     removeDefender: 0.35,           // Eliminar defensor
     upgradeDefender: 0.5,           // Mejorar defensor
     
-    // 💧 ATAQUES (Genéricos y específicos) - REDUCIDOS para evitar lag
+    //  ATAQUES (Genéricos y específicos) - REDUCIDOS para evitar lag
     shoot: 0.12,                    // Disparo genérico
     shootFilter: 0.12,              // Disparo de Filtro
     shootPlant: 0.12,               // Disparo de Planta
@@ -213,23 +214,23 @@ const soundVolumes = {
     shootGolem: 0.12,               // Disparo de Gólem
     shootAntiTank: 0.18,            // Disparo de Antitanque
     
-    // 💥 IMPACTOS
+    //  IMPACTOS
     hit: 0.25,                      // Impacto en enemigo
     critical: 0.6,                  // Golpe crítico
     
-    // 🎯 CONTAMINANTES
+    //  CONTAMINANTES
     kill: 0.4,                      // Contaminante eliminado
     hurt: 0.5,                      // Daño a la base
     spawn: 0.3,                     // Aparece contaminante
-    spawnBoss: 0.5,                 // Aparece el boss (El Leviatán 🦑)
+    spawnBoss: 0.5,                 // Aparece el boss (El Leviatán )
     
-    // 🌊 OLEADAS
+    //  OLEADAS
     waveStart: 0.6,                 // Empieza oleada
     waveComplete: 0.7,              // Oleada completada
     gameOver: 1.0,                  // Perdiste
     victory: 0.8,                   // Ganaste
     
-    // 💰 ESPECIALES
+    //  ESPECIALES
     coin: 0.4,                      // Ganar monedas
     unlock: 0.6,                    // Desbloquear defensor
     achievement: 0.7,               // Logro desbloqueado
@@ -249,18 +250,18 @@ const soundVolumes = {
 //
 const syntheticSounds = {
     
-    // 🖱️ INTERFAZ
+    // INTERFAZ
     click: { frequency: 400, duration: 0.1, waveType: 'square', volume: 0.15 },
     hover: { frequency: 300, duration: 0.05, waveType: 'sine', volume: 0.1 },
     back: { frequency: 300, duration: 0.1, waveType: 'square', volume: 0.15 },
     
-    // 🎮 DEFENSORES
+    //  DEFENSORES
     placeDefender: { frequency: 500, duration: 0.15, waveType: 'triangle', volume: 0.2 },
     selectDefender: { frequency: 450, duration: 0.1, waveType: 'sine', volume: 0.15 },
     removeDefender: { frequency: 250, duration: 0.2, waveType: 'sawtooth', volume: 0.2 },
     upgradeDefender: { frequency: 700, duration: 0.3, waveType: 'triangle', volume: 0.25 },
     
-    // 💧 ATAQUES (todos usan el mismo sonido de disparo por defecto)
+    //  ATAQUES (todos usan el mismo sonido de disparo por defecto)
     shoot: { frequency: 350, duration: 0.08, waveType: 'square', volume: 0.1 },
     shootFilter: { frequency: 350, duration: 0.08, waveType: 'square', volume: 0.1 },
     shootPlant: { frequency: 400, duration: 0.08, waveType: 'sine', volume: 0.1 },
@@ -283,23 +284,23 @@ const syntheticSounds = {
     shootGolem: { frequency: 180, duration: 0.15, waveType: 'square', volume: 0.1 },
     shootAntiTank: { frequency: 120, duration: 0.2, waveType: 'square', volume: 0.15 },
     
-    // 💥 IMPACTOS
+    //  IMPACTOS
     hit: { frequency: 200, duration: 0.1, waveType: 'sine', volume: 0.12 },
     critical: { frequency: 1200, duration: 0.2, waveType: 'square', volume: 0.3 },
     
-    // 🎯 CONTAMINANTES
+    //  CONTAMINANTES
     kill: { frequency: 800, duration: 0.2, waveType: 'triangle', volume: 0.2 },
     hurt: { frequency: 150, duration: 0.3, waveType: 'sawtooth', volume: 0.25 },
     spawn: { frequency: 300, duration: 0.1, waveType: 'sawtooth', volume: 0.15 },
     spawnBoss: { frequency: 120, duration: 0.6, waveType: 'sawtooth', volume: 0.4 },
     
-    // 🌊 OLEADAS
+    //  OLEADAS
     waveStart: { frequency: 600, duration: 0.4, waveType: 'triangle', volume: 0.3 },
     waveComplete: { frequency: 800, duration: 0.5, waveType: 'sine', volume: 0.35 },
     gameOver: { frequency: 100, duration: 0.8, waveType: 'sawtooth', volume: 0.4 },
     victory: { frequency: 1000, duration: 0.6, waveType: 'sine', volume: 0.4 },
     
-    // 💰 ESPECIALES
+    //  ESPECIALES
     coin: { frequency: 600, duration: 0.15, waveType: 'sine', volume: 0.2 },
     unlock: { frequency: 800, duration: 0.4, waveType: 'triangle', volume: 0.3 },
     achievement: { frequency: 900, duration: 0.5, waveType: 'sine', volume: 0.35 },
@@ -515,21 +516,21 @@ function playSyntheticSound(soundName) {
 // Estas funciones facilitan el uso de los sonidos en el código del juego
 //
 const GameSounds = {
-    // 🖱️ INTERFAZ
+    // INTERFAZ
     click: () => playGameSound('click'),
     hover: () => playGameSound('hover'),
     back: () => playGameSound('back'),
     
-    // 🎮 DEFENSORES
+    //  DEFENSORES
     placeDefender: () => playGameSound('placeDefender'),
     selectDefender: () => playGameSound('selectDefender'),
     removeDefender: () => playGameSound('removeDefender'),
     upgradeDefender: () => playGameSound('upgradeDefender'),
     
-    // 💧 ATAQUES GENÉRICOS
+    //  ATAQUES GENÉRICOS
     shoot: () => playGameSound('shoot'),
     
-    // 💧 ATAQUES POR DEFENSOR
+    //  ATAQUES POR DEFENSOR
     shootFilter: () => playGameSound('shootFilter'),
     shootPlant: () => playGameSound('shootPlant'),
     shootRecycler: () => playGameSound('shootRecycler'),
@@ -551,21 +552,21 @@ const GameSounds = {
     shootGolem: () => playGameSound('shootGolem'),
     shootAntiTank: () => playGameSound('shootAntiTank'),
     
-    // 💥 IMPACTOS
+    //  IMPACTOS
     hit: () => playGameSound('hit'),
     critical: () => playGameSound('critical'),
     
-    // 🎯 CONTAMINANTES
+    //  CONTAMINANTES
     kill: () => playGameSound('kill'),
     hurt: () => playGameSound('hurt'),
     
-    // 🌊 OLEADAS
+    //  OLEADAS
     waveStart: () => playGameSound('waveStart'),
     waveComplete: () => playGameSound('waveComplete'),
     gameOver: () => playGameSound('gameOver'),
     victory: () => playGameSound('victory'),
     
-    // 💰 ESPECIALES
+    //  ESPECIALES
     coin: () => playGameSound('coin'),
     unlock: () => playGameSound('unlock'),
     achievement: () => playGameSound('achievement'),
@@ -640,7 +641,7 @@ function toggleSound() {
             ico.setAttribute('data-lucide', lucideIcon);
             if (window.lucide) lucide.createIcons();
         } else {
-            globalBtn.textContent = window.soundEnabled ? '🔊' : '🔇';
+            globalBtn.textContent = window.soundEnabled ? 'ON' : 'OFF';
         }
     }
     // Actualizar icono de volumen en index.html (#volumeIcon / #volumeBtn)
@@ -655,7 +656,7 @@ function toggleSound() {
             gameIco.setAttribute('data-lucide', lucideIcon);
             if (window.lucide) lucide.createIcons();
         } else {
-            gameBtn.textContent = window.soundEnabled ? '🔊' : '🔇';
+            gameBtn.textContent = window.soundEnabled ? 'ON' : 'OFF';
         }
     }
 

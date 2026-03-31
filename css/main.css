@@ -562,7 +562,7 @@ body {
 }
 
 .story-header::after {
-    content: '🌊💧✨';
+    content: '';
     position: absolute;
     right: 20px;
     top: 50%;
@@ -628,7 +628,7 @@ body {
 }
 
 .chapter-indicator::before {
-    content: '📚';
+    content: '';
     font-size: 1.2em;
 }
 
@@ -647,7 +647,7 @@ body {
 }
 
 .story-coins::before {
-    content: '💰';
+    content: '';
 }
 
 .story-mission {
@@ -692,7 +692,7 @@ body {
 }
 
 .mission-banner::after {
-    content: '🌊';
+    content: '';
     position: absolute;
     top: 20px;
     right: 30px;
@@ -737,7 +737,7 @@ body {
 }
 
 .mission-story::before {
-    content: '📖';
+    content: '';
     position: absolute;
     top: 20px;
     left: -2px;
@@ -776,7 +776,7 @@ body {
 }
 
 .mission-objectives h3::before {
-    content: '🎯';
+    content: '';
     font-size: 1.2em;
 }
 
@@ -881,7 +881,7 @@ body {
 }
 
 .mission-rewards::before {
-    content: '🏆';
+    content: '';
     position: absolute;
     top: 20px;
     right: 25px;
@@ -928,7 +928,7 @@ body {
 }
 
 .mission-educational::before {
-    content: '🧠';
+    content: '';
     position: absolute;
     top: 20px;
     right: 25px;
@@ -1193,7 +1193,7 @@ body {
 }
 
 .chapter-card.completed::after {
-    content: '✓';
+    content: '';
     position: absolute;
     top: 15px;
     right: 15px;
@@ -1298,7 +1298,7 @@ body {
 
 /* Efectos de partículas de agua para el fondo */
 .story-container::after {
-    content: '💧 🌊 ✨ 💦 🐚 🌊 💧 ✨ 🐟 💦 🌊 💧 ✨ 🐚 💦';
+    content: '              ';
     position: absolute;
     top: 0;
     left: 0;
@@ -4355,7 +4355,7 @@ body {
 }
 
 .objective.completed::before {
-    content: '✓';
+    content: '';
     position: absolute;
     right: 12px;
     top: 50%;
@@ -6010,7 +6010,7 @@ body {
 }
 
 .shop-item.locked::after {
-    content: "🔒";
+    content: "";
     position: absolute;
     top: 10px;
     right: 10px;
@@ -6023,7 +6023,7 @@ body {
 }
 
 .shop-item.purchased::after {
-    content: "✅";
+    content: "";
     position: absolute;
     top: 10px;
     right: 10px;

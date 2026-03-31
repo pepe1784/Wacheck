@@ -90,7 +90,7 @@ const REWARDS_CONFIG = {
         id: 'antiTankArea',
         unlockDay: 7,
         stats: {
-            icon: '🎯',
+            icon: '',
             damage: 150,
             cost: 250,
             shootInterval: 3000,

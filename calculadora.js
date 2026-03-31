@@ -112,35 +112,35 @@ function generatePersonalizedTips(showerTotal, carTotal, dishesTotal, totalWater
 
     if (showerTotal > 100) {
         tips.push({
-            icon: '🚿',
+            icon: 'shower',
             text: `Tus duchas consumen ${Math.round(showerTotal)} litros. Reducir 2 minutos ahorraría ${Math.round(showerTotal * 0.25)} litros diarios.`
         });
     }
 
     if (carTotal > 20) {
         tips.push({
-            icon: '🚗',
+            icon: 'droplet',
             text: `Lavar el carro con cubetas en vez de manguera te ahorraría ${Math.round(carTotal - (carTotal * 0.2))} litros por lavado.`
         });
     }
 
     if (dishesTotal > 60) {
         tips.push({
-            icon: '🍽️',
+            icon: 'dishes',
             text: `Llenar el fregadero en vez de lavar con grifo abierto puede ahorrar hasta 20 litros por lavado.`
         });
     }
 
     if (totalWater > 250) {
         tips.push({
-            icon: '💧',
+            icon: 'droplet',
             text: `Tu consumo está por encima del promedio. Implementar estos consejos podría reducir tu consumo en un 25%.`
         });
     }
 
     if (tips.length === 0) {
         tips.push({
-            icon: '🌟',
+            icon: 'sparkle',
             text: '¡Felicidades! Tu consumo está dentro de rangos eficientes. Sigue así y comparte estos consejos.'
         });
     }
@@ -153,7 +153,7 @@ function generatePersonalizedTips(showerTotal, carTotal, dishesTotal, totalWater
         const tipElement = document.createElement('div');
         tipElement.className = 'tip-item';
         tipElement.innerHTML = `
-            <span class="tip-icon">${tip.icon}</span>
+            <span class="tip-icon">${window.GameSprites.inline(tip.icon, 20)}</span>
             <span>${tip.text}</span>
         `;
         tipsContainer.appendChild(tipElement);
@@ -212,21 +212,21 @@ function calculateCalculatorReward(totalLiters) {
     // Tier-based rewards
     if (totalLiters < 150) {
         tier = "excellent";
-        tierMessage = "¡Excelente! 🌟";
+        tierMessage = "¡Excelente!";
         coins = 30;
         specialCoins = 2;
     } else if (totalLiters < 200) {
         tier = "good";
-        tierMessage = "¡Muy Bien! 💧";
+        tierMessage = "¡Muy Bien!";
         coins = 20;
         specialCoins = 1;
     } else if (totalLiters < 250) {
         tier = "moderate";
-        tierMessage = "Bien 👍";
+        tierMessage = "Bien";
         coins = 10;
     } else {
         tier = "high";
-        tierMessage = "Puedes Mejorar 💪";
+        tierMessage = "Puedes Mejorar";
         coins = 5;
     }
 
@@ -235,7 +235,7 @@ function calculateCalculatorReward(totalLiters) {
     if (!calcData.firstUse) {
         coins += 50;
         specialCoins += 1;
-        bonusMessages.push("🎁 Primera vez: +50 💰 +1 ⭐");
+        bonusMessages.push(`Primera vez: +50 monedas +1 especial`);
         calcData.firstUse = true;
         saveCalculatorData(calcData);
     }
@@ -243,14 +243,14 @@ function calculateCalculatorReward(totalLiters) {
     // Daily bonus
     if (isNewCalculatorDay(calcData)) {
         coins += 15;
-        bonusMessages.push("📅 Bonus diario: +15 💰");
+        bonusMessages.push(`Bonus diario: +15 monedas`);
     }
 
     // Streak bonus
     const streakBonus = updateStreak(calcData, tier);
     if (streakBonus.coins > 0) {
         coins += streakBonus.coins;
-        bonusMessages.push(`🔥 Racha ${streakBonus.days} días: +${streakBonus.coins} 💰`);
+        bonusMessages.push(`Racha ${streakBonus.days} días: +${streakBonus.coins} monedas`);
     }
 
     return {
@@ -367,7 +367,7 @@ function showCalculatorRewardPopup(reward, totalLiters) {
             
             <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                         padding: 20px; border-radius: 15px; margin: 15px 0;">
-                <div style="font-size: 2em; margin-bottom: 10px;">💧</div>
+                <div style="margin-bottom: 10px;">${window.GameSprites.inline('droplet', 32)}</div>
                 <div style="font-size: 1.2em; color: white; margin-bottom: 5px;">
                     Consumo: ${totalLiters} L/día
                 </div>
@@ -381,11 +381,11 @@ function showCalculatorRewardPopup(reward, totalLiters) {
             <div style="background: rgba(46, 204, 113, 0.1); 
                         padding: 15px; border-radius: 10px; margin: 15px 0;">
                 <div style="font-size: 1.5em; color: #27ae60; margin-bottom: 10px;">
-                    🎉 Recompensa
+                    ${window.GameSprites.inline('sparkle', 20)} Recompensa
                 </div>
                 <div style="font-size: 1.2em; color: #2c3e50;">
-                    +${reward.coins} 💰
-                    ${reward.specialCoins > 0 ? ` +${reward.specialCoins} ⭐` : ''}
+                    +${reward.coins} ${window.GameSprites.inline('coin', 16)}
+                    ${reward.specialCoins > 0 ? ` +${reward.specialCoins} ${window.GameSprites.inline('star', 16)}` : ''}
                 </div>
             </div>
             
@@ -402,7 +402,7 @@ function showCalculatorRewardPopup(reward, totalLiters) {
                 <div style="background: rgba(243, 156, 18, 0.1); 
                             padding: 15px; border-radius: 10px; margin: 15px 0; text-align: left;">
                     <div style="font-size: 1.1em; color: #e67e22; margin-bottom: 10px;">
-                        💡 Consejos para mejorar:
+                        ${window.GameSprites.inline('info', 16)} Consejos para mejorar:
                     </div>
                     <ul style="color: #7f8c8d; margin: 0; padding-left: 20px; line-height: 1.6;">
                         <li>Reduce duchas a 5 minutos</li>

@@ -14,7 +14,7 @@ function handlePlayButton() {
             const userData = JSON.parse(userDataStr);
             if (userData && userData.id !== undefined) {
                 // Hay sesión activa, ir directamente al juego
-                console.log('✅ Sesión activa detectada, redirigiendo al juego...');
+                console.log('[Landing] Sesion activa detectada, redirigiendo al juego...');
                 window.location.href = 'game-page.html';
                 return;
             }
@@ -24,7 +24,7 @@ function handlePlayButton() {
     }
     
     // No hay sesión, abrir modal de login
-    console.log('ℹ️ No hay sesión activa, abriendo modal...');
+    console.log('[Landing] No hay sesion activa, abriendo modal...');
     openLoginModal();
 }
 
@@ -80,7 +80,7 @@ mobileLinks.forEach(link => {
         const href = link.getAttribute('href');
         if (href && (href.toLowerCase() === '#rewards' || href.toLowerCase() === '#recompensas')) {
             // No hacer nada, dejar que el hashchange lo maneje
-            console.log('🎁 Enlace de recompensas detectado, hash será:', href);
+            console.log('[Landing] Enlace de recompensas detectado, hash sera:', href);
         }
     });
 });
@@ -332,19 +332,19 @@ function updateConsumptionLevel(totalDaily) {
     let level, message, className;
     
     if (totalDaily < 100) {
-        level = '🌟 Excelente';
+        level = ' Excelente';
         message = '¡Felicidades! Tu consumo es muy eficiente. Sigue así y motiva a otros a cuidar el agua.';
         className = 'level-excellent';
     } else if (totalDaily < 200) {
-        level = '👍 Bien';
+        level = ' Bien';
         message = 'Tu consumo está dentro del promedio. Pequeños cambios como cerrar la llave al cepillarte pueden hacer la diferencia.';
         className = 'level-good';
     } else if (totalDaily < 350) {
-        level = '⚠️ Regular';
+        level = ' Regular';
         message = 'Tu consumo es alto. Intenta reducir el tiempo de ducha y cierra la llave mientras te enjabonas.';
         className = 'level-regular';
     } else {
-        level = '🚨 Alto consumo';
+        level = ' Alto consumo';
         message = '¡Alerta! Estás gastando mucha agua. Revisa cada hábito: duchas más cortas, reparar fugas y usar la lavadora con carga completa puede ahorrar miles de litros al mes.';
         className = 'level-high';
     }
@@ -400,7 +400,7 @@ function createWaterDrop() {
     if (!waterElements) return;
     
     const drop = document.createElement('span');
-    drop.textContent = '💧';
+    drop.textContent = '';
     drop.className = 'water-drop';
     drop.style.left = Math.random() * 100 + '%';
     drop.style.animationDuration = (8 + Math.random() * 4) + 's';
@@ -493,9 +493,9 @@ window.addEventListener('load', updateActiveNavLink);
 // ==========================================
 // Console Welcome Message
 // ==========================================
-console.log('%c💧 Wacheck - Defensores del Agua', 'color: #20b2aa; font-size: 20px; font-weight: bold;');
-console.log('%c🎮 Proyecto educativo del Bachillerato 25 - Universidad de Colima', 'color: #225c44; font-size: 14px;');
-console.log('%c🌍 ¡Juntos por la conservación del agua!', 'color: #3a9980; font-size: 12px;');
+console.log('%c Wacheck - Defensores del Agua', 'color: #20b2aa; font-size: 20px; font-weight: bold;');
+console.log('%c Proyecto educativo del Bachillerato 25 - Universidad de Colima', 'color: #225c44; font-size: 14px;');
+console.log('%c ¡Juntos por la conservación del agua!', 'color: #3a9980; font-size: 12px;');
 
 // ==========================================
 // Easter Egg: Konami Code
@@ -513,14 +513,14 @@ document.addEventListener('keydown', (e) => {
 });
 
 function activateEasterEgg() {
-    alert('🎮 ¡Código secreto activado! Has desbloqueado el modo "Lluvia de agua" 💧');
+    alert(' ¡Código secreto activado! Has desbloqueado el modo "Lluvia de agua" ');
     
     // Create rain effect
     for (let i = 0; i < 50; i++) {
         setTimeout(() => createWaterDrop(), i * 100);
     }
     
-    console.log('%c🏆 ¡Secreto desbloqueado!', 'color: gold; font-size: 16px; font-weight: bold;');
+    console.log('%c ¡Secreto desbloqueado!', 'color: gold; font-size: 16px; font-weight: bold;');
 }
 
 // ==========================================
@@ -579,7 +579,7 @@ document.body.insertBefore(skipLink, document.body.firstChild);
 // Initialize on DOMContentLoaded
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('✅ Landing page initialized');
+    console.log(' Landing page initialized');
     
     // Initialize calculator
     renderCalculatorActivities();

@@ -5,24 +5,24 @@
 // Data structures
 const defenders = [
     // Defensores básicos del juego (siempre disponibles)
-    { id: "filter", name: "Filtro", emoji: "🔵", category: "low-cost", cost: 25, damage: 25, health: 50, range: 4, description: "Defensor básico que filtra contaminantes a distancia media." },
-    { id: "plant", name: "Planta", emoji: "🌱", category: "special", cost: 40, damage: 35, health: 100, range: 4, description: "Planta purificadora que se auto-cura con el tiempo." },
-    { id: "recycler", name: "Reciclador", emoji: "♻️", category: "damage", cost: 60, damage: 45, health: 70, range: 3, description: "Ataque rápido que recicla los desechos en energía." },
-    { id: "cleaner", name: "Purificador", emoji: "🧽", category: "damage", cost: 100, damage: 60, health: 100, range: 5, description: "Limpiador de alto alcance que elimina contaminantes a distancia." },
-    { id: "stream", name: "Chorro", emoji: "💧", category: "low-cost", cost: 20, damage: 18, health: 150, range: 6, description: "Económico y eficiente. Ideal para defensa temprana." },
-    { id: "bubble", name: "Burbuja", emoji: "🫧", category: "special", cost: 30, damage: 6, health: 150, range: 6, description: "Ralentiza a los enemigos con burbujas adhesivas." },
-    { id: "wind", name: "Viento", emoji: "💨", category: "special", cost: 20, damage: 18, health: 60, range: 4, description: "Empuja a los contaminantes hacia atrás." },
-    { id: "earth", name: "Tierra", emoji: "🪨", category: "tank", cost: 25, damage: 22, health: 80, range: 3, description: "Muro de tierra con gran resistencia que aturde al impactar." },
+    { id: "filter", name: "Filtro", emoji: "filter", category: "low-cost", cost: 25, damage: 25, health: 50, range: 4, description: "Defensor básico que filtra contaminantes a distancia media." },
+    { id: "plant", name: "Planta", emoji: "plant", category: "special", cost: 40, damage: 35, health: 100, range: 4, description: "Planta purificadora que se auto-cura con el tiempo." },
+    { id: "recycler", name: "Reciclador", emoji: "recycler", category: "damage", cost: 60, damage: 45, health: 70, range: 3, description: "Ataque rápido que recicla los desechos en energía." },
+    { id: "cleaner", name: "Purificador", emoji: "cleaner", category: "damage", cost: 100, damage: 60, health: 100, range: 5, description: "Limpiador de alto alcance que elimina contaminantes a distancia." },
+    { id: "stream", name: "Chorro", emoji: "stream", category: "low-cost", cost: 20, damage: 18, health: 150, range: 6, description: "Económico y eficiente. Ideal para defensa temprana." },
+    { id: "bubble", name: "Burbuja", emoji: "bubble", category: "special", cost: 30, damage: 6, health: 150, range: 6, description: "Ralentiza a los enemigos con burbujas adhesivas." },
+    { id: "wind", name: "Viento", emoji: "wind", category: "special", cost: 20, damage: 18, health: 60, range: 4, description: "Empuja a los contaminantes hacia atrás." },
+    { id: "earth", name: "Tierra", emoji: "earth", category: "tank", cost: 25, damage: 22, health: 80, range: 3, description: "Muro de tierra con gran resistencia que aturde al impactar." },
     
     // Defensores especiales desbloqueables
-    { id: "water-shield", name: "Gota Escudo", emoji: "🛡️", category: "low-cost", cost: 50, damage: 15, health: 100, range: 1, description: "Defensor básico con escudo. Barato y resistente para las primeras líneas." },
-    { id: "rain-cloud", name: "Nube Lluviosa", emoji: "☁️", category: "low-cost", cost: 75, damage: 20, health: 60, range: 3, description: "Ataca con lluvia a distancia. Ideal para apoyo desde atrás." },
-    { id: "water-cannon", name: "Aqua Cañón", emoji: "💦", category: "damage", cost: 150, damage: 45, health: 80, range: 4, description: "Dispara chorros de agua a alta presión. Gran alcance y daño." },
-    { id: "ice-crystal", name: "Cristal de Hielo", emoji: "❄️", category: "damage", cost: 125, damage: 35, health: 70, range: 3, description: "Congela y ralentiza a los contaminantes. Perfecto para control." },
-    { id: "wave-warrior", name: "Guerrero Ola", emoji: "🌊", category: "tank", cost: 200, damage: 30, health: 250, range: 1, description: "Tanque pesado con enorme resistencia. Aguanta oleadas enteras." },
-    { id: "water-lily", name: "Lirio Acuático", emoji: "🪷", category: "special", cost: 100, damage: 10, health: 80, range: 2, description: "Genera recursos adicionales y cura a defensores cercanos." },
-    { id: "coral-reef", name: "Coral Dorado", emoji: "🪸", category: "special", cost: 175, damage: 25, health: 120, range: 2, description: "Aura especial que aumenta el daño de defensores adyacentes." },
-    { id: "tsunami-giant", name: "Titán Tsunami", emoji: "🗿", category: "special", cost: 300, damage: 150, health: 180, range: 6, description: "Defensor legendario. Daño en área masivo que arrasa oleadas." },
+    { id: "water-shield", name: "Gota Escudo", emoji: "shield", category: "low-cost", cost: 50, damage: 15, health: 100, range: 1, description: "Defensor básico con escudo. Barato y resistente para las primeras líneas." },
+    { id: "rain-cloud", name: "Nube Lluviosa", emoji: "rain-cloud", category: "low-cost", cost: 75, damage: 20, health: 60, range: 3, description: "Ataca con lluvia a distancia. Ideal para apoyo desde atrás." },
+    { id: "water-cannon", name: "Aqua Cañón", emoji: "water-cannon", category: "damage", cost: 150, damage: 45, health: 80, range: 4, description: "Dispara chorros de agua a alta presión. Gran alcance y daño." },
+    { id: "ice-crystal", name: "Cristal de Hielo", emoji: "cryomancer", category: "damage", cost: 125, damage: 35, health: 70, range: 3, description: "Congela y ralentiza a los contaminantes. Perfecto para control." },
+    { id: "wave-warrior", name: "Guerrero Ola", emoji: "wave-warrior", category: "tank", cost: 200, damage: 30, health: 250, range: 1, description: "Tanque pesado con enorme resistencia. Aguanta oleadas enteras." },
+    { id: "water-lily", name: "Lirio Acuático", emoji: "water-lily", category: "special", cost: 100, damage: 10, health: 80, range: 2, description: "Genera recursos adicionales y cura a defensores cercanos." },
+    { id: "coral-reef", name: "Coral Dorado", emoji: "coral", category: "special", cost: 175, damage: 25, health: 120, range: 2, description: "Aura especial que aumenta el daño de defensores adyacentes." },
+    { id: "tsunami-giant", name: "Titán Tsunami", emoji: "golem", category: "special", cost: 300, damage: 150, health: 180, range: 6, description: "Defensor legendario. Daño en área masivo que arrasa oleadas." },
 ];
 
 const storyChapters = [
@@ -36,7 +36,7 @@ const storyChapters = [
             { name: "Jefe: Petróleo Oscuro", wave: 5, isBoss: true, playable: true }
         ],
         boss: {
-            icon: "🛢️",
+            icon: "Petróleo",
             name: "Petróleo Oscuro",
             description: "Un tanque masivo de petróleo crudo que mancha todo a su paso. Su resistencia es legendaria y deja un rastro tóxico.",
             health: 800,
@@ -57,7 +57,7 @@ const storyChapters = [
             { name: "Jefe: Mercurio Vivo", wave: 10, isBoss: true, playable: true }
         ],
         boss: {
-            icon: "☢️",
+            icon: "Nuclear",
             name: "Mercurio Vivo",
             description: "Metal líquido radioactivo que cambia de forma. Extremadamente tóxico y puede atravesar defensas débiles con facilidad.",
             health: 1200,
@@ -78,7 +78,7 @@ const storyChapters = [
             { name: "Jefe: Leviatán Tóxico", wave: 15, isBoss: true, playable: true }
         ],
         boss: {
-            icon: "🦑",
+            icon: "El Leviatán",
             name: "El Leviatán",
             description: "Una criatura colosal nacida de la contaminación marina. Puede cambiar de carril y tiene una resistencia brutal. El jefe más peligroso hasta ahora.",
             health: 2000,
@@ -99,7 +99,7 @@ const storyChapters = [
             { name: "Jefe Final: Rey Contaminante", wave: 20, isBoss: true, playable: true }
         ],
         boss: {
-            icon: "👹",
+            icon: "Demonio",
             name: "Rey Contaminante",
             description: "El origen de toda la contaminación. Un demonio ancestral que corrompe todo lo que toca. Solo los defensores más poderosos pueden detenerlo.",
             health: 3000,
@@ -114,46 +114,46 @@ const storyChapters = [
 
 const tutorialSteps = [
     {
-        icon: "🎯",
+        icon: "target",
         title: "Objetivo del Juego",
         content: "Tu misión es proteger las fuentes de agua de Colima de los agentes contaminantes. Los enemigos avanzan por carriles hacia tu fuente de agua — ¡no dejes que lleguen!",
     },
     {
-        icon: "🛡️",
+        icon: "shield-icon",
         title: "Colocar Defensores",
         content: "Toca una celda vacía en el campo de batalla para colocar un defensor. Cada defensor cuesta monedas, así que elige estratégicamente. Los defensores atacan automáticamente a los enemigos en su rango.",
     },
     {
-        icon: "💰",
+        icon: "coin",
         title: "Economía y Recursos",
         content: "Ganas monedas al eliminar contaminantes y al pasar oleadas. Usa las monedas para comprar más defensores. El Lirio Acuático genera recursos extra pasivamente.",
     },
     {
-        icon: "⬆️",
+        icon: "arrow-up",
         title: "Mejoras y Evoluciones",
-        content: "Toca un defensor ya colocado para mejorarlo. Las mejoras aumentan su daño, velocidad de ataque y salud. Las mejoras permanentes se compran con runas 🔮 en el menú de progresión.",
+        content: "Toca un defensor ya colocado para mejorarlo. Las mejoras aumentan su daño, velocidad de ataque y salud. Las mejoras permanentes se compran con runas en el menú de progresión.",
     },
     {
-        icon: "🌊",
+        icon: "wave",
         title: "Oleadas y Jefes",
         content: "Cada nivel tiene múltiples oleadas de contaminantes. La dificultad aumenta progresivamente. Al final de cada capítulo hay un jefe con habilidades especiales — ¡prepárate!",
     },
     {
-        icon: "⭐",
+        icon: "star",
         title: "Recompensas y Progresión",
         content: "Completa misiones diarias para ganar runas y monedas especiales. Inicia sesión cada día para reclamar recompensas. ¡El día 7 desbloqueas al Titán Tsunami!",
     },
 ];
 
 const shopItems = [
-    { id: "damage-boost", icon: "🗡️", name: "Impulso de Daño", type: "damage", cost: 50, description: "+10% de daño a todos los defensores" },
-    { id: "health-boost", icon: "❤️", name: "Salud Mejorada", type: "defense", cost: 50, description: "+15% de vida a todos los defensores" },
-    { id: "range-boost", icon: "🎯", name: "Alcance Extendido", type: "special", cost: 75, description: "+1 casilla de alcance a defensores de rango" },
-    { id: "speed-boost", icon: "⚡", name: "Ataque Veloz", type: "damage", cost: 60, description: "+20% de velocidad de ataque" },
-    { id: "shield-boost", icon: "🛡️", name: "Escudo Reforzado", type: "defense", cost: 70, description: "Los defensores absorben 10% del daño" },
-    { id: "gold-multiplier", icon: "💰", name: "Multiplicador de Oro", type: "special", cost: 100, description: "+25% de monedas ganadas en batalla" },
-    { id: "critical-hit", icon: "💥", name: "Golpe Crítico", type: "damage", cost: 80, description: "15% de probabilidad de crítico (2x daño)" },
-    { id: "regeneration", icon: "💚", name: "Regeneración", type: "defense", cost: 90, description: "Defensores regeneran 1% vida por segundo" },
+    { id: "damage-boost", icon: "sword", name: "Impulso de Daño", type: "damage", cost: 50, description: "+10% de daño a todos los defensores" },
+    { id: "health-boost", icon: "heart", name: "Salud Mejorada", type: "defense", cost: 50, description: "+15% de vida a todos los defensores" },
+    { id: "range-boost", icon: "target", name: "Alcance Extendido", type: "special", cost: 75, description: "+1 casilla de alcance a defensores de rango" },
+    { id: "speed-boost", icon: "lightning", name: "Ataque Veloz", type: "damage", cost: 60, description: "+20% de velocidad de ataque" },
+    { id: "shield-boost", icon: "shield-icon", name: "Escudo Reforzado", type: "defense", cost: 70, description: "Los defensores absorben 10% del daño" },
+    { id: "gold-multiplier", icon: "coins", name: "Multiplicador de Oro", type: "special", cost: 100, description: "+25% de monedas ganadas en batalla" },
+    { id: "critical-hit", icon: "explosion", name: "Golpe Crítico", type: "damage", cost: 80, description: "15% de probabilidad de crítico (2x daño)" },
+    { id: "regeneration", icon: "green-heart", name: "Regeneración", type: "defense", cost: 90, description: "Defensores regeneran 1% vida por segundo" },
 ];
 
 // State
@@ -210,7 +210,7 @@ function getStoredUser() {
                 return user;
             }
         } catch (error) {
-            console.warn(`⚠️ Invalid user JSON in ${key}:`, error);
+            console.warn(` Invalid user JSON in ${key}:`, error);
         }
     }
 
@@ -231,7 +231,7 @@ if (typeof ACHIEVEMENTS === 'undefined') {
             id: 'first_game',
             name: 'Primera Partida',
             description: 'Juega tu primera partida',
-            icon: '🎮',
+            icon: '',
             points: 10,
             category: 'inicio'
         },
@@ -239,7 +239,7 @@ if (typeof ACHIEVEMENTS === 'undefined') {
             id: 'wave_5',
             name: 'Superviviente',
             description: 'Alcanza la oleada 5',
-            icon: '🌊',
+            icon: '',
             points: 20,
             requirement: 5,
             category: 'oleadas'
@@ -248,7 +248,7 @@ if (typeof ACHIEVEMENTS === 'undefined') {
             id: 'wave_10',
             name: 'Veterano',
             description: 'Alcanza la oleada 10',
-            icon: '🌀',
+            icon: 'tornado',
             points: 50,
             requirement: 10,
             category: 'oleadas'
@@ -257,7 +257,7 @@ if (typeof ACHIEVEMENTS === 'undefined') {
             id: 'kills_50',
             name: 'Exterminador',
             description: 'Elimina 50 contaminadores',
-            icon: '💀',
+            icon: '',
             points: 30,
             requirement: 50,
             category: 'eliminaciones'
@@ -317,7 +317,7 @@ function renderDefenders() {
         if (user) {
             const userUnlocked = user.unlockedDefenders || [];
             unlockedDefenders = [...new Set([...basicDefenders, ...userUnlocked])];
-            console.log('🔓 Defensores disponibles:', unlockedDefenders);
+            console.log(' Defensores disponibles:', unlockedDefenders);
         }
     } catch (error) {
         console.error('Error loading unlocked defenders:', error);
@@ -327,7 +327,7 @@ function renderDefenders() {
     const availableDefenders = defenders.filter(d => unlockedDefenders.includes(d.id));
     
     if (availableDefenders.length === 0) {
-        grid.innerHTML = '<div style="text-align: center; padding: 40px; color: #999; font-size: 18px;">No tienes defensores desbloqueados. ¡Visita la tienda para desbloquear algunos! 🏪</div>';
+        grid.innerHTML = '<div style="text-align: center; padding: 40px; color: #999; font-size: 18px;">No tienes defensores desbloqueados. ¡Visita la tienda para desbloquear algunos! </div>';
         return;
     }
     
@@ -340,14 +340,14 @@ function renderDefenders() {
         
         card.innerHTML = `
             <div class="defender-header">
-                <div class="defender-icon">${defender.emoji}</div>
+                <div class="defender-icon">${window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0)}</div>
                 <div class="defender-info">
                     <div class="defender-name">${defender.name}</div>
                     <span class="defender-category category-${defender.category}">
                         ${getCategoryName(defender.category)}
                     </span>
                 </div>
-                <div class="defender-cost">💰${defender.cost}</div>
+                <div class="defender-cost">${defender.cost}</div>
             </div>
             <p class="defender-description">${defender.description}</p>
             <div class="defender-stats">
@@ -386,12 +386,12 @@ function getCategoryName(category) {
 
 function getCategoryEmoji(category) {
     const emojis = {
-        'low-cost': '💵',
-        'damage': '⚔️',
-        'tank': '🛡️',
-        'special': '✨'
+        'low-cost': '',
+        'damage': '',
+        'tank': '',
+        'special': ''
     };
-    return emojis[category] || '❓';
+    return emojis[category] || '';
 }
 
 function toggleDefender(id) {
@@ -435,7 +435,7 @@ function updateSelectedSlots() {
         
         if (selectedDefenders[index]) {
             const defender = defenders.find(d => d.id === selectedDefenders[index]);
-            slot.textContent = defender.emoji;
+            slot.innerHTML = window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0);
             slot.classList.remove('empty');
             slot.classList.add('filled');
             
@@ -468,7 +468,7 @@ function removeDefenderByIndex(index) {
 function renderStoryChapters() {
     const container = document.getElementById('storyChapters');
     if (!container) {
-        console.warn('ℹ️ storyChapters container not found; skipping dynamic story render');
+        console.warn('[GamePage] storyChapters container not found; skipping dynamic story render');
         return;
     }
     container.innerHTML = '';
@@ -484,7 +484,7 @@ function renderStoryChapters() {
             return `
                 <div class="level-badge ${bossClass} ${clickable ? 'level-clickable' : ''}" 
                      ${clickable ? `onclick="playStoryLevel(${chapter.chapter}, ${level.wave}, ${level.isBoss})"` : ''}>
-                    ${level.isBoss ? '👑 ' : ''}${level.name}
+                    ${level.isBoss ? ' ' : ''}${level.name}
                 </div>
             `;
         }).join('');
@@ -493,7 +493,7 @@ function renderStoryChapters() {
             <div class="chapter-header">
                 <span class="chapter-number">${chapter.chapter}</span>
                 <span class="chapter-badge ${chapter.unlocked ? 'badge-unlocked' : 'badge-locked'}">
-                    ${chapter.unlocked ? '🔓 Desbloqueado' : '🔒 Bloqueado'}
+                    ${chapter.unlocked ? ' Desbloqueado' : ' Bloqueado'}
                 </span>
             </div>
             <h3 class="chapter-title">${chapter.title}</h3>
@@ -502,12 +502,12 @@ function renderStoryChapters() {
             ${chapter.boss ? `
                 <div class="boss-info">
                     <div class="boss-header">
-                        <span class="boss-icon">${chapter.boss.icon}</span>
+                        <span class="boss-icon">${window.GameSprites ? window.GameSprites.contaminant(chapter.boss.icon) : ''}</span>
                         <div>
                             <div class="boss-name">${chapter.boss.name}</div>
                             <div class="boss-stats">
-                                <span>❤️ ${chapter.boss.health}</span>
-                                <span>💰 ${chapter.boss.coins}</span>
+                                <span> ${chapter.boss.health}</span>
+                                <span> ${chapter.boss.coins}</span>
                             </div>
                         </div>
                     </div>
@@ -521,11 +521,11 @@ function renderStoryChapters() {
             
             ${chapter.rewards ? `
                 <div class="chapter-rewards">
-                    <div class="rewards-title">🏆 Recompensas al completar:</div>
+                    <div class="rewards-title"> Recompensas al completar:</div>
                     <div class="rewards-list">
-                        <span>💰 ${chapter.rewards.coins} monedas</span>
-                        <span>⭐ ${chapter.rewards.stars} estrellas</span>
-                        ${chapter.rewards.unlockDefender ? `<span>🔓 Desbloquea defensor</span>` : ''}
+                        <span> ${chapter.rewards.coins} monedas</span>
+                        <span> ${chapter.rewards.stars} estrellas</span>
+                        ${chapter.rewards.unlockDefender ? `<span> Desbloquea defensor</span>` : ''}
                     </div>
                 </div>
             ` : ''}
@@ -567,7 +567,7 @@ function renderTutorialSteps() {
         card.className = 'tutorial-card';
         
         card.innerHTML = `
-            <div class="tutorial-icon">${step.icon}</div>
+            <div class="tutorial-icon">${window.GameSprites ? window.GameSprites.ui(step.icon) : ''}</div>
             <h3 class="tutorial-title">${step.title}</h3>
             <p class="tutorial-content">${step.content}</p>
         `;
@@ -582,11 +582,11 @@ function renderTutorialSteps() {
 function renderShopItems(filter = 'all') {
     const container = document.getElementById('shopItems');
     if (!container) {
-        console.error('❌ shopItems container not found');
+        console.error(' shopItems container not found');
         return;
     }
     
-    console.log('🏪 Rendering shop with filter:', filter);
+    console.log(' Rendering shop with filter:', filter);
     container.innerHTML = '';
     
     const basicDefenders = ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"];
@@ -600,7 +600,7 @@ function renderShopItems(filter = 'all') {
             const userUnlocked = user.unlockedDefenders || [];
             unlockedDefenders = [...new Set([...basicDefenders, ...userUnlocked])];
             userCoins = user.coins || 0;
-            console.log('👤 User unlocked defenders:', unlockedDefenders);
+            console.log(' User unlocked defenders:', unlockedDefenders);
         }
     } catch (error) {
         console.error('Error loading user data:', error);
@@ -624,8 +624,8 @@ function renderShopItems(filter = 'all') {
         
         card.innerHTML = `
             <div class="shop-item-header">
-                <div class="defender-icon" style="width: 64px; height: 64px; margin: 0;">${defender.emoji}</div>
-                <span class="shop-item-cost">${isUnlocked ? '✅ Desbloqueado' : `💰 ${defender.cost}`}</span>
+                <div class="defender-icon" style="width: 64px; height: 64px; margin: 0;">${window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0)}</div>
+                <span class="shop-item-cost">${isUnlocked ? 'Desbloqueado' : `${defender.cost}`}</span>
             </div>
             <h3 class="shop-item-title">${defender.name}</h3>
             <span class="defender-category category-${defender.category}" style="margin-bottom: 0.75rem; display: inline-block;">
@@ -635,15 +635,15 @@ function renderShopItems(filter = 'all') {
             
             <div class="shop-defender-stats">
                 <div class="shop-stat">
-                    <span class="shop-stat-label">💥 Daño</span>
+                    <span class="shop-stat-label">Daño</span>
                     <span class="shop-stat-value">${defender.damage}</span>
                 </div>
                 <div class="shop-stat">
-                    <span class="shop-stat-label">❤️ Vida</span>
+                    <span class="shop-stat-label">Vida</span>
                     <span class="shop-stat-value">${defender.health}</span>
                 </div>
                 <div class="shop-stat">
-                    <span class="shop-stat-label">🎯 Alcance</span>
+                    <span class="shop-stat-label">Alcance</span>
                     <span class="shop-stat-value">${defender.range}</span>
                 </div>
             </div>
@@ -651,7 +651,7 @@ function renderShopItems(filter = 'all') {
             <button class="shop-buy-button ${isUnlocked ? 'disabled' : ''} ${!canAfford && !isUnlocked ? 'insufficient' : ''}" 
                     onclick="buyShopItem('${defender.id}')" 
                     ${isUnlocked ? 'disabled' : ''}>
-                ${isUnlocked ? '✅ Ya Desbloqueado' : (canAfford ? 'Comprar Defensor' : '❌ Insuficiente')}
+                ${isUnlocked ? 'Ya Desbloqueado' : (canAfford ? 'Comprar Defensor' : 'Insuficiente')}
             </button>
         `;
         
@@ -683,14 +683,14 @@ function buyShopItem(defenderId) {
         renderDefenders();
 
         showGamePageDialog(
-            `✅ ${defender.name} desbloqueado`,
-            `${defender.description}<br><br>💥 Daño: <strong>${defender.damage}</strong><br>❤️ Vida: <strong>${defender.health}</strong><br>🎯 Alcance: <strong>${defender.range}</strong>`,
+            ` ${defender.name} desbloqueado`,
+            `${defender.description}<br><br> Daño: <strong>${defender.damage}</strong><br> Vida: <strong>${defender.health}</strong><br> Alcance: <strong>${defender.range}</strong>`,
             'success'
         );
     } else {
         showGamePageDialog(
-            '❌ No tienes suficientes monedas',
-            `Necesitas: 💰 <strong>${defender.cost}</strong><br>Tienes: 💰 <strong>${currentCoins}</strong>`,
+            ' No tienes suficientes monedas',
+            `Necesitas:  <strong>${defender.cost}</strong><br>Tienes:  <strong>${currentCoins}</strong>`,
             'error'
         );
     }
@@ -730,7 +730,7 @@ function loadGameStats() {
                 document.getElementById('runes').textContent = userRunes || 0;
             }
 
-            console.log('✅ Game stats loaded:', user);
+            console.log(' Game stats loaded:', user);
         }
     } catch (error) {
         console.error('Error loading game stats:', error);
@@ -769,7 +769,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Recargar stats cada 2 segundos
     setInterval(loadGameStats, 2000);
     
-    console.log('✅ Game page initialized');
+    console.log(' Game page initialized');
 });
 
 // ==========================================
@@ -789,7 +789,7 @@ function loadSelectedDefenders() {
             
             // Si hay diferencia, actualizar localStorage
             if (selectedDefenders.length !== parsed.length) {
-                console.log('🧹 Limpiando defensores inválidos:', parsed.filter(id => !defenders.some(d => d.id === id)));
+                console.log(' Limpiando defensores inválidos:', parsed.filter(id => !defenders.some(d => d.id === id)));
                 if (selectedDefenders.length === 0) {
                     localStorage.removeItem('wacheck-selected-defenders');
                 } else {
@@ -814,7 +814,7 @@ function loadSelectedDefenders() {
 // ==========================================
 function startGameFromPage() {
     if (selectedDefenders.length === 0) {
-        showGamePageDialog('⚠️ Selección requerida', 'Selecciona al menos 1 defensor para comenzar.', 'info');
+        showGamePageDialog(' Selección requerida', 'Selecciona al menos 1 defensor para comenzar.', 'info');
         return;
     }
     
@@ -825,7 +825,7 @@ function startGameFromPage() {
     localStorage.setItem('wacheck-play-from-game-page', 'true');
     
     // Redirigir a game.php
-    console.log('🎮 Iniciando juego con defensores:', selectedDefenders);
+    console.log(' Iniciando juego con defensores:', selectedDefenders);
     window.location.href = 'game.php';
 }
 
@@ -854,27 +854,27 @@ const UPGRADE_MAX_LEVELS = {
 const UPGRADE_INFO = {
     coinMultiplier: {
         name: 'Multiplicador de Monedas',
-        icon: '💰',
+        icon: 'generator',
         description: 'Gana +10% más monedas por eliminación'
     },
     healthBoost: {
         name: 'Salud Adicional',
-        icon: '❤️',
+        icon: '',
         description: 'Empieza cada partida con +5 HP'
     },
     defenderDamage: {
         name: 'Daño de Defensores',
-        icon: '⚔️',
+        icon: '',
         description: 'Todos los defensores hacen +5% más daño'
     },
     startingCoins: {
         name: 'Monedas Iniciales',
-        icon: '🪙',
+        icon: '',
         description: 'Comienza cada partida con +25 monedas'
     },
     criticalChance: {
         name: 'Probabilidad Crítica',
-        icon: '💥',
+        icon: '',
         description: '+3% de probabilidad de golpe crítico (2x daño)'
     }
 };
@@ -882,11 +882,11 @@ const UPGRADE_INFO = {
 function renderUpgrades() {
     const grid = document.getElementById('upgradesContainer') || document.getElementById('upgradesGrid');
     if (!grid) {
-        console.error('❌ upgrades container not found');
+        console.error(' upgrades container not found');
         return;
     }
     
-    console.log('🔮 Rendering upgrades...');
+    console.log(' Rendering upgrades...');
     grid.innerHTML = '';
     
     let userRunes = 0;
@@ -900,7 +900,7 @@ function renderUpgrades() {
             if (user.rewardsData && user.rewardsData.upgrades) {
                 upgrades = user.rewardsData.upgrades;
             }
-            console.log('👤 User runes:', userRunes, 'Upgrades:', upgrades);
+            console.log(' User runes:', userRunes, 'Upgrades:', upgrades);
         }
     } catch (error) {
         console.error('Error loading upgrades:', error);
@@ -919,7 +919,7 @@ function renderUpgrades() {
         
         card.innerHTML = `
             <div class="upgrade-header">
-                <div class="upgrade-icon">${info.icon}</div>
+                <div class="upgrade-icon">${window.GameSprites ? window.GameSprites.ui(info.icon) : ''}</div>
                 <div class="upgrade-level">Nivel ${currentLevel}/${maxLevel}</div>
             </div>
             <h3 class="upgrade-title">${info.name}</h3>
@@ -930,7 +930,7 @@ function renderUpgrades() {
             <button class="upgrade-buy-button ${isMaxed ? 'disabled' : ''} ${!canAfford && !isMaxed ? 'insufficient' : ''}" 
                     onclick="buyUpgrade('${upgradeId}')"
                     ${isMaxed ? 'disabled' : ''}>
-                ${isMaxed ? '✅ Nivel Máximo' : (canAfford ? `Mejorar (🔮 ${cost})` : `❌ Insuficiente (🔮 ${cost})`)}
+                ${isMaxed ? ' Nivel Máximo' : (canAfford ? `Mejorar ( ${cost})` : ` Insuficiente ( ${cost})`)}
             </button>
         `;
         
@@ -939,10 +939,10 @@ function renderUpgrades() {
 }
 
 function buyUpgrade(upgradeId) {
-    console.log('🔮 Intentando comprar mejora:', upgradeId);
+    console.log(' Intentando comprar mejora:', upgradeId);
     showGamePageDialog(
-        '💡 Mejora disponible en partida',
-        'Las mejoras se compran en el menú de Mejoras del juego principal (botón ⬆️ en el menú flotante).',
+        ' Mejora disponible en partida',
+        'Las mejoras se compran en el menú de Mejoras del juego principal (boton de mejora en el menu flotante).',
         'info'
     );
 }
@@ -953,11 +953,11 @@ function buyUpgrade(upgradeId) {
 function renderAchievements(filter = 'all') {
     const grid = document.getElementById('achievementsGrid');
     if (!grid) {
-        console.error('❌ achievementsGrid container not found');
+        console.error(' achievementsGrid container not found');
         return;
     }
     
-    console.log('🏆 Rendering achievements with filter:', filter);
+    console.log(' Rendering achievements with filter:', filter);
     grid.innerHTML = '';
     
     let unlockedAchievements = [];
@@ -968,7 +968,7 @@ function renderAchievements(filter = 'all') {
         if (user && user.achievementsData) {
             unlockedAchievements = user.achievementsData.unlockedAchievements || [];
             achievementProgress = user.achievementsData.progress || {};
-            console.log('👤 Unlocked achievements:', unlockedAchievements);
+            console.log(' Unlocked achievements:', unlockedAchievements);
         }
     } catch (error) {
         console.error('Error loading achievements:', error);
@@ -977,11 +977,11 @@ function renderAchievements(filter = 'all') {
     // Cargar logros desde ACHIEVEMENTS
     if (typeof ACHIEVEMENTS === 'undefined') {
         grid.innerHTML = '<p style="text-align: center; padding: 40px; color: #999;">No se pudieron cargar los logros</p>';
-        console.error('❌ ACHIEVEMENTS no está definido');
+        console.error(' ACHIEVEMENTS no está definido');
         return;
     }
     
-    console.log('✅ ACHIEVEMENTS loaded:', Object.keys(ACHIEVEMENTS).length, 'achievements');
+    console.log(' ACHIEVEMENTS loaded:', Object.keys(ACHIEVEMENTS).length, 'achievements');
     
     const achievementsList = Object.values(ACHIEVEMENTS);
     const normalizedFilter = filter === 'eliminaciones' ? 'combate' : filter;
@@ -1003,7 +1003,7 @@ function renderAchievements(filter = 'all') {
         card.className = `achievement-card ${isUnlocked ? 'unlocked' : ''}`;
         
         card.innerHTML = `
-            <div class="achievement-icon ${isUnlocked ? '' : 'locked'}">${isUnlocked ? achievement.icon : '🔒'}</div>
+            <div class="achievement-icon ${isUnlocked ? '' : 'locked'}">${isUnlocked ? (window.GameSprites ? window.GameSprites.ui(achievement.icon || 'trophy') : '') : (window.GameSprites ? window.GameSprites.ui('lock') : '')}</div>
             <div class="achievement-info">
                 <h3 class="achievement-title">${achievement.name}</h3>
                 <p class="achievement-description">${achievement.description}</p>
@@ -1015,7 +1015,7 @@ function renderAchievements(filter = 'all') {
                 ` : ''}
             </div>
             <div class="achievement-points ${isUnlocked ? 'earned' : ''}">
-                ${isUnlocked ? '✅' : '🏆'} ${achievement.points} pts
+                ${isUnlocked ? '' : ''} ${achievement.points} pts
             </div>
         `;
         

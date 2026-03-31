@@ -125,7 +125,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
     <div class="modal-content">
         <div class="modal-header">
             <h2>Selecciona tus Defensores</h2>
-            <button class="modal-close" onclick="closeDefenderSelection()">✕</button>
+            <button class="modal-close" onclick="closeDefenderSelection()">X</button>
         </div>
         <p class="modal-hint">Elige hasta 6 defensores para llevar al campo de batalla</p>
         <p class="modal-selected-info">Seleccionados: <strong id="selectedCount">0</strong> / 6</p>
@@ -166,7 +166,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
 
         <!-- Isla (zona final que los contaminantes deben alcanzar) -->
         <div id="island" class="island">
-            <div class="island-icon">🏝️</div>
+            <div class="island-icon"></div>
             <div class="island-health-bar">
                 <div id="islandHealthFill" class="island-health-fill" style="width:100%"></div>
             </div>
@@ -211,12 +211,12 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
 <div id="upgradeOverlay" class="upgrade-overlay" style="display:none;" onclick="hideUpgradePanel()">
     <div id="upgradePanel" class="upgrade-panel" onclick="event.stopPropagation()">
         <div class="upgrade-header">
-            <div id="upgradeDefenderIcon" class="upgrade-icon">🔵</div>
+            <div id="upgradeDefenderIcon" class="upgrade-icon"></div>
             <div>
                 <div id="upgradeDefenderName" class="upgrade-name">Defensor</div>
                 <div id="upgradeDefenderStats" class="upgrade-stats"></div>
             </div>
-            <button onclick="hideUpgradePanel()" class="close-upgrade-panel">✕</button>
+            <button onclick="hideUpgradePanel()" class="close-upgrade-panel">X</button>
         </div>
         <div id="upgradeNextLevelInfo" class="upgrade-next-info"></div>
         <div class="upgrade-actions">
@@ -278,7 +278,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
                 </div>
 
                 <div class="mission-educational">
-                    <h3>💧 Dato sobre el agua</h3>
+                    <h3> Dato sobre el agua</h3>
                     <div class="educational-content">
                         <!-- Llenado dinámicamente -->
                     </div>
@@ -286,7 +286,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
 
                 <div class="mission-actions">
                     <p id="educationalWarning" class="educational-warning" style="display:none;">
-                        📚 Lee el dato educativo antes de comenzar
+                         Lee el dato educativo antes de comenzar
                     </p>
                     <button id="startMissionBtn" class="play-btn" onclick="startStoryMission()">
                         <i data-lucide="play"></i> Comenzar Misión
@@ -303,8 +303,8 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
 <div id="shopMenu" class="side-menu" style="display:none;">
     <div class="side-menu-header">
         <h2><i data-lucide="shopping-cart"></i> Tienda</h2>
-        <span>💎 <span id="shopSpecialCoins">0</span></span>
-        <button onclick="closeAllMenus()">✕</button>
+        <span> <span id="shopSpecialCoins">0</span></span>
+        <button onclick="closeAllMenus()">X</button>
     </div>
     <div class="shop-filters">
         <button id="shopLowCost"  class="filter-btn active" onclick="filterShop('low-cost')">Económicos</button>
@@ -323,7 +323,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
 <div id="upgradesMenu" class="side-menu" style="display:none;">
     <div class="side-menu-header">
         <h2><i data-lucide="trending-up"></i> Mejoras</h2>
-        <button onclick="closeAllMenus()">✕</button>
+        <button onclick="closeAllMenus()">X</button>
     </div>
     <div id="upgradesContainer" class="upgrades-container">
         <!-- Llenado dinámicamente -->
@@ -336,11 +336,11 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
 <div id="rewardsMenu" class="side-menu" style="display:none !important;">
     <div class="side-menu-header">
         <h2>ðŸŽ Recompensas</h2>
-        <button onclick="closeAllMenus()">✕</button>
+        <button onclick="closeAllMenus()">X</button>
     </div>
     <div class="rewards-stats">
-        <div>🔥 Racha: <strong id="currentStreakDisplay">0</strong> días</div>
-        <div>✅ Reclamados: <strong id="claimedDaysDisplay">0</strong></div>
+        <div> Racha: <strong id="currentStreakDisplay">0</strong> días</div>
+        <div> Reclamados: <strong id="claimedDaysDisplay">0</strong></div>
     </div>
     <span id="claimedCountBadge" class="claimed-badge"></span>
     <div id="claimedMissionsContainer" class="claimed-missions"></div>
@@ -353,7 +353,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
 <div id="missionsMenu" class="side-menu" style="display:none;">
     <div class="side-menu-header">
         <h2><i data-lucide="clipboard-list"></i> Misiones</h2>
-        <button onclick="closeAllMenus()">✕</button>
+        <button onclick="closeAllMenus()">X</button>
     </div>
     <div id="missionsContainer" class="missions-container">
         <!-- Llenado dinámicamente -->
@@ -389,8 +389,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
 <script src="anti-cheat.js?v=17"></script>
 <script src="session-manager.js?v=17"></script>
 
-<!-- Módulos de datos (antes de script.js para que los globals estén disponibles) -->
-<script src="js/game/config.js?v=17"></script>
+<!-- Módulos de datos (antes de script.js para que los globals estén disponibles) --><script src="js/game/sprites.js?v=17"></script><script src="js/game/config.js?v=17"></script>
 <script src="js/game/contaminants.js?v=17"></script>
 <script src="js/game/projectiles.js?v=17"></script>
 <script src="js/game/runtime-state.js?v=17"></script>

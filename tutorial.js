@@ -4,7 +4,8 @@
 const tutorialSteps = [
   {
     id: 'welcome',
-    title: '¡Bienvenido a Wacheck! 🌊',
+    title: '¡Bienvenido a Wacheck!',
+    icon: 'wave',
     message: 'Eres el guardián de una de las últimas fuentes de agua pura del planeta. Tu misión es protegerla de los contaminantes usando defensores ecológicos. ¡Te enseñaré cómo jugar!',
     target: null,
     highlight: null,
@@ -16,7 +17,8 @@ const tutorialSteps = [
   },
   {
     id: 'start_game',
-    title: 'Comenzar a Jugar 🎮',
+    title: 'Comenzar a Jugar',
+    icon: 'play',
     message: 'Para empezar, haz clic en el botón "¡Jugar Ahora!" para entrar al campo de batalla.',
     target: '.play-btn',
     highlight: '.play-btn',
@@ -26,7 +28,8 @@ const tutorialSteps = [
   },
   {
     id: 'coins',
-    title: 'Monedas 💰',
+    title: 'Monedas',
+    icon: 'coin',
     message: 'Estas son tus monedas. Las usas para colocar defensores en el tablero. Ganas más monedas eliminando contaminantes.',
     target: '#coinCount',
     highlight: '.coins',
@@ -35,7 +38,8 @@ const tutorialSteps = [
   },
   {
     id: 'health',
-    title: 'Vida de la Isla 🏝️',
+    title: 'Vida de la Isla',
+    icon: 'heart',
     message: 'Esta es la salud de tu isla. Si un contaminante llega al lado izquierdo del tablero, perderás vida. ¡No dejes que llegue a 0!',
     target: '#healthCount',
     highlight: '.health',
@@ -44,7 +48,8 @@ const tutorialSteps = [
   },
   {
     id: 'wave',
-    title: 'Oleadas 🌊',
+    title: 'Oleadas',
+    icon: 'wave',
     message: 'El juego se divide en oleadas. Entre cada oleada tienes tiempo para preparar tus defensas. La dificultad aumenta con cada oleada.',
     target: '#waveCount',
     highlight: '.wave-info',
@@ -53,7 +58,8 @@ const tutorialSteps = [
   },
   {
     id: 'defenders',
-    title: 'Tienda de Defensores ⚔️',
+    title: 'Tienda de Defensores',
+    icon: 'sword',
     message: 'Aquí están tus defensores disponibles. Cada uno tiene un costo en monedas, daño diferente, y habilidades únicas.',
     target: '#defenderShop',
     highlight: '#defenderShop',
@@ -62,8 +68,9 @@ const tutorialSteps = [
   },
   {
     id: 'select_defender',
-    title: 'Seleccionar Defensor 🎯',
-    message: 'Haz clic en una carta de defensor para seleccionarlo. El defensor "Chorro" (💧) es perfecto para empezar: barato y rápido.',
+    title: 'Seleccionar Defensor',
+    icon: 'target',
+    message: 'Haz clic en una carta de defensor para seleccionarlo. El defensor "Chorro" es perfecto para empezar: barato y rápido.',
     target: '.defender-card[data-type="stream"]',
     highlight: '.defender-card[data-type="stream"]',
     position: 'top',
@@ -72,7 +79,8 @@ const tutorialSteps = [
   },
   {
     id: 'place_defender',
-    title: 'Colocar Defensor 📍',
+    title: 'Colocar Defensor',
+    icon: 'map',
     message: '¡Excelente! Ahora haz clic en una celda del tablero para colocar tu defensor. Los defensores atacan a los contaminantes en su fila.',
     target: '#gameBoard',
     highlight: '#gameBoard',
@@ -82,8 +90,9 @@ const tutorialSteps = [
   },
   {
     id: 'defender_info',
-    title: 'Información del Defensor ℹ️',
-    message: 'Algunos defensores tienen un botón de información (ℹ️) que te cuenta datos reales sobre conservación del agua. ¡Aprende mientras juegas!',
+    title: 'Información del Defensor',
+    icon: 'info',
+    message: 'Algunos defensores tienen un botón de información que te cuenta datos reales sobre conservación del agua. ¡Aprende mientras juegas!',
     target: '.info-btn',
     highlight: '.info-btn',
     position: 'top',
@@ -91,7 +100,8 @@ const tutorialSteps = [
   },
   {
     id: 'upgrade',
-    title: 'Mejorar Defensores 🔧',
+    title: 'Mejorar Defensores',
+    icon: 'arrow-up',
     message: 'Haz clic en un defensor ya colocado para ver el panel de mejora. Puedes aumentar su nivel usando monedas para hacerlo más poderoso.',
     target: null,
     highlight: null,
@@ -100,8 +110,9 @@ const tutorialSteps = [
   },
   {
     id: 'removal',
-    title: 'Herramienta de Eliminación 🗑️',
-    message: 'Si necesitas remover un defensor, usa la herramienta de eliminación (🗑️). Recuperarás el 50% de su costo.',
+    title: 'Herramienta de Eliminación',
+    icon: 'cross',
+    message: 'Si necesitas remover un defensor, usa la herramienta de eliminación. Recuperarás el 50% de su costo.',
     target: '.removal-tool',
     highlight: '.removal-tool',
     position: 'top',
@@ -109,7 +120,8 @@ const tutorialSteps = [
   },
   {
     id: 'pause',
-    title: 'Pausar el Juego ⏸️',
+    title: 'Pausar el Juego',
+    icon: 'settings',
     message: 'Puedes pausar el juego en cualquier momento con este botón. Úsalo para planear tu estrategia.',
     target: '.pause-btn',
     highlight: '.pause-btn',
@@ -118,8 +130,9 @@ const tutorialSteps = [
   },
   {
     id: 'special_coins',
-    title: 'Monedas Especiales ⭐',
-    message: 'Las monedas especiales se obtienen completando oleadas y logros. Úsalas para desbloquear nuevos defensores en la tienda (🏪).',
+    title: 'Monedas Especiales',
+    icon: 'star',
+    message: 'Las monedas especiales se obtienen completando oleadas y logros. Úsalas para desbloquear nuevos defensores en la tienda.',
     target: '#specialCoins',
     highlight: '.special-coins-game',
     position: 'bottom',
@@ -127,7 +140,8 @@ const tutorialSteps = [
   },
   {
     id: 'strategy',
-    title: 'Estrategia 🧠',
+    title: 'Estrategia',
+    icon: 'lightning',
     message: 'Consejo: Coloca defensores baratos al frente y más poderosos atrás. Los contaminantes rápidos requieren defensores con ataque rápido.',
     target: null,
     highlight: null,
@@ -136,7 +150,8 @@ const tutorialSteps = [
   },
   {
     id: 'complete',
-    title: '¡Listo para Jugar! 🎮',
+    title: '¡Listo para Jugar!',
+    icon: 'play',
     message: '¡Has completado el tutorial! Recuerda visitar el Modo Historia para misiones especiales y la Calculadora de Agua para aprender a conservar agua en la vida real. ¡Buena suerte, guardián!',
     target: null,
     highlight: null,
@@ -270,7 +285,7 @@ class TutorialManager {
   updateTooltip(step) {
     this.tooltip.innerHTML = `
             <div class="tutorial-header">
-                <h3>${step.title}</h3>
+                <h3>${step.icon ? window.GameSprites.inline(step.icon, 20) + ' ' : ''}${step.title}</h3>
                 ${step.id !== 'welcome' ? `<div class="tutorial-progress">${this.currentStep + 1}/${tutorialSteps.length}</div>` : ''}
             </div>
             <div class="tutorial-message">${step.message}</div>
