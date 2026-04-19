@@ -32,8 +32,8 @@
                 window.updateUnlockShop();
             }
             
-            if (typeof window.playSound === 'function') {
-                window.playSound(1000, 0.2, 'triangle', 0.3);
+            if (typeof window.playGameSound === 'function') {
+                window.playGameSound('unlock');
             }
 
             if (typeof window.showMessage === 'function') {
@@ -109,8 +109,8 @@
                     if (typeof window.updateCellHoverEffects === 'function') {
                         window.updateCellHoverEffects();
                     }
-                    if (typeof window.playSound === 'function') {
-                        window.playSound(800, 0.1, 'triangle', 0.15);
+                    if (typeof window.playGameSound === 'function') {
+                        window.playGameSound('selectDefender');
                     }
                 }
             };
@@ -200,8 +200,8 @@
             });
             document.querySelector(`[data-type="${type}"]`).classList.add('selected');
 
-            if (typeof window.playSound === 'function') {
-                window.playSound(600, 0.1, 'sine', 0.1);
+            if (typeof window.playGameSound === 'function') {
+                window.playGameSound('selectDefender');
             }
         }
     }
@@ -254,8 +254,12 @@
             itemDiv.className = `shop-item ${isPurchased ? 'purchased' : ''} ${!canAfford && !isPurchased ? 'locked' : ''}`;
             itemDiv.dataset.category = defender.category;
             itemDiv.dataset.cost = defender.cost;
+            const defData = window.allDefenderTypes && window.allDefenderTypes[defender.id];
+            const shopIconHTML = defData && defData.image
+                ? `<img src="${defData.image}" alt="${defender.name}" style="width:40px;height:40px;object-fit:contain;">`
+                : (window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0));
             itemDiv.innerHTML = `
-                <div class="shop-item-icon">${window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0)}</div>
+                <div class="shop-item-icon">${shopIconHTML}</div>
                 <div class="shop-item-name">${defender.name}</div>
                 <div class="shop-item-desc">${defender.desc}</div>
                 <div class="shop-item-price">
@@ -401,7 +405,10 @@
             const defenderId = selectedDefendersForGame[index];
             if (defenderId) {
                 const defenderData = getDefenderData(defenderId);
-                slot.innerHTML = defenderData ? (window.GameSprites ? window.GameSprites.defender(defenderId) : defenderData.name.charAt(0)) : '?';
+                const slotIcon = defenderData && defenderData.image
+                    ? `<img src="${defenderData.image}" alt="${defenderData.name}" style="width:100%;height:100%;object-fit:contain;">`
+                    : (defenderData ? (window.GameSprites ? window.GameSprites.defender(defenderId) : defenderData.name.charAt(0)) : '?');
+                slot.innerHTML = slotIcon;
                 slot.classList.remove('empty');
             } else {
                 slot.textContent = '?';
@@ -466,8 +473,12 @@
 
             const card = document.createElement('div');
             card.className = `available-defender-card ${isSelected ? 'selected' : ''} ${isFull && !isSelected ? 'locked' : ''}`;
+            const defDataCard = window.allDefenderTypes && window.allDefenderTypes[defender.id];
+            const cardIconHTML = defDataCard && defDataCard.image
+                ? `<img src="${defDataCard.image}" alt="${defender.name}" style="width:40px;height:40px;object-fit:contain;">`
+                : (window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0));
             card.innerHTML = `
-                <div class="icon">${window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0)}</div>
+                <div class="icon">${cardIconHTML}</div>
                 <div class="name">${defender.name}</div>
                 <div class="stats">${defender.stats}</div>
             `;
@@ -562,7 +573,10 @@
             return {
                 id: defenderId,
                 name: adt[defenderId].name,
-                icon: window.GameSprites ? window.GameSprites.defender(defenderId) : adt[defenderId].name.charAt(0)
+                image: adt[defenderId].image || null,
+                icon: adt[defenderId].image
+                    ? `<img src="${adt[defenderId].image}" alt="${adt[defenderId].name}" style="width:100%;height:100%;object-fit:contain;">`
+                    : (window.GameSprites ? window.GameSprites.defender(defenderId) : adt[defenderId].name.charAt(0))
             };
         }
 

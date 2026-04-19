@@ -34,6 +34,7 @@
 
                     apiDefenders[id] = {
                         icon:           d.icon   || '',
+                        image:          `./models/allDefenderTypes/${id}/${id}.png`,
                         name:           d.name   || id,
                         damage:         Number(d.damage)         || 25,
                         cost:           Number(d.cost)           || 50,

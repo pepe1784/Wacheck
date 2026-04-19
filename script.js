@@ -49,69 +49,69 @@ let gameState = runtime.state;
 // Usar var (no const) para que js/game/defenders.js pueda sobreescribir vía window.allDefenderTypes
 var allDefenderTypes = window.allDefenderTypes || {
     // Básicos (siempre disponibles)
-    filter: { icon: 'filter', image: "./img/filter.png", damage: 25, cost: 25, shootInterval: 1200, range: 4, health: 50, name: 'Filtro', projectile: 'water', info: "Los filtros de carbón activado se usan en la vida real para eliminar impurezas químicas del agua, haciéndola segura para beber." },
-    plant: { icon: 'plant', image: "./img/plant.png", damage: 35, cost: 40, shootInterval: 1200, range: 4, health: 100, name: 'Planta', projectile: 'nature', selfHeal: { amount: 5, interval: 5000 }, info: "Las plantas acuáticas y los humedales son filtros biológicos naturales que limpian nuestros ríos absorbiendo nitratos y otros contaminantes." },
-    recycler: { icon: 'recycler', image: "./img/recycler.png", damage: 45, cost: 60, shootInterval: 800, range: 3, health: 70, name: 'Reciclador', projectile: 'energy' },
-    cleaner: { icon: 'cleaner', damage: 60, cost: 100, shootInterval: 1000, range: 5, health: 100, name: 'Purificador', projectile: 'pure' },
-    stream: { icon: 'stream', damage: 18, cost: 20, shootInterval: 1000, range: 6, health: 150, name: 'Chorro', projectile: 'water' }, // Coste 15, Daño 12
-    bubble: { icon: 'bubble', damage: 6, cost: 30, shootInterval: 1800, range: 6, health: 150, name: 'Burbuja', projectile: 'water', statusEffect: { type: 'slow', power: 0.3, duration: 1500 }, shots: 2, shotDelay: 100 }, // Coste 10, 2 disparos
-        wind: { icon: 'wind', damage: 18, cost: 20, shootInterval: 900, range: 4, health: 60, name: 'Viento', projectile: 'energy', info: "Ataque rápido con efecto de empuje" },
-    earth: { icon: 'earth', damage: 22, cost: 25, shootInterval: 1500, range: 3, health: 80, name: 'Tierra', projectile: 'pure', info: "Daño sólido con posibilidad de aturdimiento" },
+    filter: { icon: 'filter', image: './models/allDefenderTypes/filter/filter.png', damage: 25, cost: 25, shootInterval: 1200, range: 4, health: 50, name: 'Filtro', projectile: 'water', info: "Los filtros de carbón activado se usan en la vida real para eliminar impurezas químicas del agua, haciéndola segura para beber." },
+    plant: { icon: 'plant', image: './models/allDefenderTypes/plant/plant.png', damage: 35, cost: 40, shootInterval: 1200, range: 4, health: 100, name: 'Planta', projectile: 'nature', selfHeal: { amount: 5, interval: 5000 }, info: "Las plantas acuáticas y los humedales son filtros biológicos naturales que limpian nuestros ríos absorbiendo nitratos y otros contaminantes." },
+    recycler: { icon: 'recycler', image: './models/allDefenderTypes/recycler/recycler.png', damage: 45, cost: 60, shootInterval: 800, range: 3, health: 70, name: 'Reciclador', projectile: 'energy' },
+    cleaner: { icon: 'cleaner', image: './models/allDefenderTypes/cleaner/cleaner.png', damage: 60, cost: 100, shootInterval: 1000, range: 5, health: 100, name: 'Purificador', projectile: 'pure' },
+    stream: { icon: 'stream', image: './models/allDefenderTypes/stream/stream.png', damage: 18, cost: 20, shootInterval: 1000, range: 6, health: 150, name: 'Chorro', projectile: 'water' }, // Coste 15, Daño 12
+    bubble: { icon: 'bubble', image: './models/allDefenderTypes/bubble/bubble.png', damage: 6, cost: 30, shootInterval: 1800, range: 6, health: 150, name: 'Burbuja', projectile: 'water', statusEffect: { type: 'slow', power: 0.3, duration: 1500 }, shots: 2, shotDelay: 100 }, // Coste 10, 2 disparos
+        wind: { icon: 'wind', image: './models/allDefenderTypes/wind/wind.png', damage: 18, cost: 20, shootInterval: 900, range: 4, health: 60, name: 'Viento', projectile: 'energy', info: "Ataque rápido con efecto de empuje" },
+    earth: { icon: 'earth', image: './models/allDefenderTypes/earth/earth.png', damage: 22, cost: 25, shootInterval: 1500, range: 3, health: 80, name: 'Tierra', projectile: 'pure', info: "Daño sólido con posibilidad de aturdimiento" },
 
     // Desbloqueables
-    crystal: { icon: 'crystal', damage: 80, cost: 120, shootInterval: 1800, range: 6, health: 120, name: 'Cristal', projectile: 'pure' },
-    solar: { icon: 'solar', damage: 70, cost: 100, shootInterval: 900, range: 4, health: 90, name: 'Solar', projectile: 'energy' },
-    coral: { icon: 'coral', image: "./img/squirtle.png", damage: 55, cost: 120, shootInterval: 1100, range: 5, health: 110, name: 'Coral', projectile: 'nature', supportAura: { type: 'damage_reduction', power: 0.15, range: 1 } },
-    shield: { icon: 'shield', damage: 40, cost: 200, shootInterval: 2000, range: 3, health: 500, name: 'Escudo', projectile: 'water' },
-    tornado: { icon: 'tornado', damage: 90, cost: 140, shootInterval: 2200, range: 7, health: 80, name: 'Tornado', projectile: 'energy' }, // Daño alto, muy lento
-    whale: { icon: 'whale', damage: 100, cost: 180, shootInterval: 2500, range: 8, health: 150, name: 'Ballena', projectile: 'water' }, // El más caro y potente
+    crystal: { icon: 'crystal', image: './models/allDefenderTypes/crystal/crystal.png', damage: 80, cost: 120, shootInterval: 1800, range: 6, health: 120, name: 'Cristal', projectile: 'pure' },
+    solar: { icon: 'solar', image: './models/allDefenderTypes/solar/solar.png', damage: 70, cost: 100, shootInterval: 900, range: 4, health: 90, name: 'Solar', projectile: 'energy' },
+    coral: { icon: 'coral', image: './models/allDefenderTypes/coral/coral.png', damage: 55, cost: 120, shootInterval: 1100, range: 5, health: 110, name: 'Coral', projectile: 'nature', supportAura: { type: 'damage_reduction', power: 0.15, range: 1 } },
+    shield: { icon: 'shield', image: './models/allDefenderTypes/shield/shield.png', damage: 40, cost: 200, shootInterval: 2000, range: 3, health: 500, name: 'Escudo', projectile: 'water' },
+    tornado: { icon: 'tornado', image: './models/allDefenderTypes/tornado/tornado.png', damage: 90, cost: 140, shootInterval: 2200, range: 7, health: 80, name: 'Tornado', projectile: 'energy' }, // Daño alto, muy lento
+    whale: { icon: 'whale', image: './models/allDefenderTypes/whale/whale.png', damage: 100, cost: 180, shootInterval: 2500, range: 8, health: 150, name: 'Ballena', projectile: 'water' }, // El más caro y potente
     // --- NUEVOS DEFENSORES ---
-    dualcannon: { icon: 'dualcannon', damage: 20, cost: 130, shootInterval: 1500, range: 5, health: 90, name: 'Cañón Doble', projectile: 'energy', shots: 2, shotDelay: 150 }, // Dispara 2 veces
-    incinerator: { icon: 'incinerator', damage: 10, cost: 150, shootInterval: 2000, range: 4, health: 100, name: 'Incinerador', projectile: 'fire', statusEffect: { type: 'burn', dps: 15, duration: 3000 } }, // Aplica quemadura
-    cryomancer: { icon: 'cryomancer', damage: 15, cost: 110, shootInterval: 1800, range: 6, health: 80, name: 'Criomante', projectile: 'ice', statusEffect: { type: 'slow', power: 0.6, duration: 2000 } }, // Ralentiza
-    generator: { icon: 'generator', cost: 75, health: 60, name: 'Generador', generate: 20, interval: 5000, isGenerator: true }, // Genera monedas
-    mortar: { icon: 'mortar', damage: 50, cost: 170, shootInterval: 4000, range: 8, health: 70, name: 'Mortero', projectile: 'explosion', splashRadius: 1.5 }, // Daño en área
+    dualcannon: { icon: 'dualcannon', image: './models/allDefenderTypes/dualcannon/dualcannon.png', damage: 20, cost: 130, shootInterval: 1500, range: 5, health: 90, name: 'Cañón Doble', projectile: 'energy', shots: 2, shotDelay: 150 }, // Dispara 2 veces
+    incinerator: { icon: 'incinerator', image: './models/allDefenderTypes/incinerator/incinerator.png', damage: 10, cost: 150, shootInterval: 2000, range: 4, health: 100, name: 'Incinerador', projectile: 'fire', statusEffect: { type: 'burn', dps: 15, duration: 3000 } }, // Aplica quemadura
+    cryomancer: { icon: 'cryomancer', image: './models/allDefenderTypes/cryomancer/cryomancer.png', damage: 15, cost: 110, shootInterval: 1800, range: 6, health: 80, name: 'Criomante', projectile: 'ice', statusEffect: { type: 'slow', power: 0.6, duration: 2000 } }, // Ralentiza
+    generator: { icon: 'generator', image: './models/allDefenderTypes/generator/generator.png', cost: 75, health: 60, name: 'Generador', generate: 20, interval: 5000, isGenerator: true }, // Genera monedas
+    mortar: { icon: 'mortar', image: './models/allDefenderTypes/mortar/mortar.png', damage: 50, cost: 170, shootInterval: 4000, range: 8, health: 70, name: 'Mortero', projectile: 'explosion', splashRadius: 1.5 }, // Daño en área
     // --- NUEVOS DEFENSORES DE BAJO COSTE Y APOYO ---
     
-    amplifier: { icon: 'amplifier', cost: 90, health: 80, name: 'Amplificador', isSupport: true, buff: { type: 'damage', power: 1.25 } }, // Aumenta daño en fila
+    amplifier: { icon: 'amplifier', image: './models/allDefenderTypes/amplifier/amplifier.png', cost: 90, health: 80, name: 'Amplificador', isSupport: true, buff: { type: 'damage', power: 1.25 } }, // Aumenta daño en fila
     // --- 4 NUEVOS DEFENSORES ---
-    wizard: { icon: 'wizard', damage: 40, cost: 160, shootInterval: 2000, range: 5, health: 90, name: 'Mago Eléctrico', projectile: 'energy', chain: { jumps: 2, damageFalloff: 0.5 } },
-    otter: { icon: 'otter', damage: 60, cost: 140, shootInterval: 1300, range: 4, health: 130, name: 'Nutria', projectile: 'nature' },
-    kraken: { icon: 'kraken', damage: 70, cost: 220, shootInterval: 2800, range: 7, health: 200, name: 'Kraken', projectile: 'water', chain: { jumps: 3, damageFalloff: 0.6 } },
-    golem: { icon: 'golem', damage: 30, cost: 180, shootInterval: 2500, range: 3, health: 400, name: 'Gólem', projectile: 'pure' },
+    wizard: { icon: 'wizard', image: './models/allDefenderTypes/wizard/wizard.png', damage: 40, cost: 160, shootInterval: 2000, range: 5, health: 90, name: 'Mago Eléctrico', projectile: 'energy', chain: { jumps: 2, damageFalloff: 0.5 } },
+    otter: { icon: 'otter', image: './models/allDefenderTypes/otter/otter.png', damage: 60, cost: 140, shootInterval: 1300, range: 4, health: 130, name: 'Nutria', projectile: 'nature' },
+    kraken: { icon: 'kraken', image: './models/allDefenderTypes/kraken/kraken.png', damage: 70, cost: 220, shootInterval: 2800, range: 7, health: 200, name: 'Kraken', projectile: 'water', chain: { jumps: 3, damageFalloff: 0.6 } },
+    golem: { icon: 'golem', image: './models/allDefenderTypes/golem/golem.png', damage: 30, cost: 180, shootInterval: 2500, range: 3, health: 400, name: 'Gólem', projectile: 'pure' },
     // --- DEFENSOR ESPECIAL DE RECOMPENSA ---
-    antiTankArea: { icon: 'antiTankArea', damage: 150, cost: 250, shootInterval: 3000, range: 6, health: 180, name: 'Antitanque de Área', projectile: 'explosion', splashRadius: 2, bidirectional: true, info: "¡Recompensa especial! Ataca hacia adelante Y hacia atrás. Daño masivo en área." },
+    antiTankArea: { icon: 'antiTankArea', image: './models/allDefenderTypes/antiTankArea/antiTankArea.png', damage: 150, cost: 250, shootInterval: 3000, range: 6, health: 180, name: 'Antitanque de Área', projectile: 'explosion', splashRadius: 2, bidirectional: true, info: "¡Recompensa especial! Ataca hacia adelante Y hacia atrás. Daño masivo en área." },
 
     // --- DEFENSORES DEL MENÚ DE SELECCIÓN (game-page.html) ---
     // Estos IDs provienen de game-page.js y deben coincidir aquí para que aparezcan en la tienda del juego
-    'water-shield':  { icon: 'water-shield', damage: 15,  cost: 50,  shootInterval: 2000, range: 1, health: 100, name: 'Gota Escudo',      projectile: 'water',  info: "Defensor básico con escudo. Barato y resistente." },
-    'rain-cloud':    { icon: 'rain-cloud',  damage: 20,  cost: 75,  shootInterval: 1200, range: 3, health: 60,  name: 'Nube Lluviosa',    projectile: 'water',  info: "Ataca con lluvia a distancia. Apoyo desde atrás." },
-    'water-cannon':  { icon: 'water-cannon',  damage: 45,  cost: 150, shootInterval: 1000, range: 4, health: 80,  name: 'Aqua Cañón',       projectile: 'water',  info: "Chorros de agua a alta presión. Gran alcance y daño." },
-    'ice-crystal':   { icon: 'ice-crystal',  damage: 35,  cost: 125, shootInterval: 1800, range: 3, health: 70,  name: 'Cristal de Hielo', projectile: 'ice',    statusEffect: { type: 'slow', power: 0.5, duration: 2000 }, info: "Congela y ralentiza contaminantes." },
-    'wave-warrior':  { icon: 'wave-warrior',  damage: 30,  cost: 200, shootInterval: 2000, range: 1, health: 250, name: 'Guerrero Ola',     projectile: 'water',  info: "Tanque pesado. Aguanta oleadas enteras." },
-    'water-lily':    { icon: 'water-lily',  cost: 100, health: 80,  name: 'Lirio Acuático',  generate: 15, interval: 6000, isGenerator: true, info: "Genera recursos adicionales pasivamente." },
-    'coral-reef':    { icon: 'coral-reef',  damage: 25,  cost: 175, shootInterval: 1200, range: 2, health: 120, name: 'Coral Dorado',     projectile: 'nature', supportAura: { type: 'damage_reduction', power: 0.2, range: 1 }, info: "Aura que aumenta el daño de defensores adyacentes." },
-    'tsunami-giant': { icon: 'tsunami-giant',  damage: 150, cost: 300, shootInterval: 3000, range: 6, health: 180, name: 'Titán Tsunami',    projectile: 'explosion', splashRadius: 2, info: "Defensor legendario. Daño en área masivo." },
+    'water-shield':  { icon: 'water-shield', image: './models/allDefenderTypes/water-shield/water-shield.png', damage: 15,  cost: 50,  shootInterval: 2000, range: 1, health: 100, name: 'Gota Escudo',      projectile: 'water',  info: "Defensor básico con escudo. Barato y resistente." },
+    'rain-cloud':    { icon: 'rain-cloud', image: './models/allDefenderTypes/rain-cloud/rain-cloud.png',  damage: 20,  cost: 75,  shootInterval: 1200, range: 3, health: 60,  name: 'Nube Lluviosa',    projectile: 'water',  info: "Ataca con lluvia a distancia. Apoyo desde atrás." },
+    'water-cannon':  { icon: 'water-cannon', image: './models/allDefenderTypes/water-cannon/water-cannon.png',  damage: 45,  cost: 150, shootInterval: 1000, range: 4, health: 80,  name: 'Aqua Cañón',       projectile: 'water',  info: "Chorros de agua a alta presión. Gran alcance y daño." },
+    'ice-crystal':   { icon: 'ice-crystal', image: './models/allDefenderTypes/ice-crystal/ice-crystal.png',  damage: 35,  cost: 125, shootInterval: 1800, range: 3, health: 70,  name: 'Cristal de Hielo', projectile: 'ice',    statusEffect: { type: 'slow', power: 0.5, duration: 2000 }, info: "Congela y ralentiza contaminantes." },
+    'wave-warrior':  { icon: 'wave-warrior', image: './models/allDefenderTypes/wave-warrior/wave-warrior.png',  damage: 30,  cost: 200, shootInterval: 2000, range: 1, health: 250, name: 'Guerrero Ola',     projectile: 'water',  info: "Tanque pesado. Aguanta oleadas enteras." },
+    'water-lily':    { icon: 'water-lily', image: './models/allDefenderTypes/water-lily/water-lily.png',  cost: 100, health: 80,  name: 'Lirio Acuático',  generate: 15, interval: 6000, isGenerator: true, info: "Genera recursos adicionales pasivamente." },
+    'coral-reef':    { icon: 'coral-reef', image: './models/allDefenderTypes/coral-reef/coral-reef.png',  damage: 25,  cost: 175, shootInterval: 1200, range: 2, health: 120, name: 'Coral Dorado',     projectile: 'nature', supportAura: { type: 'damage_reduction', power: 0.2, range: 1 }, info: "Aura que aumenta el daño de defensores adyacentes." },
+    'tsunami-giant': { icon: 'tsunami-giant', image: './models/allDefenderTypes/tsunami-giant/tsunami-giant.png',  damage: 150, cost: 300, shootInterval: 3000, range: 6, health: 180, name: 'Titán Tsunami',    projectile: 'explosion', splashRadius: 2, info: "Defensor legendario. Daño en área masivo." },
 
 };
 
 // Tipos de contaminantes — var para permitir override desde js/game/contaminants.js
 var allContaminatorTypes = window.allContaminatorTypes || [
-    { icon: 'Fabrica', health: 60, speed: 1, coins: 15, name: 'Fábrica' },
-    { icon: 'Petroleo', health: 90, speed: 0.8, coins: 25, name: 'Petróleo' },
-    { icon: 'Nuclear', health: 120, speed: 0.6, coins: 40, name: 'Nuclear' },
-    { icon: 'Basura', health: 40, speed: 1.2, coins: 10, name: 'Basura' },
-    { icon: 'Auto', health: 80, speed: 1.1, coins: 20, name: 'Auto' },
-    { icon: 'Quimico', health: 120, speed: 0.9, coins: 30, name: 'Químico' },
-    { icon: 'Fuego', health: 90, speed: 1.3, coins: 22, name: 'Fuego' },
-    { icon: 'Toxico', health: 350, speed: 0.7, coins: 50, name: 'Tóxico' },
-    { icon: 'Huracan', health: 110, speed: 1.4, coins: 28, name: 'Huracán' },
-    { icon: 'Demonio', health: 250, speed: 0.5, coins: 60, name: 'Demonio' },
+    { icon: 'Fabrica', image: './models/allContaminatorTypes/Fabrica/Fabrica.png', health: 60, speed: 1, coins: 15, name: 'Fábrica' },
+    { icon: 'Petroleo', image: './models/allContaminatorTypes/Petroleo/Petroleo.png', health: 90, speed: 0.8, coins: 25, name: 'Petróleo' },
+    { icon: 'Nuclear', image: './models/allContaminatorTypes/Nuclear/Nuclear.png', health: 120, speed: 0.6, coins: 40, name: 'Nuclear' },
+    { icon: 'Basura', image: './models/allContaminatorTypes/Basura/Basura.png', health: 40, speed: 1.2, coins: 10, name: 'Basura' },
+    { icon: 'Auto', image: './models/allContaminatorTypes/Auto/Auto.png', health: 80, speed: 1.1, coins: 20, name: 'Auto' },
+    { icon: 'Quimico', image: './models/allContaminatorTypes/Quimico/Quimico.png', health: 120, speed: 0.9, coins: 30, name: 'Químico' },
+    { icon: 'Fuego', image: './models/allContaminatorTypes/Fuego/Fuego.png', health: 90, speed: 1.3, coins: 22, name: 'Fuego' },
+    { icon: 'Toxico', image: './models/allContaminatorTypes/Toxico/Toxico.png', health: 350, speed: 0.7, coins: 50, name: 'Tóxico' },
+    { icon: 'Huracan', image: './models/allContaminatorTypes/Huracan/Huracan.png', health: 110, speed: 1.4, coins: 28, name: 'Huracán' },
+    { icon: 'Demonio', image: './models/allContaminatorTypes/Demonio/Demonio.png', health: 250, speed: 0.5, coins: 60, name: 'Demonio' },
     // --- NUEVOS CONTAMINANTES ---
-    { icon: 'Fantasma', health: 80, speed: 1.5, coins: 35, name: 'Fantasma', ability: { type: 'phase', chance: 0.2, duration: 1500 } }, // Puede volverse intangible
-    { icon: 'Tanque', health: 800, speed: 0.4, coins: 70, name: 'Tanque' }, // Lento pero muy resistente
+    { icon: 'Fantasma', image: './models/allContaminatorTypes/Fantasma/Fantasma.png', health: 80, speed: 1.5, coins: 35, name: 'Fantasma', ability: { type: 'phase', chance: 0.2, duration: 1500 } }, // Puede volverse intangible
+    { icon: 'Tanque', image: './models/allContaminatorTypes/Tanque/Tanque.png', health: 800, speed: 0.4, coins: 70, name: 'Tanque' }, // Lento pero muy resistente
     // --- JEFE ---
-    { icon: 'Leviatan', health: 1500, speed: 0.5, coins: 300, name: 'El Leviatán', isBoss: true, ability: { type: 'lane_change', cooldown: 8000, lastUsed: 0 } } // Jefe que cambia de carril
+    { icon: 'Leviatan', image: './models/allContaminatorTypes/Leviatan/Leviatan.png', health: 1500, speed: 0.5, coins: 300, name: 'El Leviatán', isBoss: true, ability: { type: 'lane_change', cooldown: 8000, lastUsed: 0 } } // Jefe que cambia de carril
 ];
 
 // Defensores desbloqueables — var para permitir override desde js/game/defenders.js
@@ -182,7 +182,7 @@ function toggleRemovalMode() {
     // Si se activa el modo de eliminación, seleccionar la herramienta
     if (gameState.removalMode) {
         document.querySelector('.removal-tool').classList.add('selected');
-        playSound(400, 0.1, 'square', 0.1); // Sonido de selección de herramienta
+        playGameSound('selectDefender'); // Sonido de selección de herramienta
     }
 
     updateCellHoverEffects();
@@ -236,7 +236,7 @@ function removeDefender(row, col) {
     }, 1500);
 
     // Sonido de eliminación y reembolso
-    playSound(350, 0.2, 'triangle', 0.12);
+    playGameSound('removeDefender');
 
     updateUI();
     updateCellHoverEffects();
@@ -320,7 +320,7 @@ window.startGame = startGame;
 window.startGameDirectly = startGameDirectly;
 
 function backToMain() {
-    playSound(300, 0.1, 'square', 0.15); // Sonido de clic inmediato
+    playGameSound('back'); // Sonido de clic inmediato
 
     // Mostrar botones globales y sidebar de nuevo
     const globalSoundBtn = document.getElementById('soundToggle');
@@ -587,7 +587,7 @@ function placeDefender(row, col) {
             }
         }
 
-        playSound(440, 0.1, 'triangle', 0.15); // Sonido de colocación: triángulo corto
+        playGameSound('placeDefender'); // Sonido de colocación
         return true;
     }
 }
@@ -650,7 +650,7 @@ function startWave() {
         updateAchievementProgress('wave_50', gameState.wave);
     }
 
-    playSound(880, 0.4, 'square', 0.2); // Sonido de inicio de oleada: cuadrado más agudo
+    playGameSound('waveStart'); // Sonido de inicio de oleada
     spawnContaminators();
 }
 
@@ -726,8 +726,22 @@ function spawnContaminator() {
     };
 
     const contaminatorElement = document.createElement('div');
-    contaminatorElement.className = 'contaminator';
-    if (window.GameSprites) {
+    contaminatorElement.className = 'contaminator' + (type.isBoss ? ' boss' : '');
+    // Tamaño explícito basado en la celda (los PNG son 256x256, hay que escalarlos)
+    const cellSize = getCellSize();
+    const sizeMultiplier = type.isBoss ? 1.6 : 0.9;
+    contaminatorElement.style.width = (cellSize.width * sizeMultiplier) + 'px';
+    contaminatorElement.style.height = (cellSize.height * sizeMultiplier) + 'px';
+    // Determinar si usar imagen PNG, SVG sprite o texto
+    if (type.image) {
+        const img = document.createElement('img');
+        img.src = type.image;
+        img.alt = type.name;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'contain';
+        contaminatorElement.appendChild(img);
+    } else if (window.GameSprites) {
         contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);
     } else {
         contaminatorElement.textContent = type.name.charAt(0);
@@ -759,11 +773,13 @@ function spawnContaminator() {
     gameBoard.appendChild(contaminatorElement); // Añadir al tablero principal, no a la celda
     gameState.contaminators.push(contaminator);
 
-    // Reproducir sonido de aparición
+    // Reproducir sonido de aparición por tipo de contaminante
     if (type.isBoss && typeof playGameSound === 'function') {
         playGameSound('spawnBoss'); // Sonido especial para el boss
+    } else if (typeof playContaminantSpawnSound === 'function') {
+        playContaminantSpawnSound(type.icon); // Sonido específico por tipo
     } else {
-        playSound(300, 0.1, 'sawtooth', 0.05); // Sonido genérico
+        playGameSound('spawn'); // Sonido genérico fallback
     }
 }
 
@@ -888,7 +904,7 @@ function moveContaminators() {
             updateIslandContamination();
             removeContaminator(contaminator);
 
-            playSound(100, 0.6, 'sawtooth', 0.2); // Sonido de impacto en la isla: diente de sierra grave
+            playGameSound('hurt'); // Sonido de impacto en la isla
 
             if (gameState.health <= 0) {
                 gameOver();
@@ -957,7 +973,7 @@ function contaminatorAttackDefender(contaminator, defender) {
 
     setTimeout(() => hitEffect.remove(), 1000);
 
-    playSound(150, 0.1, 'square', 0.1); // Sonido de ataque de contaminante: cuadrado grave
+    playGameSound('hit'); // Sonido de ataque de contaminante
 
     if (defender.health <= 0) {
         destroyDefender(defender); // El enemigo destruye al defensor, sin reembolso
@@ -1201,7 +1217,7 @@ function checkWaveComplete() {
                 onStoryWaveComplete();
             }
 
-            playSound(700, 0.7, 'sine', 0.2); // Sonido de oleada completada: seno agradable
+            playGameSound('waveComplete'); // Sonido de oleada completada
 
             setTimeout(() => {
                 if (gameState.gameRunning) {
@@ -1514,7 +1530,7 @@ function massUpgradeDefenders() {
         gameState.coins -= totalCost;
         defendersToUpgrade.forEach(def => performUpgrade(def, false)); // Mejorar sin coste individual
 
-        playSound(1400, 0.3, 'triangle', 0.25); // Sonido especial para mejora grupal
+        playGameSound('upgradeDefender'); // Sonido especial para mejora grupal
         updateUI();
         showUpgradePanel(mainDefender); // Refrescar el panel
     }
@@ -1575,7 +1591,7 @@ function performUpgrade(defender, chargeCost = true) {
         updateDefenderHealthBarColor(defender);
 
         if (chargeCost) { // Solo hacer esto si es una mejora individual
-            playSound(1200, 0.2, 'triangle', 0.2);
+            playGameSound('upgradeDefender');
             updateUI();
             showUpgradePanel(defender); // Refrescar el panel con los nuevos stats
         }
@@ -1619,7 +1635,7 @@ function gameOver() {
     gameState.waveActive = false;
     clearAllIntervals();
 
-    playSound(120, 1.2, 'sawtooth', 0.3); // Sonido de Game Over: diente de sierra muy grave y largo
+    playGameSound('gameOver'); // Sonido de Game Over
 
     // ANTI-CHEAT: Validar estado del juego antes de otorgar recompensas
     if (typeof AntiCheat !== 'undefined') {
@@ -1768,7 +1784,7 @@ function restartCurrentWave() {
     clearAllIntervals(); // Limpiar cualquier intervalo persistente (ej. spawnInterval)
     startWaveCountdown(); // Reiniciar la cuenta atrás para la oleada actual
 
-    playSound(500, 0.3, 'square', 0.15); // Sonido de reiniciar oleada
+    playGameSound('waveStart'); // Sonido de reiniciar oleada
 }
 
 function clearAllIntervals() {
@@ -1810,10 +1826,18 @@ function togglePause() {
 
     if (gameState.isPaused) {
         pauseMenu.style.display = 'flex';
-        playSound(200, 0.1, 'square', 0.1);
+        // Pausar TODOS los sonidos y música de fondo
+        if (typeof pauseAllGameSounds === 'function') {
+            pauseAllGameSounds();
+        }
+        playGameSound('click');
     } else {
         pauseMenu.style.display = 'none';
-        playSound(400, 0.1, 'square', 0.1);
+        playGameSound('click');
+        // Reanudar música de fondo y sonidos
+        if (typeof resumeAllGameSounds === 'function') {
+            resumeAllGameSounds();
+        }
     }
 }
 

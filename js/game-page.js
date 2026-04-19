@@ -338,9 +338,12 @@ function renderDefenders() {
         card.className = `defender-card ${isSelected ? 'selected' : ''}`;
         card.onclick = () => toggleDefender(defender.id);
         
+        const defDataGP = window.allDefenderTypes && window.allDefenderTypes[defender.id];
+        const defImage = (defDataGP && defDataGP.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`;
+        const gpIconHTML = `<img src="${defImage}" alt="${defender.name}" style="width:40px;height:40px;object-fit:contain;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.defender('${defender.id}') : '${defender.name.charAt(0)}';">`;
         card.innerHTML = `
             <div class="defender-header">
-                <div class="defender-icon">${window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0)}</div>
+                <div class="defender-icon">${gpIconHTML}</div>
                 <div class="defender-info">
                     <div class="defender-name">${defender.name}</div>
                     <span class="defender-category category-${defender.category}">
@@ -435,7 +438,10 @@ function updateSelectedSlots() {
         
         if (selectedDefenders[index]) {
             const defender = defenders.find(d => d.id === selectedDefenders[index]);
-            slot.innerHTML = window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0);
+            const defDataSlot = window.allDefenderTypes && window.allDefenderTypes[defender.id];
+            const slotImage = (defDataSlot && defDataSlot.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`;
+            const slotIconHTML = `<img src="${slotImage}" alt="${defender.name}" style="width:100%;height:100%;object-fit:contain;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.defender('${defender.id}') : '${defender.name.charAt(0)}';">`;
+            slot.innerHTML = slotIconHTML;
             slot.classList.remove('empty');
             slot.classList.add('filled');
             
@@ -502,7 +508,7 @@ function renderStoryChapters() {
             ${chapter.boss ? `
                 <div class="boss-info">
                     <div class="boss-header">
-                        <span class="boss-icon">${window.GameSprites ? window.GameSprites.contaminant(chapter.boss.icon) : ''}</span>
+                        <span class="boss-icon">${(() => { const ct = window.allContaminatorTypes && window.allContaminatorTypes.find(c => c.icon === chapter.boss.icon); const bossImg = (ct && ct.image) || './models/allContaminatorTypes/' + chapter.boss.icon + '/' + chapter.boss.icon + '.png'; return `<img src="${bossImg}" alt="${chapter.boss.name}" style="width:40px;height:40px;object-fit:contain;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.contaminant('${chapter.boss.icon}') : '';">`; })()}</span>
                         <div>
                             <div class="boss-name">${chapter.boss.name}</div>
                             <div class="boss-stats">
@@ -622,9 +628,12 @@ function renderShopItems(filter = 'all') {
         const card = document.createElement('div');
         card.className = `shop-item ${isUnlocked ? 'unlocked' : ''}`;
         
+        const defDataShop = window.allDefenderTypes && window.allDefenderTypes[defender.id];
+        const shopImage = (defDataShop && defDataShop.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`;
+        const shopIconImg = `<img src="${shopImage}" alt="${defender.name}" style="width:64px;height:64px;object-fit:contain;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.defender('${defender.id}') : '${defender.name.charAt(0)}';">`;
         card.innerHTML = `
             <div class="shop-item-header">
-                <div class="defender-icon" style="width: 64px; height: 64px; margin: 0;">${window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0)}</div>
+                <div class="defender-icon" style="width: 64px; height: 64px; margin: 0;">${shopIconImg}</div>
                 <span class="shop-item-cost">${isUnlocked ? 'Desbloqueado' : `${defender.cost}`}</span>
             </div>
             <h3 class="shop-item-title">${defender.name}</h3>

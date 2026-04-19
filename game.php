@@ -220,7 +220,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
         </div>
         <div id="upgradeNextLevelInfo" class="upgrade-next-info"></div>
         <div class="upgrade-actions">
-            <button id="upgradeButton" class="upgrade-btn" onclick="upgradeDefender()"><i data-lucide="arrow-up-circle"></i> Mejorar</button>
+            <button id="upgradeButton" class="upgrade-btn" onclick="upgradeSelectedDefender()"><i data-lucide="arrow-up-circle"></i> Mejorar</button>
             <button class="remove-btn" onclick="removeSelectedDefender()"><i data-lucide="trash-2"></i> Eliminar (50%)</button>
         </div>
     </div>

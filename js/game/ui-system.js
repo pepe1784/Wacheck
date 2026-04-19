@@ -122,7 +122,7 @@
         }
 
         const msgBox = document.getElementById('gameMessage');
-        msgBox.style.display = 'block';
+        msgBox.style.display = 'flex';
         msgBox.classList.add('show');
 
         // Si se proporciona un timeout, ocultar el mensaje después de ese tiempo

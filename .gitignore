@@ -47,6 +47,16 @@ apk/WacheckAPK/Wacheck_APK_*.zip
 apk/WacheckAPK/wacheck-key-nuevo.jks
 apk/WacheckAPK/wacheck-release-key.jks
 
+# Auxiliary scripts (emoji fix, generators, scans)
+_*.py
+_*.txt
+_fix_result.txt
+_emoji_report.txt
+
+# Screenshots / temp images at root
+achievements-*.png
+game-contaminants-*.png
+
 # Recovery / temp files
 index.recovered.*
 *.recovered.*

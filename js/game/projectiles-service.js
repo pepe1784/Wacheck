@@ -146,8 +146,8 @@
             window.updateContaminatorHealthBar(target);
         }
 
-        if (typeof window.playSound === 'function') {
-            window.playSound(400, 0.1, 'triangle', 0.08);
+        if (typeof window.playGameSound === 'function') {
+            window.playGameSound('hit');
         }
 
         if (target.health <= 0) {

@@ -2132,6 +2132,10 @@ body {
     pointer-events: none;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
     transition: all 0.3s ease;
+    /* Forzar que ocupe todo el espacio de la celda */
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     /* OPTIMIZACIÓN: Aceleración GPU */
     will-change: transform;
     transform: translate3d(0, 0, 0);
@@ -2195,6 +2199,12 @@ body {
     transform: translate3d(0, 0, 0);
     /* Forzar aceleración GPU */
     pointer-events: none;
+    overflow: hidden;
+}
+
+/* Contaminantes boss: más grandes */
+.contaminator.boss {
+    filter: drop-shadow(0 6px 12px rgba(255, 0, 0, 0.5));
 }
 
 .contaminator.attacking {

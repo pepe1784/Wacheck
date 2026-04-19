@@ -37,9 +37,9 @@ const soundFiles = {
     // ==========================================
     // SONIDOS DE INTERFAZ (Menus y botones)
     // ==========================================
-    click: null,                    // Clic en cualquier botón
-    hover: null,                    // Pasar el mouse sobre un botón
-    back: null,                     // Volver al menú anterior
+    click: "sounds_clicks/Click_mause.mp3",         // Clic en cualquier botón
+    hover: "sounds_clicks/Toque.mp3",                 // Pasar el mouse sobre un botón
+    back: "sounds_clicks/Aire_regreso.mp3",            // Volver al menú anterior
     
     
     // ==========================================
@@ -47,16 +47,16 @@ const soundFiles = {
     // ==========================================
     
     // --- Colocar Defensores ---
-    placeDefender: null,            // Colocar cualquier defensor en el tablero
+    placeDefender: "game_ui/place_defender.mp3",    // Colocar cualquier defensor en el tablero
     
     // --- Seleccionar Defensores ---
-    selectDefender: null,           // Hacer clic en un defensor en la tienda
+    selectDefender: "sounds_clicks/Toque.mp3",     // Hacer clic en un defensor en la tienda
     
     // --- Eliminar Defensores ---
-    removeDefender: null,           // Eliminar un defensor del tablero (recuperar monedas)
+    removeDefender: "game_ui/remove_defender.mp3",  // Eliminar un defensor del tablero (recuperar monedas)
     
     // --- Mejorar Defensores ---
-    upgradeDefender: null,          // Subir de nivel un defensor (Nivel 2, 3, 4, 5)
+    upgradeDefender: "game_ui/upgrade_defender.mp3", // Subir de nivel un defensor (Nivel 2, 3, 4, 5)
     
     
     // ==========================================
@@ -64,16 +64,16 @@ const soundFiles = {
     // ==========================================
     
     // --- Ataques Generales (si no quieres sonido específico) ---
-    shoot: null,                    // Disparo genérico (se usa si no hay específico)
+    shoot: "game_ui/shoot_generic.mp3",            // Disparo genérico (se usa si no hay específico)
     
     // --- Filtro (Agua) ---
     shootFilter: "sounds_atack/agua/filter.mp3",              // Disparo del Filtro (proyectil de agua azul)
     
     // --- Planta (Naturaleza) ---
-    shootPlant: null,               // Disparo de la Planta (proyectil verde)
+    shootPlant: "allDefenderTypes/Nature/nature 2.mp3",  // Disparo de la Planta (proyectil verde)
     
     // --- Reciclador (Energía) ---
-    shootRecycler: null,            // Disparo del Reciclador (proyectil amarillo)
+    shootRecycler: "allDefenderTypes/energy/energy.mp3",  // Disparo del Reciclador (proyectil amarillo)
     
     // --- Purificador ---
     shootCleaner: "sounds_atack/puro/cleaner.mp3",             // Disparo del Purificador (proyectil blanco)
@@ -82,28 +82,28 @@ const soundFiles = {
     shootCrystal: "sounds_atack/puro/crystal.mp3",             // Disparo del Cristal
     
     // --- Solar ---
-    shootSolar: null,               // Disparo del Solar
+    shootSolar: "allDefenderTypes/energy/energy.mp3",     // Disparo del Solar
     
     // --- Coral ---
-    shootCoral: null,               // Disparo del Coral
+    shootCoral: "allDefenderTypes/Nature/nature 2.mp3",   // Disparo del Coral
     
     // --- Tornado ---
-    shootTornado: null,             // Disparo del Tornado
+    shootTornado: "allDefenderTypes/energy/energy.mp3",   // Disparo del Tornado
     
     // --- Ballena ---
     shootWhale: "sounds_atack/agua/whale.mp3",               // Disparo de la Ballena
     
     // --- Cañón Doble ---
-    shootDualcannon: null,          // Disparo del Cañón Doble (2 disparos rápidos)
+    shootDualcannon: "allDefenderTypes/energy/energy.mp3", // Disparo del Cañón Doble (2 disparos rápidos)
     
     // --- Incinerador (Fuego) ---
-    shootIncinerator: null,         // Disparo del Incinerador (proyectil de fuego)
+    shootIncinerator: "allDefenderTypes/fire/fire.mp3",    // Disparo del Incinerador (proyectil de fuego)
     
     // --- Criomante (Hielo) ---
-    shootCryomancer: null,          // Disparo del Criomante (proyectil de hielo)
+    shootCryomancer: "allDefenderTypes/ice/ice.mp3",       // Disparo del Criomante (proyectil de hielo)
     
     // --- Mortero (Explosión) ---
-    shootMortar: null,              // Disparo del Mortero (bomba que cae)
+    shootMortar: "allDefenderTypes/explosion/explosion.mp3", // Disparo del Mortero (bomba que cae)
     
     // --- Chorro ---
     shootStream: "sounds_atack/agua/stream.mp3",              // Disparo del Chorro
@@ -112,58 +112,76 @@ const soundFiles = {
     shootBubble: "sounds_atack/agua/burbujas.mp3",              // Disparo de Burbuja (ralentiza)
     
     // --- Mago Eléctrico ---
-    shootWizard: null,              // Disparo del Mago (cadena eléctrica)
+    shootWizard: "allDefenderTypes/energy/energy.mp3",     // Disparo del Mago (cadena eléctrica)
     
     // --- Nutria ---
-    shootOtter: null,               // Disparo de la Nutria
+    shootOtter: "allDefenderTypes/Nature/nature 2.mp3",    // Disparo de la Nutria
     
     // --- Kraken ---
-    shootKraken: null,              // Disparo del Kraken (tentáculos)
+    shootKraken: "sounds_atack/agua/whale.mp3",            // Disparo del Kraken (tentáculos - tipo agua)
     
     // --- Gólem ---
     shootGolem: "sounds_atack/puro/golem.mp3",               // Disparo del Gólem
     
     // --- Antitanque de Área ---
-    shootAntiTank: null,            // Disparo del Antitanque (explosión grande)
+    shootAntiTank: "allDefenderTypes/explosion/explosion.mp3", // Disparo del Antitanque (explosión grande)
     
     
     // ==========================================
     // SONIDOS DE IMPACTOS
     // ==========================================
-    hit: null,                      // Impacto genérico en contaminante
-    critical: null,                 // Golpe crítico (x2 daño) - efecto especial
+    hit: "game_ui/hit.mp3",                        // Impacto genérico en contaminante
+    critical: "game_ui/critical.mp3",                // Golpe crítico (x2 daño) - efecto especial
     
     
     // ==========================================
     // SONIDOS DE CONTAMINANTES
     // ==========================================
-    kill: null,                     // Contaminante eliminado (muere)
-    hurt: null,                     // La base recibe daño (contaminante llega al final)
-    spawn: null,                    // Aparece un contaminante nuevo
-    spawnBoss: "sound_spawmob/enemigo/leviathan-fondo.mp3",            // Aparece el boss (El Leviatan)
+    kill: "game_ui/kill.mp3",                      // Contaminante eliminado (muere)
+    hurt: null, // La base recibe daño (sonido sintético — el .mp3 anterior es ahora música de fondo)
+    spawn: "game_ui/spawn.mp3",                    // Aparece un contaminante nuevo
+    spawnBoss: "allContaminatorTypes/leviatan.mp3",  // Aparece el boss (sonido corto, no la pista larga)
     
     
     // ==========================================
     // SONIDOS DE OLEADAS
     // ==========================================
-    waveStart: null,                // Empieza una nueva oleada
-    waveComplete: null,             // Oleada completada con éxito
+    waveStart: "game_ui/wave_start.mp3",            // Empieza una nueva oleada
+    waveComplete: "game_ui/wave_complete.mp3",       // Oleada completada con éxito
     // NOTE: rutas deben ser relativas al directorio "sounds/" y coincidir con el formato usado en el resto
     // Archivo real ubicado en sounds/sound_spawmob/Ahora_Pienso_Mas_en_Ti.mp3
     gameOver: "sound_spawmob/Ahora_Pienso_Mas_en_Ti.mp3",  // Perdiste el juego (vida = 0)
-    victory: null,                  // Ganaste el juego (todas las oleadas)
+    victory: "game_ui/victory.mp3",                 // Ganaste el juego (todas las oleadas)
     
     
     // ==========================================
     // SONIDOS ESPECIALES
     // ==========================================
-    coin: null,                     // Ganar monedas (al matar enemigo o generar)
-    unlock: null,                   // Desbloquear nuevo defensor
-    achievement: null,              // Logro desbloqueado
-    powerup: null,                  // Mejora o buff aplicado
-    reward: null,                   // Recompensa obtenida
-    levelUp: null,                  // Defensor sube de nivel
-    mission: null,                  // Misión del modo historia completada
+    coin: "game_ui/coin.mp3",                      // Ganar monedas (al matar enemigo o generar)
+    unlock: "game_ui/unlock.mp3",                    // Desbloquear nuevo defensor
+    achievement: "sounds_clicks/brillos.mp3",         // Logro desbloqueado
+    powerup: "sounds_clicks/brillos.mp3",             // Mejora o buff aplicado
+    reward: "sounds_clicks/brillos.mp3",              // Recompensa obtenida
+    levelUp: "game_ui/upgrade_defender.mp3",          // Defensor sube de nivel
+    mission: "game_ui/wave_complete.mp3",             // Misión del modo historia completada
+    
+    
+    // ==========================================
+    // SONIDOS DE SPAWN POR TIPO DE CONTAMINANTE
+    // ==========================================
+    spawnFabrica: "allContaminatorTypes/fabrica.mp3",     // Aparece Fábrica
+    spawnPetroleo: "allContaminatorTypes/petroleo.mp3",   // Aparece Petróleo
+    spawnNuclear: "allContaminatorTypes/nuclear.mp3",     // Aparece Nuclear
+    spawnBasura: "allContaminatorTypes/basura.mp3",       // Aparece Basura
+    spawnAuto: "allContaminatorTypes/auto.mp3",           // Aparece Auto
+    spawnQuimico: "allContaminatorTypes/quimico.mp3",     // Aparece Químico
+    spawnFuego: "allContaminatorTypes/fuego.mp3",         // Aparece Fuego
+    spawnToxico: "allContaminatorTypes/toxico.mp3",       // Aparece Tóxico
+    spawnHuracan: "allContaminatorTypes/huracan.mp3",     // Aparece Huracán
+    spawnDemonio: "allContaminatorTypes/demonio.mp3",     // Aparece Demonio
+    spawnFantasma: "allContaminatorTypes/fantasma.mp3",   // Aparece Fantasma
+    spawnTanque: "allContaminatorTypes/tanque.mp3",       // Aparece Tanque
+    spawnLeviatan: "allContaminatorTypes/leviatan.mp3",   // Aparece Leviatán
 };
 
 // ====================================
@@ -223,6 +241,21 @@ const soundVolumes = {
     hurt: 0.5,                      // Daño a la base
     spawn: 0.3,                     // Aparece contaminante
     spawnBoss: 0.5,                 // Aparece el boss (El Leviatán )
+    
+    //  SPAWN POR TIPO DE CONTAMINANTE
+    spawnFabrica: 0.3,              // Aparece Fábrica
+    spawnPetroleo: 0.3,             // Aparece Petróleo
+    spawnNuclear: 0.35,             // Aparece Nuclear
+    spawnBasura: 0.25,              // Aparece Basura
+    spawnAuto: 0.3,                 // Aparece Auto
+    spawnQuimico: 0.3,              // Aparece Químico
+    spawnFuego: 0.3,                // Aparece Fuego
+    spawnToxico: 0.35,              // Aparece Tóxico
+    spawnHuracan: 0.35,             // Aparece Huracán
+    spawnDemonio: 0.4,              // Aparece Demonio
+    spawnFantasma: 0.3,             // Aparece Fantasma
+    spawnTanque: 0.4,               // Aparece Tanque
+    spawnLeviatan: 0.5,             // Aparece Leviatán
     
     //  OLEADAS
     waveStart: 0.6,                 // Empieza oleada
@@ -421,6 +454,10 @@ function preloadAllSounds() {
 function playGameSound(soundName) {
     // Verificar si los sonidos están habilitados (usar flag global)
     if (typeof window.soundEnabled !== 'undefined' && !window.soundEnabled) return;
+
+    // No reproducir sonidos del juego mientras está pausado (excepto UI)
+    const uiSounds = { click: 1, hover: 1, back: 1, selectDefender: 1 };
+    if (window.gameState && window.gameState.isPaused && !uiSounds[soundName]) return;
     
     // Throttling: Ignorar si se reprodujo el mismo sonido hace muy poco
     const now = Date.now();
@@ -560,6 +597,21 @@ const GameSounds = {
     kill: () => playGameSound('kill'),
     hurt: () => playGameSound('hurt'),
     
+    //  SPAWN POR TIPO DE CONTAMINANTE
+    spawnFabrica: () => playGameSound('spawnFabrica'),
+    spawnPetroleo: () => playGameSound('spawnPetroleo'),
+    spawnNuclear: () => playGameSound('spawnNuclear'),
+    spawnBasura: () => playGameSound('spawnBasura'),
+    spawnAuto: () => playGameSound('spawnAuto'),
+    spawnQuimico: () => playGameSound('spawnQuimico'),
+    spawnFuego: () => playGameSound('spawnFuego'),
+    spawnToxico: () => playGameSound('spawnToxico'),
+    spawnHuracan: () => playGameSound('spawnHuracan'),
+    spawnDemonio: () => playGameSound('spawnDemonio'),
+    spawnFantasma: () => playGameSound('spawnFantasma'),
+    spawnTanque: () => playGameSound('spawnTanque'),
+    spawnLeviatan: () => playGameSound('spawnLeviatan'),
+    
     //  OLEADAS
     waveStart: () => playGameSound('waveStart'),
     waveComplete: () => playGameSound('waveComplete'),
@@ -595,6 +647,163 @@ document.addEventListener('DOMContentLoaded', () => {
 // ====================================
 window.GameSounds = GameSounds;
 window.playGameSound = playGameSound;
+
+// ====================================
+// SISTEMA DE MÚSICA DE FONDO
+// ====================================
+// Reproductor dedicado para música de fondo, separado del sistema
+// de pools y de MAX_SIMULTANEOUS_SOUNDS para que nunca se interrumpa.
+(function() {
+    let bgMusic = null;
+    let bgMusicFile = 'sounds/sounds_clicks/Sonido_de_juego_vicioso.mp3';
+    let bgMusicVolume = 0.25;
+    let bgMusicPlaying = false;
+
+    function createBgMusic() {
+        if (bgMusic) return bgMusic;
+        bgMusic = new Audio(bgMusicFile);
+        bgMusic.loop = true;
+        bgMusic.volume = bgMusicVolume * (window.masterVolume ?? 1.0);
+        bgMusic.preload = 'auto';
+        bgMusic.addEventListener('error', function() {
+            console.warn('[BGMusic] Could not load background music file');
+        });
+        return bgMusic;
+    }
+
+    window.playBackgroundMusic = function() {
+        if (typeof window.soundEnabled !== 'undefined' && !window.soundEnabled) return;
+        createBgMusic();
+        bgMusic.volume = bgMusicVolume * (window.masterVolume ?? 1.0);
+        if (bgMusic.paused) {
+            bgMusic.play().then(function() {
+                bgMusicPlaying = true;
+                console.log('[BGMusic] Background music started');
+            }).catch(function(e) {
+                // Autoplay blocked — will retry on next user interaction
+            });
+        }
+    };
+
+    window.stopBackgroundMusic = function() {
+        if (bgMusic && !bgMusic.paused) {
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+            bgMusicPlaying = false;
+        }
+    };
+
+    window.pauseBackgroundMusic = function() {
+        if (bgMusic && !bgMusic.paused) {
+            bgMusic.pause();
+            bgMusicPlaying = false;
+        }
+    };
+
+    window.resumeBackgroundMusic = function() {
+        if (typeof window.soundEnabled !== 'undefined' && !window.soundEnabled) return;
+        if (bgMusic && bgMusic.paused && bgMusic.currentTime > 0) {
+            bgMusic.play().catch(function() {});
+            bgMusicPlaying = true;
+        }
+    };
+
+    window.isBgMusicPlaying = function() {
+        return bgMusicPlaying && bgMusic && !bgMusic.paused;
+    };
+
+    window.setBgMusicVolume = function(v) {
+        bgMusicVolume = Math.max(0, Math.min(1, v));
+        if (bgMusic) bgMusic.volume = bgMusicVolume * (window.masterVolume ?? 1.0);
+    };
+
+    // Update bgMusic volume when masterVolume changes
+    const origSetMaster = window.setMasterVolume;
+    window.setMasterVolume = function(v) {
+        if (origSetMaster) origSetMaster(v);
+        if (bgMusic) bgMusic.volume = bgMusicVolume * (window.masterVolume ?? 1.0);
+    };
+})();
+
+// ====================================
+// AUTO-PLAY: Iniciar audio al entrar a partida
+// ====================================
+// Cuando el usuario ya tiene soundEnabled=true y navega a game.php,
+// el AudioContext puede estar bloqueado. Este código lo resume en
+// la primera interacción y arranca la música de fondo automáticamente.
+(function() {
+    var autoPlayDone = false;
+
+    function onFirstInteraction() {
+        if (autoPlayDone) return;
+        autoPlayDone = true;
+
+        // Resume AudioContext if suspended
+        if (audioContext && audioContext.state === 'suspended') {
+            audioContext.resume();
+        }
+        if (!audioContext) {
+            initSoundSystem();
+            if (audioContext && audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+        }
+
+        // Start background music if sound is enabled
+        if (window.soundEnabled) {
+            window.playBackgroundMusic();
+        }
+
+        // Remove listeners
+        document.removeEventListener('click', onFirstInteraction, true);
+        document.removeEventListener('touchstart', onFirstInteraction, true);
+        document.removeEventListener('keydown', onFirstInteraction, true);
+    }
+
+    // If sound is enabled, listen for first interaction to auto-start
+    if (window.soundEnabled !== false) {
+        document.addEventListener('click', onFirstInteraction, true);
+        document.addEventListener('touchstart', onFirstInteraction, true);
+        document.addEventListener('keydown', onFirstInteraction, true);
+    }
+})();
+
+// ====================================
+// FUNCIÓN: Sonido de spawn por tipo de contaminante
+// ====================================
+// Llama a esta función cuando aparece un contaminante.
+// Si el contaminante tiene sonido específico, lo usa;
+// si no, usa el sonido genérico de spawn.
+//
+// Uso: playContaminantSpawnSound('Fabrica');
+//      playContaminantSpawnSound(contaminant.icon);
+//
+function playContaminantSpawnSound(contaminantIcon) {
+    const soundMap = {
+        'Fabrica':   'spawnFabrica',
+        'Petroleo':  'spawnPetroleo',
+        'Nuclear':   'spawnNuclear',
+        'Basura':    'spawnBasura',
+        'Auto':      'spawnAuto',
+        'Quimico':   'spawnQuimico',
+        'Fuego':     'spawnFuego',
+        'Toxico':    'spawnToxico',
+        'Huracan':   'spawnHuracan',
+        'Demonio':   'spawnDemonio',
+        'Fantasma':  'spawnFantasma',
+        'Tanque':    'spawnTanque',
+        'Leviatan':  'spawnLeviatan'
+    };
+
+    const soundName = soundMap[contaminantIcon];
+    if (soundName) {
+        playGameSound(soundName);
+    } else {
+        // Fallback al sonido genérico de spawn
+        playGameSound('spawn');
+    }
+}
+window.playContaminantSpawnSound = playContaminantSpawnSound;
 
 // ====================================
 // CONTROL DE ACTIVACIÓN/DESACTIVACIÓN DE SONIDO
@@ -662,7 +871,11 @@ function toggleSound() {
 
     if (window.soundEnabled) {
         initAudio();
+        // Resume background music when sound is re-enabled
+        if (window.playBackgroundMusic) window.playBackgroundMusic();
     } else {
+        // Stop background music
+        if (window.stopBackgroundMusic) window.stopBackgroundMusic();
         // Pausar y resetear todos audios activos en los pools para silenciar inmediatamente
         try {
             Object.keys(audioPools).forEach(name => {
@@ -782,6 +995,9 @@ window.stopGameSound = function(soundName) {
         // Detener Game Over específicamente
         window.stopGameOverSound();
         
+        // Detener música de fondo
+        if (window.stopBackgroundMusic) window.stopBackgroundMusic();
+        
         // Detener todos los audios de los pools
         Object.keys(audioPools).forEach(poolName => {
             if (audioPools[poolName]) {
@@ -808,6 +1024,37 @@ window.stopGameSound = function(soundName) {
                 // Silencioso
             }
         });
+    };
+
+    // Función para PAUSAR todos los sonidos del juego (sin resetear posición)
+    window.pauseAllGameSounds = function() {
+        // Pausar música de fondo
+        if (window.pauseBackgroundMusic) window.pauseBackgroundMusic();
+
+        // Pausar todos los audios activos en los pools
+        Object.keys(audioPools).forEach(poolName => {
+            if (audioPools[poolName]) {
+                audioPools[poolName].forEach((audio) => {
+                    try {
+                        if (!audio.paused) {
+                            audio.pause();
+                        }
+                    } catch(e) {}
+                });
+            }
+        });
+    };
+
+    // Función para REANUDAR todos los sonidos del juego pausados
+    window.resumeAllGameSounds = function() {
+        if (typeof window.soundEnabled !== 'undefined' && !window.soundEnabled) return;
+
+        // Reanudar música de fondo
+        if (window.resumeBackgroundMusic) window.resumeBackgroundMusic();
+
+        // Los sonidos SFX de pools NO se reanudan — son efímeros y es mejor
+        // que solo reanude la música de fondo. Los SFX se generan de nuevo
+        // naturalmente al continuar el gameloop.
     };
 
     function installHooksOnce() {

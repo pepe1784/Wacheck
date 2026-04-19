@@ -10,7 +10,7 @@
 
     // Helper: wrap SVG content in a standard container
     function svg(inner, vb) {
-        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${vb || S} ${vb || S}" width="100%" height="100%" style="display:block">${inner}</svg>`;
+        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${vb || S} ${vb || S}" width="1em" height="1em" style="display:block">${inner}</svg>`;
     }
 
     // ── DEFENDER SPRITES ──────────────────────────────────────
