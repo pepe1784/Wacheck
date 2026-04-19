@@ -125,72 +125,23 @@ function sendVerificationEmail($email, $username, $token) {
     </html>
     ";
     
-    // Configurar headers
-    $headers = [
-        'MIME-Version: 1.0',
-        'Content-type: text/html; charset=UTF-8',
-        "From: $smtpFromName <$smtpFromEmail>",
-        "Reply-To: $smtpFromEmail"
-    ];
+    // Configurar headers para mail()
+    $headers  = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-type: text/html; charset=UTF-8\r\n";
+    $headers .= "From: $smtpFromName <$smtpFromEmail>\r\n";
+    $headers .= "Reply-To: $smtpFromEmail\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion();
     
-    // Intentar enviar con SMTP usando fsockopen
+    // Usar mail() nativo — compatible con InfinityFree y shared hosting
+    // fsockopen a SMTP externo está bloqueado en la mayoría de hostings gratuitos
     try {
-        $socket = fsockopen($smtpHost, $smtpPort, $errno, $errstr, 30);
+        $sent = @mail($email, $subject, $htmlMessage, $headers);
         
-        if (!$socket) {
-            error_log("ERROR SMTP: No se pudo conectar - $errstr ($errno)");
+        if (!$sent) {
+            error_log("ERROR mail(): No se pudo enviar email a $email");
             return false;
         }
         
-        // Función helper para leer respuesta
-        $getResponse = function() use ($socket) {
-            $response = '';
-            while ($str = fgets($socket, 515)) {
-                $response .= $str;
-                if (substr($str, 3, 1) == ' ') break;
-            }
-            return $response;
-        };
-        
-        // Función helper para enviar comando
-        $sendCommand = function($command) use ($socket, $getResponse) {
-            fwrite($socket, $command . "\r\n");
-            return $getResponse();
-        };
-        
-        // Conexión SMTP
-        $getResponse(); // Banner inicial
-        $sendCommand("EHLO $smtpHost");
-        $sendCommand("STARTTLS");
-        
-        // Actualizar a TLS
-        stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
-        
-        $sendCommand("EHLO $smtpHost");
-        $sendCommand("AUTH LOGIN");
-        $sendCommand(base64_encode($smtpUsername));
-        $authResponse = $sendCommand(base64_encode($smtpPassword));
-        
-        // Verificar autenticación
-        if (strpos($authResponse, '235') === false) {
-            error_log("ERROR SMTP: Autenticación fallida");
-            fclose($socket);
-            return false;
-        }
-        
-        // Enviar email
-        $sendCommand("MAIL FROM: <$smtpFromEmail>");
-        $sendCommand("RCPT TO: <$email>");
-        $sendCommand("DATA");
-        
-        $emailData = "Subject: $subject\r\n";
-        $emailData .= implode("\r\n", $headers) . "\r\n\r\n";
-        $emailData .= $htmlMessage . "\r\n.\r\n";
-        
-        $sendCommand($emailData);
-        $sendCommand("QUIT");
-        
-        fclose($socket);
         return true;
         
     } catch (Exception $e) {
@@ -234,21 +185,26 @@ class Database {
     }
     
     /**
-     * Log de errores
+     * Log de errores — compatible con shared hosting
      */
     private static function logError($message) {
-        $logFile = EnvLoader::get('LOG_FILE', __DIR__ . '/../logs/api.log');
-        $logDir = dirname($logFile);
-        
-        if (!is_dir($logDir)) {
-            mkdir($logDir, 0755, true);
-        }
+        $logFile = EnvLoader::get('LOG_FILE', '');
         
         $timestamp = date('Y-m-d H:i:s');
         $ip = Security::getClientIP();
-        $logMessage = "[$timestamp] [$ip] $message" . PHP_EOL;
+        $logMessage = "[$timestamp] [$ip] $message";
         
-        error_log($logMessage, 3, $logFile);
+        // Intentar log a archivo custom, si falla usar error_log por defecto
+        if (!empty($logFile)) {
+            $logDir = dirname($logFile);
+            if (is_dir($logDir) || @mkdir($logDir, 0755, true)) {
+                @error_log($logMessage . PHP_EOL, 3, $logFile);
+                return;
+            }
+        }
+        
+        // Fallback: log del sistema (funciona siempre en shared hosting)
+        error_log("[Wacheck] $logMessage");
     }
 }
 

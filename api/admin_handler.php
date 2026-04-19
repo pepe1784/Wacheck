@@ -72,7 +72,7 @@ function getDB() {
     $host = EnvLoader::get('DB_HOST');
     $dbname = EnvLoader::get('DB_NAME');
     $user = EnvLoader::get('DB_USER');
-    $pass = EnvLoader::get('DB_PASSWORD');
+    $pass = EnvLoader::get('DB_PASS');
 
     $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
     $options = [

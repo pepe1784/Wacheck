@@ -4,14 +4,12 @@
 error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 ini_set('display_errors', 0);
 
-// CORS restringido
+// CORS — leer orígenes permitidos desde .env o usar defaults
+require_once __DIR__ . '/EnvLoader.php';
+EnvLoader::load(__DIR__ . '/.env');
+
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-$allowedOrigins = [
-    'http://localhost',
-    'http://127.0.0.1',
-    'http://localhost:5500',
-    'http://127.0.0.1:5500'
-];
+$allowedOrigins = array_map('trim', explode(',', EnvLoader::get('CORS_ALLOWED_ORIGINS', 'http://localhost,http://127.0.0.1')));
 if ($origin && in_array($origin, $allowedOrigins, true)) {
     header('Access-Control-Allow-Origin: ' . $origin);
     header('Vary: Origin');
@@ -115,15 +113,15 @@ try {
             echo json_encode(['success' => false, 'error' => 'Imagen demasiado grande (límite 5MB)']);
             exit;
         }
-        if ($fileType === 'audio' && $size > 15 * 1024 * 1024) { // 15 MB
+        if ($fileType === 'audio' && $size > 10 * 1024 * 1024) { // 10 MB (límite InfinityFree)
             http_response_code(413);
-            echo json_encode(['success' => false, 'error' => 'Audio demasiado grande (límite 15MB)']);
+            echo json_encode(['success' => false, 'error' => 'Audio demasiado grande (límite 10MB)']);
             exit;
         }
 
         // Crear carpeta si no existe
         if (!file_exists($uploadDir)) {
-            if (!mkdir($uploadDir, 0777, true)) {
+            if (!mkdir($uploadDir, 0755, true)) {
                 http_response_code(500);
                 echo json_encode(['success' => false, 'error' => 'No se pudo crear la carpeta de destino']);
                 exit;

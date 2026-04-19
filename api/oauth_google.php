@@ -178,6 +178,7 @@ safe_redirect('../index.html#google_auth=' . urlencode($encoded));
 
 /**
  * Intercambia el authorization code por tokens.
+ * Usa cURL si está disponible (InfinityFree bloquea allow_url_fopen).
  */
 function oauth_token_exchange(string $code, string $clientId, string $secret, string $redirectUri): ?array {
     $postData = http_build_query([
@@ -188,6 +189,30 @@ function oauth_token_exchange(string $code, string $clientId, string $secret, st
         'grant_type'    => 'authorization_code',
     ], '', '&', PHP_QUERY_RFC3986);
 
+    $url = 'https://oauth2.googleapis.com/token';
+
+    // Preferir cURL (funciona en InfinityFree)
+    if (function_exists('curl_init')) {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $postData,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 10,
+            CURLOPT_HTTPHEADER     => ['Content-Type: application/x-www-form-urlencoded'],
+            CURLOPT_SSL_VERIFYPEER => true,
+        ]);
+        $result = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+        if ($result === false) {
+            error_log('[OAuth] cURL token error: ' . $err);
+            return null;
+        }
+        return json_decode($result, true);
+    }
+
+    // Fallback: file_get_contents (si allow_url_fopen está habilitado)
     $ctx = stream_context_create([
         'http' => [
             'method'  => 'POST',
@@ -198,7 +223,7 @@ function oauth_token_exchange(string $code, string $clientId, string $secret, st
         'ssl' => ['verify_peer' => true]
     ]);
 
-    $result = @file_get_contents('https://oauth2.googleapis.com/token', false, $ctx);
+    $result = @file_get_contents($url, false, $ctx);
     if ($result === false) return null;
 
     return json_decode($result, true);
@@ -206,8 +231,31 @@ function oauth_token_exchange(string $code, string $clientId, string $secret, st
 
 /**
  * Obtiene el perfil del usuario usando el access_token.
+ * Usa cURL si está disponible.
  */
 function oauth_get_profile(string $accessToken): ?array {
+    $url = 'https://www.googleapis.com/oauth2/v2/userinfo';
+
+    // Preferir cURL
+    if (function_exists('curl_init')) {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 10,
+            CURLOPT_HTTPHEADER     => ['Authorization: Bearer ' . $accessToken],
+            CURLOPT_SSL_VERIFYPEER => true,
+        ]);
+        $result = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+        if ($result === false) {
+            error_log('[OAuth] cURL profile error: ' . $err);
+            return null;
+        }
+        return json_decode($result, true);
+    }
+
+    // Fallback: file_get_contents
     $ctx = stream_context_create([
         'http' => [
             'method'  => 'GET',
@@ -217,7 +265,7 @@ function oauth_get_profile(string $accessToken): ?array {
         'ssl' => ['verify_peer' => true]
     ]);
 
-    $result = @file_get_contents('https://www.googleapis.com/oauth2/v2/userinfo', false, $ctx);
+    $result = @file_get_contents($url, false, $ctx);
     if ($result === false) return null;
 
     return json_decode($result, true);
