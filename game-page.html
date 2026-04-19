@@ -9,9 +9,13 @@
     <link rel="stylesheet" href="css/landing.css">
     <link rel="stylesheet" href="css/game-page.css">
     <link rel="shortcut icon" href="./img/vaporeon.jpg" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0891b2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <script src="js/lucide.min.js"></script>
 </head>
-<body>
+<body class="game-page-body">
     <script>
     // Sync theme from localStorage (set on index.html)
     (function(){
@@ -257,6 +261,12 @@
                 });
             });
         });
+    </script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js')
+            .catch(err => console.warn('[SW] Registration failed:', err));
+    }
     </script>
 </body>
 </html>

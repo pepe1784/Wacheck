@@ -731,8 +731,10 @@ window.playGameSound = playGameSound;
 // Cuando el usuario ya tiene soundEnabled=true y navega a game.php,
 // el AudioContext puede estar bloqueado. Este código lo resume en
 // la primera interacción y arranca la música de fondo automáticamente.
+// SOLO activa la música de fondo en páginas de juego (game-page.html, game.php).
 (function() {
     var autoPlayDone = false;
+    var isGamePage = /game[-_]?page|game\.php/i.test(window.location.pathname);
 
     function onFirstInteraction() {
         if (autoPlayDone) return;
@@ -749,8 +751,8 @@ window.playGameSound = playGameSound;
             }
         }
 
-        // Start background music if sound is enabled
-        if (window.soundEnabled) {
+        // Start background music ONLY on game pages
+        if (isGamePage && window.soundEnabled) {
             window.playBackgroundMusic();
         }
 
@@ -766,6 +768,24 @@ window.playGameSound = playGameSound;
         document.addEventListener('touchstart', onFirstInteraction, true);
         document.addEventListener('keydown', onFirstInteraction, true);
     }
+
+    // Stop music when navigating away from game page
+    window.addEventListener('pagehide', function() {
+        if (window.stopBackgroundMusic) window.stopBackgroundMusic();
+    });
+    window.addEventListener('beforeunload', function() {
+        if (window.stopBackgroundMusic) window.stopBackgroundMusic();
+    });   document.addEventListener('touchstart', onFirstInteraction, true);
+        document.addEventListener('keydown', onFirstInteraction, true);
+    }
+
+    // Stop music when navigating away from game page
+    window.addEventListener('pagehide', function() {
+        if (window.stopBackgroundMusic) window.stopBackgroundMusic();
+    });
+    window.addEventListener('beforeunload', function() {
+        if (window.stopBackgroundMusic) window.stopBackgroundMusic();
+    });
 })();
 
 // ====================================

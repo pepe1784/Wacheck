@@ -2,6 +2,23 @@
    Game Page Styles
    ========================================== */
 
+/* Disable text selection for native app feel */
+.game-page-body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+}
+
+.game-page-body input,
+.game-page-body textarea {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
 /* Game Header */
 .game-header {
     position: sticky;

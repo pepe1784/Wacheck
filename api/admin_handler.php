@@ -249,9 +249,9 @@ switch ($action) {
         echo json_encode(['success' => true, 'message' => 'Usuario eliminado']);
         break;
 
-    // ---- LISTAR DEFENSORES (CONFIGURACIÓN) ----
+    // ---- LISTAR DEFENSORES (CONFIGURACIÓN) ---- (público: el juego lo necesita)
     case 'list_defenders':
-        requireAdmin();
+        // No requireAdmin: endpoint de lectura pública para el juego
         $pdo = getDB();
         $stmt = $pdo->query("SELECT * FROM game_defenders ORDER BY cost ASC");
         echo json_encode(['success' => true, 'defenders' => $stmt->fetchAll()]);
@@ -309,9 +309,9 @@ switch ($action) {
         echo json_encode(['success' => true, 'message' => 'Defensor eliminado']);
         break;
 
-    // ---- LISTAR CONTAMINANTES ----
+    // ---- LISTAR CONTAMINANTES ---- (público: el juego lo necesita)
     case 'list_contaminants':
-        requireAdmin();
+        // No requireAdmin: endpoint de lectura pública para el juego
         $pdo = getDB();
         $stmt = $pdo->query("SELECT * FROM game_contaminants ORDER BY health ASC");
         echo json_encode(['success' => true, 'contaminants' => $stmt->fetchAll()]);

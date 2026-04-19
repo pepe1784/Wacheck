@@ -11,7 +11,7 @@
     <meta property="og:description" content="Protege el agua. Defiende la Tierra. Juega y aprende.">
     <meta property="og:image" content="img/hero-banner.jpg">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="img/icon-192.png">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
     <link rel="icon" type="image/png" href="img/vaporeon.png">
     <title>Wacheck – Defensores del Agua | Universidad de Colima</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1009,11 +1009,30 @@ window.addEventListener('beforeinstallprompt', e => {
     }
 });
 
+function installPWA() {
+    if (!pwaInstallPrompt) return;
+    pwaInstallPrompt.prompt();
+    pwaInstallPrompt.userChoice.then(result => {
+        if (result.outcome === 'accepted') {
+            console.log('[PWA] App installed');
+        }
+        pwaInstallPrompt = null;
+        const banner = document.getElementById('pwaBanner');
+        if (banner) banner.style.display = 'none';
+    });
+}
+
 function dismissPWA() {
     localStorage.setItem('pwa_dismissed', '1');
     const banner = document.getElementById('pwaBanner');
     if (banner) banner.style.display = 'none';
 }
+
+window.addEventListener('appinstalled', () => {
+    pwaInstallPrompt = null;
+    const banner = document.getElementById('pwaBanner');
+    if (banner) banner.style.display = 'none';
+});
 
 // ===== Init Lucide Icons =====
 document.addEventListener('DOMContentLoaded', () => {
@@ -1148,6 +1167,21 @@ function toggleVolume() {
             </div>
         
     
+
+    <!-- PWA Install Banner -->
+    <div id="pwaBanner" class="pwa-install-banner" style="display:none;" role="alert">
+        <div class="pwa-install-content">
+            <img src="img/vaporeon.png" alt="Wacheck" class="pwa-install-icon" width="48" height="48">
+            <div class="pwa-install-text">
+                <strong>Instalar Wacheck</strong>
+                <span>Juega sin navegador, como app nativa</span>
+            </div>
+        </div>
+        <div class="pwa-install-actions">
+            <button class="pwa-install-btn" id="pwaInstallBtn" onclick="installPWA()">Instalar</button>
+            <button class="pwa-dismiss-btn" onclick="dismissPWA()" aria-label="Cerrar">&times;</button>
+        </div>
+    </div>
 
     <script src="js/lucide.min.js"></script>
     <script src="js/landing.js"></script>

@@ -3,7 +3,7 @@
 // Estrategia: Cache-First para assets, Network-First para API
 // ============================================================
 
-const CACHE_VERSION = 'wacheck-v5.1.0';
+const CACHE_VERSION = 'wacheck-v5.2.0';
 const API_CACHE   = 'wacheck-api-v5';
 
 const STATIC_ASSETS = [
@@ -83,7 +83,7 @@ self.addEventListener('fetch', event => {
   // NOTA: JS y CSS se sirven con URL versionada (?v=X), así que
   // Cache-First no aplica — siempre se obtiene versión fresca.
   if (
-    url.pathname.match(/\.(png|jpg|jpeg|svg|webp|ico|woff2?|mp3|wav|ogg)$/)
+    url.pathname.match(/\.(png|jpg|jpeg|svg|webp|ico|woff2?|mp3|wav|ogg|glb|gltf)$/)
   ) {
     event.respondWith(
       caches.match(event.request).then(cached => {
@@ -94,6 +94,8 @@ self.addEventListener('fetch', event => {
             caches.open(CACHE_VERSION).then(c => c.put(event.request, clone));
           }
           return response;
+        }).catch(() => {
+          return new Response('', { status: 404, statusText: 'Not Found' });
         });
       })
     );

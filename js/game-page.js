@@ -340,7 +340,7 @@ function renderDefenders() {
         
         const defDataGP = window.allDefenderTypes && window.allDefenderTypes[defender.id];
         const defImage = (defDataGP && defDataGP.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`;
-        const gpIconHTML = `<img src="${defImage}" alt="${defender.name}" style="width:40px;height:40px;object-fit:contain;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.defender('${defender.id}') : '${defender.name.charAt(0)}';">`;
+        const gpIconHTML = `<img src="${defImage}" alt="${defender.name}" loading="lazy" style="width:40px;height:40px;object-fit:contain;background:#1e293b;border-radius:6px;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.defender('${defender.id}') : '${defender.name.charAt(0)}';">`;
         card.innerHTML = `
             <div class="defender-header">
                 <div class="defender-icon">${gpIconHTML}</div>
@@ -630,7 +630,7 @@ function renderShopItems(filter = 'all') {
         
         const defDataShop = window.allDefenderTypes && window.allDefenderTypes[defender.id];
         const shopImage = (defDataShop && defDataShop.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`;
-        const shopIconImg = `<img src="${shopImage}" alt="${defender.name}" style="width:64px;height:64px;object-fit:contain;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.defender('${defender.id}') : '${defender.name.charAt(0)}';">`;
+        const shopIconImg = `<img src="${shopImage}" alt="${defender.name}" loading="lazy" style="width:64px;height:64px;object-fit:contain;background:#1e293b;border-radius:8px;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.defender('${defender.id}') : '${defender.name.charAt(0)}';">`;
         card.innerHTML = `
             <div class="shop-item-header">
                 <div class="defender-icon" style="width: 64px; height: 64px; margin: 0;">${shopIconImg}</div>
@@ -739,7 +739,7 @@ function loadGameStats() {
                 document.getElementById('runes').textContent = userRunes || 0;
             }
 
-            console.log(' Game stats loaded:', user);
+            // console.log(' Game stats loaded:', user);
         }
     } catch (error) {
         console.error('Error loading game stats:', error);
@@ -775,8 +775,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSelectedSlots();
     loadGameStats();
     
-    // Recargar stats cada 2 segundos
-    setInterval(loadGameStats, 2000);
+    // Recargar stats cada 10 segundos (evita spam de consola)
+    setInterval(loadGameStats, 10000);
     
     console.log(' Game page initialized');
 });
