@@ -775,16 +775,6 @@ window.playGameSound = playGameSound;
     });
     window.addEventListener('beforeunload', function() {
         if (window.stopBackgroundMusic) window.stopBackgroundMusic();
-    });   document.addEventListener('touchstart', onFirstInteraction, true);
-        document.addEventListener('keydown', onFirstInteraction, true);
-    }
-
-    // Stop music when navigating away from game page
-    window.addEventListener('pagehide', function() {
-        if (window.stopBackgroundMusic) window.stopBackgroundMusic();
-    });
-    window.addEventListener('beforeunload', function() {
-        if (window.stopBackgroundMusic) window.stopBackgroundMusic();
     });
 })();
 
