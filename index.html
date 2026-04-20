@@ -2,7 +2,6 @@
 <html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://accounts.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://lh3.googleusercontent.com; connect-src 'self' https://accounts.google.com;">
     <meta name="description" content="Wacheck: juego educativo tipo Tower Defense sobre protección del agua. Bachillerato 25, Universidad de Colima.">
     <meta name="theme-color" content="#0891b2">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,6 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/landing.css">
     <link rel="stylesheet" href="css/auth-modal.css">
+    <script>if(location.hostname!=='localhost'&&location.hostname!=='127.0.0.1'){const _n=()=>{};console.log=console.debug=console.info=_n;}</script>
     <script src="anti-cheat.js" defer=""></script>
     <script src="daily-rewards-modal.js" defer=""></script>
     <script src="guest-user-manager.js" defer=""></script>
@@ -69,7 +69,7 @@
                 <button class="nav-icon-btn" onclick="toggleTheme()" title="Tema" aria-label="Cambiar tema">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="moon" aria-hidden="true" class="lucide lucide-moon"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg>
                 </button>
-                <button class="nav-cta" id="navLoginBtn" style="background: linear-gradient(135deg, rgb(5, 150, 105) 0%, rgb(4, 120, 87) 100%);"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span class="nav-user-name">Fabian</span></button>
+                <button class="nav-cta" id="navLoginBtn" style="background: linear-gradient(135deg, rgb(5, 150, 105) 0%, rgb(4, 120, 87) 100%);"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span class="nav-user-name">Usuario</span></button>
             </nav>
 
             <!-- Mobile hamburger -->
@@ -88,7 +88,7 @@
             <a href="#bachillerato" class="nav-mobile-link">Bachillerato 25</a>
             <a href="#calculadora" class="nav-mobile-link">Calculadora</a>
                 <a href="#recompensas" class="nav-mobile-link">Recompensas</a>
-            <button class="nav-mobile-cta" style="background: linear-gradient(135deg, rgb(5, 150, 105) 0%, rgb(4, 120, 87) 100%);"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span class="nav-user-name">Fabian</span></button>
+            <button class="nav-mobile-cta" style="background: linear-gradient(135deg, rgb(5, 150, 105) 0%, rgb(4, 120, 87) 100%);"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg><span class="nav-user-name">Usuario</span></button>
         </div>
     </header>
 
@@ -154,7 +154,7 @@
                     <div class="settings-section">
                         <h3 class="settings-section-title">Apodo</h3>
                         <p class="settings-section-desc">Nombre corto que aparece en la barra de navegación</p>
-                        <input type="text" class="settings-input" id="settingsNickname" placeholder="Ej: Fabian" maxlength="20">
+                        <input type="text" class="settings-input" id="settingsNickname" placeholder="Ej: Usuario" maxlength="20">
                         <button class="settings-btn" id="settingsSaveNickname">Guardar apodo</button>
                         <p class="settings-msg" id="settingsNicknameMsg"></p>
                     </div>

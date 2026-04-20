@@ -3,7 +3,7 @@
 // Estrategia: Cache-First para assets, Network-First para API
 // ============================================================
 
-const CACHE_VERSION = 'wacheck-v5.2.0';
+const CACHE_VERSION = 'wacheck-v5.3.0';
 const API_CACHE   = 'wacheck-api-v5';
 
 const STATIC_ASSETS = [
@@ -62,6 +62,9 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
+  // Ignorar peticiones cross-origin (avatares de Google, CDNs externos, etc.)
+  if (url.origin !== self.location.origin) return;
+
   // No cachear peticiones a la API, admin, ni archivos sensibles
   if (url.pathname.includes('/api/') || url.pathname.includes('/admin/')) {
     // Network-only para API
@@ -112,7 +115,7 @@ self.addEventListener('fetch', event => {
         }
         return response;
       })
-      .catch(() => caches.match(event.request))
+      .catch(() => caches.match(event.request).then(cached => cached || new Response('', { status: 503 })))
   );
 });
 
