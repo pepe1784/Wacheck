@@ -106,6 +106,34 @@ function getDB() {
     return $pdo;
 }
 
+function normalizeDefenderKeyFromRow(array $row): string {
+    $rawKey = trim((string)($row['key'] ?? ''));
+    if ($rawKey !== '') return $rawKey;
+
+    $name = trim((string)($row['name'] ?? ''));
+    $nameMap = [
+        'Filtro' => 'filter',
+        'Planta' => 'plant',
+        'Reciclador' => 'recycler',
+        'Purificador' => 'cleaner',
+        'Chorro' => 'stream',
+        'Burbuja' => 'bubble',
+        'Viento' => 'wind',
+        'Tierra' => 'earth',
+    ];
+    if (isset($nameMap[$name])) return $nameMap[$name];
+
+    $clean = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $name);
+    if ($clean === false) $clean = $name;
+    $clean = strtolower(trim($clean));
+    $clean = preg_replace('/[^a-z0-9]+/', '-', $clean);
+    $clean = trim((string)$clean, '-');
+
+    if ($clean !== '') return $clean;
+
+    return 'defender-' . (int)($row['id'] ?? 0);
+}
+
 // === ROUTER ===
 switch ($action) {
 
@@ -264,7 +292,17 @@ switch ($action) {
         // No requireAdmin: endpoint de lectura pública para el juego
         $pdo = getDB();
         $stmt = $pdo->query("SELECT * FROM game_defenders ORDER BY cost ASC");
-        echo json_encode(['success' => true, 'defenders' => $stmt->fetchAll()]);
+        $rows = $stmt->fetchAll();
+
+        foreach ($rows as &$row) {
+            $row['key'] = normalizeDefenderKeyFromRow($row);
+            if (empty($row['image']) && !empty($row['icon_url'])) {
+                $row['image'] = $row['icon_url'];
+            }
+        }
+        unset($row);
+
+        echo json_encode(['success' => true, 'defenders' => $rows]);
         break;
 
     // ---- CREAR / ACTUALIZAR DEFENSOR ----
