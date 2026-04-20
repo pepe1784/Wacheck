@@ -23,7 +23,10 @@
             const res = await fetch('api/admin_handler.php?action=list_defenders', {
                 method: 'GET',
                 credentials: 'include',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Game-Client': 'wacheck-web'
+                }
             });
 
             if (!res.ok) throw new Error(`HTTP ${res.status}`);

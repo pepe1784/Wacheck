@@ -29,22 +29,32 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
                 console.debug = noop;
             }
 
-            // Elimina integrity+crossorigin del beacon inyectado por Cloudflare al edge
-            // (el appendChild override NO funciona para tags inline en el HTML)
+            // Guard para beacon de Cloudflare: quita attrs problemáticos y suprime error visual.
+            function sanitizeBeaconScript(node) {
+                if (!node || node.nodeType !== 1 || node.tagName !== 'SCRIPT') return;
+                if (!node.src || node.src.indexOf('static.cloudflareinsights.com') === -1) return;
+                node.removeAttribute('integrity');
+                node.removeAttribute('crossorigin');
+            }
+
             try {
+                document.querySelectorAll('script[src*="static.cloudflareinsights.com"]').forEach(sanitizeBeaconScript);
+
                 var _cfObs = new MutationObserver(function(muts) {
                     muts.forEach(function(m) {
-                        m.addedNodes.forEach(function(n) {
-                            if (n.nodeType === 1 && n.tagName === 'SCRIPT' &&
-                                n.src && n.src.indexOf('static.cloudflareinsights.com') !== -1) {
-                                n.removeAttribute('integrity');
-                                n.removeAttribute('crossorigin');
-                            }
-                        });
+                        m.addedNodes.forEach(sanitizeBeaconScript);
                     });
                 });
                 _cfObs.observe(document.documentElement, { childList: true, subtree: true });
-            } catch(e) {}
+
+                window.addEventListener('error', function(ev) {
+                    var t = ev && ev.target;
+                    if (t && t.tagName === 'SCRIPT' && t.src && t.src.indexOf('static.cloudflareinsights.com') !== -1) {
+                        ev.preventDefault();
+                        ev.stopImmediatePropagation();
+                    }
+                }, true);
+            } catch (e) {}
         })();
     </script>
     <title>Wacheck — Defensores del Agua Pura</title>
@@ -417,8 +427,8 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
 <script src="anti-cheat.js?v=18"></script>
 <script src="session-manager.js?v=18"></script>
 
-<!-- Módulos de datos (antes de script.js para que los globals estén disponibles) --><script src="js/game/sprites.js?v=18"></script><script src="js/game/config.js?v=18"></script>
-<script src="js/game/contaminants.js?v=18"></script>
+<!-- Módulos de datos (antes de script.js para que los globals estén disponibles) --><script src="js/game/sprites.js?v=18"></script><script src="js/game/config.js?v=19"></script>
+<script src="js/game/contaminants.js?v=19"></script>
 <script src="js/game/projectiles.js?v=18"></script>
 <script src="js/game/runtime-state.js?v=18"></script>
 <script src="js/game/ui.js?v=18"></script>
@@ -430,7 +440,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
 <script src="script.js?v=18"></script>
 
 <!-- Módulo de defensores: puede sobreescribir allDefenderTypes con datos del servidor -->
-<script src="js/game/defenders.js?v=18"></script>
+<script src="js/game/defenders.js?v=19"></script>
 
 <!-- Engine loop (después de script.js para que gameLoop ya esté definido) -->
 <script src="js/game/engine.js?v=18"></script>

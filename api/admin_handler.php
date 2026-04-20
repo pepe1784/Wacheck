@@ -27,7 +27,7 @@ if (in_array($origin, $allowedOrigins)) {
     header("Access-Control-Allow-Origin: $origin");
     header('Access-Control-Allow-Credentials: true');
     header('Access-Control-Allow-Methods: GET,POST,PUT,DELETE,OPTIONS');
-    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Admin-Token');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Admin-Token, X-Game-Client');
 }
 
 header('Content-Type: application/json; charset=utf-8');
@@ -44,6 +44,14 @@ $action = Security::sanitizeInput($_GET['action'] ?? '', 'string');
 $clientIP = Security::getClientIP();
 $publicReadActions = ['list_defenders', 'list_contaminants', 'get_game_config'];
 if (in_array($action, $publicReadActions, true)) {
+    $isProduction = strtolower(EnvLoader::get('APP_ENV', 'production')) === 'production';
+    $gameClientHeader = $_SERVER['HTTP_X_GAME_CLIENT'] ?? '';
+    if ($isProduction && $gameClientHeader !== 'wacheck-web') {
+        http_response_code(403);
+        echo json_encode(['error' => 'Forbidden']);
+        exit();
+    }
+
     // Endpoints usados continuamente por game.php/game-page.html
     if (!Security::checkRateLimit($clientIP . ':public', 1200, 3600)) {
         http_response_code(429);
