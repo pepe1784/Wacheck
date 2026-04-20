@@ -29,16 +29,22 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
                 console.debug = noop;
             }
 
-            // Evita errores CSP por beacon inyectado por Cloudflare Apps/Browser Insights.
-            const origAppendChild = Element.prototype.appendChild;
-            Element.prototype.appendChild = function(node) {
-                try {
-                    if (node && node.tagName === 'SCRIPT' && node.src && node.src.indexOf('static.cloudflareinsights.com/beacon.min.js') !== -1) {
-                        return node;
-                    }
-                } catch (e) {}
-                return origAppendChild.call(this, node);
-            };
+            // Elimina integrity+crossorigin del beacon inyectado por Cloudflare al edge
+            // (el appendChild override NO funciona para tags inline en el HTML)
+            try {
+                var _cfObs = new MutationObserver(function(muts) {
+                    muts.forEach(function(m) {
+                        m.addedNodes.forEach(function(n) {
+                            if (n.nodeType === 1 && n.tagName === 'SCRIPT' &&
+                                n.src && n.src.indexOf('static.cloudflareinsights.com') !== -1) {
+                                n.removeAttribute('integrity');
+                                n.removeAttribute('crossorigin');
+                            }
+                        });
+                    });
+                });
+                _cfObs.observe(document.documentElement, { childList: true, subtree: true });
+            } catch(e) {}
         })();
     </script>
     <title>Wacheck — Defensores del Agua Pura</title>
