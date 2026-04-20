@@ -19,6 +19,28 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0b7d2b">
+    <script>
+        (function () {
+            const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+            if (!isLocal) {
+                const noop = function() {};
+                console.log = noop;
+                console.info = noop;
+                console.debug = noop;
+            }
+
+            // Evita errores CSP por beacon inyectado por Cloudflare Apps/Browser Insights.
+            const origAppendChild = Element.prototype.appendChild;
+            Element.prototype.appendChild = function(node) {
+                try {
+                    if (node && node.tagName === 'SCRIPT' && node.src && node.src.indexOf('static.cloudflareinsights.com/beacon.min.js') !== -1) {
+                        return node;
+                    }
+                } catch (e) {}
+                return origAppendChild.call(this, node);
+            };
+        })();
+    </script>
     <title>Wacheck — Defensores del Agua Pura</title>
     <link rel="shortcut icon" href="./img/vaporeon.jpg" type="image/x-icon">
     <link rel="stylesheet" href="css/main.css">

@@ -6,6 +6,14 @@
 (function () {
     'use strict';
 
+    function normalizeImagePath(imageValue, fallbackPath) {
+        const raw = (imageValue || '').toString().trim();
+        if (!raw) return fallbackPath;
+        if (/^https?:\/\//i.test(raw) || raw.startsWith('/')) return raw;
+        if (raw.startsWith('./')) return raw;
+        return `./${raw}`;
+    }
+
     // Datos base — mismos valores que tenía script.js
     const BASE_CONTAMINANTS = [
         { icon: 'Fabrica', image: './models/allContaminatorTypes/Fabrica/Fabrica.png', health: 60,   speed: 1.0, coins: 15, name: 'Fábrica' },
@@ -47,9 +55,10 @@
             if (data && Array.isArray(data.contaminants) && data.contaminants.length > 0) {
                 window.allContaminatorTypes = data.contaminants.map(c => {
                     const icon = c.icon || 'Nuclear';
+                    const fallbackImage = `./models/allContaminatorTypes/${icon}/${icon}.png`;
                     return {
                         icon:   icon,
-                        image:  `./models/allContaminatorTypes/${icon}/${icon}.png`,
+                        image:  normalizeImagePath(c.image, fallbackImage),
                         health: Number(c.health) || 100,
                         speed:  Number(c.speed)  || 1.0,
                         coins:  Number(c.coins)  || 20,

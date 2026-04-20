@@ -838,7 +838,12 @@ window.setMasterVolume = setMasterVolume;
 
 function initAudio() {
     if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextCtor) return;
+        audioContext = new AudioContextCtor();
+    }
+    if (audioContext && audioContext.state === 'suspended') {
+        audioContext.resume().catch(function() {});
     }
 }
 

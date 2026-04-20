@@ -496,6 +496,13 @@ function placeDefender(row, col) {
             img.style.width = '100%';
             img.style.height = '100%';
             img.style.objectFit = 'contain';
+            img.onerror = function() {
+                if (window.GameSprites) {
+                    defenderElement.innerHTML = window.GameSprites.defender(gameState.selectedDefender);
+                } else {
+                    defenderElement.textContent = defenderType.name.charAt(0);
+                }
+            };
             defenderElement.appendChild(img);
         } else if (window.GameSprites) {
             defenderElement.innerHTML = window.GameSprites.defender(gameState.selectedDefender);
@@ -740,6 +747,13 @@ function spawnContaminator() {
         img.style.width = '100%';
         img.style.height = '100%';
         img.style.objectFit = 'contain';
+        img.onerror = function() {
+            if (window.GameSprites) {
+                contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);
+            } else {
+                contaminatorElement.textContent = type.name.charAt(0);
+            }
+        };
         contaminatorElement.appendChild(img);
     } else if (window.GameSprites) {
         contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);

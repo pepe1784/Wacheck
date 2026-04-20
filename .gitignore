@@ -62,6 +62,7 @@ index.recovered.*
 *.recovered.*
 .playwright-mcp/
 css/landing_mcp.css
+wacheck.zip
 apk/WacheckAPK/Wacheck_APK_*.zip
 apk/WacheckAPK/wacheck-key-nuevo.jks
 apk/WacheckAPK/wacheck-release-key.jks

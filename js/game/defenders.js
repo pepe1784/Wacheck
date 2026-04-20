@@ -10,6 +10,14 @@
     // Indicador para que script.js sepa si ya fueron cargados por este módulo
     window._defendersLoadedFromAPI = false;
 
+    function normalizeImagePath(imageValue, fallbackPath) {
+        const raw = (imageValue || '').toString().trim();
+        if (!raw) return fallbackPath;
+        if (/^https?:\/\//i.test(raw) || raw.startsWith('/')) return raw;
+        if (raw.startsWith('./')) return raw;
+        return `./${raw}`;
+    }
+
     async function loadDefenders() {
         try {
             const res = await fetch('api/admin_handler.php?action=list_defenders', {
@@ -31,10 +39,11 @@
                 data.defenders.forEach(d => {
                     const id = d.id || d.key;
                     if (!id) return;
+                    const fallbackImage = `./models/allDefenderTypes/${id}/${id}.png`;
 
                     apiDefenders[id] = {
                         icon:           d.icon   || '',
-                        image:          `./models/allDefenderTypes/${id}/${id}.png`,
+                        image:          normalizeImagePath(d.image, fallbackImage),
                         name:           d.name   || id,
                         damage:         Number(d.damage)         || 25,
                         cost:           Number(d.cost)           || 50,
