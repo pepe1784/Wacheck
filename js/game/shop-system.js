@@ -7,6 +7,34 @@
 (function () {
     'use strict';
 
+    function createDefenderVisual(defenderId, defenderName, imageUrl) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'defender-icon';
+
+        if (window.GameSprites) {
+            wrapper.innerHTML = window.GameSprites.defender(defenderId);
+            return wrapper;
+        }
+
+        if (imageUrl) {
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = defenderName || defenderId;
+            img.className = 'defender-image';
+            img.style.width = '40px';
+            img.style.height = '40px';
+            img.style.objectFit = 'contain';
+            img.onerror = function() {
+                wrapper.textContent = (defenderName || defenderId || '?').charAt(0).toUpperCase();
+            };
+            wrapper.appendChild(img);
+            return wrapper;
+        }
+
+        wrapper.textContent = (defenderName || defenderId || '?').charAt(0).toUpperCase();
+        return wrapper;
+    }
+
     function unlockDefender(key) {
         const gs = window.gameState;
         const adt = window.allDefenderTypes;
@@ -127,15 +155,18 @@
             const mainCardArea = document.createElement('div');
             mainCardArea.className = 'defender-card-main';
 
-            const iconHTML = defender.image
-                ? `<img src="${defender.image}" alt="${defender.name}" class="defender-image" style="width: 40px; height: 40px; object-fit: contain;">`
-                : `<div class="defender-icon">${window.GameSprites ? window.GameSprites.defender(defenderId) : defenderData.name.charAt(0)}</div>`;
+            mainCardArea.appendChild(createDefenderVisual(defenderId, defenderData.name, defender.image));
 
-            mainCardArea.innerHTML = `
-                ${iconHTML}
-                <div class="defender-name">${defenderData.name}</div>
-                <div class="defender-cost">${defender.cost}</div>
-            `;
+            const nameEl = document.createElement('div');
+            nameEl.className = 'defender-name';
+            nameEl.textContent = defenderData.name;
+
+            const costEl = document.createElement('div');
+            costEl.className = 'defender-cost';
+            costEl.textContent = defender.cost;
+
+            mainCardArea.appendChild(nameEl);
+            mainCardArea.appendChild(costEl);
             card.appendChild(mainCardArea);
 
             if (defender.info) {

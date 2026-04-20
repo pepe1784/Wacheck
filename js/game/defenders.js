@@ -42,11 +42,11 @@
                 data.defenders.forEach(d => {
                     const id = (d.key || d.id || '').toString().trim();
                     if (!id) return;
-                    const fallbackImage = `./models/allDefenderTypes/${id}/${id}.png`;
+                    const explicitImage = (d.image || d.icon_url || '').toString().trim();
 
                     apiDefenders[id] = {
                         icon:           d.icon   || '',
-                        image:          normalizeImagePath(d.image || d.icon_url, fallbackImage),
+                        image:          explicitImage ? normalizeImagePath(explicitImage, '') : '',
                         name:           d.name   || id,
                         damage:         Number(d.damage)         || 25,
                         cost:           Number(d.cost)           || 50,

@@ -434,13 +434,13 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
 <script src="js/game/ui.js?v=18"></script>
 <script src="js/game/projectiles-service.js?v=18"></script>
 <script src="js/game/ui-system.js?v=18"></script>
-<script src="js/game/shop-system.js?v=18"></script>
+<script src="js/game/shop-system.js?v=19"></script>
 
 <!-- Motor principal — define allDefenderTypes hardcodeado (fallback) -->
 <script src="script.js?v=18"></script>
 
 <!-- Módulo de defensores: puede sobreescribir allDefenderTypes con datos del servidor -->
-<script src="js/game/defenders.js?v=19"></script>
+<script src="js/game/defenders.js?v=20"></script>
 
 <!-- Engine loop (después de script.js para que gameLoop ya esté definido) -->
 <script src="js/game/engine.js?v=18"></script>
