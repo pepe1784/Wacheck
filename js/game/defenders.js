@@ -37,13 +37,13 @@
                 const apiUnlockable = {};
 
                 data.defenders.forEach(d => {
-                    const id = d.id || d.key;
+                    const id = (d.key || d.id || '').toString().trim();
                     if (!id) return;
                     const fallbackImage = `./models/allDefenderTypes/${id}/${id}.png`;
 
                     apiDefenders[id] = {
                         icon:           d.icon   || '',
-                        image:          normalizeImagePath(d.image, fallbackImage),
+                        image:          normalizeImagePath(d.image || d.icon_url, fallbackImage),
                         name:           d.name   || id,
                         damage:         Number(d.damage)         || 25,
                         cost:           Number(d.cost)           || 50,

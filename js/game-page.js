@@ -176,9 +176,11 @@ function getDefenderCatalog() {
         return defenders;
     }
 
-    return Object.entries(window.allDefenderTypes).map(([id, data]) => {
-        const base = staticDefenderById[id] || {};
-        return {
+    const merged = new Map(defenders.map(d => [d.id, { ...d }]));
+
+    Object.entries(window.allDefenderTypes).forEach(([id, data]) => {
+        const base = merged.get(id) || staticDefenderById[id] || { id, emoji: id };
+        merged.set(id, {
             id,
             name: data.name || base.name || id,
             emoji: base.emoji || id,
@@ -188,8 +190,10 @@ function getDefenderCatalog() {
             health: Number(data.health ?? base.health ?? 80),
             range: Number(data.range ?? base.range ?? 4),
             description: data.info || data.description || base.description || 'Defensor especializado para proteger el agua.'
-        };
+        });
     });
+
+    return Array.from(merged.values());
 }
 
 function showGamePageDialog(title, message, type = 'info') {

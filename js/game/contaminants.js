@@ -14,6 +14,17 @@
         return `./${raw}`;
     }
 
+    function normalizeIconKey(value) {
+        const raw = (value || '').toString().trim();
+        if (!raw) return '';
+        return raw
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/\s+/g, '')
+            .replace(/^El/i, '')
+            .replace(/[^a-zA-Z0-9_-]/g, '');
+    }
+
     // Datos base — mismos valores que tenía script.js
     const BASE_CONTAMINANTS = [
         { icon: 'Fabrica', image: './models/allContaminatorTypes/Fabrica/Fabrica.png', health: 60,   speed: 1.0, coins: 15, name: 'Fábrica' },
@@ -54,11 +65,11 @@
 
             if (data && Array.isArray(data.contaminants) && data.contaminants.length > 0) {
                 window.allContaminatorTypes = data.contaminants.map(c => {
-                    const icon = c.icon || 'Nuclear';
+                    const icon = normalizeIconKey(c.icon || c.key || c.name) || 'Nuclear';
                     const fallbackImage = `./models/allContaminatorTypes/${icon}/${icon}.png`;
                     return {
                         icon:   icon,
-                        image:  normalizeImagePath(c.image, fallbackImage),
+                        image:  normalizeImagePath(c.image || c.icon_url, fallbackImage),
                         health: Number(c.health) || 100,
                         speed:  Number(c.speed)  || 1.0,
                         coins:  Number(c.coins)  || 20,
