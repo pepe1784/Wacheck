@@ -500,14 +500,14 @@ function placeDefender(row, col) {
                 if (window.GameSprites) {
                     defenderElement.innerHTML = window.GameSprites.defender(gameState.selectedDefender);
                 } else {
-                    defenderElement.textContent = defenderType.name.charAt(0);
+                    defenderElement.innerHTML = '<div class="defender-fallback-icon"></div>';
                 }
             };
             defenderElement.appendChild(img);
         } else if (window.GameSprites) {
             defenderElement.innerHTML = window.GameSprites.defender(gameState.selectedDefender);
         } else {
-            defenderElement.textContent = defenderType.name.charAt(0);
+            defenderElement.innerHTML = '<div class="defender-fallback-icon"></div>';
         }
 
         // Barra de salud del defensor
@@ -751,14 +751,14 @@ function spawnContaminator() {
             if (window.GameSprites) {
                 contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);
             } else {
-                contaminatorElement.textContent = type.name.charAt(0);
+                contaminatorElement.innerHTML = '<div class="contaminator-fallback-icon"></div>';
             }
         };
         contaminatorElement.appendChild(img);
     } else if (window.GameSprites) {
         contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);
     } else {
-        contaminatorElement.textContent = type.name.charAt(0);
+        contaminatorElement.innerHTML = '<div class="contaminator-fallback-icon"></div>';
     }
 
     const healthBar = document.createElement('div');
@@ -1906,7 +1906,18 @@ initializeSound(); // Cargar configuración de sonido
 try { initializeSession(); } catch(e) { console.warn('[Wacheck] session init error:', e); } // siempre continúa
 updateUnlockShop(); // Actualizar displays de monedas especiales
 requestAnimationFrame(gameLoop); // Iniciar con timestamp correcto — SIEMPRE debe ejecutarse
-if (window.soundEnabled) initAudio(); // Inicializar audio solo si está activado
+if (window.soundEnabled) {
+    // Evita warning de autoplay: inicializar/resumir audio solo tras gesto del usuario
+    const initOnGesture = () => {
+        initAudio();
+        document.removeEventListener('click', initOnGesture, true);
+        document.removeEventListener('touchstart', initOnGesture, true);
+        document.removeEventListener('keydown', initOnGesture, true);
+    };
+    document.addEventListener('click', initOnGesture, true);
+    document.addEventListener('touchstart', initOnGesture, true);
+    document.addEventListener('keydown', initOnGesture, true);
+}
 
 // ============================================
 // FUNCIONES DE CONTROL DE MENÚS

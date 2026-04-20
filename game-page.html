@@ -21,6 +21,17 @@
     (function(){
         var saved = localStorage.getItem('wacheck_theme');
         if (saved === 'light') document.body.classList.add('light-theme');
+
+        // Evita errores por beacon inyectado por Cloudflare Browser Insights
+        var originalAppendChild = Element.prototype.appendChild;
+        Element.prototype.appendChild = function(node) {
+            try {
+                if (node && node.tagName === 'SCRIPT' && node.src && node.src.indexOf('static.cloudflareinsights.com/beacon.min.js') !== -1) {
+                    return node;
+                }
+            } catch (e) {}
+            return originalAppendChild.call(this, node);
+        };
     })();
     </script>
     <!-- Top bar -->
@@ -235,6 +246,8 @@
     </script>
     <script src="achievements.js?v=10"></script>
     <script src="js/game/sprites.js?v=10"></script>
+    <script src="js/game/defenders.js?v=10"></script>
+    <script src="js/game/contaminants.js?v=10"></script>
     <script src="js/game-page.js?v=10"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {

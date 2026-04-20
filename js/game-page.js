@@ -160,6 +160,38 @@ const shopItems = [
 let selectedDefenders = [];
 let currentShopFilter = 'all';
 
+const basicDefenderIds = ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"];
+const staticDefenderById = Object.fromEntries(defenders.map(d => [d.id, d]));
+
+function inferCategory(def) {
+    if (def.category) return def.category;
+    if (Number(def.health || 0) >= 180) return 'tank';
+    if (Number(def.damage || 0) >= 45) return 'damage';
+    if (Number(def.cost || 0) <= 30) return 'low-cost';
+    return 'special';
+}
+
+function getDefenderCatalog() {
+    if (!window.allDefenderTypes || typeof window.allDefenderTypes !== 'object' || Object.keys(window.allDefenderTypes).length === 0) {
+        return defenders;
+    }
+
+    return Object.entries(window.allDefenderTypes).map(([id, data]) => {
+        const base = staticDefenderById[id] || {};
+        return {
+            id,
+            name: data.name || base.name || id,
+            emoji: base.emoji || id,
+            category: base.category || inferCategory(data),
+            cost: Number(data.cost ?? base.cost ?? 50),
+            damage: Number(data.damage ?? base.damage ?? 20),
+            health: Number(data.health ?? base.health ?? 80),
+            range: Number(data.range ?? base.range ?? 4),
+            description: data.info || data.description || base.description || 'Defensor especializado para proteger el agua.'
+        };
+    });
+}
+
 function showGamePageDialog(title, message, type = 'info') {
     let overlay = document.getElementById('gamePageDialogOverlay');
     if (!overlay) {
@@ -306,9 +338,10 @@ if (initialTab && ['jugar', 'historia', 'tutorial', 'tienda', 'mejoras', 'logros
 function renderDefenders() {
     const grid = document.getElementById('defendersGrid');
     grid.innerHTML = '';
+    const catalog = getDefenderCatalog();
     
     // Defensores básicos SIEMPRE disponibles
-    const basicDefenders = ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"];
+    const basicDefenders = basicDefenderIds;
     
     // Obtener defensores adicionales desbloqueados del usuario
     let unlockedDefenders = [...basicDefenders]; // Siempre incluir los básicos
@@ -324,7 +357,7 @@ function renderDefenders() {
     }
     
     // Filtrar solo defensores disponibles
-    const availableDefenders = defenders.filter(d => unlockedDefenders.includes(d.id));
+    const availableDefenders = catalog.filter(d => unlockedDefenders.includes(d.id));
     
     if (availableDefenders.length === 0) {
         grid.innerHTML = '<div style="text-align: center; padding: 40px; color: #999; font-size: 18px;">No tienes defensores desbloqueados. ¡Visita la tienda para desbloquear algunos! </div>';
@@ -340,7 +373,7 @@ function renderDefenders() {
         
         const defDataGP = window.allDefenderTypes && window.allDefenderTypes[defender.id];
         const defImage = (defDataGP && defDataGP.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`;
-        const gpIconHTML = `<img src="${defImage}" alt="${defender.name}" loading="lazy" style="width:40px;height:40px;object-fit:contain;background:#1e293b;border-radius:6px;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.defender('${defender.id}') : '${defender.name.charAt(0)}';">`;
+        const gpIconHTML = `<img src="${defImage}" alt="${defender.name}" loading="lazy" style="width:40px;height:40px;object-fit:contain;background:#1e293b;border-radius:6px;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.defender('${defender.id}') : '';">`;
         card.innerHTML = `
             <div class="defender-header">
                 <div class="defender-icon">${gpIconHTML}</div>
@@ -415,6 +448,7 @@ function updateSelectedSlots() {
     const slots = document.querySelectorAll('.defender-slot');
     const countElement = document.getElementById('selected-count');
     const startButton = document.getElementById('startGameButton');
+    const catalog = getDefenderCatalog();
     
     countElement.textContent = selectedDefenders.length;
     
@@ -437,10 +471,17 @@ function updateSelectedSlots() {
         slot.style.cursor = 'default';
         
         if (selectedDefenders[index]) {
-            const defender = defenders.find(d => d.id === selectedDefenders[index]);
+            const defender = catalog.find(d => d.id === selectedDefenders[index]);
+            if (!defender) {
+                slot.textContent = '?';
+                slot.classList.add('empty');
+                slot.classList.remove('filled');
+                slot.title = 'Slot vacío';
+                return;
+            }
             const defDataSlot = window.allDefenderTypes && window.allDefenderTypes[defender.id];
             const slotImage = (defDataSlot && defDataSlot.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`;
-            const slotIconHTML = `<img src="${slotImage}" alt="${defender.name}" style="width:100%;height:100%;object-fit:contain;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.defender('${defender.id}') : '${defender.name.charAt(0)}';">`;
+            const slotIconHTML = `<img src="${slotImage}" alt="${defender.name}" style="width:100%;height:100%;object-fit:contain;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.defender('${defender.id}') : '';">`;
             slot.innerHTML = slotIconHTML;
             slot.classList.remove('empty');
             slot.classList.add('filled');
@@ -595,7 +636,8 @@ function renderShopItems(filter = 'all') {
     console.log(' Rendering shop with filter:', filter);
     container.innerHTML = '';
     
-    const basicDefenders = ["filter", "plant", "recycler", "cleaner", "stream", "bubble", "wind", "earth"];
+    const basicDefenders = basicDefenderIds;
+    const catalog = getDefenderCatalog();
     
     // Obtener defensores desbloqueados del usuario
     let unlockedDefenders = [...basicDefenders];
@@ -612,9 +654,9 @@ function renderShopItems(filter = 'all') {
         console.error('Error loading user data:', error);
     }
     
-    const filteredItems = filter === 'all' 
-        ? defenders 
-        : defenders.filter(defender => defender.category === filter);
+    const filteredItems = filter === 'all'
+        ? catalog
+        : catalog.filter(defender => defender.category === filter);
     
     if (filteredItems.length === 0) {
         container.innerHTML = '<p style="text-align: center; color: var(--color-muted-foreground);">No hay defensores en esta categoría</p>';
@@ -630,7 +672,7 @@ function renderShopItems(filter = 'all') {
         
         const defDataShop = window.allDefenderTypes && window.allDefenderTypes[defender.id];
         const shopImage = (defDataShop && defDataShop.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`;
-        const shopIconImg = `<img src="${shopImage}" alt="${defender.name}" loading="lazy" style="width:64px;height:64px;object-fit:contain;background:#1e293b;border-radius:8px;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.defender('${defender.id}') : '${defender.name.charAt(0)}';">`;
+        const shopIconImg = `<img src="${shopImage}" alt="${defender.name}" loading="lazy" style="width:64px;height:64px;object-fit:contain;background:#1e293b;border-radius:8px;" onerror="this.outerHTML = window.GameSprites ? window.GameSprites.defender('${defender.id}') : '';">`;
         card.innerHTML = `
             <div class="shop-item-header">
                 <div class="defender-icon" style="width: 64px; height: 64px; margin: 0;">${shopIconImg}</div>
@@ -669,7 +711,7 @@ function renderShopItems(filter = 'all') {
 }
 
 function buyShopItem(defenderId) {
-    const defender = defenders.find(d => d.id === defenderId);
+    const defender = getDefenderCatalog().find(d => d.id === defenderId);
     if (!defender) return;
 
     const currentCoins = parseInt(document.getElementById('coins').textContent) || 0;
@@ -777,6 +819,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Recargar stats cada 10 segundos (evita spam de consola)
     setInterval(loadGameStats, 10000);
+
+    window.addEventListener('wacheckDefendersReady', () => {
+        renderDefenders();
+        renderShopItems(currentShopFilter);
+        updateSelectedSlots();
+    });
+
+    window.addEventListener('wacheckContaminantsReady', () => {
+        renderStoryChapters();
+    });
     
     console.log(' Game page initialized');
 });
@@ -793,12 +845,13 @@ function loadSelectedDefenders() {
     if (saved) {
         try {
             const parsed = JSON.parse(saved);
+            const catalogIds = new Set(getDefenderCatalog().map(d => d.id));
             // Solo cargar defensores que existen actualmente
-            selectedDefenders = parsed.filter(id => defenders.some(d => d.id === id));
+            selectedDefenders = parsed.filter(id => catalogIds.has(id));
             
             // Si hay diferencia, actualizar localStorage
             if (selectedDefenders.length !== parsed.length) {
-                console.log(' Limpiando defensores inválidos:', parsed.filter(id => !defenders.some(d => d.id === id)));
+                console.log(' Limpiando defensores inválidos:', parsed.filter(id => !catalogIds.has(id)));
                 if (selectedDefenders.length === 0) {
                     localStorage.removeItem('wacheck-selected-defenders');
                 } else {

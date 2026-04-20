@@ -37,12 +37,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// Rate limiting estricto para admin
+// Acción solicitada (se usa para políticas de rate-limit diferenciadas)
+$action = Security::sanitizeInput($_GET['action'] ?? '', 'string');
+
+// Rate limiting: público relajado para endpoints del juego, estricto para admin
 $clientIP = Security::getClientIP();
-if (!Security::checkRateLimit($clientIP, 20, 3600)) { // 20 req/hora para admin
-    http_response_code(429);
-    echo json_encode(['error' => 'Too many requests']);
-    exit();
+$publicReadActions = ['list_defenders', 'list_contaminants', 'get_game_config'];
+if (in_array($action, $publicReadActions, true)) {
+    // Endpoints usados continuamente por game.php/game-page.html
+    if (!Security::checkRateLimit($clientIP . ':public', 1200, 3600)) {
+        http_response_code(429);
+        echo json_encode(['error' => 'Too many requests']);
+        exit();
+    }
+} else {
+    if (!Security::checkRateLimit($clientIP . ':admin', 20, 3600)) {
+        http_response_code(429);
+        echo json_encode(['error' => 'Too many requests']);
+        exit();
+    }
 }
 
 // === AUTENTICACIÓN DE ADMIN ===
@@ -92,9 +105,6 @@ function getDB() {
     }
     return $pdo;
 }
-
-// Validar y obtener acción de la request
-$action = Security::sanitizeInput($_GET['action'] ?? '', 'string');
 
 // === ROUTER ===
 switch ($action) {

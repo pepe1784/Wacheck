@@ -734,7 +734,7 @@ window.playGameSound = playGameSound;
 // SOLO activa la música de fondo en páginas de juego (game-page.html, game.php).
 (function() {
     var autoPlayDone = false;
-    var isGamePage = /game[-_]?page|game\.php/i.test(window.location.pathname);
+    var isGamePage = /game\.php$/i.test(window.location.pathname);
 
     function onFirstInteraction() {
         if (autoPlayDone) return;
