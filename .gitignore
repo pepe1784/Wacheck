@@ -73,3 +73,21 @@ apk/WacheckAPK/wacheck-release-key.jks
 # Carpetas pesadas innecesarias
 "Idea de diseño/"
 client/
+
+# Docker (solo para dev local, no necesario en Hostinger)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Scripts solo para desarrollo local
+*.bat
+restore-prod.bat
+dev-xampp.bat
+
+# Generadores de assets (scripts locales de build)
+generate-*.cjs
+generate-*.js
+
+# Archivos ZIP en todo el proyecto
+*.zip
+**/*.zip
