@@ -57,11 +57,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
+// Obtener acción pronto para aplicar rate-limit diferenciado
+$action = $_GET['action'] ?? $_POST['action'] ?? '';
+$action = Security::sanitizeInput($action, 'string');
+
 // ====================================
 // RATE LIMITING
 // ====================================
 $clientIP = Security::getClientIP();
-if (!Security::checkRateLimit($clientIP)) {
+$rateKey = $clientIP . ':' . $action;
+$maxRequests = null;
+$window = null;
+
+if ($action === 'save_progress') {
+    // save_progress se invoca muchas veces durante partida
+    $maxRequests = 2400;
+    $window = 3600;
+} elseif ($action === 'login' || $action === 'register' || $action === 'create_user') {
+    // auth sigue siendo más estricto
+    $maxRequests = 120;
+    $window = 3600;
+}
+
+if (!Security::checkRateLimit($rateKey, $maxRequests, $window)) {
     http_response_code(429);
     echo json_encode([
         'error' => 'Too many requests',
@@ -908,10 +926,6 @@ function deleteAccount($data) {
 try {
     // Inicializar BD si es necesario
     initDatabase();
-    
-    // Obtener acción
-    $action = $_GET['action'] ?? $_POST['action'] ?? '';
-    $action = Security::sanitizeInput($action, 'string');
     
     // Obtener datos del request
     $requestData = [];

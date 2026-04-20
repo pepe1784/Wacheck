@@ -488,8 +488,10 @@ function placeDefender(row, col) {
             defenderElement.classList.add('generator');
         }
 
-        // Determinar si usar imagen, SVG sprite o icono
-        if (defenderType.image) {
+        // Determinar si usar sprite SVG o imagen PNG
+        if (window.GameSprites) {
+            defenderElement.innerHTML = window.GameSprites.defender(gameState.selectedDefender);
+        } else if (defenderType.image) {
             const img = document.createElement('img');
             img.src = defenderType.image;
             img.alt = defenderType.name;
@@ -497,15 +499,9 @@ function placeDefender(row, col) {
             img.style.height = '100%';
             img.style.objectFit = 'contain';
             img.onerror = function() {
-                if (window.GameSprites) {
-                    defenderElement.innerHTML = window.GameSprites.defender(gameState.selectedDefender);
-                } else {
-                    defenderElement.innerHTML = '<div class="defender-fallback-icon"></div>';
-                }
+                defenderElement.innerHTML = '<div class="defender-fallback-icon"></div>';
             };
             defenderElement.appendChild(img);
-        } else if (window.GameSprites) {
-            defenderElement.innerHTML = window.GameSprites.defender(gameState.selectedDefender);
         } else {
             defenderElement.innerHTML = '<div class="defender-fallback-icon"></div>';
         }
@@ -739,8 +735,10 @@ function spawnContaminator() {
     const sizeMultiplier = type.isBoss ? 1.6 : 0.9;
     contaminatorElement.style.width = (cellSize.width * sizeMultiplier) + 'px';
     contaminatorElement.style.height = (cellSize.height * sizeMultiplier) + 'px';
-    // Determinar si usar imagen PNG, SVG sprite o texto
-    if (type.image) {
+    // Determinar si usar sprite SVG o imagen PNG
+    if (window.GameSprites) {
+        contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);
+    } else if (type.image) {
         const img = document.createElement('img');
         img.src = type.image;
         img.alt = type.name;
@@ -748,15 +746,9 @@ function spawnContaminator() {
         img.style.height = '100%';
         img.style.objectFit = 'contain';
         img.onerror = function() {
-            if (window.GameSprites) {
-                contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);
-            } else {
-                contaminatorElement.innerHTML = '<div class="contaminator-fallback-icon"></div>';
-            }
+            contaminatorElement.innerHTML = '<div class="contaminator-fallback-icon"></div>';
         };
         contaminatorElement.appendChild(img);
-    } else if (window.GameSprites) {
-        contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);
     } else {
         contaminatorElement.innerHTML = '<div class="contaminator-fallback-icon"></div>';
     }

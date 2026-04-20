@@ -231,23 +231,31 @@ async function saveProgressToServer() {
 // Función pública y segura para que otros módulos guarden el progreso del usuario.
 // Llamará a saveProgressToServer si existe, o hará un guardado local como fallback.
 function saveCurrentUserProgress() {
+    const MIN_SERVER_SAVE_INTERVAL_MS = 15000;
+    if (typeof window._lastServerSaveAt === 'undefined') window._lastServerSaveAt = 0;
+    if (typeof window._saveInFlight === 'undefined') window._saveInFlight = false;
+
     try {
         // Primero, SIEMPRE guardar localmente
         if (gameState && gameState.currentUser) {
             gameState.currentUser.specialCoins = gameState.specialCoins;
             gameState.currentUser.unlockedDefenders = gameState.unlockedDefenders;
             localStorage.setItem('wacheck_user', JSON.stringify(gameState.currentUser));
-            console.log(' Progreso guardado localmente:', {
-                specialCoins: gameState.specialCoins,
-                unlockedDefenders: gameState.unlockedDefenders
-            });
         }
         
         // Luego, intentar guardar en servidor si la función existe
         if (typeof saveProgressToServer === 'function') {
-            saveProgressToServer().catch(err => {
-                console.warn(' Error al guardar en servidor (guardado local OK):', err);
-            });
+            const now = Date.now();
+            const tooSoon = (now - window._lastServerSaveAt) < MIN_SERVER_SAVE_INTERVAL_MS;
+            if (!window._saveInFlight && !tooSoon) {
+                window._saveInFlight = true;
+                window._lastServerSaveAt = now;
+                saveProgressToServer()
+                    .catch(() => {})
+                    .finally(() => {
+                        window._saveInFlight = false;
+                    });
+            }
         }
     } catch (e) {
         console.error(' Error en saveCurrentUserProgress():', e);

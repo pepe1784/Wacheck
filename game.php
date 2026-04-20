@@ -402,32 +402,32 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
      6. Script principal del juego
      7. Módulo de engine (loop)
      ============================================================ -->
-<script src="sounds.js?v=17"></script>
-<script src="usuarios.js?v=17"></script>
-<script src="rewards.js?v=17"></script>
-<script src="achievements.js?v=17"></script>
-<script src="tutorial.js?v=17"></script>
-<script src="historia.js?v=17"></script>
-<script src="anti-cheat.js?v=17"></script>
-<script src="session-manager.js?v=17"></script>
+<script src="sounds.js?v=18"></script>
+<script src="usuarios.js?v=18"></script>
+<script src="rewards.js?v=18"></script>
+<script src="achievements.js?v=18"></script>
+<script src="tutorial.js?v=18"></script>
+<script src="historia.js?v=18"></script>
+<script src="anti-cheat.js?v=18"></script>
+<script src="session-manager.js?v=18"></script>
 
-<!-- Módulos de datos (antes de script.js para que los globals estén disponibles) --><script src="js/game/sprites.js?v=17"></script><script src="js/game/config.js?v=17"></script>
-<script src="js/game/contaminants.js?v=17"></script>
-<script src="js/game/projectiles.js?v=17"></script>
-<script src="js/game/runtime-state.js?v=17"></script>
-<script src="js/game/ui.js?v=17"></script>
-<script src="js/game/projectiles-service.js?v=17"></script>
-<script src="js/game/ui-system.js?v=17"></script>
-<script src="js/game/shop-system.js?v=17"></script>
+<!-- Módulos de datos (antes de script.js para que los globals estén disponibles) --><script src="js/game/sprites.js?v=18"></script><script src="js/game/config.js?v=18"></script>
+<script src="js/game/contaminants.js?v=18"></script>
+<script src="js/game/projectiles.js?v=18"></script>
+<script src="js/game/runtime-state.js?v=18"></script>
+<script src="js/game/ui.js?v=18"></script>
+<script src="js/game/projectiles-service.js?v=18"></script>
+<script src="js/game/ui-system.js?v=18"></script>
+<script src="js/game/shop-system.js?v=18"></script>
 
 <!-- Motor principal — define allDefenderTypes hardcodeado (fallback) -->
-<script src="script.js?v=17"></script>
+<script src="script.js?v=18"></script>
 
 <!-- Módulo de defensores: puede sobreescribir allDefenderTypes con datos del servidor -->
-<script src="js/game/defenders.js?v=17"></script>
+<script src="js/game/defenders.js?v=18"></script>
 
 <!-- Engine loop (después de script.js para que gameLoop ya esté definido) -->
-<script src="js/game/engine.js?v=17"></script>
+<script src="js/game/engine.js?v=18"></script>
 
 <script>
 // ============================================================
