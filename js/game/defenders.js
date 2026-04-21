@@ -14,8 +14,14 @@
         const raw = (imageValue || '').toString().trim();
         if (!raw) return fallbackPath;
         if (/^https?:\/\//i.test(raw) || raw.startsWith('/')) return raw;
-        if (raw.startsWith('./')) return raw;
-        return `./${raw}`;
+        if (raw.startsWith('./')) {
+            return raw
+                .replace('/allDefenderTypes/', '/alldefendertypes/')
+                .replace('/allContaminatorTypes/', '/allcontaminatortypes/');
+        }
+        return `./${raw}`
+            .replace('/allDefenderTypes/', '/alldefendertypes/')
+            .replace('/allContaminatorTypes/', '/allcontaminatortypes/');
     }
 
     async function loadDefenders() {
@@ -43,10 +49,11 @@
                     const id = (d.key || d.id || '').toString().trim();
                     if (!id) return;
                     const explicitImage = (d.image || d.icon_url || '').toString().trim();
+                    const modelFallback = `./models/alldefendertypes/${id}/${id}.png`;
 
                     apiDefenders[id] = {
                         icon:           d.icon   || '',
-                        image:          explicitImage ? normalizeImagePath(explicitImage, '') : '',
+                        image:          normalizeImagePath(explicitImage, modelFallback),
                         name:           d.name   || id,
                         damage:         Number(d.damage)         || 25,
                         cost:           Number(d.cost)           || 50,

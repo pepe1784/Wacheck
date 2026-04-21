@@ -16,12 +16,21 @@
         const container = document.getElementById('gameContainer');
         if (!container) return;
 
+        const isMobileOrTablet = window.innerWidth <= 1024;
         const standalone = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
         const landscape = window.innerWidth > window.innerHeight;
 
+        container.classList.toggle('mobile-layout-active', isMobileOrTablet);
         container.classList.toggle('pwa-standalone', !!standalone);
         container.classList.toggle('mobile-landscape', landscape);
         container.classList.toggle('mobile-portrait', !landscape);
+
+        if (!isMobileOrTablet) {
+            container.style.removeProperty('--board-rows');
+            container.style.removeProperty('--board-cols');
+            container.style.removeProperty('--board-cell');
+            return;
+        }
 
         container.style.setProperty('--board-rows', String(DEFAULT_BOARD.rows));
         container.style.setProperty('--board-cols', String(DEFAULT_BOARD.cols));

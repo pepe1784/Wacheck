@@ -6341,14 +6341,14 @@ body {
 /* ============================================
    GAMEPLAY RESPONSIVE OVERRIDES (PWA)
    ============================================ */
-#gameContainer.game-container {
+#gameContainer.mobile-layout-active.game-container {
     --board-cell: clamp(36px, 6.5vw, 62px);
     --board-gap: 2px;
     padding: 6px;
     gap: 6px;
 }
 
-#gameContainer .game-header {
+#gameContainer.mobile-layout-active .game-header {
     flex-wrap: nowrap;
     overflow-x: auto;
     min-height: 40px;
@@ -6357,23 +6357,23 @@ body {
     padding: 4px 8px;
 }
 
-#gameContainer .game-header .game-back-btn,
-#gameContainer .game-header .pause-btn,
-#gameContainer .game-header .game-sound-toggle,
-#gameContainer .game-header .restart-wave-btn {
+#gameContainer.mobile-layout-active .game-header .game-back-btn,
+#gameContainer.mobile-layout-active .game-header .pause-btn,
+#gameContainer.mobile-layout-active .game-header .game-sound-toggle,
+#gameContainer.mobile-layout-active .game-header .restart-wave-btn {
     min-width: auto;
     max-width: none;
     flex: 0 0 auto;
 }
 
-#gameContainer .game-board-container {
+#gameContainer.mobile-layout-active .game-board-container {
     flex: 1 1 auto;
     min-height: 0;
     overflow: auto;
     padding: 8px;
 }
 
-#gameContainer .game-board {
+#gameContainer.mobile-layout-active .game-board {
     grid-template-columns: repeat(10, var(--board-cell));
     grid-template-rows: repeat(5, var(--board-cell));
     gap: var(--board-gap);
@@ -6384,7 +6384,7 @@ body {
     max-height: none;
 }
 
-#gameContainer .cell {
+#gameContainer.mobile-layout-active .cell {
     width: var(--board-cell);
     height: var(--board-cell);
     min-width: var(--board-cell);
@@ -6393,7 +6393,7 @@ body {
     max-height: var(--board-cell);
 }
 
-#gameContainer #defenderShop.shop {
+#gameContainer.mobile-layout-active #defenderShop.shop {
     height: 96px;
     margin-top: 0 !important;
     margin-bottom: 0;
@@ -6402,8 +6402,8 @@ body {
     flex-shrink: 0;
 }
 
-#gameContainer #defenderShop.shop .defender-card,
-#gameContainer #defenderShop.shop .removal-tool {
+#gameContainer.mobile-layout-active #defenderShop.shop .defender-card,
+#gameContainer.mobile-layout-active #defenderShop.shop .removal-tool {
     flex: 0 0 76px;
     min-width: 76px;
     max-width: 76px;
@@ -6433,16 +6433,16 @@ body {
 }
 
 @media only screen and (max-width: 900px) {
-    #gameContainer.game-container {
+    #gameContainer.mobile-layout-active.game-container {
         --board-cell: clamp(34px, 8.3vw, 52px);
     }
 
-    #gameContainer #defenderShop.shop {
+    #gameContainer.mobile-layout-active #defenderShop.shop {
         height: 88px;
     }
 
-    #gameContainer #defenderShop.shop .defender-card,
-    #gameContainer #defenderShop.shop .removal-tool {
+    #gameContainer.mobile-layout-active #defenderShop.shop .defender-card,
+    #gameContainer.mobile-layout-active #defenderShop.shop .removal-tool {
         flex-basis: 70px;
         min-width: 70px;
         max-width: 70px;
@@ -6457,44 +6457,44 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
-    #gameContainer.game-container {
+    #gameContainer.mobile-layout-active.game-container {
         --board-cell: clamp(32px, 9vw, 42px);
         padding: 4px;
         gap: 4px;
     }
 
-    #gameContainer .game-header {
+    #gameContainer.mobile-layout-active .game-header {
         min-height: 36px;
         gap: 4px;
         padding: 3px 6px;
     }
 
-    #gameContainer .game-header .coins,
-    #gameContainer .game-header .special-coins-game,
-    #gameContainer .game-header .health,
-    #gameContainer .hud-wave-pill {
+    #gameContainer.mobile-layout-active .game-header .coins,
+    #gameContainer.mobile-layout-active .game-header .special-coins-game,
+    #gameContainer.mobile-layout-active .game-header .health,
+    #gameContainer.mobile-layout-active .hud-wave-pill {
         font-size: 0.62em;
         padding: 2px 5px;
     }
 }
 
 @media only screen and (max-height: 540px) and (orientation: landscape) {
-    #gameContainer.game-container {
+    #gameContainer.mobile-layout-active.game-container {
         --board-cell: clamp(28px, 7.2vh, 38px);
     }
 
-    #gameContainer .game-header {
+    #gameContainer.mobile-layout-active .game-header {
         min-height: 32px;
         padding: 2px 5px;
     }
 
-    #gameContainer #defenderShop.shop {
+    #gameContainer.mobile-layout-active #defenderShop.shop {
         height: 74px;
         padding: 4px;
     }
 
-    #gameContainer #defenderShop.shop .defender-card,
-    #gameContainer #defenderShop.shop .removal-tool {
+    #gameContainer.mobile-layout-active #defenderShop.shop .defender-card,
+    #gameContainer.mobile-layout-active #defenderShop.shop .removal-tool {
         flex-basis: 60px;
         min-width: 60px;
         max-width: 60px;

@@ -1,23 +1,23 @@
-#gameContainer.game-container {
+#gameContainer.mobile-layout-active.game-container {
     padding: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
     gap: 6px;
 }
 
-#gameContainer .game-header {
+#gameContainer.mobile-layout-active .game-header {
     flex-wrap: nowrap;
     overflow-x: auto;
     gap: 6px;
     padding: 4px 8px;
 }
 
-#gameContainer .game-board-container {
+#gameContainer.mobile-layout-active .game-board-container {
     flex: 1 1 auto;
     min-height: 0;
     overflow: auto;
     padding: 8px;
 }
 
-#gameContainer .game-board {
+#gameContainer.mobile-layout-active .game-board {
     grid-template-columns: repeat(var(--board-cols, 10), var(--board-cell, 42px));
     grid-template-rows: repeat(var(--board-rows, 5), var(--board-cell, 42px));
     gap: 2px;
@@ -26,7 +26,7 @@
     margin: 0 auto;
 }
 
-#gameContainer .cell {
+#gameContainer.mobile-layout-active .cell {
     width: var(--board-cell, 42px);
     height: var(--board-cell, 42px);
     min-width: var(--board-cell, 42px);
@@ -35,7 +35,7 @@
     max-height: var(--board-cell, 42px);
 }
 
-#gameContainer #defenderShop.shop {
+#gameContainer.mobile-layout-active #defenderShop.shop {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -45,25 +45,25 @@
     padding: 6px;
 }
 
-#gameContainer #defenderShop.shop .defender-card,
-#gameContainer #defenderShop.shop .removal-tool {
+#gameContainer.mobile-layout-active #defenderShop.shop .defender-card,
+#gameContainer.mobile-layout-active #defenderShop.shop .removal-tool {
     flex: 0 0 74px;
     min-width: 74px;
     height: 82px;
 }
 
-#gameContainer.mobile-landscape #defenderShop.shop {
+#gameContainer.mobile-layout-active.mobile-landscape #defenderShop.shop {
     height: 76px;
     padding: 4px;
 }
 
-#gameContainer.mobile-landscape #defenderShop.shop .defender-card,
-#gameContainer.mobile-landscape #defenderShop.shop .removal-tool {
+#gameContainer.mobile-layout-active.mobile-landscape #defenderShop.shop .defender-card,
+#gameContainer.mobile-layout-active.mobile-landscape #defenderShop.shop .removal-tool {
     flex-basis: 62px;
     min-width: 62px;
     height: 68px;
 }
 
-#gameContainer.pwa-standalone .game-header {
+#gameContainer.mobile-layout-active.pwa-standalone .game-header {
     padding-top: max(4px, env(safe-area-inset-top));
 }
