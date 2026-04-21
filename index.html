@@ -20,6 +20,31 @@
     <link rel="stylesheet" href="css/landing.css">
     <link rel="stylesheet" href="css/auth-modal.css">
     <script>if(location.hostname!=='localhost'&&location.hostname!=='127.0.0.1'){const _n=()=>{};console.log=console.debug=console.info=_n;}</script>
+    <script>
+    // Guard temprano para beacon de Cloudflare en esta vista.
+    (function() {
+        function sanitizeBeaconScript(node) {
+            if (!node || node.nodeType !== 1 || node.tagName !== 'SCRIPT') return;
+            if (!node.src || node.src.indexOf('static.cloudflareinsights.com') === -1) return;
+            node.removeAttribute('integrity');
+            node.removeAttribute('crossorigin');
+        }
+        try {
+            document.querySelectorAll('script[src*="static.cloudflareinsights.com"]').forEach(sanitizeBeaconScript);
+            var _cfObs = new MutationObserver(function(muts) {
+                muts.forEach(function(m) { m.addedNodes.forEach(sanitizeBeaconScript); });
+            });
+            _cfObs.observe(document.documentElement, { childList: true, subtree: true });
+            window.addEventListener('error', function(ev) {
+                var t = ev && ev.target;
+                if (t && t.tagName === 'SCRIPT' && t.src && t.src.indexOf('static.cloudflareinsights.com') !== -1) {
+                    ev.preventDefault();
+                    ev.stopImmediatePropagation();
+                }
+            }, true);
+        } catch(e) {}
+    })();
+    </script>
     <script src="anti-cheat.js" defer=""></script>
     <script src="daily-rewards-modal.js" defer=""></script>
     <script src="guest-user-manager.js" defer=""></script>

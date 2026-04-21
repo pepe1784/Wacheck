@@ -84,7 +84,7 @@ self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
 
   // Modelos/imagenes pesadas: dejar que el navegador las resuelva directo
-  if (url.pathname.startsWith('/models/')) return;
+  if (url.pathname.includes('/models/')) return;
 
   // Cache-First para assets estáticos (imágenes, audio, fuentes)
   // NOTA: JS y CSS se sirven con URL versionada (?v=X), así que
