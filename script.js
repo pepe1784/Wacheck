@@ -38,6 +38,16 @@ function getCellHeightWithGap() {
     return cellSize.height + cellSize.gap;
 }
 
+function normalizeModelPath(pathValue) {
+    if (!pathValue || typeof pathValue !== 'string') return pathValue;
+    return pathValue
+        .replace('/allDefenderTypes/', '/alldefendertypes/')
+        .replace('/allContaminatorTypes/', '/allcontaminatortypes/');
+}
+
+const BOARD_ROWS = (window.WacheckMobileLayout && window.WacheckMobileLayout.board && window.WacheckMobileLayout.board.rows) || 5;
+const BOARD_COLS = (window.WacheckMobileLayout && window.WacheckMobileLayout.board && window.WacheckMobileLayout.board.cols) || 10;
+
 
 
 
@@ -373,9 +383,9 @@ function initializeGame() {
     gameState.defenders.forEach(d => d.element.remove());
     gameState.contaminators.forEach(c => c.element.remove());
 
-    // Crear el tablero 5x10
-    for (let row = 0; row < 5; row++) {
-        for (let col = 0; col < 10; col++) {
+    // Crear el tablero usando dimensiones centralizadas
+    for (let row = 0; row < BOARD_ROWS; row++) {
+        for (let col = 0; col < BOARD_COLS; col++) {
             const cell = document.createElement('div');
             cell.className = 'cell';
             cell.dataset.row = row;
@@ -488,20 +498,24 @@ function placeDefender(row, col) {
             defenderElement.classList.add('generator');
         }
 
-        // Determinar si usar sprite SVG o imagen PNG
-        if (window.GameSprites) {
-            defenderElement.innerHTML = window.GameSprites.defender(gameState.selectedDefender);
-        } else if (defenderType.image) {
+        // Priorizar modelos PNG para que el juego use assets de /models en PWA.
+        if (defenderType.image) {
             const img = document.createElement('img');
-            img.src = defenderType.image;
+            img.src = normalizeModelPath(defenderType.image);
             img.alt = defenderType.name;
             img.style.width = '100%';
             img.style.height = '100%';
             img.style.objectFit = 'contain';
             img.onerror = function() {
-                defenderElement.innerHTML = '<div class="defender-fallback-icon"></div>';
+                if (window.GameSprites) {
+                    defenderElement.innerHTML = window.GameSprites.defender(gameState.selectedDefender);
+                } else {
+                    defenderElement.innerHTML = '<div class="defender-fallback-icon"></div>';
+                }
             };
             defenderElement.appendChild(img);
+        } else if (window.GameSprites) {
+            defenderElement.innerHTML = window.GameSprites.defender(gameState.selectedDefender);
         } else {
             defenderElement.innerHTML = '<div class="defender-fallback-icon"></div>';
         }
@@ -690,7 +704,7 @@ function spawnContaminators() {
 }
 
 function spawnContaminator() {
-    const row = Math.floor(Math.random() * 5);
+    const row = Math.floor(Math.random() * BOARD_ROWS);
     const availableTypes = getAvailableContaminators();
     const type = availableTypes[Math.floor(Math.random() * availableTypes.length)];
 
@@ -735,20 +749,24 @@ function spawnContaminator() {
     const sizeMultiplier = type.isBoss ? 1.6 : 0.9;
     contaminatorElement.style.width = (cellSize.width * sizeMultiplier) + 'px';
     contaminatorElement.style.height = (cellSize.height * sizeMultiplier) + 'px';
-    // Determinar si usar sprite SVG o imagen PNG
-    if (window.GameSprites) {
-        contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);
-    } else if (type.image) {
+    // Priorizar modelos PNG para mantener consistencia visual en juego y PWA.
+    if (type.image) {
         const img = document.createElement('img');
-        img.src = type.image;
+        img.src = normalizeModelPath(type.image);
         img.alt = type.name;
         img.style.width = '100%';
         img.style.height = '100%';
         img.style.objectFit = 'contain';
         img.onerror = function() {
-            contaminatorElement.innerHTML = '<div class="contaminator-fallback-icon"></div>';
+            if (window.GameSprites) {
+                contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);
+            } else {
+                contaminatorElement.innerHTML = '<div class="contaminator-fallback-icon"></div>';
+            }
         };
         contaminatorElement.appendChild(img);
+    } else if (window.GameSprites) {
+        contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);
     } else {
         contaminatorElement.innerHTML = '<div class="contaminator-fallback-icon"></div>';
     }
@@ -852,7 +870,7 @@ function moveContaminators() {
             if (contaminator.ability.type === 'lane_change' && Date.now() - contaminator.ability.lastUsed > contaminator.ability.cooldown) {
                 const possibleMoves = [-1, 1].filter(move => {
                     const newRow = contaminator.row + move;
-                    return newRow >= 0 && newRow < 5;
+                    return newRow >= 0 && newRow < BOARD_ROWS;
                 });
                 if (possibleMoves.length > 0) {
                     const move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
@@ -872,7 +890,7 @@ function moveContaminators() {
         let isBlocked = false;
 
         // Primero, verificamos si hay un defensor bloqueando el camino.
-        if (nextCol >= 0 && nextCol < 10) {
+        if (nextCol >= 0 && nextCol < BOARD_COLS) {
             const defender = gameState.defenders.find(d =>
                 d.row === contaminator.row &&
                 d.col === nextCol &&
@@ -1481,6 +1499,9 @@ function showUpgradePanel(defender) {
 
     // --- NUEVO: Lógica para la Mejora Grupal ---
     const groupUpgradeButton = document.getElementById('groupUpgradeButton');
+    if (!groupUpgradeButton) {
+        return;
+    }
     const sameTypeDefenders = gameState.defenders.filter(d => d.type === defender.type && d.health > 0);
 
     if (sameTypeDefenders.length > 1) {
@@ -1508,6 +1529,10 @@ function showUpgradePanel(defender) {
 function hideUpgradePanel() {
     document.getElementById('upgradePanel').style.display = 'none';
     document.getElementById('upgradeOverlay').style.display = 'none'; // Ocultar el overlay
+    const groupUpgradeButton = document.getElementById('groupUpgradeButton');
+    if (groupUpgradeButton) {
+        groupUpgradeButton.style.display = 'none';
+    }
     gameState.selectedDefenderOnBoard = null;
 }
 
@@ -1540,6 +1565,18 @@ function massUpgradeDefenders() {
         updateUI();
         showUpgradePanel(mainDefender); // Refrescar el panel
     }
+}
+
+function performGroupUpgrade() {
+    massUpgradeDefenders();
+}
+
+function removeSelectedDefender() {
+    const defender = gameState.selectedDefenderOnBoard;
+    if (!defender) return;
+
+    removeDefender(defender.row, defender.col);
+    hideUpgradePanel();
 }
 
 // --- NUEVO: Función centralizada para realizar una mejora ---
@@ -1916,6 +1953,21 @@ if (window.soundEnabled) {
 // ============================================
 
 function openRewardsMenu() {
+    if (window.WacheckPanels && typeof window.WacheckPanels.openMenu === 'function') {
+        window.WacheckPanels.openMenu('rewardsMenu', () => {
+            updateRunesDisplay();
+
+            if (typeof rewardsState !== 'undefined') {
+                const streakDisplay = document.getElementById('currentStreakDisplay');
+                const claimedDisplay = document.getElementById('claimedDaysDisplay');
+
+                if (streakDisplay) streakDisplay.textContent = rewardsState.dailyStreak;
+                if (claimedDisplay) claimedDisplay.textContent = rewardsState.claimedDays.length;
+            }
+        });
+        return;
+    }
+
     closeAllMenus();
     document.getElementById('rewardsMenu').classList.add('active');
     document.getElementById('menuOverlay').classList.add('active');
@@ -1932,6 +1984,13 @@ function openRewardsMenu() {
 }
 
 function openMissionsMenu() {
+    if (window.WacheckPanels && typeof window.WacheckPanels.openMenu === 'function') {
+        window.WacheckPanels.openMenu('missionsMenu', () => {
+            updateMissionsUI();
+        });
+        return;
+    }
+
     closeAllMenus();
     document.getElementById('missionsMenu').classList.add('active');
     document.getElementById('menuOverlay').classList.add('active');
@@ -1939,6 +1998,14 @@ function openMissionsMenu() {
 }
 
 function openUpgradesMenu() {
+    if (window.WacheckPanels && typeof window.WacheckPanels.openMenu === 'function') {
+        window.WacheckPanels.openMenu('upgradesMenu', () => {
+            updateRunesDisplay();
+            updateUpgradesUI();
+        });
+        return;
+    }
+
     closeAllMenus();
     document.getElementById('upgradesMenu').classList.add('active');
     document.getElementById('menuOverlay').classList.add('active');
@@ -1947,10 +2014,19 @@ function openUpgradesMenu() {
 }
 
 function closeAllMenus() {
-    document.querySelectorAll('.slide-menu').forEach(menu => {
+    if (window.WacheckPanels && typeof window.WacheckPanels.closeMenus === 'function') {
+        window.WacheckPanels.closeMenus();
+        return;
+    }
+
+    document.querySelectorAll('.slide-menu, .side-menu').forEach(menu => {
         menu.classList.remove('active');
     });
-    document.getElementById('menuOverlay').classList.remove('active');
+
+    const overlay = document.getElementById('menuOverlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+    }
 }
 
 function showBottomMenu() {

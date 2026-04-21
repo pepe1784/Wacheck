@@ -7,27 +7,38 @@
 (function () {
     'use strict';
 
+    function normalizeModelPath(pathValue) {
+        if (!pathValue || typeof pathValue !== 'string') return pathValue;
+        return pathValue
+            .replace('/allDefenderTypes/', '/alldefendertypes/')
+            .replace('/allContaminatorTypes/', '/allcontaminatortypes/');
+    }
+
     function createDefenderVisual(defenderId, defenderName, imageUrl) {
         const wrapper = document.createElement('div');
         wrapper.className = 'defender-icon';
 
-        if (window.GameSprites) {
-            wrapper.innerHTML = window.GameSprites.defender(defenderId);
-            return wrapper;
-        }
-
         if (imageUrl) {
             const img = document.createElement('img');
-            img.src = imageUrl;
+            img.src = normalizeModelPath(imageUrl);
             img.alt = defenderName || defenderId;
             img.className = 'defender-image';
             img.style.width = '40px';
             img.style.height = '40px';
             img.style.objectFit = 'contain';
             img.onerror = function() {
-                wrapper.textContent = (defenderName || defenderId || '?').charAt(0).toUpperCase();
+                if (window.GameSprites) {
+                    wrapper.innerHTML = window.GameSprites.defender(defenderId);
+                } else {
+                    wrapper.textContent = (defenderName || defenderId || '?').charAt(0).toUpperCase();
+                }
             };
             wrapper.appendChild(img);
+            return wrapper;
+        }
+
+        if (window.GameSprites) {
+            wrapper.innerHTML = window.GameSprites.defender(defenderId);
             return wrapper;
         }
 

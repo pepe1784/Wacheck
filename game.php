@@ -60,6 +60,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
     <title>Wacheck — Defensores del Agua Pura</title>
     <link rel="shortcut icon" href="./img/vaporeon.jpg" type="image/x-icon">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/game-mobile-layout.css">
     <link rel="stylesheet" href="css/rewards.css">
     <link rel="stylesheet" href="css/tutorial.css">
     <link rel="stylesheet" href="css/menu-config.css">
@@ -435,6 +436,8 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
 <script src="js/game/projectiles-service.js?v=18"></script>
 <script src="js/game/ui-system.js?v=18"></script>
 <script src="js/game/shop-system.js?v=19"></script>
+<script src="js/game/panel-manager.js?v=1"></script>
+<script src="js/game/mobile-layout.js?v=1"></script>
 
 <!-- Motor principal — define allDefenderTypes hardcodeado (fallback) -->
 <script src="script.js?v=18"></script>
@@ -481,10 +484,18 @@ function startGameWithDefenders() {
 
 // Función para abrir la tienda desde el menú
 function openShop() {
+    if (window.WacheckPanels && typeof window.WacheckPanels.openMenu === 'function') {
+        window.WacheckPanels.openMenu('shopMenu', function () {
+            if (typeof updateUnlockShop === 'function') updateUnlockShop();
+            refreshIcons();
+        });
+        return;
+    }
+
     if (typeof closeAllMenus === 'function') closeAllMenus();
     const m = document.getElementById('shopMenu');
     if (m) {
-        m.style.display = 'flex';
+        m.classList.add('active');
         const overlay = document.getElementById('menuOverlay');
         if (overlay) overlay.classList.add('active');
         if (typeof updateUnlockShop === 'function') updateUnlockShop();
@@ -493,24 +504,43 @@ function openShop() {
 }
 
 function openUpgradesMenu() {
+    if (window.WacheckPanels && typeof window.WacheckPanels.openMenu === 'function') {
+        window.WacheckPanels.openMenu('upgradesMenu', function () {
+            if (typeof updateRunesDisplay === 'function') updateRunesDisplay();
+            if (typeof updateUpgradesUI === 'function') updateUpgradesUI();
+            refreshIcons();
+        });
+        return;
+    }
+
     if (typeof closeAllMenus === 'function') closeAllMenus();
     const m = document.getElementById('upgradesMenu');
     if (m) {
-        m.style.display = 'flex';
+        m.classList.add('active');
         const overlay = document.getElementById('menuOverlay');
         if (overlay) overlay.classList.add('active');
-        if (typeof renderUpgradesInGame === 'function') renderUpgradesInGame();
+        if (typeof updateRunesDisplay === 'function') updateRunesDisplay();
+        if (typeof updateUpgradesUI === 'function') updateUpgradesUI();
         refreshIcons();
     }
 }
 
 function openMissionsMenu() {
+    if (window.WacheckPanels && typeof window.WacheckPanels.openMenu === 'function') {
+        window.WacheckPanels.openMenu('missionsMenu', function () {
+            if (typeof updateMissionsUI === 'function') updateMissionsUI();
+            refreshIcons();
+        });
+        return;
+    }
+
     if (typeof closeAllMenus === 'function') closeAllMenus();
     const m = document.getElementById('missionsMenu');
     if (m) {
-        m.style.display = 'flex';
+        m.classList.add('active');
         const overlay = document.getElementById('menuOverlay');
         if (overlay) overlay.classList.add('active');
+        if (typeof updateMissionsUI === 'function') updateMissionsUI();
         refreshIcons();
     }
 }

@@ -2,6 +2,13 @@
 // Game Page JavaScript
 // ==========================================
 
+function normalizeModelPath(pathValue) {
+    if (!pathValue || typeof pathValue !== 'string') return pathValue;
+    return pathValue
+        .replace('/allDefenderTypes/', '/alldefendertypes/')
+        .replace('/allContaminatorTypes/', '/allcontaminatortypes/');
+}
+
 // Data structures
 const defenders = [
     // Defensores básicos del juego (siempre disponibles)
@@ -376,7 +383,7 @@ function renderDefenders() {
         card.onclick = () => toggleDefender(defender.id);
         
         const defDataGP = window.allDefenderTypes && window.allDefenderTypes[defender.id];
-        const defImage = (defDataGP && defDataGP.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`;
+        const defImage = normalizeModelPath((defDataGP && defDataGP.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`);
         const gpIconHTML = window.GameSprites
             ? window.GameSprites.defender(defender.id)
             : `<img src="${defImage}" alt="${defender.name}" loading="lazy" style="width:40px;height:40px;object-fit:contain;background:#1e293b;border-radius:6px;" onerror="this.outerHTML='';">`;
@@ -486,7 +493,7 @@ function updateSelectedSlots() {
                 return;
             }
             const defDataSlot = window.allDefenderTypes && window.allDefenderTypes[defender.id];
-            const slotImage = (defDataSlot && defDataSlot.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`;
+            const slotImage = normalizeModelPath((defDataSlot && defDataSlot.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`);
             const slotIconHTML = window.GameSprites
                 ? window.GameSprites.defender(defender.id)
                 : `<img src="${slotImage}" alt="${defender.name}" style="width:100%;height:100%;object-fit:contain;" onerror="this.outerHTML='';">`;
@@ -557,7 +564,7 @@ function renderStoryChapters() {
             ${chapter.boss ? `
                 <div class="boss-info">
                     <div class="boss-header">
-                        <span class="boss-icon">${window.GameSprites ? window.GameSprites.contaminant(chapter.boss.icon) : (() => { const ct = window.allContaminatorTypes && window.allContaminatorTypes.find(c => c.icon === chapter.boss.icon); const bossImg = (ct && ct.image) || './models/allContaminatorTypes/' + chapter.boss.icon + '/' + chapter.boss.icon + '.png'; return `<img src="${bossImg}" alt="${chapter.boss.name}" style="width:40px;height:40px;object-fit:contain;" onerror="this.outerHTML='';">`; })()}</span>
+                        <span class="boss-icon">${window.GameSprites ? window.GameSprites.contaminant(chapter.boss.icon) : (() => { const ct = window.allContaminatorTypes && window.allContaminatorTypes.find(c => c.icon === chapter.boss.icon); const bossImg = normalizeModelPath((ct && ct.image) || './models/allContaminatorTypes/' + chapter.boss.icon + '/' + chapter.boss.icon + '.png'); return `<img src="${bossImg}" alt="${chapter.boss.name}" style="width:40px;height:40px;object-fit:contain;" onerror="this.outerHTML='';">`; })()}</span>
                         <div>
                             <div class="boss-name">${chapter.boss.name}</div>
                             <div class="boss-stats">
@@ -679,7 +686,7 @@ function renderShopItems(filter = 'all') {
         card.className = `shop-item ${isUnlocked ? 'unlocked' : ''}`;
         
         const defDataShop = window.allDefenderTypes && window.allDefenderTypes[defender.id];
-        const shopImage = (defDataShop && defDataShop.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`;
+        const shopImage = normalizeModelPath((defDataShop && defDataShop.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`);
         const shopIconImg = window.GameSprites
             ? window.GameSprites.defender(defender.id)
             : `<img src="${shopImage}" alt="${defender.name}" loading="lazy" style="width:64px;height:64px;object-fit:contain;background:#1e293b;border-radius:8px;" onerror="this.outerHTML='';">`;

@@ -86,7 +86,8 @@
 }
 
 /* Contenedor de menú deslizante */
-.slide-menu {
+.slide-menu,
+.side-menu {
     position: fixed;
     top: 0;
     right: -100%;
@@ -102,7 +103,8 @@
     padding-bottom: 80px;
 }
 
-.slide-menu.active {
+.slide-menu.active,
+.side-menu.active {
     right: 0;
 }
 
@@ -683,7 +685,8 @@
    ============================================ */
 
 @media (max-width: 768px) {
-    .slide-menu {
+    .slide-menu,
+    .side-menu {
         width: 100%;
         max-width: 100%;
     }

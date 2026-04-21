@@ -6,12 +6,19 @@
 (function () {
     'use strict';
 
+    function normalizeModelPath(pathValue) {
+        if (!pathValue || typeof pathValue !== 'string') return pathValue;
+        return pathValue
+            .replace('/allDefenderTypes/', '/alldefendertypes/')
+            .replace('/allContaminatorTypes/', '/allcontaminatortypes/');
+    }
+
     function normalizeImagePath(imageValue, fallbackPath) {
         const raw = (imageValue || '').toString().trim();
-        if (!raw) return fallbackPath;
+        if (!raw) return normalizeModelPath(fallbackPath);
         if (/^https?:\/\//i.test(raw) || raw.startsWith('/')) return raw;
-        if (raw.startsWith('./')) return raw;
-        return `./${raw}`;
+        if (raw.startsWith('./')) return normalizeModelPath(raw);
+        return normalizeModelPath(`./${raw}`);
     }
 
     function normalizeIconKey(value) {
