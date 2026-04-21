@@ -105,6 +105,8 @@ var allDefenderTypes = window.allDefenderTypes || {
 
 };
 
+window.allDefenderTypes = allDefenderTypes;
+
 // Tipos de contaminantes — var para permitir override desde js/game/contaminants.js
 var allContaminatorTypes = window.allContaminatorTypes || [
     { icon: 'Fabrica', image: './models/allContaminatorTypes/Fabrica/Fabrica.png', health: 60, speed: 1, coins: 15, name: 'Fábrica' },
@@ -123,6 +125,8 @@ var allContaminatorTypes = window.allContaminatorTypes || [
     // --- JEFE ---
     { icon: 'Leviatan', image: './models/allContaminatorTypes/Leviatan/Leviatan.png', health: 1500, speed: 0.5, coins: 300, name: 'El Leviatán', isBoss: true, ability: { type: 'lane_change', cooldown: 8000, lastUsed: 0 } } // Jefe que cambia de carril
 ];
+
+window.allContaminatorTypes = allContaminatorTypes;
 
 // Defensores desbloqueables — var para permitir override desde js/game/defenders.js
 var unlockableDefenders = window.unlockableDefenders || {

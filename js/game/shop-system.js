@@ -14,17 +14,27 @@
             .replace('/allContaminatorTypes/', '/allcontaminatortypes/');
     }
 
+    function getDefenderModelPath(defenderId, imageUrl) {
+        if (imageUrl) {
+            return normalizeModelPath(imageUrl);
+        }
+
+        return normalizeModelPath(`./models/alldefendertypes/${defenderId}/${defenderId}.png`);
+    }
+
     function createDefenderVisual(defenderId, defenderName, imageUrl) {
         const wrapper = document.createElement('div');
         wrapper.className = 'defender-icon';
 
-        if (imageUrl) {
+        const modelPath = getDefenderModelPath(defenderId, imageUrl);
+
+        if (modelPath) {
             const img = document.createElement('img');
-            img.src = normalizeModelPath(imageUrl);
+            img.src = modelPath;
             img.alt = defenderName || defenderId;
             img.className = 'defender-image';
-            img.style.width = '40px';
-            img.style.height = '40px';
+            img.style.width = '56px';
+            img.style.height = '56px';
             img.style.objectFit = 'contain';
             img.onerror = function() {
                 if (window.GameSprites) {
@@ -297,9 +307,7 @@
             itemDiv.dataset.category = defender.category;
             itemDiv.dataset.cost = defender.cost;
             const defData = window.allDefenderTypes && window.allDefenderTypes[defender.id];
-            const shopIconHTML = defData && defData.image
-                ? `<img src="${defData.image}" alt="${defender.name}" style="width:40px;height:40px;object-fit:contain;">`
-                : (window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0));
+            const shopIconHTML = `<img src="${getDefenderModelPath(defender.id, defData && defData.image)}" alt="${defender.name}" style="width:56px;height:56px;object-fit:contain;">`
             itemDiv.innerHTML = `
                 <div class="shop-item-icon">${shopIconHTML}</div>
                 <div class="shop-item-name">${defender.name}</div>
@@ -447,9 +455,9 @@
             const defenderId = selectedDefendersForGame[index];
             if (defenderId) {
                 const defenderData = getDefenderData(defenderId);
-                const slotIcon = defenderData && defenderData.image
-                    ? `<img src="${defenderData.image}" alt="${defenderData.name}" style="width:100%;height:100%;object-fit:contain;">`
-                    : (defenderData ? (window.GameSprites ? window.GameSprites.defender(defenderId) : defenderData.name.charAt(0)) : '?');
+                const slotIcon = defenderData
+                    ? `<img src="${getDefenderModelPath(defenderId, defenderData.image)}" alt="${defenderData.name}" style="width:100%;height:100%;object-fit:contain;">`
+                    : '?';
                 slot.innerHTML = slotIcon;
                 slot.classList.remove('empty');
             } else {
@@ -516,9 +524,7 @@
             const card = document.createElement('div');
             card.className = `available-defender-card ${isSelected ? 'selected' : ''} ${isFull && !isSelected ? 'locked' : ''}`;
             const defDataCard = window.allDefenderTypes && window.allDefenderTypes[defender.id];
-            const cardIconHTML = defDataCard && defDataCard.image
-                ? `<img src="${defDataCard.image}" alt="${defender.name}" style="width:40px;height:40px;object-fit:contain;">`
-                : (window.GameSprites ? window.GameSprites.defender(defender.id) : defender.name.charAt(0));
+            const cardIconHTML = `<img src="${getDefenderModelPath(defender.id, defDataCard && defDataCard.image)}" alt="${defender.name}" style="width:56px;height:56px;object-fit:contain;">`;
             card.innerHTML = `
                 <div class="icon">${cardIconHTML}</div>
                 <div class="name">${defender.name}</div>
@@ -616,9 +622,7 @@
                 id: defenderId,
                 name: adt[defenderId].name,
                 image: adt[defenderId].image || null,
-                icon: adt[defenderId].image
-                    ? `<img src="${adt[defenderId].image}" alt="${adt[defenderId].name}" style="width:100%;height:100%;object-fit:contain;">`
-                    : (window.GameSprites ? window.GameSprites.defender(defenderId) : adt[defenderId].name.charAt(0))
+                icon: `<img src="${getDefenderModelPath(defenderId, adt[defenderId].image)}" alt="${adt[defenderId].name}" style="width:100%;height:100%;object-fit:contain;">`
             };
         }
 

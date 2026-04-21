@@ -2042,6 +2042,28 @@ body {
     max-height: 100%;
 }
 
+@media (min-width: 1025px) {
+    #gameContainer:not(.mobile-layout-active) .game-board {
+        grid-template-columns: repeat(10, 75px);
+        grid-template-rows: repeat(5, 75px);
+        gap: 3px;
+    }
+
+    #gameContainer:not(.mobile-layout-active) .cell {
+        min-width: 75px;
+        min-height: 75px;
+        max-width: 75px;
+        max-height: 75px;
+    }
+
+    #gameContainer:not(.mobile-layout-active) #defenderShop.shop .defender-card,
+    #gameContainer:not(.mobile-layout-active) #defenderShop.shop .removal-tool {
+        min-width: 88px;
+        max-width: 88px;
+        min-height: 98px;
+    }
+}
+
 .cell {
     width: 100%;
     height: 100%;
