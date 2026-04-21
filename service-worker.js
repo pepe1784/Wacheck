@@ -3,7 +3,7 @@
 // Estrategia: Cache-First para assets, Network-First para API
 // ============================================================
 
-const CACHE_VERSION = 'wacheck-v5.5.0';
+const CACHE_VERSION = 'wacheck-v5.6.0';
 const API_CACHE   = 'wacheck-api-v5';
 
 const STATIC_ASSETS = [
@@ -60,7 +60,8 @@ self.addEventListener('activate', event => {
 
 // ---- FETCH: Estrategia por tipo de recurso ----
 self.addEventListener('fetch', event => {
-  const url = new URL(event.request.url);
+  let url;
+  try { url = new URL(event.request.url); } catch (_) { return; }
 
   // Ignorar peticiones cross-origin (avatares de Google, CDNs externos, etc.)
   if (url.origin !== self.location.origin) return;
@@ -88,22 +89,22 @@ self.addEventListener('fetch', event => {
   // Cache-First para assets estáticos (imágenes, audio, fuentes)
   // NOTA: JS y CSS se sirven con URL versionada (?v=X), así que
   // Cache-First no aplica — siempre se obtiene versión fresca.
-  if (
-    url.pathname.match(/\.(png|jpg|jpeg|svg|webp|ico|woff2?|mp3|wav|ogg|glb|gltf)$/)
-  ) {
+  if (url.pathname.match(/\.(png|jpg|jpeg|svg|webp|ico|woff2?|mp3|wav|ogg|glb|gltf)$/)) {
     event.respondWith((async () => {
-      const cached = await caches.match(event.request);
-      if (cached) return cached;
-
       try {
+        const cached = await caches.match(event.request);
+        if (cached instanceof Response) return cached;
+
         const response = await fetch(event.request);
-        if (response && response.ok) {
+        if (response instanceof Response && response.ok) {
           const clone = response.clone();
           caches.open(CACHE_VERSION)
             .then(c => c.put(event.request, clone))
             .catch(() => {});
         }
-        return response || new Response('', { status: 404, statusText: 'Not Found' });
+        return response instanceof Response
+          ? response
+          : new Response('', { status: 404, statusText: 'Not Found' });
       } catch (_) {
         return new Response('', { status: 404, statusText: 'Not Found' });
       }
@@ -111,18 +112,25 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Network-First para HTML (siempre fresco si hay conexión)
-  event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        if (response.ok) {
-          const clone = response.clone();
-          caches.open(CACHE_VERSION).then(c => c.put(event.request, clone));
-        }
-        return response;
-      })
-      .catch(() => caches.match(event.request).then(cached => cached || new Response('', { status: 503 })))
-  );
+  // Network-First para HTML, JS, CSS (siempre fresco si hay conexión)
+  event.respondWith((async () => {
+    try {
+      const response = await fetch(event.request);
+      if (response instanceof Response && response.ok) {
+        const clone = response.clone();
+        caches.open(CACHE_VERSION).then(c => c.put(event.request, clone)).catch(() => {});
+      }
+      return response instanceof Response
+        ? response
+        : new Response('', { status: 503, statusText: 'Service Unavailable' });
+    } catch (_) {
+      try {
+        const cached = await caches.match(event.request);
+        if (cached instanceof Response) return cached;
+      } catch (_2) { /* ignore */ }
+      return new Response('', { status: 503, statusText: 'Sin conexión' });
+    }
+  })());
 });
 
 // ---- BACKGROUND SYNC: enviar datos guardados offline ----
