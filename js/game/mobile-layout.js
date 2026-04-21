@@ -16,8 +16,10 @@
         const container = document.getElementById('gameContainer');
         if (!container) return;
 
-        const isMobileOrTablet = window.innerWidth <= 1024;
         const standalone = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+        const coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+        const hasTouch = navigator.maxTouchPoints > 0;
+        const isMobileOrTablet = window.innerWidth <= 1024 && (standalone || coarsePointer || hasTouch);
         const landscape = window.innerWidth > window.innerHeight;
 
         container.classList.toggle('mobile-layout-active', isMobileOrTablet);

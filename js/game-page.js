@@ -9,6 +9,22 @@ function normalizeModelPath(pathValue) {
         .replace('/allContaminatorTypes/', '/allcontaminatortypes/');
 }
 
+function getDefenderModelPath(defenderId, imagePath) {
+    return normalizeModelPath(imagePath || `./models/alldefendertypes/${defenderId}/${defenderId}.png`);
+}
+
+function getContaminantModelPath(contaminantId, imagePath) {
+    return normalizeModelPath(imagePath || `./models/allcontaminatortypes/${contaminantId}/${contaminantId}.png`);
+}
+
+function renderDefenderModelHTML(defenderId, defenderName, imagePath, size = 40, extraStyle = '') {
+    return `<img src="${getDefenderModelPath(defenderId, imagePath)}" alt="${defenderName}" loading="lazy" style="width:${size}px;height:${size}px;object-fit:contain;${extraStyle}">`;
+}
+
+function renderContaminantModelHTML(contaminantId, contaminantName, imagePath, size = 40, extraStyle = '') {
+    return `<img src="${getContaminantModelPath(contaminantId, imagePath)}" alt="${contaminantName}" loading="lazy" style="width:${size}px;height:${size}px;object-fit:contain;${extraStyle}">`;
+}
+
 // Data structures
 const defenders = [
     // Defensores básicos del juego (siempre disponibles)
@@ -383,10 +399,7 @@ function renderDefenders() {
         card.onclick = () => toggleDefender(defender.id);
         
         const defDataGP = window.allDefenderTypes && window.allDefenderTypes[defender.id];
-        const defImage = normalizeModelPath((defDataGP && defDataGP.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`);
-        const gpIconHTML = window.GameSprites
-            ? window.GameSprites.defender(defender.id)
-            : `<img src="${defImage}" alt="${defender.name}" loading="lazy" style="width:40px;height:40px;object-fit:contain;background:#1e293b;border-radius:6px;" onerror="this.outerHTML='';">`;
+        const gpIconHTML = renderDefenderModelHTML(defender.id, defender.name, defDataGP && defDataGP.image, 40, 'background:#1e293b;border-radius:6px;');
         card.innerHTML = `
             <div class="defender-header">
                 <div class="defender-icon">${gpIconHTML}</div>
@@ -493,10 +506,7 @@ function updateSelectedSlots() {
                 return;
             }
             const defDataSlot = window.allDefenderTypes && window.allDefenderTypes[defender.id];
-            const slotImage = normalizeModelPath((defDataSlot && defDataSlot.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`);
-            const slotIconHTML = window.GameSprites
-                ? window.GameSprites.defender(defender.id)
-                : `<img src="${slotImage}" alt="${defender.name}" style="width:100%;height:100%;object-fit:contain;" onerror="this.outerHTML='';">`;
+            const slotIconHTML = renderDefenderModelHTML(defender.id, defender.name, defDataSlot && defDataSlot.image, 48);
             slot.innerHTML = slotIconHTML;
             slot.classList.remove('empty');
             slot.classList.add('filled');
@@ -564,7 +574,7 @@ function renderStoryChapters() {
             ${chapter.boss ? `
                 <div class="boss-info">
                     <div class="boss-header">
-                        <span class="boss-icon">${window.GameSprites ? window.GameSprites.contaminant(chapter.boss.icon) : (() => { const ct = window.allContaminatorTypes && window.allContaminatorTypes.find(c => c.icon === chapter.boss.icon); const bossImg = normalizeModelPath((ct && ct.image) || './models/allContaminatorTypes/' + chapter.boss.icon + '/' + chapter.boss.icon + '.png'); return `<img src="${bossImg}" alt="${chapter.boss.name}" style="width:40px;height:40px;object-fit:contain;" onerror="this.outerHTML='';">`; })()}</span>
+                        <span class="boss-icon">${(() => { const ct = window.allContaminatorTypes && window.allContaminatorTypes.find(c => c.icon === chapter.boss.icon); return renderContaminantModelHTML(chapter.boss.icon, chapter.boss.name, ct && ct.image, 40); })()}</span>
                         <div>
                             <div class="boss-name">${chapter.boss.name}</div>
                             <div class="boss-stats">
@@ -686,10 +696,7 @@ function renderShopItems(filter = 'all') {
         card.className = `shop-item ${isUnlocked ? 'unlocked' : ''}`;
         
         const defDataShop = window.allDefenderTypes && window.allDefenderTypes[defender.id];
-        const shopImage = normalizeModelPath((defDataShop && defDataShop.image) || `./models/allDefenderTypes/${defender.id}/${defender.id}.png`);
-        const shopIconImg = window.GameSprites
-            ? window.GameSprites.defender(defender.id)
-            : `<img src="${shopImage}" alt="${defender.name}" loading="lazy" style="width:64px;height:64px;object-fit:contain;background:#1e293b;border-radius:8px;" onerror="this.outerHTML='';">`;
+        const shopIconImg = renderDefenderModelHTML(defender.id, defender.name, defDataShop && defDataShop.image, 64, 'background:#1e293b;border-radius:8px;');
         card.innerHTML = `
             <div class="shop-item-header">
                 <div class="defender-icon" style="width: 64px; height: 64px; margin: 0;">${shopIconImg}</div>
