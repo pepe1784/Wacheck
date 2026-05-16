@@ -349,58 +349,12 @@ a {
     justify-content: center;
     overflow: hidden;
     padding-top: 5rem;
-    background:
-        radial-gradient(circle at 20% 20%, rgba(80, 200, 255, 0.18), transparent 30%),
-        linear-gradient(180deg, rgba(5, 35, 58, 0.18) 0%, rgba(4, 39, 64, 0.4) 100%),
-        url('../img/hero-banner.jpg') center / cover no-repeat;
+    background: url('../img/hero-banner1.jpg') 25% center / cover no-repeat;
 }
 
-.hero-background,
-.hero-ocean {
+.hero-background {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #1e5a46 0%, #2c7a63 50%, #3a9980 100%);
-}
-
-.hero-ocean {
-    background: linear-gradient(180deg, rgba(130, 198, 235, 0.5) 0%, rgba(12, 91, 145, 0.35) 50%, rgba(5, 43, 79, 0.15) 100%);
-}
-
-.ocean-layer {
-    position: absolute;
-    inset: auto 0 0;
-    height: 46%;
-    opacity: 0.95;
-    background-repeat: repeat-x;
-    background-size: 1600px 100%;
-    animation: oceanDrift 22s linear infinite;
-}
-
-.ocean-back {
-    height: 42%;
-    background: linear-gradient(180deg, rgba(16, 126, 190, 0.14) 0%, rgba(8, 70, 120, 0.45) 60%, rgba(4, 42, 79, 0.85) 100%);
-}
-
-.ocean-mid {
-    height: 34%;
-    background: linear-gradient(180deg, rgba(43, 167, 227, 0.1) 0%, rgba(5, 96, 163, 0.35) 40%, rgba(3, 52, 97, 0.88) 100%);
-    clip-path: polygon(0 28%, 10% 20%, 20% 30%, 30% 22%, 40% 30%, 50% 18%, 60% 28%, 70% 20%, 80% 30%, 90% 21%, 100% 28%, 100% 100%, 0 100%);
-}
-
-.ocean-front {
-    height: 26%;
-    background: linear-gradient(180deg, rgba(43, 179, 243, 0.22) 0%, rgba(7, 82, 141, 0.85) 58%, rgba(3, 39, 74, 0.98) 100%);
-    clip-path: polygon(0 34%, 8% 24%, 16% 38%, 24% 26%, 32% 38%, 40% 22%, 48% 36%, 56% 23%, 64% 39%, 72% 28%, 80% 39%, 88% 27%, 96% 38%, 100% 34%, 100% 100%, 0 100%);
-    animation-duration: 14s;
-}
-
-@keyframes oceanDrift {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        transform: translateX(-120px);
-    }
 }
 
 .hero-background-img {
@@ -414,13 +368,10 @@ a {
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(30, 90, 70, 0.7), rgba(30, 90, 70, 0.85));
 }
 
 .hero-overlay {
-    background:
-        linear-gradient(180deg, rgba(5, 34, 48, 0.1) 0%, rgba(4, 37, 66, 0.55) 65%, rgba(3, 23, 47, 0.82) 100%),
-        radial-gradient(circle at center, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 45%);
+    background: linear-gradient(180deg, rgba(0, 10, 25, 0.18) 0%, rgba(0, 15, 35, 0.32) 60%, rgba(0, 10, 30, 0.55) 100%);
 }
 
 .hero-water-elements {
@@ -1943,10 +1894,12 @@ a {
 }
 
 .user-menu-avatar {
-    width: 100%;
-    height: 100%;
+    width: 48px;
+    height: 48px;
     object-fit: cover;
+    border-radius: 9999px;
     display: block;
+    flex-shrink: 0;
 }
 
 .user-menu-avatar-fallback {

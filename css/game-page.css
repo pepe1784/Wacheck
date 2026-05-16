@@ -639,7 +639,8 @@ body.light-theme .defender-category {
 }
 
 .story-chapter {
-    background-color: white;
+    background-color: var(--color-card, #1e293b);
+    color: var(--color-card-foreground, #f1f5f9);
     border-radius: 1rem;
     padding: 2rem;
     box-shadow: var(--shadow-card);
@@ -831,7 +832,8 @@ body.light-theme .defender-category {
 }
 
 .tutorial-card {
-    background-color: white;
+    background-color: var(--color-card, #1e293b);
+    color: var(--color-card-foreground, #f1f5f9);
     border-radius: 1rem;
     padding: 2rem;
     box-shadow: var(--shadow-card);
@@ -881,7 +883,7 @@ body.light-theme .defender-category {
 
 .shop-filter-btn {
     padding: 0.75rem 1.5rem;
-    background-color: white;
+    background-color: var(--color-card, #1e293b);
     border: 2px solid var(--color-border);
     border-radius: 0.5rem;
     font-family: var(--font-heading);
@@ -910,7 +912,8 @@ body.light-theme .defender-category {
 }
 
 .shop-item {
-    background-color: white;
+    background-color: var(--color-card, #1e293b);
+    color: var(--color-card-foreground, #f1f5f9);
     border-radius: 1rem;
     padding: 1.5rem;
     box-shadow: var(--shadow-card);
@@ -926,8 +929,22 @@ body.light-theme .defender-category {
 body.light-theme .shop-item,
 body.light-theme .upgrade-card,
 body.light-theme .achievement-card {
-    background: var(--color-card);
+    background: #ffffff;
+    color: var(--color-foreground);
     border-color: var(--color-border);
+}
+
+body.light-theme .shop-filter-btn {
+    background-color: #ffffff;
+    color: var(--color-muted-foreground);
+}
+
+body.light-theme .shop-item-title,
+body.light-theme .shop-item-cost,
+body.light-theme .shop-item-description,
+body.light-theme .shop-stat-value,
+body.light-theme .shop-stat-label {
+    color: var(--color-foreground);
 }
 
 .shop-item-header {

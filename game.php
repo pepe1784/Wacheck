@@ -219,9 +219,6 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
 
     <!-- Botones control en juego -->
     <div class="game-controls">
-        <button id="groupUpgradeButton" class="control-btn" style="display:none;" onclick="performGroupUpgrade()">
-            <i data-lucide="arrow-up-circle"></i> Mejora grupal
-        </button>
     </div>
 
 </div><!-- /#gameContainer -->
@@ -260,6 +257,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
         <div id="upgradeNextLevelInfo" class="upgrade-next-info"></div>
         <div class="upgrade-actions">
             <button id="upgradeButton" class="upgrade-btn" onclick="upgradeSelectedDefender()"><i data-lucide="arrow-up-circle"></i> Mejorar</button>
+            <button id="groupUpgradeButton" class="upgrade-btn" style="display:none;background:linear-gradient(135deg,#8b5cf6,#7c3aed);" onclick="performGroupUpgrade()"><i data-lucide="arrow-up-circle"></i> Mejorar todos</button>
             <button class="remove-btn" onclick="removeSelectedDefender()"><i data-lucide="trash-2"></i> Eliminar (50%)</button>
         </div>
     </div>

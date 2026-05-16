@@ -1201,14 +1201,14 @@ function checkWaveComplete() {
                 }
             }
 
-            // Moneda especial cada 5 oleadas
+            // Diamantes especiales cada 5 oleadas
             if (gameState.wave % 5 === 0) {
-                gameState.specialCoins++;
+                gameState.specialCoins = (gameState.specialCoins || 0) + 5;
                 saveCurrentUserProgress(); // Guardar datos del usuario actual
 
                 const specialEffect = document.createElement('div');
                 specialEffect.className = 'special-coin-effect';
-                specialEffect.textContent = '+1';
+                specialEffect.textContent = '+5';
                 document.body.appendChild(specialEffect);
                 setTimeout(() => specialEffect.remove(), 2000);
 
@@ -1364,13 +1364,18 @@ function handleContaminatorDeath(contaminator) {
     // --- NUEVO: SISTEMA DE CURACIÓN POR MATAR CONTAMINANTES ---
     healDefendersOnKill(contaminator);
 
-    // Si es un jefe, da una moneda especial y actualiza misión
+    // Estrella por cada enemigo eliminado
+    if (window.REWARDS_BLOCKED !== true) {
+        gameState.stars = (gameState.stars || 0) + 1;
+    }
+
+    // Si es un jefe, da 20 monedas y actualiza misión
     if (contaminator.type.isBoss) {
         // ANTI-CHEAT: Solo otorgar si no está bloqueado
         if (window.REWARDS_BLOCKED !== true) {
-            gameState.specialCoins++;
+            gameState.coins += 20;
             saveCurrentUserProgress();
-            showFloatingText('+1', document.body, 'special-coin-effect');
+            showFloatingText('+20', document.body, 'special-coin-effect');
         } else {
             console.warn('[AntiCheat] Moneda especial de jefe bloqueada');
         }
@@ -1399,7 +1404,7 @@ function showWaveComplete(bonus) {
         message += `<br>¡Jefe Derrotado! +250 extra`;
     }
     if ((gameState.wave - 1) % 5 === 0) {
-        message += `<br>¡Moneda especial obtenida! +1`;
+        message += `<br>¡Diamantes obtenidos! +5`;
     }
 
     waveComplete.innerHTML = message;

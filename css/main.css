@@ -1892,10 +1892,7 @@ body {
 
 .defender-cost {
     font-weight: bold;
-    background: linear-gradient(135deg, #fbbf24, #f59e0b);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #fbbf24;
     font-size: 0.75em;
 }
 

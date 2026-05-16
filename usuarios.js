@@ -240,6 +240,7 @@ function saveCurrentUserProgress() {
         if (gameState && gameState.currentUser) {
             gameState.currentUser.specialCoins = gameState.specialCoins;
             gameState.currentUser.unlockedDefenders = gameState.unlockedDefenders;
+            if (gameState.stars !== undefined) gameState.currentUser.stars = gameState.stars;
             localStorage.setItem('wacheck_user', JSON.stringify(gameState.currentUser));
         }
         

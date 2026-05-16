@@ -1025,12 +1025,34 @@ function renderUpgrades() {
 }
 
 function buyUpgrade(upgradeId) {
-    console.log(' Intentando comprar mejora:', upgradeId);
-    showGamePageDialog(
-        ' Mejora disponible en partida',
-        'Las mejoras se compran en el menú de Mejoras del juego principal (boton de mejora en el menu flotante).',
-        'info'
-    );
+    try {
+        const user = getStoredUser();
+        if (!user) { showGamePageDialog('Sesión requerida', 'Inicia sesión para comprar mejoras.', 'error'); return; }
+
+        const currentLevel = (user.rewardsData?.upgrades?.[upgradeId]) ?? (user.upgrades?.[upgradeId] ?? 0);
+        const maxLevel = UPGRADE_MAX_LEVELS[upgradeId];
+        if (currentLevel >= maxLevel) { showGamePageDialog('Nivel máximo', 'Esta mejora ya está en su nivel máximo.', 'info'); return; }
+
+        const cost = UPGRADE_COSTS[upgradeId](currentLevel);
+        const userRunes = user.rewardsData?.runes ?? user.runes ?? 0;
+        if (userRunes < cost) { showGamePageDialog('Diamantes insuficientes', `Necesitas ${cost} diamantes. Tienes ${userRunes}.`, 'error'); return; }
+
+        // Aplicar compra
+        if (!user.rewardsData) user.rewardsData = { runes: 0, upgrades: {} };
+        if (!user.rewardsData.upgrades) user.rewardsData.upgrades = {};
+        user.rewardsData.runes = userRunes - cost;
+        user.rewardsData.upgrades[upgradeId] = currentLevel + 1;
+        localStorage.setItem('wacheck_user', JSON.stringify(user));
+
+        renderUpgrades();
+        // Actualizar contador de diamantes en el header
+        const runesEl = document.getElementById('runes');
+        if (runesEl) runesEl.textContent = user.rewardsData.runes;
+        showGamePageDialog('¡Mejora comprada!', `${UPGRADE_INFO[upgradeId]?.name ?? upgradeId} mejorado al nivel ${currentLevel + 1}.`, 'success');
+    } catch(e) {
+        console.error('Error en buyUpgrade:', e);
+        showGamePageDialog('Error', 'No se pudo completar la compra.', 'error');
+    }
 }
 
 // ==========================================
