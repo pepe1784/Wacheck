@@ -755,19 +755,29 @@ function spawnContaminator() {
     contaminatorElement.style.height = (cellSize.height * sizeMultiplier) + 'px';
     // Priorizar modelos PNG para mantener consistencia visual en juego y PWA.
     if (type.image) {
+        // Mostrar SVG sprite inmediatamente (sin red), luego swap a PNG cuando esté listo
+        if (window.GameSprites) {
+            contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);
+        }
         const img = document.createElement('img');
-        img.src = normalizeModelPath(type.image);
-        img.alt = type.name;
-        img.style.width = '100%';
-        img.style.height = '100%';
-        img.style.objectFit = 'contain';
+        img.alt = '';
+        img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:none;';
+        img.onload = function() {
+            // Quitar SVG/texto, mostrar PNG (health-bar queda intacto)
+            [...contaminatorElement.children].forEach(child => {
+                if (!child.classList.contains('health-bar') && child !== img) {
+                    child.remove();
+                }
+            });
+            img.style.display = '';
+        };
         img.onerror = function() {
-            if (window.GameSprites) {
-                contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);
-            } else {
-                contaminatorElement.innerHTML = '<div class="contaminator-fallback-icon"></div>';
+            img.remove();
+            if (!window.GameSprites) {
+                contaminatorElement.insertAdjacentHTML('afterbegin', '<div class="contaminator-fallback-icon"></div>');
             }
         };
+        img.src = normalizeModelPath(type.image);
         contaminatorElement.appendChild(img);
     } else if (window.GameSprites) {
         contaminatorElement.innerHTML = window.GameSprites.contaminant(type.name);

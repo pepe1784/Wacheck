@@ -1968,7 +1968,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url('../img/beach_background.png') no-repeat center center;
+    background-color: #1a6b3c;
+    background-image: url('../img/beach_background.png');
+    background-repeat: no-repeat;
+    background-position: center center;
     background-size: cover;
     padding: 15px;
     border-radius: 12px;
@@ -3631,6 +3634,7 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
+        background-size: 100% 100%;
     }
 
     .game-board {

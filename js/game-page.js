@@ -26,7 +26,11 @@ function renderDefenderModelHTML(defenderId, defenderName, imagePath, size = 40,
 }
 
 function renderContaminantModelHTML(contaminantId, contaminantName, imagePath, size = 40, extraStyle = '') {
-    return `<img src="${getContaminantModelPath(contaminantId, imagePath)}" alt="${contaminantName}" loading="lazy" style="width:${size}px;height:${size}px;object-fit:contain;${extraStyle}">`;
+    const src = getContaminantModelPath(contaminantId, imagePath);
+    return `<img src="${src}" alt="" loading="eager" decoding="async"
+        title="${contaminantName}"
+        style="width:${size}px;height:${size}px;object-fit:contain;opacity:0;transition:opacity 0.15s ease;${extraStyle}"
+        onload="this.style.opacity='1'">`;
 }
 
 // Data structures
