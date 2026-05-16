@@ -18,7 +18,11 @@ function getContaminantModelPath(contaminantId, imagePath) {
 }
 
 function renderDefenderModelHTML(defenderId, defenderName, imagePath, size = 40, extraStyle = '') {
-    return `<img src="${getDefenderModelPath(defenderId, imagePath)}" alt="${defenderName}" loading="lazy" style="width:${size}px;height:${size}px;object-fit:contain;${extraStyle}">`;
+    const src = getDefenderModelPath(defenderId, imagePath);
+    return `<img src="${src}" alt="" loading="eager" decoding="async"
+        title="${defenderName}"
+        style="width:${size}px;height:${size}px;object-fit:contain;opacity:0;transition:opacity 0.15s ease;${extraStyle}"
+        onload="this.style.opacity='1'">`;
 }
 
 function renderContaminantModelHTML(contaminantId, contaminantName, imagePath, size = 40, extraStyle = '') {
@@ -506,10 +510,27 @@ function updateSelectedSlots() {
                 return;
             }
             const defDataSlot = window.allDefenderTypes && window.allDefenderTypes[defender.id];
-            const slotIconHTML = renderDefenderModelHTML(defender.id, defender.name, defDataSlot && defDataSlot.image, 48);
-            slot.innerHTML = slotIconHTML;
+
+            // Mostrar sprite SVG de inmediato (sin petición de red)
+            slot.innerHTML = '';
+            if (window.GameSprites) {
+                const svgWrap = document.createElement('span');
+                svgWrap.style.cssText = 'width:80%;height:80%;display:flex;align-items:center;justify-content:center;';
+                svgWrap.innerHTML = window.GameSprites.defender(defender.id);
+                slot.appendChild(svgWrap);
+            }
             slot.classList.remove('empty');
             slot.classList.add('filled');
+
+            // Cargar PNG del modelo en segundo plano y reemplazar SVG cuando esté listo
+            const _slotModelPath = (defDataSlot && defDataSlot.image)
+                ? defDataSlot.image.replace('/allDefenderTypes/', '/alldefendertypes/')
+                : `./models/alldefendertypes/${defender.id}/${defender.id}.png`;
+            const _slotImg = new Image(48, 48);
+            _slotImg.style.cssText = 'width:80%;height:80%;object-fit:contain;';
+            _slotImg.alt = defender.name;
+            _slotImg.onload = (function(s, img) { return function() { s.innerHTML = ''; s.appendChild(img); }; })(slot, _slotImg);
+            _slotImg.src = _slotModelPath;
             
             // Hacer clickeable para quitar
             slot.style.cursor = 'pointer';

@@ -3,7 +3,7 @@
 // Estrategia: Cache-First para assets, Network-First para API
 // ============================================================
 
-const CACHE_VERSION = 'wacheck-v5.7.0-20260515';
+const CACHE_VERSION = 'wacheck-v5.8.0-20260515';
 const API_CACHE   = 'wacheck-api-v5';
 
 const STATIC_ASSETS = [
@@ -83,10 +83,8 @@ self.addEventListener('fetch', event => {
   // No cachear peticiones POST
   if (event.request.method !== 'GET') return;
 
-  // Modelos/imagenes pesadas: dejar que el navegador las resuelva directo
-  if (url.pathname.includes('/models/')) return;
-
   // Cache-First para assets estáticos (imágenes, audio, fuentes)
+  // Los modelos PNG se cachean igual que cualquier imagen estática.
   // NOTA: JS y CSS se sirven con URL versionada (?v=X), así que
   // Cache-First no aplica — siempre se obtiene versión fresca.
   if (url.pathname.match(/\.(png|jpg|jpeg|svg|webp|ico|woff2?|mp3|wav|ogg|glb|gltf)$/)) {

@@ -27,32 +27,32 @@
         wrapper.className = 'defender-icon';
 
         const modelPath = getDefenderModelPath(defenderId, imageUrl);
-
         if (modelPath) {
+            // Mostrar skeleton animado mientras carga el PNG
+            const skeleton = document.createElement('div');
+            skeleton.className = 'defender-img-skeleton';
+            wrapper.appendChild(skeleton);
+
             const img = document.createElement('img');
-            img.src = modelPath;
-            img.alt = defenderName || defenderId;
+            img.alt = '';
+            img.title = defenderName || defenderId;
             img.className = 'defender-image';
-            img.style.width = '56px';
-            img.style.height = '56px';
-            img.style.objectFit = 'contain';
-            img.onerror = function() {
-                if (window.GameSprites) {
-                    wrapper.innerHTML = window.GameSprites.defender(defenderId);
-                } else {
-                    wrapper.textContent = (defenderName || defenderId || '?').charAt(0).toUpperCase();
-                }
+            img.style.cssText = 'width:56px;height:56px;object-fit:contain;opacity:0;transition:opacity 0.15s ease;';
+            img.onload = function() {
+                skeleton.remove();
+                img.style.opacity = '1';
             };
+            img.onerror = function() {
+                // Fallback: mostrar inicial si falla la imagen
+                skeleton.remove();
+                wrapper.innerHTML = `<span class="defender-initial">${(defenderName || defenderId || '?').charAt(0).toUpperCase()}</span>`;
+            };
+            img.src = modelPath;
             wrapper.appendChild(img);
-            return wrapper;
+        } else {
+            wrapper.innerHTML = `<span class="defender-initial">${(defenderName || defenderId || '?').charAt(0).toUpperCase()}</span>`;
         }
 
-        if (window.GameSprites) {
-            wrapper.innerHTML = window.GameSprites.defender(defenderId);
-            return wrapper;
-        }
-
-        wrapper.textContent = (defenderName || defenderId || '?').charAt(0).toUpperCase();
         return wrapper;
     }
 

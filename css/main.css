@@ -1860,6 +1860,37 @@ body {
     margin-bottom: 4px;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 56px;
+    min-height: 56px;
+    position: relative;
+}
+
+/* Skeleton animado mientras carga el PNG del modelo */
+.defender-img-skeleton {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    background: linear-gradient(90deg,
+        rgba(148, 163, 184, 0.15) 25%,
+        rgba(148, 163, 184, 0.30) 50%,
+        rgba(148, 163, 184, 0.15) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.4s infinite linear;
+    position: absolute;
+}
+
+@keyframes skeleton-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.defender-initial {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: rgba(148, 163, 184, 0.7);
 }
 
 /* Estilos para imágenes de defensores */
