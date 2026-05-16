@@ -79,6 +79,18 @@ AddDefaultCharset UTF-8
         Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
         Header set Pragma "no-cache"
     </FilesMatch>
+
+    # JS y CSS: siempre revalidar — Cloudflare y el navegador nunca sirven versión vieja
+    <FilesMatch "\.(js|css)$">
+        Header set Cache-Control "no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+    </FilesMatch>
+
+    # Service Worker: nunca cachear (el navegador lo necesita siempre fresco)
+    <FilesMatch "service-worker\.js$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+    </FilesMatch>
 </IfModule>
 
 # ----- COMPRENSION GZIP -----
@@ -96,8 +108,8 @@ AddDefaultCharset UTF-8
     ExpiresByType image/webp "access plus 1 year"
     ExpiresByType image/svg+xml "access plus 1 year"
     ExpiresByType image/x-icon "access plus 1 year"
-    ExpiresByType text/css "access plus 1 month"
-    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/css "access plus 0 seconds"
+    ExpiresByType application/javascript "access plus 0 seconds"
     ExpiresByType audio/mpeg "access plus 1 month"
     ExpiresByType application/manifest+json "access plus 1 week"
 </IfModule>

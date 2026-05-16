@@ -3,7 +3,7 @@
 // Estrategia: Cache-First para assets, Network-First para API
 // ============================================================
 
-const CACHE_VERSION = 'wacheck-v5.6.0';
+const CACHE_VERSION = 'wacheck-v5.7.0-20260515';
 const API_CACHE   = 'wacheck-api-v5';
 
 const STATIC_ASSETS = [
@@ -113,9 +113,16 @@ self.addEventListener('fetch', event => {
   }
 
   // Network-First para HTML, JS, CSS (siempre fresco si hay conexión)
+  // IMPORTANTE: {cache:'no-cache'} fuerza ir a la red aunque la caché HTTP tenga el archivo
   event.respondWith((async () => {
     try {
-      const response = await fetch(event.request);
+      const networkReq = new Request(event.request.url, {
+        method: event.request.method,
+        headers: event.request.headers,
+        credentials: event.request.credentials,
+        cache: 'no-cache'
+      });
+      const response = await fetch(networkReq);
       if (response instanceof Response && response.ok) {
         const clone = response.clone();
         caches.open(CACHE_VERSION).then(c => c.put(event.request, clone)).catch(() => {});
