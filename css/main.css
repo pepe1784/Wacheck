@@ -6417,6 +6417,7 @@ body {
 }
 
 #gameContainer.mobile-layout-active .game-header {
+    display: flex !important;  /* override grid del breakpoint 420px */
     flex-wrap: nowrap;
     overflow-x: auto;
     min-height: 40px;
@@ -6476,6 +6477,22 @@ body {
     min-width: 76px;
     max-width: 76px;
     height: 86px;
+}
+
+/* Icono más pequeño en shop móvil para que nombre + costo sean visibles */
+#gameContainer.mobile-layout-active #defenderShop.shop .defender-icon {
+    min-height: 46px;
+    min-width: 46px;
+    font-size: 1.4em;
+}
+#gameContainer.mobile-layout-active #defenderShop.shop .defender-img-skeleton {
+    width: 46px;
+    height: 46px;
+}
+#gameContainer.mobile-layout-active #defenderShop.shop .defender-image,
+#gameContainer.mobile-layout-active #defenderShop.shop .defender-icon img {
+    width: 46px !important;
+    height: 46px !important;
 }
 
 #groupUpgradeButton.control-btn {

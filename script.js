@@ -2,28 +2,39 @@
 // (audioContext, initAudio, playSound, toggleSound)
 
 // Función para obtener el tamaño de celda según el ancho de pantalla
-function getCellSize() {
-    const screenWidth = window.innerWidth;
+// Cache invalidado al redimensionar/rotar para que siempre coincida con el CSS real
+let _cellSizeCache = null;
+window.addEventListener('resize', function () { _cellSizeCache = null; });
+window.addEventListener('orientationchange', function () { _cellSizeCache = null; });
 
-    if (screenWidth <= 420) {
-        // Mobile devices (390x844 y similares)
-        return { width: 34, height: 34, gap: 2 };
-    } else if (screenWidth <= 600) {
-        // Extra small devices
-        return { width: 42, height: 42, gap: 2 };
-    } else if (screenWidth <= 768) {
-        // Small devices
-        return { width: 50, height: 50, gap: 2 };
-    } else if (screenWidth <= 992) {
-        // Medium devices
-        return { width: 60, height: 60, gap: 3 };
-    } else if (screenWidth <= 1200) {
-        // Large devices
-        return { width: 70, height: 70, gap: 3 };
-    } else {
-        // Extra large devices
-        return { width: 75, height: 75, gap: 4 };
+function getCellSize() {
+    if (_cellSizeCache) return _cellSizeCache;
+
+    // Leer desde el DOM para coincidir exactamente con el CSS
+    // (mobile-layout-active usa --board-cell que varía con orientación)
+    const cell = document.querySelector('#gameBoard .cell');
+    if (cell) {
+        const rect = cell.getBoundingClientRect();
+        if (rect.width > 0) {
+            const board = document.getElementById('gameBoard');
+            let gap = 2;
+            if (board) {
+                const gapVal = getComputedStyle(board).gap;
+                gap = parseFloat(gapVal) || 2;
+            }
+            _cellSizeCache = { width: Math.round(rect.width), height: Math.round(rect.height), gap };
+            return _cellSizeCache;
+        }
     }
+
+    // Fallback basado en ancho (antes de que el DOM esté listo)
+    const screenWidth = window.innerWidth;
+    if (screenWidth <= 420) return { width: 34, height: 34, gap: 2 };
+    else if (screenWidth <= 600) return { width: 42, height: 42, gap: 2 };
+    else if (screenWidth <= 768) return { width: 50, height: 50, gap: 2 };
+    else if (screenWidth <= 992) return { width: 60, height: 60, gap: 3 };
+    else if (screenWidth <= 1200) return { width: 70, height: 70, gap: 3 };
+    else return { width: 75, height: 75, gap: 4 };
 }
 
 // Función para obtener el ancho total de una celda (incluyendo gap)

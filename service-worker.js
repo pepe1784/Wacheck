@@ -3,7 +3,7 @@
 // Estrategia: Cache-First para assets, Network-First para API
 // ============================================================
 
-const CACHE_VERSION = 'wacheck-v5.8.0-20260515';
+const CACHE_VERSION = 'wacheck-v5.9.0-20260516';
 const API_CACHE   = 'wacheck-api-v5';
 
 const STATIC_ASSETS = [

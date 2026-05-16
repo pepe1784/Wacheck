@@ -374,6 +374,17 @@ a {
     background: linear-gradient(180deg, rgba(0, 10, 25, 0.18) 0%, rgba(0, 15, 35, 0.32) 60%, rgba(0, 10, 30, 0.55) 100%);
 }
 
+/* Overlay más oscuro en móvil para que el texto sea legible sobre la foto */
+@media (max-width: 768px) {
+    .hero,
+    .hero-section {
+        background-position: 60% center;
+    }
+    .hero-overlay {
+        background: linear-gradient(180deg, rgba(0, 10, 25, 0.55) 0%, rgba(0, 15, 35, 0.72) 60%, rgba(0, 10, 30, 0.88) 100%);
+    }
+}
+
 .hero-water-elements {
     position: absolute;
     inset: 0;
