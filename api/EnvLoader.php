@@ -64,4 +64,43 @@ class EnvLoader {
     public static function has($key) {
         return getenv($key) !== false;
     }
+
+    /**
+     * Carga automática con rutas de respaldo.
+     * Busca .env en el directorio actual, raíz del proyecto y,
+     * lo más importante, en el directorio HOME del servidor
+     * (fuera de public_html, por encima del alcance del deploy de GitHub).
+     *
+     * Estructura típica en Hostinger:
+     *   /home/u123456/              ← HOME (seguro, deploy nunca toca aquí)
+     *   /home/u123456/public_html/  ← web root
+     *   /home/u123456/public_html/api/  ← $callerDir
+     *
+     * Sube el .env a /home/u123456/.env-wacheck una sola vez por FTP/FileManager.
+     * Nunca más se borrará.
+     */
+    public static function loadAuto($callerDir) {
+        $candidates = [
+            // 1. Ubicación estándar (desarrollo local / primera vez)
+            $callerDir . '/.env',
+            // 2. Raíz del proyecto
+            dirname($callerDir) . '/.env',
+            // 3. Directorio HOME (2 niveles sobre api/ cuando proyecto = public_html/)
+            dirname(dirname($callerDir)) . '/.env-wacheck',
+            dirname(dirname($callerDir)) . '/.env',
+            // 4. Directorio HOME (3 niveles sobre api/ cuando proyecto = public_html/Wacheck/)
+            dirname(dirname(dirname($callerDir))) . '/.env-wacheck',
+            dirname(dirname(dirname($callerDir))) . '/.env',
+        ];
+
+        foreach ($candidates as $path) {
+            if (file_exists($path) && is_readable($path)) {
+                self::load($path);
+                return;
+            }
+        }
+
+        // Si ninguna ruta funciona, lanzar error con rutas revisadas para facilitar debug
+        throw new Exception('.env no encontrado. Rutas revisadas: ' . implode(', ', $candidates));
+    }
 }

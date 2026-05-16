@@ -12,7 +12,7 @@ require_once __DIR__ . '/EnvLoader.php';
 require_once __DIR__ . '/Security.php';
 
 try {
-    EnvLoader::load(__DIR__ . '/.env');
+    EnvLoader::loadAuto(__DIR__);
     Security::init();
 } catch (Exception $e) {
     http_response_code(500);

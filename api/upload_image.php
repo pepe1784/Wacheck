@@ -6,7 +6,7 @@ ini_set('display_errors', 0);
 
 // CORS — leer orígenes permitidos desde .env o usar defaults
 require_once __DIR__ . '/EnvLoader.php';
-EnvLoader::load(__DIR__ . '/.env');
+EnvLoader::loadAuto(__DIR__);
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $allowedOrigins = array_map('trim', explode(',', EnvLoader::get('CORS_ALLOWED_ORIGINS', 'http://localhost,http://127.0.0.1')));

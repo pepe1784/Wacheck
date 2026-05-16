@@ -24,7 +24,7 @@ require_once __DIR__ . '/Security.php';
 
 try {
     // Cargar variables de entorno
-    EnvLoader::load(__DIR__ . '/.env');
+    EnvLoader::loadAuto(__DIR__);
     
     // Inicializar seguridad
     Security::init();

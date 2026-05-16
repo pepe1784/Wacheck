@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 // --- Cargar configuración ---
 require_once __DIR__ . '/EnvLoader.php';
-EnvLoader::load(__DIR__ . '/.env');
+EnvLoader::loadAuto(__DIR__);
 
 $CLIENT_ID     = EnvLoader::get('GOOGLE_CLIENT_ID', '');
 $CLIENT_SECRET = EnvLoader::get('GOOGLE_CLIENT_SECRET', '');
