@@ -2,6 +2,38 @@
    Game Page Styles
    ========================================== */
 
+/* ==========================================
+   Variables de tema para game-page
+   landing.css define las variables BASE (modo claro).
+   Aqui redefinimos para modo oscuro (default) y
+   sobrescribimos para modo claro con body.light-theme.
+   ========================================== */
+.game-page-body {
+    /* Modo oscuro = DEFAULT (sin clase) */
+    --color-background:      #0f172a;
+    --color-foreground:      #f1f5f9;
+    --color-card:            #1e293b;
+    --color-card-foreground: #f1f5f9;
+    --color-border:          rgba(255, 255, 255, 0.10);
+    --color-muted:           #1e293b;
+    --color-muted-foreground:#94a3b8;
+    --color-destructive:     #ef4444;
+    --color-surface-2:       #334155;
+    /* --color-primary y --color-primary-foreground heredados de landing.css */
+}
+
+body.light-theme.game-page-body {
+    --color-background:      #f8fafc;
+    --color-foreground:      hsl(150, 30%, 12%);
+    --color-card:            #ffffff;
+    --color-card-foreground: hsl(150, 30%, 12%);
+    --color-border:          hsl(140, 15%, 88%);
+    --color-muted:           hsl(140, 15%, 95%);
+    --color-muted-foreground:hsl(150, 10%, 45%);
+    --color-destructive:     #dc2626;
+    --color-surface-2:       hsl(140, 20%, 94%);
+}
+
 /* Disable text selection for native app feel */
 .game-page-body {
     -webkit-user-select: none;
