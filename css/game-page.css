@@ -491,9 +491,14 @@ body.light-theme .defender-name {
 
 body.light-theme .defender-description,
 body.light-theme .defender-detail,
-body.light-theme .defender-cost,
 body.light-theme .defender-category {
     color: var(--color-muted-foreground);
+}
+
+body.light-theme .defender-cost {
+    color: #92400e;
+    background: rgba(180, 83, 9, 0.10);
+    border-color: rgba(180, 83, 9, 0.25);
 }
 
 .defender-card:hover::after,
@@ -563,10 +568,24 @@ body.light-theme .defender-category {
 }
 
 .defender-cost {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
     font-family: var(--font-heading);
     font-weight: 700;
-    font-size: 1.25rem;
-    color: var(--color-gold);
+    font-size: 1.1rem;
+    color: #fde68a;
+    background: rgba(251, 191, 36, 0.15);
+    border: 1px solid rgba(251, 191, 36, 0.30);
+    border-radius: 9999px;
+    padding: 2px 10px;
+    line-height: 1.4;
+}
+
+.defender-cost::before {
+    content: '🪙';
+    font-size: 0.85em;
+    line-height: 1;
 }
 
 .defender-description {

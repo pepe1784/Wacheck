@@ -1891,9 +1891,23 @@ body {
 }
 
 .defender-cost {
-    font-weight: bold;
-    color: #fbbf24;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-weight: 700;
     font-size: 0.75em;
+    color: #92400e;
+    background: rgba(180, 83, 9, 0.12);
+    border: 1px solid rgba(180, 83, 9, 0.28);
+    border-radius: 9999px;
+    padding: 1px 6px;
+    line-height: 1.4;
+}
+
+.defender-cost::before {
+    content: '🪙';
+    font-size: 0.85em;
+    line-height: 1;
 }
 
 .info-btn {
