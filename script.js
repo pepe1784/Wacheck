@@ -388,6 +388,11 @@ function backToMain() {
     gameState.gameRunning = false;
     clearAllIntervals();
     updateUnlockShop();
+
+    // Guardar progreso (estrellas y monedas especiales ganadas en esta sesión)
+    if (typeof saveCurrentUserProgress === 'function') {
+        saveCurrentUserProgress();
+    }
 }
 
 function initializeGame() {

@@ -418,7 +418,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
      7. Módulo de engine (loop)
      ============================================================ -->
 <script src="sounds.js?v=18"></script>
-<script src="usuarios.js?v=18"></script>
+<script src="usuarios.js?v=19"></script>
 <script src="rewards.js?v=18"></script>
 <script src="achievements.js?v=18"></script>
 <script src="tutorial.js?v=18"></script>
