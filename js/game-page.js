@@ -854,8 +854,11 @@ function saveGameCoins(newCoins) {
 // Initialize
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    // loadSelectedDefenders() ya hace la validación y limpieza
-    loadSelectedDefenders();
+    // loadSelectedDefenders() necesita el catálogo completo de la API.
+    // Si ya está listo (carga instantánea o caché), lo ejecutamos ahora;
+    // de lo contrario esperamos el evento wacheckDefendersReady para evitar
+    // que defensores desbloqueados (ej. solar) sean borrados del selector.
+    if (window._defendersLoadedFromAPI) loadSelectedDefenders();
     
     renderDefenders();
     renderStoryChapters();
@@ -870,6 +873,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(loadGameStats, 10000);
 
     window.addEventListener('wacheckDefendersReady', () => {
+        loadSelectedDefenders(); // catálogo completo ya disponible
         renderDefenders();
         renderShopItems(currentShopFilter);
         updateSelectedSlots();
@@ -1006,7 +1010,7 @@ function renderUpgrades() {
     try {
         const user = getStoredUser();
         if (user) {
-            userRunes = user.rewardsData?.runes ?? user.runes ?? 0;
+            userRunes = user.rewardsData?.runes ?? user.runes ?? user.specialCoins ?? 0;
 
             if (user.rewardsData && user.rewardsData.upgrades) {
                 upgrades = user.rewardsData.upgrades;
