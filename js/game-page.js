@@ -825,7 +825,7 @@ function loadGameStats() {
                 document.getElementById('stars').textContent = user.stars || 0;
             }
 
-            const userRunes = user.rewardsData?.runes ?? user.runes;
+            const userRunes = user.rewardsData?.runes ?? user.runes ?? user.specialCoins;
             if (userRunes !== undefined) {
                 document.getElementById('runes').textContent = userRunes || 0;
             }

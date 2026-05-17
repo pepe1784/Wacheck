@@ -6483,6 +6483,7 @@ body {
 #gameContainer.mobile-layout-active #defenderShop.shop .defender-icon {
     min-height: 46px;
     min-width: 46px;
+    margin-bottom: 0;
     font-size: 1.4em;
 }
 #gameContainer.mobile-layout-active #defenderShop.shop .defender-img-skeleton {
@@ -6532,6 +6533,22 @@ body {
         min-width: 70px;
         max-width: 70px;
         height: 78px;
+    }
+
+    /* Reduce icon size to fit name+cost in smaller card */
+    #gameContainer.mobile-layout-active #defenderShop.shop .defender-icon {
+        min-height: 38px;
+        min-width: 38px;
+        margin-bottom: 0;
+    }
+    #gameContainer.mobile-layout-active #defenderShop.shop .defender-img-skeleton {
+        width: 38px;
+        height: 38px;
+    }
+    #gameContainer.mobile-layout-active #defenderShop.shop .defender-image,
+    #gameContainer.mobile-layout-active #defenderShop.shop .defender-icon img {
+        width: 38px !important;
+        height: 38px !important;
     }
 
     #groupUpgradeButton.control-btn {
@@ -6584,6 +6601,22 @@ body {
         min-width: 60px;
         max-width: 60px;
         height: 68px;
+    }
+
+    /* Very small icon for landscape to fit cost in 68px card */
+    #gameContainer.mobile-layout-active #defenderShop.shop .defender-icon {
+        min-height: 28px;
+        min-width: 28px;
+        margin-bottom: 0;
+    }
+    #gameContainer.mobile-layout-active #defenderShop.shop .defender-img-skeleton {
+        width: 28px;
+        height: 28px;
+    }
+    #gameContainer.mobile-layout-active #defenderShop.shop .defender-image,
+    #gameContainer.mobile-layout-active #defenderShop.shop .defender-icon img {
+        width: 28px !important;
+        height: 28px !important;
     }
 
     #groupUpgradeButton.control-btn {

@@ -416,6 +416,7 @@ function initializeGame() {
     const persistentData = {
         currentUser: _cu,
         specialCoins: _cu ? (_cu.specialCoins || 0) : 0,
+        stars: _cu ? (_cu.stars || 0) : 0,
         unlockedDefenders: gameState.unlockedDefenders
     };
 
@@ -428,6 +429,7 @@ function initializeGame() {
     runtime.resetGameState(gameState, {
         // Datos que persisten entre partidas
         specialCoins: persistentData.specialCoins,
+        stars: persistentData.stars,
         currentUser: persistentData.currentUser,
         unlockedDefenders: allUnlocked,
 
@@ -1718,6 +1720,11 @@ function gameOver() {
     // Otorgar monedas especiales según oleada alcanzada
     const coinsEarned = Math.floor(gameState.wave / 5) + 1; // 1 moneda cada 5 oleadas + 1 base
     awardSpecialCoins(coinsEarned);
+
+    // Guardar progreso (estrellas y monedas especiales ganadas)
+    if (typeof saveCurrentUserProgress === 'function') {
+        saveCurrentUserProgress();
+    }
 
     // Generar mensaje educativo aleatorio
     const educationalMessage = getRandomWaterMessage();
