@@ -176,6 +176,8 @@ async function saveProgressToServer() {
         // Guardar solo en localStorage
         gameState.currentUser.specialCoins = gameState.specialCoins;
         gameState.currentUser.unlockedDefenders = gameState.unlockedDefenders;
+        if (gameState.stars !== undefined) gameState.currentUser.stars = gameState.stars;
+        if (typeof rewardsState !== 'undefined') gameState.currentUser.rewardsData = Object.assign({}, rewardsState);
         localStorage.setItem('wacheck_user', JSON.stringify(gameState.currentUser));
         return; // No intentar guardar en servidor desde móvil
     }
@@ -184,6 +186,7 @@ async function saveProgressToServer() {
         const progressData = {
             id: gameState.currentUser.id,
             specialCoins: gameState.specialCoins,
+            stars: gameState.stars || 0,
             unlockedDefenders: gameState.unlockedDefenders,
             calculatorCompleted: gameState.currentUser.calculatorCompleted || false,
             rewardsData: typeof rewardsState !== 'undefined' ? rewardsState : {},
@@ -217,10 +220,11 @@ async function saveProgressToServer() {
         }
  
         if (result.success) {
-            // --- ¡ESTA ES LA CORRECCIÓN CLAVE! ---
             // Actualizar el objeto de usuario en el estado del juego y en localStorage
             gameState.currentUser.specialCoins = gameState.specialCoins;
             gameState.currentUser.unlockedDefenders = gameState.unlockedDefenders;
+            if (gameState.stars !== undefined) gameState.currentUser.stars = gameState.stars;
+            if (typeof rewardsState !== 'undefined') gameState.currentUser.rewardsData = Object.assign({}, rewardsState);
             localStorage.setItem('wacheck_user', JSON.stringify(gameState.currentUser));
         }
     } catch (error) {
@@ -241,6 +245,7 @@ function saveCurrentUserProgress() {
             gameState.currentUser.specialCoins = gameState.specialCoins;
             gameState.currentUser.unlockedDefenders = gameState.unlockedDefenders;
             if (gameState.stars !== undefined) gameState.currentUser.stars = gameState.stars;
+            if (typeof rewardsState !== 'undefined') gameState.currentUser.rewardsData = Object.assign({}, rewardsState);
             localStorage.setItem('wacheck_user', JSON.stringify(gameState.currentUser));
         }
         
