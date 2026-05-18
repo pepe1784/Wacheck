@@ -1,0 +1,37 @@
+# Wacheck – Defensores del Agua
+
+> Juego educativo tipo Tower Defense sobre protección del agua, desarrollado por el Bachillerato 25 de la Universidad de Colima.
+
+## Qué es Wacheck
+
+Wacheck es un videojuego web gratuito de tipo Tower Defense con enfoque educativo ambiental. El jugador defiende islas del avance de contaminantes (basura, químicos, petróleo, fuego, etc.) colocando defensores del agua en el mapa.
+
+## Características principales
+
+- **22+ defensores** desbloqueables con distintas habilidades (filtros, burbujas, cristales, arrecifes de coral, etc.)
+- **13+ tipos de enemigos** (contaminantes) con comportamientos únicos
+- **30 oleadas** por partida con jefes en oleadas clave
+- Sistema de **mejoras permanentes** y **tienda de defensores**
+- Modo invitado (sin registro) y cuentas con progreso guardado
+- Compatible con escritorio y móvil (PWA)
+- Calculadora educativa de consumo de agua
+
+## Propósito educativo
+
+El proyecto busca concientizar sobre el cuidado del agua a través del juego. Fue desarrollado en el Bachillerato 25 de Comala, Colima, como proyecto escolar bajo la Universidad de Colima.
+
+## Tecnología
+
+- Frontend: HTML5, CSS3, JavaScript vanilla
+- Backend: PHP + MySQL (XAMPP/Hostinger)
+- Autenticación: Google OAuth + cuentas propias
+- PWA con service worker
+
+## URL principal
+
+https://wa-check.com
+
+## Contacto / institución
+
+Bachillerato 25 – Universidad de Colima  
+Comala, Colima, México

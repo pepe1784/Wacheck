@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /logs/
+Disallow: /logout.php
+Disallow: /verify-email.php
+
+Sitemap: https://wa-check.com/sitemap.xml

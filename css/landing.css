@@ -383,7 +383,7 @@ a {
     .hero,
     .hero-section {
         background-size: contain;
-        background-position: bottom center;
+        background-position: center 35%;
     }
     .hero-overlay {
         background: linear-gradient(180deg, rgba(0, 10, 25, 0.55) 0%, rgba(0, 15, 35, 0.72) 60%, rgba(0, 10, 30, 0.88) 100%);
