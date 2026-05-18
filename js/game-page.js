@@ -819,10 +819,6 @@ function loadGameStats() {
     try {
         const user = getStoredUser();
         if (user) {
-            if (user.coins !== undefined) {
-                document.getElementById('coins').textContent = user.coins;
-            }
-
             if (user.stars !== undefined) {
                 document.getElementById('stars').textContent = user.stars || 0;
             }
