@@ -139,7 +139,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
             <button onclick="openShop()" title="Tienda"><i data-lucide="shopping-cart"></i></button>
             <button onclick="openUpgradesMenu()" title="Mejoras"><i data-lucide="trending-up"></i></button>
             <button onclick="openMissionsMenu()" title="Misiones"><i data-lucide="clipboard-list"></i></button>
-            <button onclick="window.location.href='game-page.html'" title="Menú"><i data-lucide="house"></i></button>
+            <button onclick="backToMain()" title="Menú"><i data-lucide="house"></i></button>
         </div>
 
         <!-- Formulario de login (in-game, para usuarios que llegan directo) -->
@@ -404,7 +404,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
     <button onclick="openShop()"><i data-lucide="shopping-cart"></i></button>
     <button onclick="openUpgradesMenu()"><i data-lucide="trending-up"></i></button>
     <button onclick="openMissionsMenu()"><i data-lucide="clipboard-list"></i></button>
-    <button onclick="window.location.href='game-page.html'"><i data-lucide="house"></i></button>
+    <button onclick="backToMain()"><i data-lucide="house"></i></button>
 </nav>
 
 <!-- ============================================================
@@ -543,13 +543,15 @@ function openMissionsMenu() {
     }
 }
 
-// Volver al lobby desde el juego → redirige a game-page.html (el lobby real)
+// Volver al lobby desde el juego → guarda progreso y redirige a game-page.html
 function backToMain() {
     if (gameState) {
         gameState.gameRunning = false;
         gameState.isPaused    = false;
     }
     localStorage.removeItem('wacheck-play-from-game-page');
+    // Guardar stars + specialCoins en localStorage ANTES de navegar
+    if (typeof window.saveCurrentUserProgress === 'function') window.saveCurrentUserProgress();
     if (typeof saveProgressToServer === 'function') saveProgressToServer();
     window.location.href = 'game-page.html';
 }
