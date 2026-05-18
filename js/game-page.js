@@ -763,21 +763,23 @@ function buyShopItem(defenderId) {
     const defender = getDefenderCatalog().find(d => d.id === defenderId);
     if (!defender) return;
 
-    const currentCoins = parseInt(document.getElementById('coins').textContent) || 0;
-    
+    const user = getStoredUser() || {};
+    const currentCoins = user.specialCoins || 0;
+
     if (currentCoins >= defender.cost) {
         const newCoins = currentCoins - defender.cost;
-        document.getElementById('coins').textContent = newCoins;
-        saveGameCoins(newCoins);
+        user.specialCoins = newCoins;
 
-        const user = getStoredUser() || {};
         const unlocked = Array.isArray(user.unlockedDefenders) ? user.unlockedDefenders : [];
         if (!unlocked.includes(defender.id)) {
             unlocked.push(defender.id);
             user.unlockedDefenders = unlocked;
-            user.coins = newCoins;
-            saveStoredUser(user);
         }
+        saveStoredUser(user);
+
+        // Actualizar saldo en el header
+        const runesEl = document.getElementById('runes');
+        if (runesEl) runesEl.textContent = newCoins;
 
         renderShopItems(currentShopFilter);
         renderDefenders();
@@ -789,8 +791,8 @@ function buyShopItem(defenderId) {
         );
     } else {
         showGamePageDialog(
-            ' No tienes suficientes monedas',
-            `Necesitas:  <strong>${defender.cost}</strong><br>Tienes:  <strong>${currentCoins}</strong>`,
+            'Monedas especiales insuficientes',
+            `Necesitas: <strong>${defender.cost}</strong> monedas especiales<br>Tienes: <strong>${currentCoins}</strong>`,
             'error'
         );
     }
@@ -825,10 +827,9 @@ function loadGameStats() {
                 document.getElementById('stars').textContent = user.stars || 0;
             }
 
-            const userRunes = user.rewardsData?.runes ?? user.runes ?? user.specialCoins;
-            if (userRunes !== undefined) {
-                document.getElementById('runes').textContent = userRunes || 0;
-            }
+            // El icono de gema muestra monedas especiales (usadas en la tienda)
+            const runesEl = document.getElementById('runes');
+            if (runesEl) runesEl.textContent = user.specialCoins ?? 0;
 
             // console.log(' Game stats loaded:', user);
         }
@@ -1074,9 +1075,6 @@ function buyUpgrade(upgradeId) {
         localStorage.setItem('wacheck_user', JSON.stringify(user));
 
         renderUpgrades();
-        // Actualizar contador de diamantes en el header
-        const runesEl = document.getElementById('runes');
-        if (runesEl) runesEl.textContent = user.rewardsData.runes;
         showGamePageDialog('¡Mejora comprada!', `${UPGRADE_INFO[upgradeId]?.name ?? upgradeId} mejorado al nivel ${currentLevel + 1}.`, 'success');
     } catch(e) {
         console.error('Error en buyUpgrade:', e);
