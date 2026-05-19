@@ -29,7 +29,7 @@ const STATIC_ASSETS = [
   '/calculadora.js',
   '/anti-cheat.js',
   '/manifest.json',
-  '/img/vaporeon.png',
+  '/img/logo-ucol.svg',
   '/img/filter.png',
   '/img/plant.png',
   '/img/recycler.png',

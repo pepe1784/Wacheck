@@ -58,7 +58,7 @@ $fromGamePage = isset($_GET['from']) && $_GET['from'] === 'menu';
         })();
     </script>
     <title>Wacheck — Defensores del Agua Pura</title>
-    <link rel="shortcut icon" href="./img/vaporeon.jpg" type="image/x-icon">
+    <link rel="icon" type="image/svg+xml" href="./img/logo-ucol.svg">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/game-mobile-layout.css">
     <link rel="stylesheet" href="css/rewards.css">
